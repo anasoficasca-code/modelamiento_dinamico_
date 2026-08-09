@@ -69,7 +69,7 @@
       </div>
 
       <div class="cta-row">
-        <button class="btn-primary">EXPLORAR PLATAFORMA <i class="fa-solid fa-arrow-right"></i></button>
+        <a class="btn-primary" href="./dashboard.html">EXPLORAR PLATAFORMA <i class="fa-solid fa-arrow-right"></i></a>
         <button class="btn-secondary">CONOCE LOS 8 MÓDULOS <i class="fa-solid fa-chevron-down"></i></button>
       </div>
     </div>
@@ -81,54 +81,68 @@
 
       <div class="legend">
         <span class="legend-title">Convenciones</span>
-        <span class="legend-item"><i class="leg-line leg-directed"></i> Redes dirigidas</span>
-        <span class="legend-item"><i class="leg-line leg-undirected"></i> Redes bidireccionales</span>
+        <span class="legend-item">
+          <svg class="leg-svg" viewBox="0 0 40 12" width="40" height="12" aria-hidden="true">
+            <line x1="2" y1="6" x2="30" y2="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-dasharray="3 3"></line>
+            <path d="M30,6 L23,2 L23,10 Z" fill="rgba(255,255,255,0.7)"></path>
+          </svg>
+          Redes dirigidas
+        </span>
+        <span class="legend-item">
+          <svg class="leg-svg" viewBox="0 0 40 12" width="40" height="12" aria-hidden="true">
+            <line x1="10" y1="6" x2="30" y2="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-dasharray="3 3"></line>
+            <path d="M10,6 L17,2 L17,10 Z" fill="rgba(255,255,255,0.7)"></path>
+            <path d="M30,6 L23,2 L23,10 Z" fill="rgba(255,255,255,0.7)"></path>
+          </svg>
+          Redes bidireccionales
+        </span>
       </div>
 
       <svg viewBox="0 0 620 560" xmlns="http://www.w3.org/2000/svg" class="network-svg" id="network-svg">
-        <defs>
-          <marker id="arrowFwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="rgba(255,255,255,0.75)"/>
-          </marker>
-        </defs>
 
-        <!-- relations: each is clickable. Curves fan out from the centre, arrows point to the target node -->
+        <!-- relations: each is clickable. Curves fan out from the centre, arrowhead sits in the open gap -->
         <g class="links">
 
           <!-- EEP (verde) -> ESECI (amarillo) -->
           <g class="link" data-relation="e1" tabindex="0" role="button" aria-label="Relación EEP a ESECI">
-            <path class="link-hit" d="M330,172 Q360,295 330,416"></path>
-            <path class="link-line" d="M330,172 Q360,295 330,416" marker-end="url(#arrowFwd)"></path>
+            <path class="link-hit" d="M344.7,170.2 Q375,295 345.1,417.8"></path>
+            <path class="link-line" d="M344.7,170.2 Q375,295 345.1,417.8"></path>
+            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(359.9,299.5) rotate(90.5)"></path>
           </g>
 
           <!-- EIP (morado) -> EEP (verde) -->
           <g class="link" data-relation="e2" tabindex="0" role="button" aria-label="Relación EIP a EEP">
-            <path class="link-hit" d="M180,268 Q213,184 300,150"></path>
-            <path class="link-line" d="M180,268 Q213,184 300,150" marker-end="url(#arrowFwd)"></path>
+            <path class="link-hit" d="M159.2,245.3 Q189.7,158.4 271.4,130.2"></path>
+            <path class="link-line" d="M159.2,245.3 Q189.7,158.4 271.4,130.2"></path>
+            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(204.8,170.8) rotate(-44.6)"></path>
           </g>
 
           <!-- EFC (azul) -> EEP (verde) -->
           <g class="link" data-relation="e3" tabindex="0" role="button" aria-label="Relación EFC a EEP">
-            <path class="link-hit" d="M460,268 Q436,183 360,150"></path>
-            <path class="link-line" d="M460,268 Q436,183 360,150" marker-end="url(#arrowFwd)"></path>
+            <path class="link-hit" d="M484.3,244.2 Q460.3,158.4 388.1,131.6"></path>
+            <path class="link-line" d="M484.3,244.2 Q460.3,158.4 388.1,131.6"></path>
+            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(446.3,170.9) rotate(-131.7)"></path>
           </g>
 
           <!-- EFC (azul) -> ESECI (amarillo) -->
           <g class="link" data-relation="e4" tabindex="0" role="button" aria-label="Relación EFC a ESECI">
-            <path class="link-hit" d="M462,333 Q435,412 372,443"></path>
-            <path class="link-line" d="M462,333 Q435,412 372,443" marker-end="url(#arrowFwd)"></path>
+            <path class="link-hit" d="M483.8,355.7 Q460.3,436.6 390.7,459.8"></path>
+            <path class="link-line" d="M483.8,355.7 Q460.3,436.6 390.7,459.8"></path>
+            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(446.9,424.2) rotate(133.0)"></path>
           </g>
 
           <!-- EIP (morado) -> EFC (azul) -->
           <g class="link" data-relation="e5" tabindex="0" role="button" aria-label="Relación EIP a EFC">
-            <path class="link-hit" d="M195,320 Q320,390 445,320"></path>
-            <path class="link-line" d="M195,320 Q320,390 445,320" marker-end="url(#arrowFwd)"></path>
+            <path class="link-hit" d="M191.3,327.1 Q320,395 448.7,327.1"></path>
+            <path class="link-line" d="M191.3,327.1 Q320,395 448.7,327.1"></path>
+            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(325.1,361.0) rotate(-1.2)"></path>
           </g>
 
           <!-- EIP (morado) -> ESECI (amarillo) -->
           <g class="link" data-relation="e6" tabindex="0" role="button" aria-label="Relación EIP a ESECI">
-            <path class="link-hit" d="M178,333 Q213,412 288,443"></path>
-            <path class="link-line" d="M178,333 Q213,412 288,443" marker-end="url(#arrowFwd)"></path>
+            <path class="link-hit" d="M159.8,354.5 Q189.7,436.6 268.9,461.1"></path>
+            <path class="link-line" d="M159.8,354.5 Q189.7,436.6 268.9,461.1"></path>
+            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(204.2,424.3) rotate(43.2)"></path>
           </g>
 
         </g>
