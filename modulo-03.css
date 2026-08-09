@@ -612,3 +612,127 @@ footer span { color: var(--teal); }
   .filter-tabs { flex-wrap: wrap; }
   .action-buttons { flex-direction: column; }
 }
+
+/* ELEMENTOS CONTAINER */
+.elements-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.element-item {
+  background: var(--panel-alt);
+  border: 2px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all .2s;
+}
+
+.element-item.contradiccion {
+  border-color: rgba(247, 111, 176, 0.3);
+}
+
+.element-item.contradiccion:hover {
+  border-color: #f76fb0;
+  background: rgba(247, 111, 176, 0.05);
+}
+
+.element-item.alineacion {
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.element-item.alineacion:hover {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.05);
+}
+
+.element-item.brecha {
+  border-color: rgba(245, 201, 69, 0.3);
+}
+
+.element-item.brecha:hover {
+  border-color: #f5c945;
+  background: rgba(245, 201, 69, 0.05);
+}
+
+.element-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.element-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.element-gap {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.element-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bar-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-faint);
+}
+
+.bar-container {
+  height: 8px;
+  background: var(--panel);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width .3s;
+}
+
+.bar-value {
+  font-size: 10px;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+.element-badge {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.element-badge.contradiccion {
+  background: rgba(247, 111, 176, 0.15);
+  color: #f76fb0;
+}
+
+.element-badge.alineacion {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+
+.element-badge.brecha {
+  background: rgba(245, 201, 69, 0.15);
+  color: #f5c945;
+}
