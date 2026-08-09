@@ -203,6 +203,7 @@ body{
   display:inline-flex;
   align-items:center;
   gap:10px;
+  text-decoration:none;
   transition: filter .15s, transform .15s;
   box-shadow: 0 10px 30px rgba(79,125,251,0.12);
 }
@@ -305,6 +306,8 @@ body{
 .node-yellow circle{ stroke: var(--yellow); filter: drop-shadow(0 0 22px rgba(245,201,69,0.6)); }
 
 /* ---------- RELATION LINKS ---------- */
+.link{ cursor:pointer; }
+
 .link-line{
   fill:none;
   stroke: rgba(255,255,255,0.65);
@@ -315,7 +318,10 @@ body{
   transition: stroke .18s ease, stroke-width .18s ease, opacity .18s ease, filter .18s ease;
 }
 
-.link{ cursor:pointer; }
+.link-arrow{
+  fill: rgba(255,255,255,0.75);
+  transition: fill .18s ease, filter .18s ease;
+}
 
 .link-hit{
   fill:none;
@@ -334,6 +340,15 @@ body{
   opacity:1;
   filter: drop-shadow(0 0 8px rgba(47,212,200,0.9));
 }
+
+.link:hover .link-arrow,
+.link:focus .link-arrow,
+.link.link-active .link-arrow{
+  fill: var(--teal);
+  filter: drop-shadow(0 0 6px rgba(47,212,200,0.9));
+}
+
+.leg-svg{ display:block; }
 
 /* ================= POPUP ================= */
 .pot-popup{
