@@ -15,10 +15,10 @@
   --eip: #b06bf7;
 
   /* Colores por tipo de relación (independientes de la estructura) */
-  --rel-directa: #4d8dff;
-  --rel-indirecta: #7b8c96;
+  --rel-directa: #c9cedb;
+  --rel-indirecta: #c9cedb;
   --rel-soporte: #ff9a3d;
-  --rel-resiliencia: #2fd4c8;
+  --rel-resiliencia: #4d8dff;
 }
 
 *{box-sizing:border-box;}
