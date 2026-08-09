@@ -14,11 +14,17 @@
   --ese: #ef9552;
   --eip: #b06bf7;
 
-  /* Colores por tipo de relación (independientes de la estructura) */
-  --rel-directa: #c9cedb;
-  --rel-indirecta: #c9cedb;
+  /* Colores de la LEYENDA (panel "Tipos de relación") — siempre en blanco las dos primeras */
+  --rel-directa: #ffffff;
+  --rel-indirecta: #ffffff;
   --rel-soporte: #ff9a3d;
   --rel-resiliencia: #4d8dff;
+
+  /* Colores REALES de las líneas dentro del lienzo (igual que las capturas de referencia) */
+  --line-directa: #ff9a3d;
+  --line-indirecta: #ff9a3d;
+  --line-soporte: #ff9a3d;
+  --line-resiliencia: #4d8dff;
 }
 
 *{box-sizing:border-box;}
