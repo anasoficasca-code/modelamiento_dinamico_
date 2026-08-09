@@ -212,8 +212,8 @@ header p{
 }
 .structure-item:hover{ background:rgba(255,255,255,0.04); color:var(--text); }
 .structure-item.active{
-  background: color-mix(in srgb, var(--struct-color, var(--accent)) 14%, transparent);
-  border-color: color-mix(in srgb, var(--struct-color, var(--accent)) 45%, transparent);
+  background: var(--struct-bg, rgba(47,212,200,0.14));
+  border-color: var(--struct-border, rgba(47,212,200,0.45));
   color:var(--text); font-weight:600;
 }
 .structure-name{ flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -916,6 +916,8 @@ function renderStructureList() {
     item.className = 'structure-item' + (structId === activeStructureId ? ' active' : '');
     item.dataset.struct = structId;
     item.style.setProperty('--struct-color', cfg.color);
+    item.style.setProperty('--struct-bg', hexToRgba(cfg.color, 0.14));
+    item.style.setProperty('--struct-border', hexToRgba(cfg.color, 0.45));
     item.innerHTML = `
       <span class="filter-dot" style="background:${cfg.color};"></span>
       <span class="structure-name">${cfg.label}</span>
