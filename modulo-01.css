@@ -287,11 +287,10 @@ line.edge{ transition: opacity .3s, stroke-dasharray .3s; }
 .node{
   position:absolute; border-radius:50%; background:rgba(9,13,22,0.82);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center; user-select:none; cursor:grab; pointer-events:auto;
+  text-align:center; user-select:none; cursor:pointer; pointer-events:auto;
   border:2px solid; transition: box-shadow .2s, opacity .3s, filter .3s, transform .15s;
 }
 .node:hover{ transform:scale(1.05); }
-.node.dragging{ cursor:grabbing; z-index:50; transform:scale(1.07); }
 .node.selected{ box-shadow:0 0 0 3px rgba(255,255,255,0.35) inset, 0 0 22px 2px rgba(47,212,200,0.55) !important; }
 
 .node .icon{ line-height:1; margin-bottom:3px; }
