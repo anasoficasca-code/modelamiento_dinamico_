@@ -1,0 +1,173 @@
+/* Estilos generales */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #0b0d17;
+  color: #e0e0e0;
+}
+
+/* Contenedor principal en dos columnas */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  height: 100vh;
+  padding: 0 80px;
+  gap: 40px;
+}
+
+/* Lado izquierdo */
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 90%;
+}
+
+.logo h1 {
+  color: #00bcd4;
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.logo p {
+  color: #ccc;
+  margin-top: 5px;
+}
+
+.description {
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+.quote {
+  background-color: #111320;
+  padding: 20px;
+  border-left: 4px solid #00bcd4;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+/* Lado derecho */
+.right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Caja de login */
+.login-box {
+  background-color: #1c1f33;
+  padding: 40px;
+  border-radius: 16px;
+  width: 380px;
+  box-shadow: 0 0 25px rgba(123, 97, 255, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 35px rgba(0, 188, 212, 0.6);
+}
+
+.login-box h2 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.accent {
+  color: #7b61ff;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0 18px;
+  border: none;
+  border-radius: 8px;
+  background-color: #24273d;
+  color: #fff;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+  background-color: #2f3350;
+  box-shadow: 0 0 8px #00bcd4;
+  outline: none;
+}
+
+/* Botón principal */
+.btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, #00bcd4, #7b61ff);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(123, 97, 255, 0.6);
+}
+
+/* Divider */
+.divider {
+  text-align: center;
+  margin: 25px 0;
+  color: #aaa;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #444;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+/* Botones sociales */
+.social-login button {
+  background-color: #24273d;
+  border: none;
+  color: #fff;
+  padding: 12px;
+  margin: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.social-login button:hover {
+  background-color: #2f3350;
+}
+
+/* Registro */
+.register {
+  text-align: center;
+  margin-top: 20px;
+}
+
+
