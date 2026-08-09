@@ -337,6 +337,39 @@ footer{
   color:var(--text-faint); font-size:11px; flex-shrink:0;
 }
 
+/* POPUP DE RELACIÓN — al hacer clic en una línea del grafo */
+.relation-popup-overlay{
+  display:none; position:fixed; inset:0; z-index:200;
+  background:rgba(4,6,12,0.72); backdrop-filter:blur(3px);
+  align-items:center; justify-content:center; padding:20px;
+}
+.relation-popup-card{
+  position:relative; width:100%; max-width:440px;
+  background:var(--panel); border:1px solid var(--panel-border); border-radius:14px;
+  padding:22px 22px 20px; box-shadow:0 20px 60px -10px rgba(0,0,0,0.6);
+}
+.relation-popup-close{
+  position:absolute; top:12px; right:12px; width:28px; height:28px; border-radius:8px;
+  background:rgba(255,255,255,0.04); border:1px solid var(--panel-border); color:var(--text-dim);
+  cursor:pointer; font-size:12px; display:flex; align-items:center; justify-content:center;
+}
+.relation-popup-close:hover{ color:var(--text); border-color:var(--accent); }
+.relation-popup-pair{
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:14.5px; color:var(--text);
+  padding-right:26px; margin-bottom:14px;
+}
+.relation-popup-pair i.fa-arrow-right{ color:var(--text-faint); font-size:12px; }
+.relation-popup-label{
+  font-size:10px; font-weight:700; letter-spacing:0.6px; color:var(--text-faint);
+  text-transform:uppercase; margin-bottom:6px;
+}
+.relation-popup-quote{
+  font-size:14px; line-height:1.6; color:var(--text); font-style:italic;
+  border-left:2px solid var(--accent); padding-left:12px; margin-bottom:12px;
+}
+.relation-popup-page{ font-size:11.5px; color:var(--text-faint); }
+
 </style>
 </head>
 <body>
@@ -635,7 +668,14 @@ const POT_DATA = {
   ],
   // Estructura de Patrimonios: todavía en construcción.
   // No se agregan nodos ni relaciones hasta que exista información real.
-  EIP: []
+  EIP: [
+    { origen: "Patrimonio material", destino: "Patrimonio inmaterial", tipo: "Soporte", sustento: "La EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio.", page: "p. 196" },
+    { origen: "Patrimonio material", destino: "Patrimonio natural", tipo: "Soporte", sustento: "La EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio.", page: "p. 196" },
+    { origen: "Patrimonio inmaterial", destino: "Patrimonio natural", tipo: "Soporte", sustento: "La EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio.", page: "p. 196" },
+    { origen: "Patrimonio arqueológico", destino: "Patrimonio natural", tipo: "Resiliencia", sustento: "Hoy pueden ser referentes de procesos adaptativos y que revelan prácticas de integralidad de la cultura con la naturaleza.", page: "p. 198" },
+    { origen: "Patrimonio arqueológico", destino: "Patrimonio material", tipo: "Soporte", sustento: "Este patrimonio cultural se convirtió en un referente de movilización.", page: "p. 198" },
+    { origen: "Sistema de Sitios Sagrados", destino: "Patrimonio inmaterial", tipo: "Soporte", sustento: "Son el testimonio de complejas estrategias de cómo interpretamos y valoramos las huellas del territorio que…", page: "p. 186" }
+  ]
 };
 
 // -----------------------------------------------------------------------
@@ -673,10 +713,10 @@ const STRUCTURES = {
     id: 'EIP',
     shortName: 'EIP',
     label: 'EIP - Patrimonios',
-    fullName: 'Estructura de Patrimonios',
+    fullName: 'Estructura Integradora de Patrimonios',
     color: '#b06bf7',
     icon: 'fa-landmark',
-    status: 'construction'
+    status: 'ready'
   }
 };
 
@@ -746,6 +786,15 @@ const FIXED_LAYOUTS = {
     'Zonas interés turístico':                  { x: 0.854, y: 0.623, r: 25 },
     'Centros financieros':                      { x: 0.103, y: 0.708, r: 28 },
     'Producción artesanal':                     { x: 0.286, y: 0.869, r: 28 }
+  },
+  // Posiciones calculadas directamente sobre la captura de referencia
+  // "Estructura Integradora de Patrimonios" (5 nodos, igual que la imagen).
+  EIP: {
+    'Sistema de Sitios Sagrados': { x: 0.164, y: 0.404, r: 32 },
+    'Patrimonio arqueológico':    { x: 0.531, y: 0.295, r: 31 },
+    'Patrimonio inmaterial':      { x: 0.811, y: 0.384, r: 32 },
+    'Patrimonio material':        { x: 0.633, y: 0.653, r: 29 },
+    'Patrimonio natural':         { x: 0.211, y: 0.760, r: 52 }
   }
 };
 
@@ -805,7 +854,13 @@ const ICON_OVERRIDES = {
   'Sistema de educación educación': 'fa-graduation-cap',
   'Zonas interés turístico': 'fa-map-location-dot',
   'Centros financieros': 'fa-building-columns',
-  'Producción artesanal': 'fa-gem'
+  'Producción artesanal': 'fa-gem',
+  // EIP — Estructura Integradora de Patrimonios
+  'Sistema de Sitios Sagrados': 'fa-place-of-worship',
+  'Patrimonio arqueológico': 'fa-monument',
+  'Patrimonio inmaterial': 'fa-masks-theater',
+  'Patrimonio material': 'fa-landmark',
+  'Patrimonio natural': 'fa-mountain'
 };
 
 function getNodeIcon(label, fallback) {
@@ -1099,6 +1154,24 @@ function renderGraph() {
   linkEnter.transition().duration(300).attr('opacity', 0.8);
   const allLinkSel = linkEnter.merge(linkSel);
 
+  // --- Línea invisible más ancha sobre cada conexión, solo para poder
+  //     hacer clic fácilmente y abrir el popup con la frase exacta del POT ---
+  const hitSel = svg.select('#edgesGroup').selectAll('line.edge-hit')
+    .data(showEdges ? links : [], d => d.source + '→' + d.target + d.tipo);
+
+  hitSel.exit().remove();
+
+  const hitEnter = hitSel.enter()
+    .append('line')
+    .attr('class', 'edge-hit')
+    .attr('stroke', 'transparent')
+    .attr('stroke-width', 14)
+    .style('cursor', 'pointer')
+    .style('pointer-events', 'auto')
+    .on('click', (event, d) => openRelationPopup(d));
+
+  const allHitSel = hitEnter.merge(hitSel);
+
   // --- Nodos (HTML, con íconos Font Awesome — sin emojis) ---
   const nodeSel = d3.select(nodeLayer).selectAll('div.node')
     .data(nodes, d => d.id);
@@ -1130,6 +1203,13 @@ function renderGraph() {
       if (!s || !t) return;
       const pt = edgeEndpoint(s, t);
       d3.select(this).attr('x1', s.x).attr('y1', s.y).attr('x2', pt.x).attr('y2', pt.y);
+    });
+
+    allHitSel.each(function (d) {
+      const s = typeof d.source === 'object' ? d.source : nodes.find(n => n.id === d.source);
+      const t = typeof d.target === 'object' ? d.target : nodes.find(n => n.id === d.target);
+      if (!s || !t) return;
+      d3.select(this).attr('x1', s.x).attr('y1', s.y).attr('x2', t.x).attr('y2', t.y);
     });
 
     allNodeSel
@@ -1321,6 +1401,64 @@ function showDetail(node) {
     : '<span style="color:var(--text-faint);font-size:11px;">Sin conexiones</span>';
 
   d3.select('#nodeLayer').selectAll('div.node').classed('selected', d => d.id === node.id);
+}
+
+// -----------------------------------------------------------------------
+// 12.1 POPUP DE RELACIÓN — frase exacta del POT al hacer clic en una línea
+// -----------------------------------------------------------------------
+function ensureRelationPopup() {
+  let overlay = document.getElementById('relationPopupOverlay');
+  if (overlay) return overlay;
+
+  overlay = document.createElement('div');
+  overlay.id = 'relationPopupOverlay';
+  overlay.className = 'relation-popup-overlay';
+  overlay.innerHTML = `
+    <div class="relation-popup-card">
+      <button class="relation-popup-close" id="relationPopupClose" aria-label="Cerrar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="relation-popup-pair">
+        <span id="relationPopupFrom">—</span>
+        <i class="fa-solid fa-arrow-right"></i>
+        <span id="relationPopupTo">—</span>
+        <span class="rel-tag" id="relationPopupTipo">—</span>
+      </div>
+      <div class="relation-popup-label">Frase exacta del POT</div>
+      <div class="relation-popup-quote" id="relationPopupQuote">—</div>
+      <div class="relation-popup-page" id="relationPopupPage">—</div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeRelationPopup();
+  });
+  document.getElementById('relationPopupClose').addEventListener('click', closeRelationPopup);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeRelationPopup();
+  });
+
+  return overlay;
+}
+
+function openRelationPopup(rel) {
+  const overlay = ensureRelationPopup();
+  document.getElementById('relationPopupFrom').textContent = rel.source;
+  document.getElementById('relationPopupTo').textContent = rel.target;
+  document.getElementById('relationPopupTipo').textContent = rel.tipo;
+  document.getElementById('relationPopupQuote').textContent = rel.sustento
+    ? `"${rel.sustento}"`
+    : 'Sin frase de sustento registrada.';
+  document.getElementById('relationPopupPage').textContent = rel.page
+    ? `Fuente: ${rel.page}`
+    : '';
+  overlay.style.display = 'flex';
+}
+
+function closeRelationPopup() {
+  const overlay = document.getElementById('relationPopupOverlay');
+  if (overlay) overlay.style.display = 'none';
 }
 
 // -----------------------------------------------------------------------
