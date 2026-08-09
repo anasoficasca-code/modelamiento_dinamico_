@@ -19,28 +19,28 @@
     </div>
 
     <div class="nav-group">
-      <a href="dashboard.html" class="nav-item "><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
     </div>
 
     <div class="nav-group">
       <div class="nav-label">MÓDULOS</div>
-      <a href="modulo-01.html" class="nav-item "><span class="num">01</span><i class="fa-solid fa-diagram-project"></i> Construir la Red</a>
-      <a href="modulo-02.html" class="nav-item "><span class="num">02</span><i class="fa-solid fa-chart-simple"></i> Medir la Red</a>
-      <a href="modulo-03.html" class="nav-item "><span class="num">03</span><i class="fa-solid fa-eye"></i> Discurso vs Realidad</a>
-      <a href="modulo-04.html" class="nav-item "><span class="num">04</span><i class="fa-solid fa-bullseye"></i> Macromodelos</a>
-      <a href="modulo-05.html" class="nav-item "><span class="num">05</span><i class="fa-solid fa-magnifying-glass"></i> Lo que no está</a>
-      <a href="modulo-06.html" class="nav-item "><span class="num">06</span><i class="fa-solid fa-earth-americas"></i> POT ↔ ODS</a>
+      <a href="modulo-01.html" class="nav-item"><span class="num">01</span><i class="fa-solid fa-diagram-project"></i> Construir la Red</a>
+      <a href="modulo-02.html" class="nav-item"><span class="num">02</span><i class="fa-solid fa-chart-simple"></i> Medir la Red</a>
+      <a href="modulo-03.html" class="nav-item"><span class="num">03</span><i class="fa-solid fa-eye"></i> Discurso vs Realidad</a>
+      <a href="modulo-04.html" class="nav-item"><span class="num">04</span><i class="fa-solid fa-bullseye"></i> Macromodelos</a>
+      <a href="modulo-05.html" class="nav-item"><span class="num">05</span><i class="fa-solid fa-magnifying-glass"></i> Lo que no está</a>
+      <a href="modulo-06.html" class="nav-item"><span class="num">06</span><i class="fa-solid fa-earth-americas"></i> POT ↔ ODS</a>
       <a href="modulo-07.html" class="nav-item active"><span class="num">07</span><i class="fa-solid fa-flask"></i> Simulador</a>
-      <a href="modulo-08.html" class="nav-item "><span class="num">08</span><i class="fa-solid fa-city"></i> Modelo Propio</a>
+      <a href="modulo-08.html" class="nav-item"><span class="num">08</span><i class="fa-solid fa-city"></i> Modelo Propio</a>
     </div>
 
     <div class="nav-group">
       <div class="nav-label">GESTIÓN</div>
-      <a href="proyectos.html" class="nav-item "><i class="fa-solid fa-folder"></i> Proyectos</a>
-      <a href="fuentes.html" class="nav-item "><i class="fa-solid fa-file-lines"></i> Fuentes y Documentos</a>
-      <a href="favoritos.html" class="nav-item "><i class="fa-solid fa-star"></i> Favoritos</a>
-      <a href="reportes.html" class="nav-item "><i class="fa-solid fa-chart-pie"></i> Reportes</a>
-      <a href="configuracion.html" class="nav-item "><i class="fa-solid fa-gear"></i> Configuración</a>
+      <a href="proyectos.html" class="nav-item"><i class="fa-solid fa-folder"></i> Proyectos</a>
+      <a href="fuentes.html" class="nav-item"><i class="fa-solid fa-file-lines"></i> Fuentes y Documentos</a>
+      <a href="favoritos.html" class="nav-item"><i class="fa-solid fa-star"></i> Favoritos</a>
+      <a href="reportes.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Reportes</a>
+      <a href="configuracion.html" class="nav-item"><i class="fa-solid fa-gear"></i> Configuración</a>
     </div>
 
     <div class="sidebar-footer">
@@ -49,11 +49,10 @@
         <div class="name">Equipo Urbano</div>
         <div class="role">Administrador</div>
       </div>
-      <a href="demo.html" class="logout-btn" title="Cerrar sesión"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+      <a href="demo.html" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
     </div>
   </aside>
 
-  <!-- MAIN -->
   <main class="main">
 
     <div class="topbar">
@@ -67,24 +66,331 @@
     </div>
 
     <div class="welcome">
-      <h2>Simulador</h2>
-      <p>Interviene en la red: modifica relaciones, pesos o nodos y observa los efectos emergentes.</p>
+      <h2>Simulador de Escenarios</h2>
+      <p>Modela intervenciones en la red POT y observa cómo cambian los indicadores sistémicos.</p>
     </div>
 
-    <div class="panel" style="text-align:center; padding:60px 30px;">
-      <div style="width:56px;height:56px;border-radius:14px;background:rgba(47,212,200,0.12);color:var(--teal);
-                  display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 18px;">
-        <i class="fa-solid fa-flask"></i>
+    <!-- SCENARIO SELECTOR -->
+    <div class="scenario-selector">
+      <div class="selector-header">
+        <h3><i class="fa-solid fa-flask-vial"></i> Selecciona un Escenario</h3>
       </div>
-      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:8px;">
-        Este módulo está en construcción
-      </h3>
-      <p style="color:var(--text-dim);font-size:13.5px;max-width:420px;margin:0 auto 22px;">
-        Estamos trabajando en esta sección. Mientras tanto puedes volver al Dashboard o explorar el Módulo 01.
-      </p>
-      <a href="dashboard.html" class="module-btn primary" style="display:inline-flex;max-width:200px;margin:0 auto;">
-        Volver al Dashboard <i class="fa-solid fa-arrow-right"></i>
-      </a>
+      
+      <div class="scenario-buttons">
+        <button class="scenario-btn" onclick="loadScenario('baseline')">
+          <i class="fa-solid fa-chart-line"></i>
+          <span class="btn-title">Escenario Base</span>
+          <span class="btn-desc">Estado actual del POT</span>
+        </button>
+        
+        <button class="scenario-btn" onclick="loadScenario('inclusive')">
+          <i class="fa-solid fa-users"></i>
+          <span class="btn-title">Bogotá Inclusiva</span>
+          <span class="btn-desc">+Género, +Discapacidad, +Infancia</span>
+        </button>
+        
+        <button class="scenario-btn" onclick="loadScenario('green')">
+          <i class="fa-solid fa-leaf"></i>
+          <span class="btn-title">Bogotá Verde</span>
+          <span class="btn-desc">+Biodiversidad, +Ciclos naturales</span>
+        </button>
+        
+        <button class="scenario-btn" onclick="loadScenario('economic')">
+          <i class="fa-solid fa-briefcase"></i>
+          <span class="btn-title">Bogotá Productiva</span>
+          <span class="btn-desc">+Economía verde, +Empleo formal</span>
+        </button>
+        
+        <button class="scenario-btn" onclick="loadScenario('integrated')">
+          <i class="fa-solid fa-network-wired"></i>
+          <span class="btn-title">Bogotá Integrada</span>
+          <span class="btn-desc">Combinación de todos los escenarios</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SIMULATOR PANELS -->
+    <div class="simulator-layout">
+
+      <!-- LEFT PANEL: CONTROLS -->
+      <div class="control-panel">
+        <div class="panel-section">
+          <h4><i class="fa-solid fa-sliders"></i> Parámetros de Simulación</h4>
+          
+          <div class="param-group">
+            <label>Horizonte Temporal</label>
+            <div class="param-input">
+              <input type="range" min="2025" max="2050" value="2030" id="yearSlider" onchange="updateSimulation()">
+              <span class="param-value" id="yearDisplay">2030</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label>Inversión en Intervenciones</label>
+            <div class="param-input">
+              <input type="range" min="0" max="100" value="50" id="investmentSlider" onchange="updateSimulation()">
+              <span class="param-value" id="investmentDisplay">50%</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label>Capacidad de Implementación</label>
+            <div class="param-input">
+              <input type="range" min="0" max="100" value="60" id="capacitySlider" onchange="updateSimulation()">
+              <span class="param-value" id="capacityDisplay">60%</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <label>Velocidad de Cambio</label>
+            <div class="speed-buttons">
+              <button class="speed-btn" onclick="setSpeed('slow')">Lenta</button>
+              <button class="speed-btn active" onclick="setSpeed('medium')">Media</button>
+              <button class="speed-btn" onclick="setSpeed('fast')">Rápida</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h4><i class="fa-solid fa-wrench"></i> Intervenciones</h4>
+          
+          <div class="intervention-list">
+            <label class="intervention-item">
+              <input type="checkbox" onchange="updateSimulation()">
+              <span>Crear guarderías (ODS 1, 3)</span>
+            </label>
+            <label class="intervention-item">
+              <input type="checkbox" onchange="updateSimulation()">
+              <span>Formalizar economía (ODS 8)</span>
+            </label>
+            <label class="intervention-item">
+              <input type="checkbox" onchange="updateSimulation()">
+              <span>Ampliar biodiversidad (ODS 13)</span>
+            </label>
+            <label class="intervention-item">
+              <input type="checkbox" onchange="updateSimulation()">
+              <span>Integrar patrimonio (ODS 11)</span>
+            </label>
+            <label class="intervention-item">
+              <input type="checkbox" onchange="updateSimulation()">
+              <span>Mejorar accesibilidad (ODS 10)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="action-buttons-panel">
+            <button class="btn-simulate" onclick="runSimulation()">
+              <i class="fa-solid fa-play"></i> Simular
+            </button>
+            <button class="btn-reset" onclick="resetSimulation()">
+              <i class="fa-solid fa-rotate-left"></i> Resetear
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MIDDLE PANEL: VISUALIZATION -->
+      <div class="visualization-panel">
+        <div class="viz-section">
+          <h4><i class="fa-solid fa-sitemap"></i> Red de Impacto</h4>
+          <svg id="impactNetwork" style="width: 100%; height: 400px; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px;"></svg>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL: RESULTS -->
+      <div class="results-panel">
+        <div class="panel-section">
+          <h4><i class="fa-solid fa-chart-line"></i> Indicadores Clave</h4>
+          
+          <div class="indicator">
+            <div class="indicator-header">
+              <span>Densidad de Red</span>
+              <span class="indicator-value" id="densityValue">0.41</span>
+            </div>
+            <div class="indicator-bar">
+              <div class="indicator-fill" style="width: 41%;"></div>
+            </div>
+            <div class="indicator-change positive" id="densityChange">+8%</div>
+          </div>
+
+          <div class="indicator">
+            <div class="indicator-header">
+              <span>Conectividad</span>
+              <span class="indicator-value" id="connectivityValue">156</span>
+            </div>
+            <div class="indicator-bar">
+              <div class="indicator-fill" style="width: 62%;"></div>
+            </div>
+            <div class="indicator-change positive" id="connectivityChange">+12 conexiones</div>
+          </div>
+
+          <div class="indicator">
+            <div class="indicator-header">
+              <span>Resiliencia</span>
+              <span class="indicator-value" id="resilienceValue">68%</span>
+            </div>
+            <div class="indicator-bar">
+              <div class="indicator-fill" style="width: 68%;"></div>
+            </div>
+            <div class="indicator-change positive" id="resilienceChange">+15%</div>
+          </div>
+
+          <div class="indicator">
+            <div class="indicator-header">
+              <span>Alineación ODS</span>
+              <span class="indicator-value" id="odsValue">71%</span>
+            </div>
+            <div class="indicator-bar">
+              <div class="indicator-fill" style="width: 71%;"></div>
+            </div>
+            <div class="indicator-change positive" id="odsChange">+18%</div>
+          </div>
+
+          <div class="indicator">
+            <div class="indicator-header">
+              <span>Inclusión</span>
+              <span class="indicator-value" id="inclusionValue">52%</span>
+            </div>
+            <div class="indicator-bar">
+              <div class="indicator-fill" style="width: 52%;"></div>
+            </div>
+            <div class="indicator-change positive" id="inclusionChange">+28%</div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h4><i class="fa-solid fa-list"></i> Resumen de Cambios</h4>
+          
+          <div class="changes-list">
+            <div class="change-item positive">
+              <i class="fa-solid fa-arrow-up"></i>
+              <span>Nodos ecológicos +5</span>
+            </div>
+            <div class="change-item positive">
+              <i class="fa-solid fa-arrow-up"></i>
+              <span>Espacios inclusivos +8</span>
+            </div>
+            <div class="change-item positive">
+              <i class="fa-solid fa-arrow-up"></i>
+              <span>Empleos formales +15%</span>
+            </div>
+            <div class="change-item neutral">
+              <i class="fa-solid fa-minus"></i>
+              <span>Informalidad -8%</span>
+            </div>
+            <div class="change-item positive">
+              <i class="fa-solid fa-arrow-up"></i>
+              <span>Cobertura ODS +18%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- DETAILED RESULTS -->
+    <div class="results-section">
+      <h3><i class="fa-solid fa-chart-pie"></i> Análisis Detallado por Escenario</h3>
+      
+      <div class="scenario-analysis">
+        <div class="analysis-card">
+          <div class="card-icon" style="background: rgba(74,222,128,0.2); color: #4ade80;">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+          <h4>Impacto Ecológico</h4>
+          <div class="analysis-metrics">
+            <div class="metric">
+              <span>Biodiversidad</span>
+              <span class="value" id="bioValue">+25%</span>
+            </div>
+            <div class="metric">
+              <span>Ciclos naturales</span>
+              <span class="value" id="cyclesValue">+18%</span>
+            </div>
+            <div class="metric">
+              <span>Resiliencia climática</span>
+              <span class="value" id="climateValue">+22%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="analysis-card">
+          <div class="card-icon" style="background: rgba(91,141,239,0.2); color: #5b8def;">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <h4>Impacto Social</h4>
+          <div class="analysis-metrics">
+            <div class="metric">
+              <span>Inclusión</span>
+              <span class="value" id="socialValue">+28%</span>
+            </div>
+            <div class="metric">
+              <span>Accesibilidad</span>
+              <span class="value" id="accessValue">+35%</span>
+            </div>
+            <div class="metric">
+              <span>Igualdad de género</span>
+              <span class="value" id="genderValue">+42%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="analysis-card">
+          <div class="card-icon" style="background: rgba(162,118,242,0.2); color: #a276f2;">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <h4>Impacto Económico</h4>
+          <div class="analysis-metrics">
+            <div class="metric">
+              <span>Empleo formal</span>
+              <span class="value" id="employmentValue">+15%</span>
+            </div>
+            <div class="metric">
+              <span>Economía verde</span>
+              <span class="value" id="greenValue">+32%</span>
+            </div>
+            <div class="metric">
+              <span>Productividad</span>
+              <span class="value" id="prodValue">+12%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="analysis-card">
+          <div class="card-icon" style="background: rgba(245,201,69,0.2); color: #f5c945;">
+            <i class="fa-solid fa-earth-americas"></i>
+          </div>
+          <h4>Impacto ODS</h4>
+          <div class="analysis-metrics">
+            <div class="metric">
+              <span>Objetivos alineados</span>
+              <span class="value" id="odsAlignValue">14/17</span>
+            </div>
+            <div class="metric">
+              <span>Conflictos reducidos</span>
+              <span class="value" id="conflictValue">-55%</span>
+            </div>
+            <div class="metric">
+              <span>Cobertura total</span>
+              <span class="value" id="coverageValue">89%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPORT -->
+    <div class="action-buttons">
+      <button class="btn-primary" onclick="exportScenario()">
+        <i class="fa-solid fa-download"></i> Exportar Simulación
+      </button>
+      <button class="btn-secondary" onclick="compareScenarios()">
+        <i class="fa-solid fa-scale-balanced"></i> Comparar Escenarios
+      </button>
+      <button class="btn-secondary" onclick="saveScenario()">
+        <i class="fa-solid fa-floppy-disk"></i> Guardar Escenario
+      </button>
     </div>
 
     <footer>
@@ -92,6 +398,11 @@
     </footer>
 
   </main>
+
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="modulo-07.js"></script>
+
 </body>
 </html>
