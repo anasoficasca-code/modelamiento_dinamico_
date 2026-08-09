@@ -56,128 +56,173 @@
   <!-- MAIN CONTENT -->
   <div id="main-container">
     <header>
-      <h1>01. Construir la Red</h1>
-      <p>Analiza las cuatro estructuras del POT y sus interconexiones.</p>
+      <div>
+        <h1>01. Construir la Red</h1>
+        <p>Crea la red de conceptos y relaciones del POT a partir de fuentes oficiales.</p>
+      </div>
+      <div class="header-action"><i class="fa-solid fa-download"></i> Descargar plantilla</div>
     </header>
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-value" id="statConceptos">58</div>
-        <div class="stat-label">Conceptos</div>
+    <div class="steps-bar">
+      <div class="step active">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Cargar datos</div>
+          <div class="step-desc">Importa tus fuentes de información</div>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-value" id="statRelaciones">70</div>
-        <div class="stat-label">Relaciones</div>
+      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Identificar relaciones</div>
+          <div class="step-desc">Encuentra vínculos entre conceptos</div>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-value" id="statFuentes">4</div>
-        <div class="stat-label">Fuentes</div>
+      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Clasificar y justificar</div>
+          <div class="step-desc">Define el tipo de relación y su justificación</div>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-value" id="statTipos">4</div>
-        <div class="stat-label">Tipos de relación</div>
+      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Generar red</div>
+          <div class="step-desc">Visualiza y exporta tu red de conocimiento</div>
+        </div>
       </div>
     </div>
 
-    <div class="graph-wrapper">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <i class="fa-solid fa-diagram-project"></i>
+        <div class="stat-value" id="statConceptos">—</div>
+        <div class="stat-label">Conceptos</div>
+        <div class="stat-sub">Nodos identificados</div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-link"></i>
+        <div class="stat-value" id="statRelaciones">—</div>
+        <div class="stat-label">Relaciones</div>
+        <div class="stat-sub">—</div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-file-lines"></i>
+        <div class="stat-value" id="statFuentes">—</div>
+        <div class="stat-label">Fuentes</div>
+        <div class="stat-sub">—</div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-diagram-project"></i>
+        <div class="stat-value" id="statTipos">—</div>
+        <div class="stat-label">Tipos de relación</div>
+        <div class="stat-sub">Directa, Indirecta, Soporte…</div>
+      </div>
+    </div>
 
-      <!-- LEGEND & FILTERS -->
-      <div class="legend-panel">
-        <div class="legend-section">
-          <div class="legend-title">Estructuras</div>
-          <label class="filter-item">
-            <input type="checkbox" class="filter-struct" value="EEP" checked>
-            <div class="filter-dot" style="background:var(--eep);"></div>
-            <span><i class="fa-solid fa-leaf" style="width:13px;color:var(--eep);"></i> EEP</span>
-          </label>
-          <label class="filter-item">
-            <input type="checkbox" class="filter-struct" value="EFC" checked>
-            <div class="filter-dot" style="background:var(--efc);"></div>
-            <span><i class="fa-solid fa-route" style="width:13px;color:var(--efc);"></i> EFC</span>
-          </label>
-          <label class="filter-item">
-            <input type="checkbox" class="filter-struct" value="ESECI" checked>
-            <div class="filter-dot" style="background:var(--eseci);"></div>
-            <span><i class="fa-solid fa-briefcase" style="width:13px;color:var(--eseci);"></i> ESECI</span>
-          </label>
-          <label class="filter-item">
-            <input type="checkbox" class="filter-struct" value="EIP" checked>
-            <div class="filter-dot" style="background:var(--eip);"></div>
-            <span><i class="fa-solid fa-landmark" style="width:13px;color:var(--eip);"></i> EIP</span>
-          </label>
+    <div class="graph-panel">
+      <div class="graph-panel-header">
+        <div class="graph-panel-title">Vista de la red</div>
+        <div class="graph-panel-tools">
+          <div class="tool-btn"><i class="fa-solid fa-filter"></i> Filtros</div>
+          <div class="tool-btn"><i class="fa-solid fa-rotate-right"></i></div>
         </div>
+      </div>
 
-        <div class="legend-section">
-          <div class="legend-title">Tipos de Relación</div>
-          <label class="filter-item">
-            <input type="checkbox" class="filter-type" value="Directa" checked>
-            <div class="filter-line dashed" style="border-color:var(--rel-directa);"></div>
-            <span>Directa</span>
-          </label>
-          <label class="filter-item">
-            <input type="checkbox" class="filter-type" value="Indirecta" checked>
-            <div class="filter-line dashed" style="border-color:var(--rel-indirecta);"></div>
-            <span>Indirecta</span>
-          </label>
-          <label class="filter-item">
-            <input type="checkbox" class="filter-type" value="Soporte" checked>
-            <div class="filter-line dashed" style="border-color:var(--rel-soporte);"></div>
-            <span>Soporte</span>
-          </label>
-          <label class="filter-item">
-            <input type="checkbox" class="filter-type" value="Resiliencia" checked>
-            <div class="filter-line solid" style="border-color:var(--rel-resiliencia);"></div>
-            <span>Resiliencia</span>
-          </label>
+      <div style="padding:0 18px;">
+        <div class="graph-tabs" style="border-bottom:1px solid var(--panel-border); padding-bottom:2px;">
+          <div class="graph-tab active" data-tab="todas">Todas</div>
+          <div class="graph-tab" data-tab="conceptos">Conceptos</div>
+          <div class="graph-tab" data-tab="relaciones">Relaciones</div>
         </div>
+      </div>
 
-        <div class="legend-section">
-          <div class="legend-title">Capas</div>
-          <label class="filter-item toggle-item">
-            <span>Nodos secundarios</span>
-            <label class="switch">
-              <input type="checkbox" id="toggleSecondary" checked>
-              <span class="slider"></span>
+      <div class="graph-wrapper">
+
+        <!-- LEGEND / FILTERS -->
+        <div class="legend-panel">
+          <div class="legend-section">
+            <div class="legend-title">Tipos de relación</div>
+            <label class="filter-item">
+              <input type="checkbox" class="filter-type" value="Directa" checked>
+              <span><span class="filter-line solid" style="border-color:var(--rel-directa);"></span> Directa</span>
             </label>
-          </label>
-          <label class="filter-item toggle-item">
-            <span>Conexiones</span>
-            <label class="switch">
-              <input type="checkbox" id="toggleEdges" checked>
-              <span class="slider"></span>
+            <label class="filter-item">
+              <input type="checkbox" class="filter-type" value="Indirecta" checked>
+              <span><span class="filter-line dashed" style="border-color:var(--rel-indirecta);"></span> Indirecta</span>
             </label>
-          </label>
-        </div>
-      </div>
+            <label class="filter-item">
+              <input type="checkbox" class="filter-type" value="Soporte" checked>
+              <span><span class="filter-line solid" style="border-color:var(--rel-soporte);"></span> Soporte</span>
+            </label>
+            <label class="filter-item">
+              <input type="checkbox" class="filter-type" value="Resiliencia" checked>
+              <span><span class="filter-line solid" style="border-color:var(--rel-resiliencia);"></span> Resiliencia</span>
+            </label>
+          </div>
 
-      <!-- CANVAS -->
-      <div class="canvas-container">
-        <div id="canvas-wrap">
-          <svg id="edges"></svg>
-          <div id="nodeLayer" class="node-layer"></div>
+          <div class="legend-section">
+            <div class="legend-title">Estructuras</div>
+            <div class="structure-list" id="structureList"><!-- generado por JS --></div>
+          </div>
         </div>
-      </div>
 
-      <!-- DETAIL PANEL -->
-      <div class="detail-panel" id="detailPanel" style="display:none;">
-        <div class="detail-card">
-          <div class="detail-label">Concepto</div>
-          <div class="detail-content" id="detailName">—</div>
-        </div>
-        <div class="detail-card">
-          <div class="detail-label">Estructura</div>
-          <div class="detail-content" id="detailStruct">—</div>
-        </div>
-        <div class="detail-card">
-          <div class="detail-label">Conexiones (→)</div>
-          <div class="detail-content" id="detailOut" style="font-size:11px;">—</div>
-        </div>
-        <div class="detail-card">
-          <div class="detail-label">Conexiones (←)</div>
-          <div class="detail-content" id="detailIn" style="font-size:11px;">—</div>
-        </div>
-      </div>
+        <!-- CANVAS -->
+        <div class="canvas-container">
+          <div id="canvas-wrap">
+            <svg id="graphSvgLayer"></svg>
+            <div id="nodeLayer" class="node-layer"></div>
 
+            <div class="diagram-title-card">
+              <div class="diagram-title" id="diagramTitle">—</div>
+              <div class="diagram-subtitle" id="diagramSubtitle">—</div>
+            </div>
+
+            <div class="layers-card" id="layersCard">
+              <div class="layers-title">Leyenda de capas</div>
+              <label class="layers-row">
+                Nodos Principales
+                <span class="switch">
+                  <input type="checkbox" id="togglePrincipal" checked>
+                  <span class="slider"></span>
+                </span>
+              </label>
+              <label class="layers-row">
+                Conexiones Activas
+                <span class="switch">
+                  <input type="checkbox" id="toggleEdges" checked>
+                  <span class="slider"></span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- DETAIL PANEL -->
+        <div class="detail-panel" id="detailPanel" style="display:none;">
+          <div class="detail-card">
+            <div class="detail-label">Concepto</div>
+            <div class="detail-content" id="detailName">—</div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-label">Estructura</div>
+            <div class="detail-content" id="detailStruct">—</div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-label">Conexiones (→)</div>
+            <div class="detail-content" id="detailOut" style="font-size:11px;">—</div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-label">Conexiones (←)</div>
+            <div class="detail-content" id="detailIn" style="font-size:11px;">—</div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
     <footer>
@@ -189,345 +234,6 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script>
-
-// ============================================================
-// DATOS COMPLETOS DEL POT
-// ============================================================
-const POT_DATA = {
-  EEP: [
-    {origen:"Quebradas",destino:"Ríos",tipo:"Directa",struct:"EEP"},
-    {origen:"Ríos",destino:"Quebradas",tipo:"Soporte",struct:"EEP"},
-    {origen:"Ríos",destino:"Humedales",tipo:"Directa",struct:"EEP"},
-    {origen:"Humedales",destino:"Áreas de resiliencia climática",tipo:"Resiliencia",struct:"EEP"},
-    {origen:"Humedales",destino:"Áreas protegidas",tipo:"Soporte",struct:"EEP"},
-    {origen:"Conectores ecosistémicos",destino:"Humedales",tipo:"Directa",struct:"EEP"},
-    {origen:"Conectores ecosistémicos",destino:"Parques ecológicos de montaña",tipo:"Directa",struct:"EEP"},
-    {origen:"Conectores ecosistémicos",destino:"Áreas protegidas",tipo:"Soporte",struct:"EEP"},
-    {origen:"Conectores ecosistémicos",destino:"Coberturas vegetales",tipo:"Directa",struct:"EEP"},
-    {origen:"Parques de borde",destino:"Coberturas vegetales",tipo:"Directa",struct:"EEP"},
-    {origen:"Parques de borde",destino:"Ríos",tipo:"Resiliencia",struct:"EEP"},
-    {origen:"Áreas de resiliencia climática",destino:"Coberturas vegetales",tipo:"Resiliencia",struct:"EEP"},
-    {origen:"Bosques urbanos",destino:"Coberturas vegetales",tipo:"Directa",struct:"EEP"},
-    {origen:"Bosques urbanos",destino:"Áreas protegidas",tipo:"Indirecta",struct:"EEP"}
-  ],
-  EFC: [
-    {origen:"Movilidad",destino:"Transporte público",tipo:"Directa",struct:"EFC"},
-    {origen:"Transporte público",destino:"Ciclorrutas",tipo:"Directa",struct:"EFC"},
-    {origen:"Transporte público",destino:"Corredores verdes",tipo:"Directa",struct:"EFC"},
-    {origen:"Movilidad",destino:"Espacio público",tipo:"Directa",struct:"EFC"},
-    {origen:"Espacio público",destino:"Parques",tipo:"Directa",struct:"EFC"},
-    {origen:"UPL",destino:"Proximidad",tipo:"Directa",struct:"EFC"},
-    {origen:"UPL",destino:"Servicios sociales",tipo:"Directa",struct:"EFC"},
-    {origen:"UPL",destino:"Accesibilidad",tipo:"Directa",struct:"EFC"},
-    {origen:"Proximidad",destino:"Equipamientos",tipo:"Soporte",struct:"EFC"},
-    {origen:"Manzanas del Cuidado",destino:"Servicios de cuidado",tipo:"Directa",struct:"EFC"},
-    {origen:"Manzanas del Cuidado",destino:"Servicios sociales",tipo:"Directa",struct:"EFC"},
-    {origen:"Manzanas del Cuidado",destino:"Transporte público",tipo:"Soporte",struct:"EFC"},
-    {origen:"Manzanas del Cuidado",destino:"Equipamientos",tipo:"Soporte",struct:"EFC"},
-    {origen:"Servicios sociales",destino:"Servicios de cuidado",tipo:"Soporte",struct:"EFC"},
-    {origen:"Vivienda",destino:"Equipamientos",tipo:"Soporte",struct:"EFC"},
-    {origen:"Vivienda",destino:"Movilidad",tipo:"Directa",struct:"EFC"},
-    {origen:"Espacio público",destino:"Accesibilidad",tipo:"Soporte",struct:"EFC"},
-    {origen:"Red vial",destino:"Ciclorrutas",tipo:"Directa",struct:"EFC"},
-    {origen:"Servicios públicos",destino:"Vivienda",tipo:"Soporte",struct:"EFC"},
-    {origen:"Accesibilidad",destino:"Equipamientos",tipo:"Soporte",struct:"EFC"}
-  ],
-  ESECI: [
-    {origen:"Huertas",destino:"Agricultura urbana",tipo:"Directa",struct:"ESECI"},
-    {origen:"Agricultura urbana",destino:"Producción de alimentos",tipo:"Directa",struct:"ESECI"},
-    {origen:"Economía circular",destino:"Negocios verdes",tipo:"Soporte",struct:"ESECI"},
-    {origen:"Economía circular",destino:"Industria",tipo:"Indirecta",struct:"ESECI"},
-    {origen:"Actividades productivas",destino:"Empleo",tipo:"Directa",struct:"ESECI"},
-    {origen:"Actividades económicas",destino:"Empleo",tipo:"Directa",struct:"ESECI"},
-    {origen:"Aglomeraciones económicas",destino:"Empleo",tipo:"Directa",struct:"ESECI"},
-    {origen:"Aglomeraciones económicas",destino:"Transporte público",tipo:"Soporte",struct:"ESECI"},
-    {origen:"Actividades productivas",destino:"Industria",tipo:"Soporte",struct:"ESECI"},
-    {origen:"Comercio",destino:"Economías de proximidad",tipo:"Directa",struct:"ESECI"},
-    {origen:"Innovación",destino:"Empleo",tipo:"Directa",struct:"ESECI"},
-    {origen:"Actividades creativas",destino:"Industria",tipo:"Directa",struct:"ESECI"},
-    {origen:"Empleo",destino:"Manzanas del Cuidado",tipo:"Resiliencia",struct:"ESECI"},
-    {origen:"Turismo",destino:"Patrimonio local",tipo:"Soporte",struct:"ESECI"},
-    {origen:"Producción de alimentos",destino:"Áreas protegidas",tipo:"Soporte",struct:"ESECI"},
-    {origen:"Negocios verdes",destino:"Coberturas vegetales",tipo:"Resiliencia",struct:"ESECI"},
-    {origen:"Servicios",destino:"Equipamientos",tipo:"Soporte",struct:"ESECI"},
-    {origen:"Empleo",destino:"UPL",tipo:"Directa",struct:"ESECI"}
-  ],
-  EIP: [
-    {origen:"Patrimonios",destino:"Patrimonio material",tipo:"Directa",struct:"EIP"},
-    {origen:"Patrimonios",destino:"Patrimonio inmaterial",tipo:"Directa",struct:"EIP"},
-    {origen:"Patrimonio material",destino:"Memoria",tipo:"Directa",struct:"EIP"},
-    {origen:"Prácticas culturales",destino:"Dinámicas comunitarias",tipo:"Directa",struct:"EIP"},
-    {origen:"Patrimonio natural",destino:"Patrimonio material",tipo:"Directa",struct:"EIP"},
-    {origen:"Saberes del lugar",destino:"Turismo",tipo:"Soporte",struct:"EIP"},
-    {origen:"Identidades",destino:"Prácticas culturales",tipo:"Directa",struct:"EIP"},
-    {origen:"Patrimonio local",destino:"Dinámicas comunitarias",tipo:"Soporte",struct:"EIP"},
-    {origen:"Modos de habitar",destino:"Vivienda",tipo:"Directa",struct:"EIP"},
-    {origen:"Cultura",destino:"Patrimonio inmaterial",tipo:"Directa",struct:"EIP"},
-    {origen:"Dinámicas comunitarias",destino:"UPL",tipo:"Soporte",struct:"EIP"},
-    {origen:"Memoria",destino:"Cultura",tipo:"Directa",struct:"EIP"}
-  ]
-};
-
-const structColors = { EEP: '#34d399', EFC: '#3b82f6', ESECI: '#ef9552', EIP: '#b06bf7' };
-const structIcons  = { EEP: 'fa-leaf', EFC: 'fa-route', ESECI: 'fa-briefcase', EIP: 'fa-landmark' };
-const relColors    = { Directa:'var(--rel-directa)', Indirecta:'var(--rel-indirecta)', Soporte:'var(--rel-soporte)', Resiliencia:'var(--rel-resiliencia)' };
-const relDashed    = { Directa:true, Indirecta:true, Soporte:true, Resiliencia:false };
-
-function hexToRgba(hex, alpha){
-  const v = hex.replace('#','');
-  const r = parseInt(v.substring(0,2),16), g = parseInt(v.substring(2,4),16), b = parseInt(v.substring(4,6),16);
-  return `rgba(${r},${g},${b},${alpha})`;
-}
-
-let nodes = [];
-let links = [];
-let allNodes = [];
-let allLinks = [];
-let simulation;
-let selectedNodeId = null;
-let showSecondary = true;
-let showEdges = true;
-
-// Umbral de grado para considerar un nodo "principal" (hub) dentro de la red visible
-const PRINCIPAL_DEGREE_THRESHOLD = 4;
-
-// ============================================================
-// CONSTRUCCIÓN DE LA RED
-// ============================================================
-function buildGraph() {
-  allNodes = [];
-  allLinks = [];
-  const nodeMap = new Map();
-
-  Object.entries(POT_DATA).forEach(([struct, relations]) => {
-    relations.forEach(rel => {
-      if (!nodeMap.has(rel.origen)) {
-        nodeMap.set(rel.origen, { id: rel.origen, struct: rel.struct, color: structColors[rel.struct], icon: structIcons[rel.struct], label: rel.origen, degree: 0 });
-        allNodes.push(nodeMap.get(rel.origen));
-      }
-      if (!nodeMap.has(rel.destino)) {
-        nodeMap.set(rel.destino, { id: rel.destino, struct: rel.struct, color: structColors[rel.struct], icon: structIcons[rel.struct], label: rel.destino, degree: 0 });
-        allNodes.push(nodeMap.get(rel.destino));
-      }
-      nodeMap.get(rel.origen).degree++;
-      nodeMap.get(rel.destino).degree++;
-      allLinks.push({ source: rel.origen, target: rel.destino, tipo: rel.tipo });
-    });
-  });
-
-  // Tamaño y categoría (principal / secundario) según el grado de conexión
-  allNodes.forEach(n => {
-    n.r = Math.max(24, Math.min(50, 22 + n.degree * 3));
-    n.kind = n.degree >= PRINCIPAL_DEGREE_THRESHOLD ? 'principal' : 'secondary';
-  });
-
-  document.getElementById('statConceptos').textContent = allNodes.length;
-  document.getElementById('statRelaciones').textContent = allLinks.length;
-  document.getElementById('statTipos').textContent = new Set(allLinks.map(l => l.tipo)).size;
-
-  document.querySelectorAll('.filter-struct').forEach(el => el.addEventListener('change', applyFilters));
-  document.querySelectorAll('.filter-type').forEach(el => el.addEventListener('change', applyFilters));
-  document.getElementById('toggleSecondary').addEventListener('change', (e) => {
-    showSecondary = e.target.checked;
-    applyFilters();
-  });
-  document.getElementById('toggleEdges').addEventListener('change', (e) => {
-    showEdges = e.target.checked;
-    renderGraph(true);
-  });
-
-  applyFilters();
-}
-
-function applyFilters() {
-  const activeStructs = new Set();
-  const activeTypes = new Set();
-  document.querySelectorAll('.filter-struct:checked').forEach(el => activeStructs.add(el.value));
-  document.querySelectorAll('.filter-type:checked').forEach(el => activeTypes.add(el.value));
-
-  nodes = allNodes.filter(n => activeStructs.has(n.struct) && (showSecondary || n.kind === 'principal'));
-  const nodeIds = new Set(nodes.map(n => n.id));
-
-  links = allLinks.filter(l => nodeIds.has(l.source) && nodeIds.has(l.target) && activeTypes.has(l.tipo));
-
-  renderGraph();
-}
-
-// ============================================================
-// RENDER: SVG para líneas + capa HTML para nodos con íconos
-// ============================================================
-function renderGraph(edgesOnly) {
-  const wrap = document.getElementById('canvas-wrap');
-  const width = wrap.clientWidth;
-  const height = wrap.clientHeight;
-
-  const svg = d3.select('#edges').attr('width', width).attr('height', height);
-  const nodeLayer = document.getElementById('nodeLayer');
-
-  // --- Preservar posiciones existentes al re-renderizar ---
-  if (!edgesOnly) {
-    const prevPositions = new Map();
-    if (simulation) {
-      simulation.nodes().forEach(n => prevPositions.set(n.id, { x: n.x, y: n.y, vx: n.vx, vy: n.vy }));
-    }
-    nodes.forEach(n => {
-      const prev = prevPositions.get(n.id);
-      if (prev) { n.x = prev.x; n.y = prev.y; n.vx = prev.vx; n.vy = prev.vy; }
-    });
-  }
-
-  // --- Líneas (SVG) ---
-  const linkSel = svg.selectAll('line.edge')
-    .data(showEdges ? links : [], d => d.source + '→' + d.target + d.tipo);
-
-  linkSel.exit().remove();
-
-  const linkEnter = linkSel.enter()
-    .append('line')
-    .attr('class', 'edge')
-    .attr('stroke', d => relColors[d.tipo] || '#666')
-    .attr('stroke-width', d => d.tipo === 'Resiliencia' ? 2.5 : 1.5)
-    .attr('stroke-dasharray', d => relDashed[d.tipo] ? '5,5' : 'none')
-    .attr('opacity', 0);
-
-  linkEnter.transition().duration(300).attr('opacity', 0.55);
-  const allLinkSel = linkEnter.merge(linkSel);
-
-  // --- Nodos (HTML, con íconos Font Awesome) ---
-  const nodeSel = d3.select(nodeLayer).selectAll('div.node')
-    .data(nodes, d => d.id);
-
-  nodeSel.exit().transition().duration(250).style('opacity', 0).remove();
-
-  const nodeEnter = nodeSel.enter()
-    .append('div')
-    .attr('class', d => `node ${d.kind}${d.id === selectedNodeId ? ' selected' : ''}`)
-    .style('width', d => d.r * 2 + 'px')
-    .style('height', d => d.r * 2 + 'px')
-    .style('border-color', d => d.color)
-    .style('box-shadow', d => `0 0 14px -2px ${hexToRgba(d.color, 0.45)}, inset 0 0 16px ${hexToRgba(d.color, 0.06)}`)
-    .style('opacity', 0)
-    .html(d => `<div class="icon" style="color:${d.color};font-size:${Math.round(d.r * 0.5)}px;"><i class="fa-solid ${d.icon}"></i></div>
-                <div class="label" style="font-size:${d.r >= 38 ? 11 : 9.5}px;">${d.label.length > 22 ? d.label.slice(0, 19) + '…' : d.label}</div>`);
-
-  nodeEnter.transition().duration(300).style('opacity', 1);
-
-  const allNodeSel = nodeEnter.merge(nodeSel)
-    .attr('class', d => `node ${d.kind}${d.id === selectedNodeId ? ' selected' : ''}`)
-    .style('border-color', d => d.color)
-    .style('box-shadow', d => `0 0 14px -2px ${hexToRgba(d.color, 0.45)}, inset 0 0 16px ${hexToRgba(d.color, 0.06)}`);
-
-  attachDrag(allNodeSel);
-
-  // --- Simulación de fuerzas ---
-  if (simulation) simulation.stop();
-
-  simulation = d3.forceSimulation(nodes)
-    .velocityDecay(0.45)
-    .force('link', d3.forceLink(links).id(d => d.id).distance(110).strength(0.25))
-    .force('charge', d3.forceManyBody().strength(-260))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collide', d3.forceCollide(d => d.r + 14));
-
-  simulation.on('tick', () => {
-    allLinkSel
-      .attr('x1', d => (typeof d.source === 'object' ? d.source.x : nodes.find(n => n.id === d.source)?.x) || 0)
-      .attr('y1', d => (typeof d.source === 'object' ? d.source.y : nodes.find(n => n.id === d.source)?.y) || 0)
-      .attr('x2', d => (typeof d.target === 'object' ? d.target.x : nodes.find(n => n.id === d.target)?.x) || 0)
-      .attr('y2', d => (typeof d.target === 'object' ? d.target.y : nodes.find(n => n.id === d.target)?.y) || 0);
-
-    allNodeSel
-      .style('left', d => (d.x - d.r) + 'px')
-      .style('top', d => (d.y - d.r) + 'px');
-  });
-}
-
-// ============================================================
-// ARRASTRE CON INERCIA
-// Al soltar, el nodo conserva su velocidad y la simulación
-// (con velocityDecay) hace que se frene gradualmente, como inercia real.
-// ============================================================
-function attachDrag(selection) {
-  selection.on('pointerdown', function (event, d) {
-    event.stopPropagation();
-    const wrap = document.getElementById('canvas-wrap');
-    const rect = wrap.getBoundingClientRect();
-    let dragging = false;
-    let last = { x: event.clientX, y: event.clientY, t: performance.now() };
-    const startClient = { x: event.clientX, y: event.clientY };
-
-    d3.select(this).classed('dragging', true).raise();
-    simulation.alphaTarget(0.25).restart();
-    d.fx = d.x; d.fy = d.y;
-
-    function toLocal(cx, cy) {
-      return { x: cx - rect.left, y: cy - rect.top };
-    }
-
-    function onMove(e) {
-      const distMoved = Math.hypot(e.clientX - startClient.x, e.clientY - startClient.y);
-      if (distMoved > 4) dragging = true;
-
-      const p = toLocal(e.clientX, e.clientY);
-      const now = performance.now();
-      const dt = Math.max(now - last.t, 1);
-      d.vx = (p.x - d.fx) / dt * 16 * 0.6;
-      d.vy = (p.y - d.fy) / dt * 16 * 0.6;
-      d.fx = p.x; d.fy = p.y;
-      last = { x: e.clientX, y: e.clientY, t: now };
-    }
-
-    function onUp(e) {
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onUp);
-      d3.select(this).classed('dragging', false);
-      simulation.alphaTarget(0);
-      d.fx = null; d.fy = null; // libera el nodo: la velocidad calculada produce la inercia
-      if (!dragging) showDetail(d);
-    }
-
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onUp.bind(this));
-  });
-}
-
-// ============================================================
-// PANEL DE DETALLE
-// ============================================================
-function showDetail(node) {
-  selectedNodeId = node.id;
-  document.querySelectorAll('#nodeLayer .node').forEach(el => el.classList.remove('selected'));
-
-  document.getElementById('detailPanel').style.display = 'flex';
-  document.getElementById('detailName').textContent = node.label;
-  document.getElementById('detailStruct').textContent = node.struct;
-
-  const outgoing = allLinks.filter(l => l.source === node.id);
-  const incoming = allLinks.filter(l => l.target === node.id);
-
-  document.getElementById('detailOut').innerHTML = outgoing.length
-    ? outgoing.map(l => `<div>→ ${l.target} <span class="rel-tag">${l.tipo}</span></div>`).join('')
-    : 'Sin conexiones';
-
-  document.getElementById('detailIn').innerHTML = incoming.length
-    ? incoming.map(l => `<div>← ${l.source} <span class="rel-tag">${l.tipo}</span></div>`).join('')
-    : 'Sin conexiones';
-
-  d3.select('#nodeLayer').selectAll('div.node').classed('selected', d => d.id === node.id);
-}
-
-window.addEventListener('load', buildGraph);
-window.addEventListener('resize', () => {
-  const wrap = document.getElementById('canvas-wrap');
-  d3.select('#edges').attr('width', wrap.clientWidth).attr('height', wrap.clientHeight);
-  if (simulation) {
-    simulation.force('center', d3.forceCenter(wrap.clientWidth / 2, wrap.clientHeight / 2));
-    simulation.alpha(0.3).restart();
-  }
-});
-
-</script>
-
+<script src="modulo-01.js"></script>
 </body>
 </html>
