@@ -297,11 +297,10 @@ line.edge{ transition: opacity .3s, stroke-dasharray .3s; }
 .node{
   position:absolute; border-radius:50%; background:rgba(9,13,22,0.82);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center; user-select:none; cursor:grab; pointer-events:auto;
+  text-align:center; user-select:none; cursor:pointer; pointer-events:auto;
   border:2px solid; transition: box-shadow .2s, opacity .3s, filter .3s, transform .15s;
 }
 .node:hover{ transform:scale(1.05); }
-.node.dragging{ cursor:grabbing; z-index:50; transform:scale(1.07); }
 .node.selected{ box-shadow:0 0 0 3px rgba(255,255,255,0.35) inset, 0 0 22px 2px rgba(47,212,200,0.55) !important; }
 
 .node .icon{ line-height:1; margin-bottom:3px; }
@@ -1220,7 +1219,7 @@ function renderGraph() {
   if (fixedLayout) {
     // Dibujo inmediato, sin animación de "acomodo": aparece ya ordenado, como el diseño.
     tickUpdate();
-    attachStaticDrag(allNodeSel, allLinkSel, tickUpdate);
+    attachStaticDrag(allNodeSel);
     return;
   }
 
@@ -1348,32 +1347,12 @@ function attachDrag(selection) {
 
 // Arrastre simple (sin simulación de fuerzas) para estructuras con layout fijo:
 // el nodo se mueve exactamente donde lo suelta el usuario, sin rebotes.
-function attachStaticDrag(nodeSel, linkSel, tickUpdate) {
-  nodeSel.on('pointerdown', function (event, d) {
+function attachStaticDrag(nodeSel) {
+  // Los nodos son fijos (igual que la captura de referencia): no se pueden
+  // arrastrar. Solo el clic abre el panel de detalle del concepto.
+  nodeSel.on('click', function (event, d) {
     event.stopPropagation();
-    const wrap = document.getElementById('canvas-wrap');
-    const rect = wrap.getBoundingClientRect();
-    let dragging = false;
-    const startClient = { x: event.clientX, y: event.clientY };
-    const el = d3.select(this).classed('dragging', true).raise();
-
-    function onMove(e) {
-      const distMoved = Math.hypot(e.clientX - startClient.x, e.clientY - startClient.y);
-      if (distMoved > 4) dragging = true;
-      d.x = e.clientX - rect.left;
-      d.y = e.clientY - rect.top;
-      tickUpdate();
-    }
-
-    function onUp() {
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onUp);
-      el.classed('dragging', false);
-      if (!dragging) showDetail(d);
-    }
-
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onUp);
+    showDetail(d);
   });
 }
 
