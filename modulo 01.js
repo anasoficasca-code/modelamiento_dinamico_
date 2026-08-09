@@ -19,10 +19,10 @@ const POT_DATA = {
     { origen: "Ríos", destino: "Quebradas", tipo: "Soporte", sustento: "Las cuatro cuencas (Tunjuelo, Fucha, Salitre y Torca) se alimentan de las quebradas y desembocan en el río Bogotá.", page: "p. 51" },
     { origen: "Ríos", destino: "Humedales", tipo: "Directa", sustento: "Los humedales son ecosistemas clave para la mitigación y adaptación al cambio climático, ligados al ciclo del río.", page: "p. 51" },
     { origen: "Humedales", destino: "Áreas protegidas", tipo: "Soporte", sustento: "El POT amplía en un 20% el área de humedales y declara dos nuevos como reservas.", page: "p. 54" },
-    { origen: "Conectores ecosistémicos", destino: "Humedales", tipo: "Directa", sustento: "Los conectores abarcan espacios verdes hasta los humedales y parques de montaña.", page: "p. 58" },
-    { origen: "Conectores ecosistémicos", destino: "Parques ecológicos de montaña", tipo: "Directa", sustento: "Los conectores incluyen parques ecológicos de montaña como Entrenubes y Soratama.", page: "p. 58" },
-    { origen: "Conectores ecosistémicos", destino: "Áreas protegidas", tipo: "Soporte", sustento: "Los conectores priorizan coberturas vegetales que conecten las áreas protegidas.", page: "p. 58" },
-    { origen: "Conectores ecosistémicos", destino: "Coberturas vegetales", tipo: "Directa", sustento: "Gracias al Manual de coberturas, los conectores priorizan más y mejores coberturas vegetales.", page: "p. 58" },
+    { origen: "Cerros Orientales", destino: "Humedales", tipo: "Directa", sustento: "Los Cerros Orientales conectan espacios verdes hasta los humedales y parques de montaña.", page: "p. 58" },
+    { origen: "Cerros Orientales", destino: "Parques ecológicos de montaña", tipo: "Directa", sustento: "Los Cerros Orientales incluyen parques ecológicos de montaña como Entrenubes y Soratama.", page: "p. 58" },
+    { origen: "Cerros Orientales", destino: "Áreas protegidas", tipo: "Soporte", sustento: "Los Cerros Orientales priorizan coberturas vegetales que conecten las áreas protegidas.", page: "p. 58" },
+    { origen: "Cerros Orientales", destino: "Coberturas vegetales", tipo: "Directa", sustento: "Gracias al Manual de coberturas, los Cerros Orientales priorizan más y mejores coberturas vegetales.", page: "p. 58" },
     { origen: "Parques de borde", destino: "Coberturas vegetales", tipo: "Directa", sustento: "La red de parques de borde contribuye a la mejora de las coberturas vegetales.", page: "p. 58" },
     { origen: "Parques de borde", destino: "Ríos", tipo: "Resiliencia", sustento: "Los parques de borde se establecen a lo largo de la ronda del río Bogotá.", page: "p. 58" },
     { origen: "Áreas de resiliencia climática", destino: "Coberturas vegetales", tipo: "Resiliencia", sustento: "Las áreas de resiliencia deben contar con coberturas que optimicen condiciones ambientales.", page: "p. 58" },
@@ -140,14 +140,14 @@ const REL_STYLE = {
 // Coordenadas como fracción (0–1) del tamaño del canvas + radio en px.
 // Si una estructura tiene layout fijo, el grafo NO usa simulación de fuerzas:
 // se dibuja siempre en las mismas posiciones, ordenado, igual que el mockup.
-// "Conectores ecosistémicos" ocupa la posición superior derecha del diseño
+// "Cerros Orientales" ocupa la posición superior derecha del diseño
 // (el nodo hub que conecta Humedales, Áreas protegidas, Parques ecológicos
 // de montaña y Coberturas vegetales).
 const FIXED_LAYOUTS = {
   EEP: {
     'Ríos':                           { x: 0.146, y: 0.273, r: 39 },
     'Corredores montañosos':          { x: 0.556, y: 0.102, r: 24 },
-    'Conectores ecosistémicos':       { x: 0.778, y: 0.089, r: 24 },
+    'Cerros Orientales':       { x: 0.778, y: 0.089, r: 24 },
     'Quebradas':                      { x: 0.390, y: 0.258, r: 24 },
     'Áreas protegidas':               { x: 0.727, y: 0.265, r: 29 },
     'Parques ecológicos de montaña':  { x: 0.855, y: 0.415, r: 29 },
@@ -192,7 +192,7 @@ const ICON_RULES = [
   [/finanza/i, 'fa-coins'],
   [/turismo/i, 'fa-umbrella-beach'],
   [/industria|producci[oó]n|agroindustria/i, 'fa-industry'],
-  [/reserva forestal|corredor montañoso|área protegida|conector ecosist[eé]mico/i, 'fa-mountain-sun'],
+  [/reserva forestal|corredor montañoso|área protegida|cerro/i, 'fa-mountain-sun'],
   [/resiliencia clim[aá]tica|paisaje sostenible/i, 'fa-cloud-sun'],
   [/emprendimiento/i, 'fa-rocket']
 ];
