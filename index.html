@@ -82,9 +82,9 @@
       <div class="legend">
         <span class="legend-title">Convenciones</span>
         <span class="legend-item">
-          <svg class="leg-svg" viewBox="0 0 40 12" width="40" height="12" aria-hidden="true">
-            <line x1="2" y1="6" x2="30" y2="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-dasharray="3 3"></line>
-            <path d="M30,6 L23,2 L23,10 Z" fill="rgba(255,255,255,0.7)"></path>
+          <svg class="leg-svg" viewBox="0 0 50 12" width="50" height="12" aria-hidden="true">
+            <line x1="2" y1="6" x2="38" y2="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-dasharray="3 3"></line>
+            <path d="M38,6 L31,2 L31,10 Z" fill="rgba(255,255,255,0.7)"></path>
           </svg>
           Redes dirigidas
         </span>
@@ -107,63 +107,63 @@
           <g class="link" data-relation="e1" tabindex="0" role="button" aria-label="Relación EEP a ESECI">
             <path class="link-hit" d="M344.7,170.2 Q375,295 345.1,417.8"></path>
             <path class="link-line" d="M344.7,170.2 Q375,295 345.1,417.8"></path>
-            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(351.9,385.8) rotate(100.2)"></path>
+            <path class="link-arrow" d="M-15,-5 L0,0 L-15,5 Z" transform="translate(345.1,417.8) rotate(103.7)"></path>
           </g>
 
           <!-- EIP (morado) -> EEP (verde) -->
           <g class="link" data-relation="e2" tabindex="0" role="button" aria-label="Relación EIP a EEP">
             <path class="link-hit" d="M159.2,245.3 Q189.7,158.4 271.4,130.2"></path>
             <path class="link-line" d="M159.2,245.3 Q189.7,158.4 271.4,130.2"></path>
-            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(251.0,138.5) rotate(-25.5)"></path>
+            <path class="link-arrow" d="M-15,-5 L0,0 L-15,5 Z" transform="translate(271.4,130.2) rotate(-19.0)"></path>
           </g>
 
           <!-- EFC (azul) -> EEP (verde) -->
           <g class="link" data-relation="e3" tabindex="0" role="button" aria-label="Relación EFC a EEP">
             <path class="link-hit" d="M484.3,244.2 Q460.3,158.4 388.1,131.6"></path>
             <path class="link-line" d="M484.3,244.2 Q460.3,158.4 388.1,131.6"></path>
-            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(406.1,139.6) rotate(-152.4)"></path>
+            <path class="link-arrow" d="M-15,-5 L0,0 L-15,5 Z" transform="translate(388.1,131.6) rotate(-159.6)"></path>
           </g>
 
           <!-- EFC (azul) -> ESECI (amarillo) -->
           <g class="link" data-relation="e4" tabindex="0" role="button" aria-label="Relación EFC a ESECI">
             <path class="link-hit" d="M483.8,355.7 Q460.3,436.6 390.7,459.8"></path>
             <path class="link-line" d="M483.8,355.7 Q460.3,436.6 390.7,459.8"></path>
-            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(408.0,452.8) rotate(154.2)"></path>
+            <path class="link-arrow" d="M-15,-5 L0,0 L-15,5 Z" transform="translate(390.7,459.8) rotate(161.6)"></path>
           </g>
 
           <!-- EIP (morado) -> EFC (azul) -->
           <g class="link" data-relation="e5" tabindex="0" role="button" aria-label="Relación EIP a EFC">
             <path class="link-hit" d="M191.3,327.1 Q320,395 448.7,327.1"></path>
             <path class="link-line" d="M191.3,327.1 Q320,395 448.7,327.1"></path>
-            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(415.2,342.5) rotate(-21.3)"></path>
+            <path class="link-arrow" d="M-15,-5 L0,0 L-15,5 Z" transform="translate(448.7,327.1) rotate(-27.8)"></path>
           </g>
 
           <!-- EIP (morado) -> ESECI (amarillo) -->
           <g class="link" data-relation="e6" tabindex="0" role="button" aria-label="Relación EIP a ESECI">
             <path class="link-hit" d="M159.8,354.5 Q189.7,436.6 268.9,461.1"></path>
             <path class="link-line" d="M159.8,354.5 Q189.7,436.6 268.9,461.1"></path>
-            <path class="link-arrow" d="M-7,-4.5 L7,0 L-7,4.5 Z" transform="translate(249.1,453.8) rotate(23.7)"></path>
+            <path class="link-arrow" d="M-15,-5 L0,0 L-15,5 Z" transform="translate(268.9,461.1) rotate(17.2)"></path>
           </g>
 
         </g>
 
-        <!-- nodes -->
-        <g class="node node-green" transform="translate(330,110)">
+        <!-- nodes (arrastrables) -->
+        <g class="node node-green" data-node="green" transform="translate(330,110)">
           <circle r="62"></circle>
           <text y="-14">Sistema<tspan x="0" dy="14">Ambiental y de</tspan><tspan x="0" dy="14">Estructura</tspan><tspan x="0" dy="14">Ecológica</tspan><tspan x="0" dy="14">Principal</tspan></text>
         </g>
 
-        <g class="node node-purple" transform="translate(140,300)">
+        <g class="node node-purple" data-node="purple" transform="translate(140,300)">
           <circle r="58"></circle>
           <text y="-7">Estructura<tspan x="0" dy="14">Integradora de</tspan><tspan x="0" dy="14">Patrimonios</tspan></text>
         </g>
 
-        <g class="node node-blue" transform="translate(500,300)">
+        <g class="node node-blue" data-node="blue" transform="translate(500,300)">
           <circle r="58"></circle>
           <text y="-7">Estructura<tspan x="0" dy="14">Funcional y</tspan><tspan x="0" dy="14">del Cuidado</tspan></text>
         </g>
 
-        <g class="node node-yellow" transform="translate(330,480)">
+        <g class="node node-yellow" data-node="yellow" transform="translate(330,480)">
           <circle r="64"></circle>
           <text y="-21">Estructura<tspan x="0" dy="14">Socioeconómica,</tspan><tspan x="0" dy="14">Creativa y de</tspan><tspan x="0" dy="14">Innovación</tspan></text>
         </g>
