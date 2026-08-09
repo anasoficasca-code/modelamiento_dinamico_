@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAPOT · Módulo 01 — Construir la Red</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="modulo-01.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- SIDEBAR RAPOT -->
+  <aside id="sidebar-rapot">
+    <div class="brand">
+      <div class="mark"><i class="fa-solid fa-diagram-project"></i></div>
+      <span>RAPOT</span>
+    </div>
+
+    <div class="nav-group">
+      <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">MÓDULOS</div>
+      <a href="modulo-01.html" class="nav-item active"><span class="num">01</span><i class="fa-solid fa-diagram-project"></i> Construir la Red</a>
+      <a href="modulo-02.html" class="nav-item"><span class="num">02</span><i class="fa-solid fa-chart-simple"></i> Medir la Red</a>
+      <a href="modulo-03.html" class="nav-item"><span class="num">03</span><i class="fa-solid fa-eye"></i> Discurso vs Realidad</a>
+      <a href="modulo-04.html" class="nav-item"><span class="num">04</span><i class="fa-solid fa-bullseye"></i> Macromodelos</a>
+      <a href="modulo-05.html" class="nav-item"><span class="num">05</span><i class="fa-solid fa-magnifying-glass"></i> Lo que no está</a>
+      <a href="modulo-06.html" class="nav-item"><span class="num">06</span><i class="fa-solid fa-earth-americas"></i> POT ↔ ODS</a>
+      <a href="modulo-07.html" class="nav-item"><span class="num">07</span><i class="fa-solid fa-flask"></i> Simulador</a>
+      <a href="modulo-08.html" class="nav-item"><span class="num">08</span><i class="fa-solid fa-city"></i> Modelo Propio</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">GESTIÓN</div>
+      <a href="proyectos.html" class="nav-item"><i class="fa-solid fa-folder"></i> Proyectos</a>
+      <a href="fuentes.html" class="nav-item"><i class="fa-solid fa-file-lines"></i> Fuentes y Documentos</a>
+      <a href="favoritos.html" class="nav-item"><i class="fa-regular fa-star"></i> Favoritos</a>
+      <a href="reportes.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Reportes</a>
+      <a href="configuracion.html" class="nav-item"><i class="fa-solid fa-gear"></i> Configuración</a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="avatar-sm">EU</div>
+      <div class="user-meta">
+        <div class="name">Equipo Urbano</div>
+        <div class="role">Administrador</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div id="main-container">
+    <header>
+      <div>
+        <h1>01. Construir la Red</h1>
+        <p>Crea la red de conceptos y relaciones del POT a partir de fuentes oficiales.</p>
+      </div>
+      <div class="header-action"><i class="fa-solid fa-download"></i> Descargar plantilla</div>
+    </header>
+
+    <div class="steps-bar">
+      <div class="step active">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Cargar datos</div>
+          <div class="step-desc">Importa tus fuentes de información</div>
+        </div>
+      </div>
+      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Identificar relaciones</div>
+          <div class="step-desc">Encuentra vínculos entre conceptos</div>
+        </div>
+      </div>
+      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Clasificar y justificar</div>
+          <div class="step-desc">Define el tipo de relación y su justificación</div>
+        </div>
+      </div>
+      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Generar red</div>
+          <div class="step-desc">Visualiza y exporta tu red de conocimiento</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <i class="fa-solid fa-diagram-project"></i>
+        <div class="stat-value" id="statConceptos">—</div>
+        <div class="stat-label">Conceptos</div>
+        <div class="stat-sub">Nodos identificados</div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-link"></i>
+        <div class="stat-value" id="statRelaciones">—</div>
+        <div class="stat-label">Relaciones</div>
+        <div class="stat-sub">—</div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-file-lines"></i>
+        <div class="stat-value" id="statFuentes">—</div>
+        <div class="stat-label">Fuentes</div>
+        <div class="stat-sub">—</div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-diagram-project"></i>
+        <div class="stat-value" id="statTipos">—</div>
+        <div class="stat-label">Tipos de relación</div>
+        <div class="stat-sub">Directa, Indirecta, Soporte…</div>
+      </div>
+    </div>
+
+    <div class="graph-panel">
+      <div class="graph-panel-header">
+        <div class="graph-panel-title">Vista de la red</div>
+        <div class="graph-panel-tools">
+          <div class="tool-btn"><i class="fa-solid fa-filter"></i> Filtros</div>
+          <div class="tool-btn"><i class="fa-solid fa-rotate-right"></i></div>
+        </div>
+      </div>
+
+      <div style="padding:0 18px;">
+        <div class="graph-tabs" style="border-bottom:1px solid var(--panel-border); padding-bottom:2px;">
+          <div class="graph-tab active" data-tab="todas">Todas</div>
+          <div class="graph-tab" data-tab="conceptos">Conceptos</div>
+          <div class="graph-tab" data-tab="relaciones">Relaciones</div>
+        </div>
+      </div>
+
+      <div class="graph-wrapper">
+
+        <!-- LEGEND / FILTERS -->
+        <div class="legend-panel">
+          <div class="legend-section">
+            <div class="legend-title">Tipos de relación</div>
+            <label class="filter-item">
+              <input type="checkbox" class="filter-type" value="Directa" checked>
+              <span><span class="filter-line solid" style="border-color:var(--rel-directa);"></span> Directa</span>
+            </label>
+            <label class="filter-item">
+              <input type="checkbox" class="filter-type" value="Indirecta" checked>
+              <span><span class="filter-line dashed" style="border-color:var(--rel-indirecta);"></span> Indirecta</span>
+            </label>
+            <label class="filter-item">
+              <input type="checkbox" class="filter-type" value="Soporte" checked>
+              <span><span class="filter-line solid" style="border-color:var(--rel-soporte);"></span> Soporte</span>
+            </label>
+            <label class="filter-item">
+              <input type="checkbox" class="filter-type" value="Resiliencia" checked>
+              <span><span class="filter-line solid" style="border-color:var(--rel-resiliencia);"></span> Resiliencia</span>
+            </label>
+          </div>
+
+          <div class="legend-section">
+            <div class="legend-title">Estructuras</div>
+            <div class="structure-list" id="structureList"><!-- generado por JS --></div>
+          </div>
+        </div>
+
+        <!-- CANVAS -->
+        <div class="canvas-container">
+          <div id="canvas-wrap">
+            <svg id="graphSvgLayer"></svg>
+            <div id="nodeLayer" class="node-layer"></div>
+
+            <div class="diagram-title-card">
+              <div class="diagram-title" id="diagramTitle">—</div>
+              <div class="diagram-subtitle" id="diagramSubtitle">—</div>
+            </div>
+
+            <div class="layers-card" id="layersCard">
+              <div class="layers-title">Leyenda de capas</div>
+              <label class="layers-row">
+                Nodos Principales
+                <span class="switch">
+                  <input type="checkbox" id="togglePrincipal" checked>
+                  <span class="slider"></span>
+                </span>
+              </label>
+              <label class="layers-row">
+                Conexiones Activas
+                <span class="switch">
+                  <input type="checkbox" id="toggleEdges" checked>
+                  <span class="slider"></span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- DETAIL PANEL -->
+        <div class="detail-panel" id="detailPanel" style="display:none;">
+          <div class="detail-card">
+            <div class="detail-label">Concepto</div>
+            <div class="detail-content" id="detailName">—</div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-label">Estructura</div>
+            <div class="detail-content" id="detailStruct">—</div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-label">Conexiones (→)</div>
+            <div class="detail-content" id="detailOut" style="font-size:11px;">—</div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-label">Conexiones (←)</div>
+            <div class="detail-content" id="detailIn" style="font-size:11px;">—</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <footer>
+      <p>"No se trata de representar la ciudad, sino de comprenderla para transformarla." — Equipo POT RE</p>
+    </footer>
+
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="modulo-01.js"></script>
+</body>
+</html>
