@@ -319,7 +319,7 @@ body{
 }
 
 .link-arrow{
-  fill: rgba(255,255,255,0.75);
+  fill: rgba(255,255,255,0.65);
   transition: fill .18s ease, filter .18s ease;
 }
 
