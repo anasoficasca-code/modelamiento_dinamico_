@@ -334,41 +334,109 @@ function attachNodeClickHandler(group, id) {
   });
 }
 
-/* -------- aislar flujo de un nodo (triple clic) -------- */
-let focusedNode = null;
+/* -------- spotlight: aísla nodos/líneas (triple clic en una bola O clic en una tarjeta de arriba) --------
+   spotlight = null                                   -> todo visible, normal
+   spotlight = { mode:"nodes", nodes:Set, expand }     -> solo esos nodos (y si expand=true, también
+                                                          sus vecinos directos) quedan visibles
+   spotlight = { mode:"types", types:[...] }           -> solo se ven las líneas de esos tipos */
+let spotlight = null;
 
-function toggleNodeFlow(id) {
-  focusedNode = (focusedNode === id) ? null : id;
-  applyFocusState();
+function clearSpotlight() {
+  spotlight = null;
+  document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
+  applySpotlightState();
 }
 
-function applyFocusState() {
-  let connectedNodes = null;
-  let connectedEdges = null;
+function setSpotlightNodes(nodeIds, expand) {
+  spotlight = { mode: "nodes", nodes: new Set(nodeIds), expand: !!expand };
+  document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
+  applySpotlightState();
+}
 
-  if (focusedNode) {
-    connectedNodes = new Set([focusedNode]);
-    connectedEdges = new Set();
+function setSpotlightTypes(types) {
+  spotlight = { mode: "types", types };
+  document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
+  applySpotlightState();
+}
+
+function applySpotlightState() {
+  let visibleNodes = null; // null = todos visibles
+  let visibleEdges = null;
+
+  if (spotlight && spotlight.mode === "nodes") {
+    visibleNodes = new Set(spotlight.nodes);
+    visibleEdges = new Set();
     RAW_EDGES.forEach((edge, i) => {
-      if (edge.s === focusedNode || edge.t === focusedNode) {
-        connectedEdges.add(i);
-        connectedNodes.add(edge.s);
-        connectedNodes.add(edge.t);
+      const sIn = spotlight.nodes.has(edge.s);
+      const tIn = spotlight.nodes.has(edge.t);
+      if (spotlight.expand) {
+        /* triple clic: además de la bola elegida, se muestran sus vecinos directos */
+        if (sIn || tIn) {
+          visibleEdges.add(i);
+          visibleNodes.add(edge.s);
+          visibleNodes.add(edge.t);
+        }
+      } else {
+        /* tarjeta de insight: solo se muestran los ODS exactos de la lista */
+        if (sIn && tIn) visibleEdges.add(i);
       }
+    });
+  } else if (spotlight && spotlight.mode === "types") {
+    visibleEdges = new Set();
+    RAW_EDGES.forEach((edge, i) => {
+      if (spotlight.types.includes(edge.type)) visibleEdges.add(i);
     });
   }
 
   document.querySelectorAll(".ods-node").forEach(el => {
-    const inFlow = !focusedNode || connectedNodes.has(el.dataset.id);
-    el.classList.toggle("node-focus-dim", !inFlow);
-    el.classList.toggle("node-focus-active", focusedNode === el.dataset.id);
+    const id = el.dataset.id;
+    const dim = visibleNodes ? !visibleNodes.has(id) : false;
+    el.classList.toggle("node-focus-dim", dim);
+    el.classList.toggle("node-focus-active", !!(spotlight && spotlight.mode === "nodes" && spotlight.nodes.has(id)));
   });
 
   document.querySelectorAll(".edge-group").forEach(el => {
     const idx = Number(el.dataset.index);
-    const inFlow = !focusedNode || connectedEdges.has(idx);
-    el.classList.toggle("edge-focus-dim", !inFlow);
+    const dim = visibleEdges ? !visibleEdges.has(idx) : false;
+    el.classList.toggle("edge-focus-dim", dim);
   });
+}
+
+function toggleNodeFlow(id) {
+  const already = spotlight && spotlight.mode === "nodes" && spotlight.expand &&
+                   spotlight.nodes.size === 1 && spotlight.nodes.has(id);
+  if (already) {
+    clearSpotlight();
+  } else {
+    setSpotlightNodes([id], true);
+  }
+}
+
+/* -------- tarjetas de insights (arriba de la red) -------- */
+const NODE_INSIGHTS = {
+  conectados:   [1, 2, 4, 8, 9, 13],
+  hubs:         [1, 2, 13],
+  puentes:      [9, 8],
+  perifericos:  [16, 7, 10],
+};
+
+function toggleInsight(key) {
+  const card = document.querySelector(`.insight-card[data-insight="${key}"]`);
+  if (!card) return;
+
+  if (card.classList.contains("active")) {
+    clearSpotlight();
+    return;
+  }
+
+  if (key === "predominantes") {
+    setSpotlightTypes(["causal", "func"]);
+  } else {
+    const ids = (NODE_INSIGHTS[key] || []).map(n => "ods" + n);
+    setSpotlightNodes(ids, false);
+  }
+
+  card.classList.add("active");
 }
 
 /* -------- panel de convenciones -------- */
