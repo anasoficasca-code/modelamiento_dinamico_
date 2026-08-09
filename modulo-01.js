@@ -19,10 +19,10 @@ const POT_DATA = {
     { origen: "Ríos", destino: "Quebradas", tipo: "Soporte", sustento: "Las cuatro cuencas (Tunjuelo, Fucha, Salitre y Torca) se alimentan de las quebradas y desembocan en el río Bogotá.", page: "p. 51" },
     { origen: "Ríos", destino: "Humedales", tipo: "Directa", sustento: "Los humedales son ecosistemas clave para la mitigación y adaptación al cambio climático, ligados al ciclo del río.", page: "p. 51" },
     { origen: "Humedales", destino: "Áreas protegidas", tipo: "Soporte", sustento: "El POT amplía en un 20% el área de humedales y declara dos nuevos como reservas.", page: "p. 54" },
-    { origen: "Conectores ecosistémicos", destino: "Humedales", tipo: "Directa", sustento: "Los conectores abarcan espacios verdes hasta los humedales y parques de montaña.", page: "p. 58" },
-    { origen: "Conectores ecosistémicos", destino: "Parques ecológicos de montaña", tipo: "Directa", sustento: "Los conectores incluyen parques ecológicos de montaña como Entrenubes y Soratama.", page: "p. 58" },
-    { origen: "Conectores ecosistémicos", destino: "Áreas protegidas", tipo: "Soporte", sustento: "Los conectores priorizan coberturas vegetales que conecten las áreas protegidas.", page: "p. 58" },
-    { origen: "Conectores ecosistémicos", destino: "Coberturas vegetales", tipo: "Directa", sustento: "Gracias al Manual de coberturas, los conectores priorizan más y mejores coberturas vegetales.", page: "p. 58" },
+    { origen: "Cerros Orientales", destino: "Humedales", tipo: "Directa", sustento: "Los Cerros Orientales conectan espacios verdes hasta los humedales y parques de montaña.", page: "p. 58" },
+    { origen: "Cerros Orientales", destino: "Parques ecológicos de montaña", tipo: "Directa", sustento: "Los Cerros Orientales incluyen parques ecológicos de montaña como Entrenubes y Soratama.", page: "p. 58" },
+    { origen: "Cerros Orientales", destino: "Áreas protegidas", tipo: "Soporte", sustento: "Los Cerros Orientales priorizan coberturas vegetales que conecten las áreas protegidas.", page: "p. 58" },
+    { origen: "Cerros Orientales", destino: "Coberturas vegetales", tipo: "Directa", sustento: "Gracias al Manual de coberturas, los Cerros Orientales priorizan más y mejores coberturas vegetales.", page: "p. 58" },
     { origen: "Parques de borde", destino: "Coberturas vegetales", tipo: "Directa", sustento: "La red de parques de borde contribuye a la mejora de las coberturas vegetales.", page: "p. 58" },
     { origen: "Parques de borde", destino: "Ríos", tipo: "Resiliencia", sustento: "Los parques de borde se establecen a lo largo de la ronda del río Bogotá.", page: "p. 58" },
     { origen: "Áreas de resiliencia climática", destino: "Coberturas vegetales", tipo: "Resiliencia", sustento: "Las áreas de resiliencia deben contar con coberturas que optimicen condiciones ambientales.", page: "p. 58" },
@@ -128,10 +128,38 @@ const STRUCT_ORDER = ['EEP', 'EFS', 'ESE', 'EIP'];
 
 // Tipos de relación → estilo de línea (color viene de las variables CSS --rel-*)
 const REL_STYLE = {
-  Directa: { color: 'var(--rel-directa)', hex: '#4d8dff', dashed: false },
-  Indirecta: { color: 'var(--rel-indirecta)', hex: '#7b8c96', dashed: true },
+  Directa: { color: 'var(--rel-directa)', hex: '#c9cedb', dashed: false },
+  Indirecta: { color: 'var(--rel-indirecta)', hex: '#c9cedb', dashed: true },
   Soporte: { color: 'var(--rel-soporte)', hex: '#ff9a3d', dashed: false },
-  Resiliencia: { color: 'var(--rel-resiliencia)', hex: '#2fd4c8', dashed: false }
+  Resiliencia: { color: 'var(--rel-resiliencia)', hex: '#4d8dff', dashed: false }
+};
+
+// -----------------------------------------------------------------------
+// 2.1 LAYOUT FIJO (posiciones exactas por estructura, igual que el diseño)
+// -----------------------------------------------------------------------
+// Coordenadas como fracción (0–1) del tamaño del canvas + radio en px.
+// Si una estructura tiene layout fijo, el grafo NO usa simulación de fuerzas:
+// se dibuja siempre en las mismas posiciones, ordenado, igual que el mockup.
+// "Cerros Orientales" ocupa la posición superior derecha del diseño
+// (el nodo hub que conecta Humedales, Áreas protegidas, Parques ecológicos
+// de montaña y Coberturas vegetales).
+const FIXED_LAYOUTS = {
+  EEP: {
+    'Ríos':                           { x: 0.146, y: 0.273, r: 39 },
+    'Corredores montañosos':          { x: 0.556, y: 0.102, r: 24 },
+    'Cerros Orientales':       { x: 0.778, y: 0.089, r: 24 },
+    'Quebradas':                      { x: 0.390, y: 0.258, r: 24 },
+    'Áreas protegidas':               { x: 0.727, y: 0.265, r: 29 },
+    'Parques ecológicos de montaña':  { x: 0.855, y: 0.415, r: 29 },
+    'Humedales':                      { x: 0.528, y: 0.449, r: 49 },
+    'Bosques urbanos':                { x: 0.150, y: 0.474, r: 27 },
+    'Áreas de resiliencia climática': { x: 0.295, y: 0.468, r: 29 },
+    'Reservas forestales':            { x: 0.727, y: 0.642, r: 29 },
+    'Coberturas vegetales':           { x: 0.241, y: 0.701, r: 44 },
+    'Complejos de páramos':           { x: 0.069, y: 0.753, r: 25 },
+    'Parques de borde':               { x: 0.428, y: 0.784, r: 24 },
+    'Paisajes sostenibles':           { x: 0.253, y: 0.900, r: 24 }
+  }
 };
 
 // Umbral de grado para considerar un nodo "principal" (hub) dentro de la red visible
@@ -164,7 +192,7 @@ const ICON_RULES = [
   [/finanza/i, 'fa-coins'],
   [/turismo/i, 'fa-umbrella-beach'],
   [/industria|producci[oó]n|agroindustria/i, 'fa-industry'],
-  [/reserva forestal|corredor montañoso|área protegida|conector ecosist[eé]mico/i, 'fa-mountain-sun'],
+  [/reserva forestal|corredor montañoso|área protegida|cerro/i, 'fa-mountain-sun'],
   [/resiliencia clim[aá]tica|paisaje sostenible/i, 'fa-cloud-sun'],
   [/emprendimiento/i, 'fa-rocket']
 ];
@@ -226,9 +254,12 @@ function buildAllGraphs() {
     });
 
     const structNodes = Array.from(nodeMap.values());
+    const fixedLayout = FIXED_LAYOUTS[structId];
     structNodes.forEach(n => {
-      n.r = Math.max(26, Math.min(54, 24 + n.degree * 4));
+      const fixed = fixedLayout && fixedLayout[n.id];
+      n.r = fixed ? fixed.r : Math.max(26, Math.min(54, 24 + n.degree * 4));
       n.kind = n.degree >= PRINCIPAL_DEGREE_THRESHOLD ? 'principal' : 'secondary';
+      n.fixedPos = fixed ? { x: fixed.x, y: fixed.y } : null;
     });
 
     structureGraphs[structId] = { nodes: structNodes, links: structLinks };
@@ -388,24 +419,34 @@ function renderGraph() {
   ensureArrowMarkers(svg);
 
   const nodeLayer = document.getElementById('nodeLayer');
+  const fixedLayout = FIXED_LAYOUTS[activeStructureId];
 
-  // Preservar posiciones existentes al re-renderizar (filtros, resize, etc.)
-  const prevPositions = new Map();
-  if (simulation) {
-    simulation.nodes().forEach(n => prevPositions.set(n.id, { x: n.x, y: n.y, vx: n.vx, vy: n.vy }));
-  }
-  nodes.forEach((n, i) => {
-    const prev = prevPositions.get(n.id);
-    if (prev) {
-      Object.assign(n, prev);
-    } else {
-      // Posición inicial determinista (espiral áurea) — nunca aleatoria.
-      const angle = i * 2.399963229728653;
-      const radius = 40 + i * 9;
-      n.x = width / 2 + Math.cos(angle) * Math.min(radius, width / 2.4);
-      n.y = height / 2 + Math.sin(angle) * Math.min(radius, height / 2.4);
+  if (fixedLayout) {
+    // --- MODO LAYOUT FIJO: sin física, posiciones exactas (igual al diseño) ---
+    if (simulation) { simulation.stop(); simulation = null; }
+    nodes.forEach(n => {
+      n.x = (n.fixedPos ? n.fixedPos.x : 0.5) * width;
+      n.y = (n.fixedPos ? n.fixedPos.y : 0.5) * height;
+    });
+  } else {
+    // --- MODO AUTOMÁTICO: preserva posiciones existentes al re-renderizar ---
+    const prevPositions = new Map();
+    if (simulation) {
+      simulation.nodes().forEach(n => prevPositions.set(n.id, { x: n.x, y: n.y, vx: n.vx, vy: n.vy }));
     }
-  });
+    nodes.forEach((n, i) => {
+      const prev = prevPositions.get(n.id);
+      if (prev) {
+        Object.assign(n, prev);
+      } else {
+        // Posición inicial determinista (espiral áurea) — nunca aleatoria.
+        const angle = i * 2.399963229728653;
+        const radius = 40 + i * 9;
+        n.x = width / 2 + Math.cos(angle) * Math.min(radius, width / 2.4);
+        n.y = height / 2 + Math.sin(angle) * Math.min(radius, height / 2.4);
+      }
+    });
+  }
 
   // --- Líneas (SVG) con flechas de dirección ---
   const linkSel = svg.select('#edgesGroup').selectAll('line.edge')
@@ -449,20 +490,7 @@ function renderGraph() {
     .style('border-color', d => d.color)
     .style('box-shadow', d => nodeGlow(d.color));
 
-  attachDrag(allNodeSel);
-
-  // --- Simulación de fuerzas (determinista: mismas posiciones iniciales → mismo resultado) ---
-  if (simulation) simulation.stop();
-
-  simulation = d3.forceSimulation(nodes)
-    .velocityDecay(0.5)
-    .force('link', d3.forceLink(links).id(d => d.id).distance(125).strength(0.25))
-    .force('charge', d3.forceManyBody().strength(d => d.kind === 'principal' ? -420 : -220))
-    .force('x', d3.forceX(width / 2).strength(d => d.kind === 'principal' ? 0.09 : 0.035))
-    .force('y', d3.forceY(height / 2).strength(d => d.kind === 'principal' ? 0.09 : 0.035))
-    .force('collide', d3.forceCollide(d => d.r + 16));
-
-  simulation.on('tick', () => {
+  function tickUpdate() {
     allLinkSel.each(function (d) {
       const s = typeof d.source === 'object' ? d.source : nodes.find(n => n.id === d.source);
       const t = typeof d.target === 'object' ? d.target : nodes.find(n => n.id === d.target);
@@ -474,7 +502,43 @@ function renderGraph() {
     allNodeSel
       .style('left', d => (d.x - d.r) + 'px')
       .style('top', d => (d.y - d.r) + 'px');
-  });
+  }
+
+  if (fixedLayout) {
+    // Dibujo inmediato, sin animación de "acomodo": aparece ya ordenado, como el diseño.
+    tickUpdate();
+    attachStaticDrag(allNodeSel, allLinkSel, tickUpdate);
+    return;
+  }
+
+  attachDrag(allNodeSel);
+
+  // --- Simulación de fuerzas (determinista: mismas posiciones iniciales → mismo resultado) ---
+  if (simulation) simulation.stop();
+
+  simulation = d3.forceSimulation(nodes)
+    .velocityDecay(0.5)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(125).strength(0.25))
+    .force('charge', d3.forceManyBody().strength(d => d.kind === 'principal' ? -420 : -220))
+    .force('x', d3.forceX(width / 2).strength(d => d.kind === 'principal' ? 0.09 : 0.035))
+    .force('y', d3.forceY(height / 2).strength(d => d.kind === 'principal' ? 0.09 : 0.035))
+    .force('collide', d3.forceCollide(d => d.r + 16))
+    .force('bound', () => {
+      const pad = 14;
+      nodes.forEach(n => {
+        n.x = Math.max(n.r + pad, Math.min(width - n.r - pad, n.x));
+        n.y = Math.max(n.r + pad, Math.min(height - n.r - pad, n.y));
+      });
+    })
+    .stop();
+
+  // Pre-asentar la red en silencio (sin pintar cada paso) para que se muestre
+  // ya ordenada desde el primer instante, sin movimiento caótico visible.
+  for (let i = 0; i < 260; i++) simulation.tick();
+  tickUpdate();
+
+  simulation.on('tick', tickUpdate);
+  simulation.restart();
 }
 
 // Calcula el punto donde la línea debe terminar (borde del nodo destino)
@@ -566,6 +630,37 @@ function attachDrag(selection) {
 
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', onUp.bind(this));
+  });
+}
+
+// Arrastre simple (sin simulación de fuerzas) para estructuras con layout fijo:
+// el nodo se mueve exactamente donde lo suelta el usuario, sin rebotes.
+function attachStaticDrag(nodeSel, linkSel, tickUpdate) {
+  nodeSel.on('pointerdown', function (event, d) {
+    event.stopPropagation();
+    const wrap = document.getElementById('canvas-wrap');
+    const rect = wrap.getBoundingClientRect();
+    let dragging = false;
+    const startClient = { x: event.clientX, y: event.clientY };
+    const el = d3.select(this).classed('dragging', true).raise();
+
+    function onMove(e) {
+      const distMoved = Math.hypot(e.clientX - startClient.x, e.clientY - startClient.y);
+      if (distMoved > 4) dragging = true;
+      d.x = e.clientX - rect.left;
+      d.y = e.clientY - rect.top;
+      tickUpdate();
+    }
+
+    function onUp() {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      el.classed('dragging', false);
+      if (!dragging) showDetail(d);
+    }
+
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
   });
 }
 
@@ -678,6 +773,13 @@ window.addEventListener('resize', () => {
   const wrap = document.getElementById('canvas-wrap');
   if (!wrap) return;
   d3.select('#graphSvgLayer').attr('width', wrap.clientWidth).attr('height', wrap.clientHeight);
+
+  if (FIXED_LAYOUTS[activeStructureId]) {
+    // Recalcular posiciones fijas según el nuevo tamaño del canvas.
+    renderGraph();
+    return;
+  }
+
   if (simulation) {
     simulation.force('x', d3.forceX(wrap.clientWidth / 2).strength(d => d.kind === 'principal' ? 0.09 : 0.035));
     simulation.force('y', d3.forceY(wrap.clientHeight / 2).strength(d => d.kind === 'principal' ? 0.09 : 0.035));
