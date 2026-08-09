@@ -1,120 +1,116 @@
 /* ==========================================================
    RED POT ↔ ODS — diagrama estático (posiciones fijas)
-   Réplica del mapa de relaciones entre los 16 ODS mostrados,
-   con bordes de neón del color oficial de cada ODS, y un panel
-   de convenciones que solo muestra/oculta líneas (nada se mueve).
+   - Nodos con posición fija (nada se mueve).
+   - Conexiones tomadas 1 a 1 de la tabla de sustento documental.
+   - Clic en una línea -> panel con Conexión / Tipo / Sustento / Página.
+   - Doble clic en una bola -> la apaga (opacidad) y oculta sus líneas.
    ========================================================== */
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const XHTML_NS = "http://www.w3.org/1999/xhtml";
 
-/* -------- Nodos: posición fija, tal como en el diagrama de referencia -------- */
+/* -------- Nodos: posición fija, nombres oficiales exactos -------- */
 const ODS_NODES = [
-  { id: "ods5",  num: 5,  name: "Igualdad de género",                         icon: "fa-venus-mars",     color: "#FF3A21", x: 183,  y: 64,  r: 42 },
-  { id: "ods1",  num: 1,  name: "Fin de la pobreza",                          icon: "fa-people-group",   color: "#E5243B", x: 610,  y: 78,  r: 58 },
-  { id: "ods12", num: 12, name: "Producción y consumo responsables",          icon: "fa-recycle",        color: "#BF8B2E", x: 886,  y: 76,  r: 36 },
-  { id: "ods2",  num: 2,  name: "Hambre cero",                                icon: "fa-bowl-food",      color: "#DDA63A", x: 313,  y: 215, r: 50 },
-  { id: "ods8",  num: 8,  name: "Trabajo decente y crecimiento económico",    icon: "fa-chart-line",     color: "#A21942", x: 562,  y: 242, r: 50 },
-  { id: "ods3",  num: 3,  name: "Salud y bienestar",                         icon: "fa-heart-pulse",    color: "#4C9F38", x: 836,  y: 270, r: 36 },
-  { id: "ods10", num: 10, name: "Reducción de las desigualdades",             icon: "fa-scale-balanced", color: "#DD1367", x: 1049, y: 185, r: 40 },
-  { id: "ods6",  num: 6,  name: "Agua limpia y saneamiento",                  icon: "fa-droplet",        color: "#26BDE2", x: 72,   y: 342, r: 40 },
-  { id: "ods15", num: 15, name: "Vida de ecosistemas terrestres",             icon: "fa-tree",           color: "#56C02B", x: 284,  y: 424, r: 36 },
-  { id: "ods13", num: 13, name: "Acción por el clima",                       icon: "fa-globe",          color: "#3F7E44", x: 706,  y: 406, r: 62 },
-  { id: "ods7",  num: 7,  name: "Energía asequible y no contaminante",       icon: "fa-bolt",           color: "#FCC30B", x: 930,  y: 434, r: 40 },
-  { id: "ods16", num: 16, name: "Paz, justicia e instituciones sólidas",      icon: "fa-gavel",          color: "#00689D", x: 994,  y: 354, r: 36 },
-  { id: "ods4",  num: 4,  name: "Educación de calidad",                      icon: "fa-book",           color: "#C5192D", x: 183,  y: 654, r: 50 },
-  { id: "ods9",  num: 9,  name: "Industria, innovación e infraestructura",    icon: "fa-industry",       color: "#FD6925", x: 447,  y: 657, r: 50 },
-  { id: "ods11", num: 11, name: "Ciudades y comunidades sostenibles",        icon: "fa-city",           color: "#FD9D24", x: 639,  y: 692, r: 36 },
-  { id: "ods14", num: 14, name: "Vida submarina",                            icon: "fa-fish",           color: "#0A97D9", x: 789,  y: 689, r: 36 },
-];
-
-/* -------- Aristas: tipo define color / grosor / punteado -------- */
-const ODS_EDGES = [
-  // complementaridas — verde, sólida
-  { source: "ods1",  target: "ods5",  type: "comp" },
-  { source: "ods1",  target: "ods10", type: "comp" },
-  { source: "ods4",  target: "ods6",  type: "comp" },
-
-  // funcional — azul, sólida
-  { source: "ods1",  target: "ods3",  type: "func" },
-  { source: "ods13", target: "ods7",  type: "func" },
-  { source: "ods13", target: "ods14", type: "func" },
-
-  // causal — magenta, fina
-  { source: "ods1",  target: "ods9",  type: "causal" },
-  { source: "ods1",  target: "ods11", type: "causal" },
-  { source: "ods1",  target: "ods14", type: "causal" },
-  { source: "ods1",  target: "ods7",  type: "causal" },
-  { source: "ods1",  target: "ods4",  type: "causal" },
-  { source: "ods1",  target: "ods2",  type: "causal" },
-  { source: "ods1",  target: "ods15", type: "causal" },
-  { source: "ods13", target: "ods9",  type: "causal" },
-  { source: "ods13", target: "ods11", type: "causal" },
-  { source: "ods13", target: "ods16", type: "causal" },
-  { source: "ods13", target: "ods3",  type: "causal" },
-  { source: "ods13", target: "ods8",  type: "causal" },
-  { source: "ods13", target: "ods2",  type: "causal" },
-  { source: "ods2",  target: "ods4",  type: "causal" },
-
-  // condicionamiento — naranja, punteada
-  { source: "ods1", target: "ods8",  type: "cond" },
-  { source: "ods2", target: "ods15", type: "cond" },
-  { source: "ods8", target: "ods2",  type: "cond" },
+  { id: "ods5",  num: 5,  name: "IGUALDAD DE GÉNERO",                      icon: "fa-venus-mars",     color: "#FF3A21", x: 183,  y: 64,  r: 42 },
+  { id: "ods1",  num: 1,  name: "FIN DE LA POBREZA",                       icon: "fa-people-group",   color: "#E5243B", x: 610,  y: 78,  r: 58 },
+  { id: "ods12", num: 12, name: "PRODUCCIÓN Y CONSUMO RESPONSABLES",       icon: "fa-recycle",        color: "#BF8B2E", x: 886,  y: 76,  r: 36 },
+  { id: "ods2",  num: 2,  name: "HAMBRE CERO",                             icon: "fa-bowl-food",      color: "#DDA63A", x: 313,  y: 215, r: 50 },
+  { id: "ods8",  num: 8,  name: "TRABAJO DECENTE Y CRECIMIENTO ECONÓMICO", icon: "fa-chart-line",     color: "#A21942", x: 562,  y: 242, r: 50 },
+  { id: "ods3",  num: 3,  name: "SALUD Y BIENESTAR",                       icon: "fa-heart-pulse",    color: "#4C9F38", x: 836,  y: 270, r: 36 },
+  { id: "ods10", num: 10, name: "REDUCCIÓN DE LAS DESIGUALDADES",          icon: "fa-scale-balanced", color: "#DD1367", x: 1049, y: 185, r: 40 },
+  { id: "ods6",  num: 6,  name: "AGUA LIMPIA Y SANEAMIENTO",               icon: "fa-droplet",        color: "#26BDE2", x: 72,   y: 342, r: 40 },
+  { id: "ods15", num: 15, name: "VIDA DE ECOSISTEMAS TERRESTRES",          icon: "fa-tree",           color: "#56C02B", x: 284,  y: 424, r: 36 },
+  { id: "ods13", num: 13, name: "ACCIÓN POR EL CLIMA",                     icon: "fa-globe",          color: "#3F7E44", x: 706,  y: 406, r: 62 },
+  { id: "ods7",  num: 7,  name: "ENERGÍA ASEQUIBLE Y NO CONTAMINANTE",     icon: "fa-bolt",           color: "#FCC30B", x: 930,  y: 434, r: 40 },
+  { id: "ods16", num: 16, name: "PAZ, JUSTICIA E INSTITUCIONES SÓLIDAS",   icon: "fa-gavel",          color: "#00689D", x: 994,  y: 354, r: 36 },
+  { id: "ods4",  num: 4,  name: "EDUCACIÓN DE CALIDAD",                    icon: "fa-book",           color: "#C5192D", x: 183,  y: 654, r: 50 },
+  { id: "ods9",  num: 9,  name: "INDUSTRIA, INNOVACIÓN E INFRAESTRUCTURA", icon: "fa-industry",       color: "#FD6925", x: 447,  y: 657, r: 50 },
+  { id: "ods11", num: 11, name: "CIUDADES Y COMUNIDADES SOSTENIBLES",      icon: "fa-city",           color: "#FD9D24", x: 639,  y: 692, r: 36 },
+  { id: "ods14", num: 14, name: "VIDA SUBMARINA",                         icon: "fa-fish",           color: "#0A97D9", x: 789,  y: 689, r: 36 },
+  { id: "ods17", num: 17, name: "ALIANZAS PARA LOGRAR LOS OBJETIVOS",      icon: "fa-handshake",      color: "#19486A", x: 1350, y: 470, r: 42 },
 ];
 
 const TYPE_STYLE = {
-  comp:   { color: "#4ade80", width: 2,   dashed: false },
-  func:   { color: "#5b8def", width: 2,   dashed: false },
-  causal: { color: "#f76fb0", width: 1.1, dashed: false },
-  cond:   { color: "#ef9552", width: 1.6, dashed: true  },
+  comp:   { color: "#4ade80", width: 2,   dashed: false, label: "Complementaria" },
+  func:   { color: "#5b8def", width: 2,   dashed: false, label: "Funcional" },
+  causal: { color: "#f76fb0", width: 1.1, dashed: false, label: "Causal" },
+  cond:   { color: "#ef9552", width: 1.6, dashed: true,  label: "Condicionamiento" },
 };
 
-function nodeById(id) {
-  return ODS_NODES.find(n => n.id === id);
-}
+/* -------- Aristas: 1 a 1 con la tabla de sustento documental -------- */
+const RAW_EDGES = [
+  { s: "ods6",  t: "ods5",  type: "comp",   directa: true,  pagina: 35, sustento: "De aquí a 2030, lograr el acceso a servicios de saneamiento e higiene adecuados y equitativos para todos y poner fin a la defecación al aire libre, prestando especial atención a las necesidades de las mujeres y las niñas y las personas en situaciones de vulnerabilidad." },
+  { s: "ods5",  t: "ods1",  type: "comp",   directa: true,  pagina: 18, sustento: "Crear marcos normativos sólidos en los planos nacional, regional e internacional, sobre la base de estrategias de desarrollo en favor de los pobres que tengan en cuenta las cuestiones de género, a fin de apoyar la inversión acelerada en medidas para erradicar la pobreza." },
+  { s: "ods5",  t: "ods4",  type: "comp",   directa: true,  pagina: 32, sustento: "Si se facilita a las mujeres y niñas igualdad en el acceso a la educación, atención médica, un trabajo decente y representación en los procesos de adopción de decisiones políticas y económicas, se impulsarán las economías sostenibles y se beneficiará a las sociedades y a la humanidad en su conjunto." },
+  { s: "ods5",  t: "ods8",  type: "causal", directa: true,  pagina: 32, sustento: "Si se facilita a las mujeres y niñas igualdad en el acceso a la educación, atención médica, un trabajo decente y representación en los procesos de adopción de decisiones políticas y económicas, se impulsarán las economías sostenibles y se beneficiará a las sociedades y a la humanidad en su conjunto." },
+  { s: "ods1",  t: "ods2",  type: "cond",   directa: true,  pagina: 16, sustento: "Entre sus manifestaciones se incluyen el hambre y la malnutrición, el acceso limitado a la educación y a otros servicios básicos, la discriminación y la exclusión sociales y la falta de participación en la adopción de decisiones." },
+  { s: "ods1",  t: "ods3",  type: "func",   directa: true,  pagina: 18, sustento: "Proporción del gasto público total que se dedica a servicios esenciales (educación, salud y protección social)." },
+  { s: "ods1",  t: "ods4",  type: "cond",   directa: true,  pagina: 16, sustento: "Entre sus manifestaciones se incluyen el hambre y la malnutrición, el acceso limitado a la educación y a otros servicios básicos..." },
+  { s: "ods1",  t: "ods8",  type: "causal", directa: true,  pagina: 16, sustento: "El crecimiento económico debe ser inclusivo con el fin de crear empleos sostenibles y promover la igualdad." },
+  { s: "ods1",  t: "ods13", type: "cond",   directa: true,  pagina: 18, sustento: "De aquí a 2030, fomentar la resiliencia de los pobres y las personas que se encuentran en situaciones de vulnerabilidad y reducir su exposición y vulnerabilidad a los fenómenos extremos relacionados con el clima..." },
+  { s: "ods2",  t: "ods1",  type: "cond",   directa: true,  pagina: 20, sustento: "El sector alimentario y el sector agrícola ofrecen soluciones claves para el desarrollo y son vitales para la eliminación del hambre y la pobreza." },
+  { s: "ods2",  t: "ods8",  type: "causal", directa: true,  pagina: 20, sustento: "Si se hace bien, la agricultura, la silvicultura y las piscifactorías pueden suministrarnos comida nutritiva para todos y generar ingresos decentes..." },
+  { s: "ods2",  t: "ods13", type: "cond",   directa: true,  pagina: 20, sustento: "El cambio climático está poniendo mayor presión sobre los recursos de los que dependemos y aumentan los riesgos asociados a desastres tales como sequías e inundaciones." },
+  { s: "ods2",  t: "ods15", type: "cond",   directa: true,  pagina: 20, sustento: "Pero ahora mismo, nuestros suelos, agua, océanos, bosques y nuestra biodiversidad están siendo rápidamente degradados." },
+  { s: "ods6",  t: "ods2",  type: "causal", directa: true,  pagina: 35, sustento: "La escasez de recursos hídricos, la mala calidad del agua y el saneamiento inadecuado influyen negativamente en la seguridad alimentaria..." },
+  { s: "ods6",  t: "ods4",  type: "causal", directa: true,  pagina: 35, sustento: "La escasez de recursos hídricos, la mala calidad del agua y el saneamiento inadecuado influyen negativamente en [...] las oportunidades de educación para las familias pobres..." },
+  { s: "ods8",  t: "ods1",  type: "causal", directa: true,  pagina: 16, sustento: "El crecimiento económico debe ser inclusivo con el fin de crear empleos sostenibles y promover la igualdad." },
+  { s: "ods8",  t: "ods12", type: "causal", directa: true,  pagina: 41, sustento: "Mejorar progresivamente, de aquí a 2030, la producción y el consumo eficientes de los recursos mundiales y procurar desvincular el crecimiento económico de la degradación del medio ambiente..." },
+  { s: "ods9",  t: "ods3",  type: "causal", directa: true,  pagina: 44, sustento: "Desde hace tiempo se reconoce que, para conseguir un incremento de la productividad y de los ingresos y mejoras en los resultados sanitarios y educativos, se necesitan inversiones en infraestructura." },
+  { s: "ods9",  t: "ods4",  type: "causal", directa: true,  pagina: 44, sustento: "Desde hace tiempo se reconoce que, para conseguir un incremento de la productividad y de los ingresos y mejoras en los resultados sanitarios y educativos, se necesitan inversiones en infraestructura." },
+  { s: "ods9",  t: "ods11", type: "func",   directa: true,  pagina: 44, sustento: "El ritmo de crecimiento y urbanización también está generando la necesidad de contar con nuevas inversiones en infraestructuras sostenibles que permitirán a las ciudades ser más resistentes al cambio climático..." },
+  { s: "ods9",  t: "ods13", type: "func",   directa: true,  pagina: 44, sustento: "...nuevas inversiones en infraestructuras sostenibles que permitirán a las ciudades ser más resistentes al cambio climático..." },
+  { s: "ods11", t: "ods7",  type: "func",   directa: true,  pagina: 52, sustento: "El futuro que queremos incluye a ciudades de oportunidades, con acceso a servicios básicos, energía, vivienda, transporte y más facilidades para todos." },
+  { s: "ods11", t: "ods13", type: "comp",   directa: true,  pagina: 53, sustento: "De aquí a 2020, aumentar considerablemente el número de ciudades y asentamientos humanos que adoptan e implementan políticas y planes integrados para promover la inclusión, el uso eficiente de los recursos, la mitigación del cambio climático y la adaptación a él y la resiliencia ante los desastres..." },
+  { s: "ods12", t: "ods3",  type: "causal", directa: true,  pagina: 56, sustento: "...reducir significativamente su liberación a la atmósfera, el agua y el suelo a fin de minimizar sus efectos adversos en la salud humana y el medio ambiente." },
+  { s: "ods13", t: "ods1",  type: "cond",   directa: true,  pagina: 18, sustento: "De aquí a 2030, fomentar la resiliencia de los pobres y las personas que se encuentran en situaciones de vulnerabilidad y reducir su exposición y vulnerabilidad a los fenómenos extremos relacionados con el clima..." },
+  { s: "ods13", t: "ods2",  type: "cond",   directa: true,  pagina: 20, sustento: "El cambio climático está poniendo mayor presión sobre los recursos de los que dependemos y aumentan los riesgos asociados a desastres tales como sequías e inundaciones." },
+  { s: "ods13", t: "ods14", type: "comp",   directa: true,  pagina: 63, sustento: "Nuestras precipitaciones, el agua potable, el clima, el tiempo, las costas, gran parte de nuestros alimentos e incluso el oxígeno del aire que respiramos provienen, en última instancia del mar y son regulados por este." },
+  { s: "ods14", t: "ods2",  type: "func",   directa: true,  pagina: 63, sustento: "Nuestras precipitaciones, el agua potable, el clima, el tiempo, las costas, gran parte de nuestros alimentos e incluso el oxígeno del aire que respiramos provienen, en última instancia del mar y son regulados por este." },
+  { s: "ods15", t: "ods1",  type: "comp",   directa: true,  pagina: 70, sustento: "De aquí a 2020, integrar los valores de los ecosistemas y la biodiversidad en la planificación, los procesos de desarrollo, las estrategias de reducción de la pobreza..." },
+  { s: "ods15", t: "ods11", type: "comp",   directa: false, pagina: 52, sustento: "Redoblar los esfuerzos para proteger y salvaguardar el patrimonio cultural y natural del mundo." },
+  { s: "ods16", t: "ods10", type: "comp",   directa: false, pagina: 71, sustento: "Promover sociedades pacíficas e inclusivas para el desarrollo sostenible, facilitar el acceso a la justicia para todos y construir a todos los niveles instituciones eficaces e inclusivas que rindan cuentas." },
+  { s: "ods17", t: "ods9",  type: "func",   directa: true,  pagina: 76, sustento: "Entre estos sectores figuran la energía sostenible, la infraestructura y el transporte, así como las tecnologías de la información y las comunicaciones." },
+];
 
+/* "17 → todos": el ODS 17 se conecta con el resto (excepto ODS 9, ya listado arriba) */
+const TODOS_SUSTENTO = "...a fin de apoyar el logro de los Objetivos de Desarrollo Sostenible en todos los países, particularmente los países en desarrollo.";
+const TODOS_PAGINA = 79;
+ODS_NODES.forEach(n => {
+  if (n.id === "ods17" || n.id === "ods9") return;
+  RAW_EDGES.push({ s: "ods17", t: n.id, type: "func", directa: true, pagina: TODOS_PAGINA, sustento: TODOS_SUSTENTO, esTodos: true });
+});
+
+function nodeById(id) { return ODS_NODES.find(n => n.id === id); }
+
+/* -------- defs: glow por color de nodo + flechas por tipo -------- */
 function buildDefs(svg) {
   const defs = document.createElementNS(SVG_NS, "defs");
 
-  // glow filter por cada color único de nodo
   const uniqueColors = [...new Set(ODS_NODES.map(n => n.color))];
   uniqueColors.forEach(color => {
     const filter = document.createElementNS(SVG_NS, "filter");
     filter.setAttribute("id", "glow-" + color.replace("#", ""));
-    filter.setAttribute("x", "-60%");
-    filter.setAttribute("y", "-60%");
-    filter.setAttribute("width", "220%");
-    filter.setAttribute("height", "220%");
-
+    filter.setAttribute("x", "-60%"); filter.setAttribute("y", "-60%");
+    filter.setAttribute("width", "220%"); filter.setAttribute("height", "220%");
     const blur = document.createElementNS(SVG_NS, "feGaussianBlur");
-    blur.setAttribute("stdDeviation", "3.2");
-    blur.setAttribute("result", "blur");
-
+    blur.setAttribute("stdDeviation", "3.2"); blur.setAttribute("result", "blur");
     const merge = document.createElementNS(SVG_NS, "feMerge");
-    const m1 = document.createElementNS(SVG_NS, "feMergeNode");
-    m1.setAttribute("in", "blur");
-    const m2 = document.createElementNS(SVG_NS, "feMergeNode");
-    m2.setAttribute("in", "blur");
-    const m3 = document.createElementNS(SVG_NS, "feMergeNode");
-    m3.setAttribute("in", "SourceGraphic");
-    merge.appendChild(m1);
-    merge.appendChild(m2);
-    merge.appendChild(m3);
-
-    filter.appendChild(blur);
-    filter.appendChild(merge);
+    ["blur", "blur", "SourceGraphic"].forEach(ref => {
+      const m = document.createElementNS(SVG_NS, "feMergeNode");
+      m.setAttribute("in", ref);
+      merge.appendChild(m);
+    });
+    filter.appendChild(blur); filter.appendChild(merge);
     defs.appendChild(filter);
   });
 
-  // arrow markers por tipo de arista
   Object.entries(TYPE_STYLE).forEach(([type, style]) => {
     const marker = document.createElementNS(SVG_NS, "marker");
     marker.setAttribute("id", "arrow-" + type);
     marker.setAttribute("viewBox", "0 0 10 10");
-    marker.setAttribute("refX", "8");
-    marker.setAttribute("refY", "5");
-    marker.setAttribute("markerWidth", "7");
-    marker.setAttribute("markerHeight", "7");
+    marker.setAttribute("refX", "8"); marker.setAttribute("refY", "5");
+    marker.setAttribute("markerWidth", "7"); marker.setAttribute("markerHeight", "7");
     marker.setAttribute("orient", "auto-start-reverse");
     const path = document.createElementNS(SVG_NS, "path");
     path.setAttribute("d", "M0,0 L10,5 L0,10 z");
@@ -126,46 +122,57 @@ function buildDefs(svg) {
   svg.appendChild(defs);
 }
 
+/* -------- aristas: grupo con línea visual + línea invisible más ancha para clic -------- */
 function drawEdges(svg) {
   const g = document.createElementNS(SVG_NS, "g");
   g.setAttribute("class", "edges-layer");
 
-  ODS_EDGES.forEach(edge => {
-    const s = nodeById(edge.source);
-    const t = nodeById(edge.target);
+  RAW_EDGES.forEach((edge, i) => {
+    const s = nodeById(edge.s);
+    const t = nodeById(edge.t);
     if (!s || !t) return;
-
     const style = TYPE_STYLE[edge.type];
-    const dx = t.x - s.x;
-    const dy = t.y - s.y;
-    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    const ux = dx / dist;
-    const uy = dy / dist;
 
-    // recorta el trazo al borde de cada círculo (y deja espacio para la flecha)
+    const dx = t.x - s.x, dy = t.y - s.y;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    const ux = dx / dist, uy = dy / dist;
     const startPad = s.r + 2;
     const endPad = t.r + 8;
-    const x1 = s.x + ux * startPad;
-    const y1 = s.y + uy * startPad;
-    const x2 = t.x - ux * endPad;
-    const y2 = t.y - uy * endPad;
+    const x1 = s.x + ux * startPad, y1 = s.y + uy * startPad;
+    const x2 = t.x - ux * endPad,   y2 = t.y - uy * endPad;
+    const d = `M${x1},${y1} L${x2},${y2}`;
 
-    const path = document.createElementNS(SVG_NS, "path");
-    path.setAttribute("d", `M${x1},${y1} L${x2},${y2}`);
-    path.setAttribute("class", "ods-edge");
-    path.setAttribute("data-type", edge.type);
-    path.setAttribute("stroke", style.color);
-    path.setAttribute("stroke-width", style.width);
-    if (style.dashed) path.setAttribute("stroke-dasharray", "6,5");
-    path.setAttribute("marker-end", `url(#arrow-${edge.type})`);
-    path.setAttribute("opacity", "0.85");
+    const group = document.createElementNS(SVG_NS, "g");
+    group.setAttribute("class", "edge-group");
+    group.setAttribute("data-index", i);
+    group.setAttribute("data-type", edge.type);
+    group.setAttribute("data-source", edge.s);
+    group.setAttribute("data-target", edge.t);
+    group.style.setProperty("--edge-color", style.color);
 
-    g.appendChild(path);
+    const hit = document.createElementNS(SVG_NS, "path");
+    hit.setAttribute("d", d);
+    hit.setAttribute("class", "ods-edge edge-hit");
+
+    const visual = document.createElementNS(SVG_NS, "path");
+    visual.setAttribute("d", d);
+    visual.setAttribute("class", "ods-edge edge-visual");
+    visual.setAttribute("stroke", style.color);
+    visual.setAttribute("stroke-width", edge.esTodos ? style.width * 0.7 : style.width);
+    if (style.dashed) visual.setAttribute("stroke-dasharray", "6,5");
+    visual.setAttribute("marker-end", `url(#arrow-${edge.type})`);
+    visual.setAttribute("opacity", edge.esTodos ? "0.35" : "0.85");
+
+    group.appendChild(visual);
+    group.appendChild(hit);
+    group.addEventListener("click", () => showEdgeInfo(i));
+    g.appendChild(group);
   });
 
   svg.appendChild(g);
 }
 
+/* -------- nodos -------- */
 function drawNodes(svg) {
   const g = document.createElementNS(SVG_NS, "g");
   g.setAttribute("class", "nodes-layer");
@@ -177,19 +184,15 @@ function drawNodes(svg) {
 
     const circle = document.createElementNS(SVG_NS, "circle");
     circle.setAttribute("class", "node-ring");
-    circle.setAttribute("cx", node.x);
-    circle.setAttribute("cy", node.y);
-    circle.setAttribute("r", node.r);
+    circle.setAttribute("cx", node.x); circle.setAttribute("cy", node.y); circle.setAttribute("r", node.r);
     circle.setAttribute("stroke", node.color);
     circle.setAttribute("stroke-width", 2.5);
     circle.setAttribute("filter", "url(#glow-" + node.color.replace("#", "") + ")");
 
     const fo = document.createElementNS(SVG_NS, "foreignObject");
-    const size = node.r * 1.8;
-    fo.setAttribute("x", node.x - size / 2);
-    fo.setAttribute("y", node.y - size / 2);
-    fo.setAttribute("width", size);
-    fo.setAttribute("height", size);
+    const size = node.r * 1.9;
+    fo.setAttribute("x", node.x - size / 2); fo.setAttribute("y", node.y - size / 2);
+    fo.setAttribute("width", size); fo.setAttribute("height", size);
 
     const wrapper = document.createElementNS(XHTML_NS, "div");
     wrapper.setAttribute("class", "node-inner");
@@ -205,20 +208,19 @@ function drawNodes(svg) {
 
     const iconEl = document.createElementNS(XHTML_NS, "i");
     iconEl.setAttribute("class", "fa-solid " + node.icon + " node-icon");
-    iconEl.setAttribute("style", `color:${node.color}; font-size:${node.r * 0.46}px; margin:1px 0;`);
+    iconEl.setAttribute("style", `color:${node.color}; font-size:${node.r * 0.44}px; margin:1px 0;`);
 
     const nameEl = document.createElementNS(XHTML_NS, "div");
     nameEl.setAttribute("class", "node-name");
-    nameEl.setAttribute("style", `font-size:${Math.max(node.r * 0.155, 6.2)}px; padding:0 3px;`);
+    nameEl.setAttribute("style", `font-size:${Math.max(node.r * 0.145, 6)}px; padding:0 3px;`);
     nameEl.textContent = node.name;
 
-    wrapper.appendChild(numEl);
-    wrapper.appendChild(iconEl);
-    wrapper.appendChild(nameEl);
+    wrapper.appendChild(numEl); wrapper.appendChild(iconEl); wrapper.appendChild(nameEl);
     fo.appendChild(wrapper);
 
     group.appendChild(circle);
     group.appendChild(fo);
+    group.addEventListener("dblclick", () => toggleNode(node.id));
     g.appendChild(group);
   });
 
@@ -234,29 +236,84 @@ function renderNetwork() {
   drawNodes(svg);
 }
 
-/* -------- Panel de convenciones: solo enciende/apaga, no mueve nada -------- */
+/* -------- panel de sustento documental (clic en línea) -------- */
+function showEdgeInfo(index) {
+  const edge = RAW_EDGES[index];
+  const s = nodeById(edge.s), t = nodeById(edge.t);
+  const style = TYPE_STYLE[edge.type];
+
+  document.querySelectorAll(".edge-group").forEach(el => el.classList.remove("edge-selected"));
+  document.querySelector(`.edge-group[data-index="${index}"]`)?.classList.add("edge-selected");
+
+  document.getElementById("edgeInfoTitle").textContent =
+    `ODS ${s.num} → ODS ${t.num}  ·  ${s.name} → ${t.name}`;
+
+  const typeEl = document.getElementById("edgeInfoType");
+  typeEl.textContent = style.label + (edge.directa ? " · Directa" : " · Inferida");
+  typeEl.style.color = style.color;
+  typeEl.style.background = style.color + "26";
+
+  document.getElementById("edgeInfoQuote").textContent = `"${edge.sustento}"`;
+  document.getElementById("edgeInfoPage").textContent = `Página: ${edge.pagina}`;
+
+  document.getElementById("edgeInfoPanel").classList.add("visible");
+}
+
+function hideEdgeInfo() {
+  document.getElementById("edgeInfoPanel").classList.remove("visible");
+  document.querySelectorAll(".edge-group").forEach(el => el.classList.remove("edge-selected"));
+}
+
+/* -------- estado de visibilidad: por tipo (leyenda) + por nodo (doble clic) -------- */
+const typeOff = new Set();
+const nodeOff = new Set();
+
+function refreshEdgeVisibility() {
+  document.querySelectorAll(".edge-group").forEach(group => {
+    const type = group.dataset.type;
+    const s = group.dataset.source;
+    const t = group.dataset.target;
+    const hidden = typeOff.has(type) || nodeOff.has(s) || nodeOff.has(t);
+    group.classList.toggle("hidden-edge", hidden);
+  });
+}
+
+function toggleNode(id) {
+  const group = document.querySelector(`.ods-node[data-id="${id}"]`);
+  if (!group) return;
+  if (nodeOff.has(id)) {
+    nodeOff.delete(id);
+    group.classList.remove("node-off");
+  } else {
+    nodeOff.add(id);
+    group.classList.add("node-off");
+  }
+  refreshEdgeVisibility();
+}
+
+/* -------- panel de convenciones -------- */
 function setupLegendToggle() {
   document.querySelectorAll(".legend-item input").forEach(input => {
     input.addEventListener("change", (e) => {
       const item = e.target.closest(".legend-item");
       const type = item.dataset.type;
-      const visible = e.target.checked;
-      document.querySelectorAll(`.ods-edge[data-type="${type}"]`).forEach(edge => {
-        edge.classList.toggle("hidden-edge", !visible);
-      });
-      item.classList.toggle("off", !visible);
+      if (e.target.checked) typeOff.delete(type); else typeOff.add(type);
+      item.classList.toggle("off", !e.target.checked);
+      refreshEdgeVisibility();
     });
   });
+
+  document.getElementById("edgeInfoClose")?.addEventListener("click", hideEdgeInfo);
 }
 
-/* -------- Controles Todos / Alineados / Conflictos (encienden/apagan tipos de línea) -------- */
+/* -------- controles Todos / Alineados / Conflictos -------- */
 function filterNetwork(mode) {
   document.querySelectorAll(".network-controls .control-btn").forEach(btn => btn.classList.remove("active"));
   event.currentTarget.classList.add("active");
 
   const groups = {
-    all:       ["comp", "func", "causal", "cond"],
-    aligned:   ["comp", "func"],
+    all: ["comp", "func", "causal", "cond"],
+    aligned: ["comp", "func"],
     conflicts: ["causal", "cond"],
   };
   const activeTypes = groups[mode] || groups.all;
@@ -267,13 +324,12 @@ function filterNetwork(mode) {
     const show = activeTypes.includes(type);
     input.checked = show;
     item.classList.toggle("off", !show);
-    document.querySelectorAll(`.ods-edge[data-type="${type}"]`).forEach(edge => {
-      edge.classList.toggle("hidden-edge", !show);
-    });
+    if (show) typeOff.delete(type); else typeOff.add(type);
   });
+  refreshEdgeVisibility();
 }
 
-/* -------- Botones de acción (placeholders existentes) -------- */
+/* -------- botones de acción (placeholders existentes) -------- */
 function generateODSReport() { console.log("Generando reporte POT-ODS..."); }
 function downloadAlignment() { console.log("Descargando matriz de alineación..."); }
 function shareAnalysis() { console.log("Compartiendo análisis..."); }
