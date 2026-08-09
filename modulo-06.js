@@ -4,6 +4,10 @@
    - Conexiones tomadas 1 a 1 de la tabla de sustento documental.
    - Clic en una línea -> panel con Conexión / Tipo / Sustento / Página.
    - Doble clic en una bola -> la apaga (opacidad) y oculta sus líneas.
+   - Triple clic en una bola -> aísla su flujo (solo se ven los nodos
+     y líneas con los que se conecta directamente).
+   - El punteado de una línea indica si la relación es "no directa"
+     (inferida); las relaciones directas se dibujan con línea sólida.
    ========================================================== */
 
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -11,30 +15,34 @@ const XHTML_NS = "http://www.w3.org/1999/xhtml";
 
 /* -------- Nodos: posición fija, nombres oficiales exactos -------- */
 const ODS_NODES = [
-  { id: "ods5",  num: 5,  name: "IGUALDAD DE GÉNERO",                      icon: "fa-venus-mars",     color: "#FF3A21", x: 183,  y: 64,  r: 42 },
-  { id: "ods1",  num: 1,  name: "FIN DE LA POBREZA",                       icon: "fa-people-group",   color: "#E5243B", x: 610,  y: 78,  r: 58 },
-  { id: "ods12", num: 12, name: "PRODUCCIÓN Y CONSUMO RESPONSABLES",       icon: "fa-recycle",        color: "#BF8B2E", x: 886,  y: 76,  r: 36 },
-  { id: "ods2",  num: 2,  name: "HAMBRE CERO",                             icon: "fa-bowl-food",      color: "#DDA63A", x: 313,  y: 215, r: 50 },
-  { id: "ods8",  num: 8,  name: "TRABAJO DECENTE Y CRECIMIENTO ECONÓMICO", icon: "fa-chart-line",     color: "#A21942", x: 562,  y: 242, r: 50 },
-  { id: "ods3",  num: 3,  name: "SALUD Y BIENESTAR",                       icon: "fa-heart-pulse",    color: "#4C9F38", x: 836,  y: 270, r: 36 },
+  { id: "ods5",  num: 5,  name: "IGUALDAD DE GÉNERO",                      icon: "fa-venus-mars",     color: "#FF3A21", x: 183,  y: 64,  r: 40 },
+  { id: "ods1",  num: 1,  name: "FIN DE LA POBREZA",                       icon: "fa-people-group",   color: "#E5243B", x: 610,  y: 78,  r: 60 },
+  { id: "ods12", num: 12, name: "PRODUCCIÓN Y CONSUMO RESPONSABLES",       icon: "fa-recycle",        color: "#BF8B2E", x: 886,  y: 76,  r: 40 },
+  { id: "ods2",  num: 2,  name: "HAMBRE CERO",                             icon: "fa-bowl-food",      color: "#DDA63A", x: 313,  y: 215, r: 60 },
+  { id: "ods8",  num: 8,  name: "TRABAJO DECENTE Y CRECIMIENTO ECONÓMICO", icon: "fa-chart-line",     color: "#A21942", x: 562,  y: 242, r: 40 },
+  { id: "ods3",  num: 3,  name: "SALUD Y BIENESTAR",                       icon: "fa-heart-pulse",    color: "#4C9F38", x: 836,  y: 270, r: 40 },
   { id: "ods10", num: 10, name: "REDUCCIÓN DE LAS DESIGUALDADES",          icon: "fa-scale-balanced", color: "#DD1367", x: 1049, y: 185, r: 40 },
   { id: "ods6",  num: 6,  name: "AGUA LIMPIA Y SANEAMIENTO",               icon: "fa-droplet",        color: "#26BDE2", x: 72,   y: 342, r: 40 },
-  { id: "ods15", num: 15, name: "VIDA DE ECOSISTEMAS TERRESTRES",          icon: "fa-tree",           color: "#56C02B", x: 284,  y: 424, r: 36 },
-  { id: "ods13", num: 13, name: "ACCIÓN POR EL CLIMA",                     icon: "fa-globe",          color: "#3F7E44", x: 706,  y: 406, r: 62 },
+  { id: "ods15", num: 15, name: "VIDA DE ECOSISTEMAS TERRESTRES",          icon: "fa-tree",           color: "#56C02B", x: 284,  y: 424, r: 40 },
+  { id: "ods13", num: 13, name: "ACCIÓN POR EL CLIMA",                     icon: "fa-globe",          color: "#3F7E44", x: 706,  y: 406, r: 60 },
   { id: "ods7",  num: 7,  name: "ENERGÍA ASEQUIBLE Y NO CONTAMINANTE",     icon: "fa-bolt",           color: "#FCC30B", x: 930,  y: 434, r: 40 },
-  { id: "ods16", num: 16, name: "PAZ, JUSTICIA E INSTITUCIONES SÓLIDAS",   icon: "fa-gavel",          color: "#00689D", x: 994,  y: 354, r: 36 },
-  { id: "ods4",  num: 4,  name: "EDUCACIÓN DE CALIDAD",                    icon: "fa-book",           color: "#C5192D", x: 183,  y: 654, r: 50 },
-  { id: "ods9",  num: 9,  name: "INDUSTRIA, INNOVACIÓN E INFRAESTRUCTURA", icon: "fa-industry",       color: "#FD6925", x: 447,  y: 657, r: 50 },
-  { id: "ods11", num: 11, name: "CIUDADES Y COMUNIDADES SOSTENIBLES",      icon: "fa-city",           color: "#FD9D24", x: 639,  y: 692, r: 36 },
-  { id: "ods14", num: 14, name: "VIDA SUBMARINA",                         icon: "fa-fish",           color: "#0A97D9", x: 789,  y: 689, r: 36 },
-  { id: "ods17", num: 17, name: "ALIANZAS PARA LOGRAR LOS OBJETIVOS",      icon: "fa-handshake",      color: "#19486A", x: 1350, y: 470, r: 42 },
+  { id: "ods16", num: 16, name: "PAZ, JUSTICIA E INSTITUCIONES SÓLIDAS",   icon: "fa-gavel",          color: "#00689D", x: 994,  y: 354, r: 40 },
+  { id: "ods4",  num: 4,  name: "EDUCACIÓN DE CALIDAD",                    icon: "fa-book",           color: "#C5192D", x: 183,  y: 654, r: 40 },
+  { id: "ods9",  num: 9,  name: "INDUSTRIA, INNOVACIÓN E INFRAESTRUCTURA", icon: "fa-industry",       color: "#FD6925", x: 447,  y: 657, r: 40 },
+  { id: "ods11", num: 11, name: "CIUDADES Y COMUNIDADES SOSTENIBLES",      icon: "fa-city",           color: "#FD9D24", x: 639,  y: 692, r: 40 },
+  { id: "ods14", num: 14, name: "VIDA SUBMARINA",                         icon: "fa-fish",           color: "#0A97D9", x: 789,  y: 689, r: 40 },
+  { id: "ods17", num: 17, name: "ALIANZAS PARA LOGRAR LOS OBJETIVOS",      icon: "fa-handshake",      color: "#19486A", x: 1350, y: 470, r: 40 },
 ];
 
+/* ODS 1, 2 y 13 son intencionalmente un poco más grandes (r 60) que el resto (r 40, todos iguales) */
+
+/* El punteado YA NO depende del tipo, depende de si la relación es directa o no
+   (ver "directa" en cada arista). "dashed" aquí queda solo como valor por defecto. */
 const TYPE_STYLE = {
-  comp:   { color: "#4ade80", width: 2,   dashed: false, label: "Complementaria" },
-  func:   { color: "#5b8def", width: 2,   dashed: false, label: "Funcional" },
-  causal: { color: "#f76fb0", width: 1.1, dashed: false, label: "Causal" },
-  cond:   { color: "#ef9552", width: 1.6, dashed: true,  label: "Condicionamiento" },
+  comp:   { color: "#4ade80", width: 2,   label: "Complementaria" },
+  func:   { color: "#5b8def", width: 2,   label: "Funcional" },
+  causal: { color: "#f76fb0", width: 1.1, label: "Causal" },
+  cond:   { color: "#ef9552", width: 1.6, label: "Condicionamiento" },
 };
 
 /* -------- Aristas: 1 a 1 con la tabla de sustento documental -------- */
@@ -59,7 +67,7 @@ const RAW_EDGES = [
   { s: "ods9",  t: "ods3",  type: "causal", directa: true,  pagina: 44, sustento: "Desde hace tiempo se reconoce que, para conseguir un incremento de la productividad y de los ingresos y mejoras en los resultados sanitarios y educativos, se necesitan inversiones en infraestructura." },
   { s: "ods9",  t: "ods4",  type: "causal", directa: true,  pagina: 44, sustento: "Desde hace tiempo se reconoce que, para conseguir un incremento de la productividad y de los ingresos y mejoras en los resultados sanitarios y educativos, se necesitan inversiones en infraestructura." },
   { s: "ods9",  t: "ods11", type: "func",   directa: true,  pagina: 44, sustento: "El ritmo de crecimiento y urbanización también está generando la necesidad de contar con nuevas inversiones en infraestructuras sostenibles que permitirán a las ciudades ser más resistentes al cambio climático..." },
-  { s: "ods9",  t: "ods13", type: "func",   directa: true,  pagina: 44, sustento: "...nuevas inversiones en infraestructuras sostenibles que permitirán a las ciudades ser más resistentes al cambio climático..." },
+  { s: "ods9",  t: "ods13", type: "func",   directa: true,  pagina: 44, sustento: "...nuevas inversiones en infraestructuras sostenibles que permitirán a las ciudades ser más resistentes al cambio climático...", curve: -34 },
   { s: "ods11", t: "ods7",  type: "func",   directa: true,  pagina: 52, sustento: "El futuro que queremos incluye a ciudades de oportunidades, con acceso a servicios básicos, energía, vivienda, transporte y más facilidades para todos." },
   { s: "ods11", t: "ods13", type: "comp",   directa: true,  pagina: 53, sustento: "De aquí a 2020, aumentar considerablemente el número de ciudades y asentamientos humanos que adoptan e implementan políticas y planes integrados para promover la inclusión, el uso eficiente de los recursos, la mitigación del cambio climático y la adaptación a él y la resiliencia ante los desastres..." },
   { s: "ods12", t: "ods3",  type: "causal", directa: true,  pagina: 56, sustento: "...reducir significativamente su liberación a la atmósfera, el agua y el suelo a fin de minimizar sus efectos adversos en la salud humana y el medio ambiente." },
@@ -140,7 +148,18 @@ function drawEdges(svg) {
     const endPad = t.r + 8;
     const x1 = s.x + ux * startPad, y1 = s.y + uy * startPad;
     const x2 = t.x - ux * endPad,   y2 = t.y - uy * endPad;
-    const d = `M${x1},${y1} L${x2},${y2}`;
+
+    /* si la arista trae "curve", se dibuja como curva (Q) desplazada en
+       perpendicular al segmento, para separarla de otra línea que quede encima */
+    let d;
+    if (edge.curve) {
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      const px = -uy, py = ux; // perpendicular unitario
+      const cx = mx + px * edge.curve, cy = my + py * edge.curve;
+      d = `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`;
+    } else {
+      d = `M${x1},${y1} L${x2},${y2}`;
+    }
 
     const group = document.createElementNS(SVG_NS, "g");
     group.setAttribute("class", "edge-group");
@@ -159,7 +178,7 @@ function drawEdges(svg) {
     visual.setAttribute("class", "ods-edge edge-visual");
     visual.setAttribute("stroke", style.color);
     visual.setAttribute("stroke-width", edge.esTodos ? style.width * 0.7 : style.width);
-    if (style.dashed) visual.setAttribute("stroke-dasharray", "6,5");
+    if (!edge.directa) visual.setAttribute("stroke-dasharray", "6,5");
     visual.setAttribute("marker-end", `url(#arrow-${edge.type})`);
     visual.setAttribute("opacity", edge.esTodos ? "0.35" : "0.85");
 
@@ -220,7 +239,7 @@ function drawNodes(svg) {
 
     group.appendChild(circle);
     group.appendChild(fo);
-    group.addEventListener("dblclick", () => toggleNode(node.id));
+    attachNodeClickHandler(group, node.id);
     g.appendChild(group);
   });
 
@@ -291,6 +310,67 @@ function toggleNode(id) {
   refreshEdgeVisibility();
 }
 
+/* -------- clic simple / doble / triple sobre una bola --------
+   1 clic  -> no hace nada especial
+   2 clics -> apaga/enciende el nodo (comportamiento existente)
+   3 clics -> aísla el flujo: solo se ven los nodos y líneas que
+              se tocan directamente con el nodo elegido
+   Se cuentan los clics manualmente (en vez de usar "dblclick")
+   para poder distinguir el triple clic de forma confiable. */
+function attachNodeClickHandler(group, id) {
+  let count = 0;
+  let timer = null;
+  group.addEventListener("click", () => {
+    count++;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (count === 2) {
+        toggleNode(id);
+      } else if (count >= 3) {
+        toggleNodeFlow(id);
+      }
+      count = 0;
+    }, 320);
+  });
+}
+
+/* -------- aislar flujo de un nodo (triple clic) -------- */
+let focusedNode = null;
+
+function toggleNodeFlow(id) {
+  focusedNode = (focusedNode === id) ? null : id;
+  applyFocusState();
+}
+
+function applyFocusState() {
+  let connectedNodes = null;
+  let connectedEdges = null;
+
+  if (focusedNode) {
+    connectedNodes = new Set([focusedNode]);
+    connectedEdges = new Set();
+    RAW_EDGES.forEach((edge, i) => {
+      if (edge.s === focusedNode || edge.t === focusedNode) {
+        connectedEdges.add(i);
+        connectedNodes.add(edge.s);
+        connectedNodes.add(edge.t);
+      }
+    });
+  }
+
+  document.querySelectorAll(".ods-node").forEach(el => {
+    const inFlow = !focusedNode || connectedNodes.has(el.dataset.id);
+    el.classList.toggle("node-focus-dim", !inFlow);
+    el.classList.toggle("node-focus-active", focusedNode === el.dataset.id);
+  });
+
+  document.querySelectorAll(".edge-group").forEach(el => {
+    const idx = Number(el.dataset.index);
+    const inFlow = !focusedNode || connectedEdges.has(idx);
+    el.classList.toggle("edge-focus-dim", !inFlow);
+  });
+}
+
 /* -------- panel de convenciones -------- */
 function setupLegendToggle() {
   document.querySelectorAll(".legend-item input").forEach(input => {
@@ -318,7 +398,7 @@ function filterNetwork(mode) {
   };
   const activeTypes = groups[mode] || groups.all;
 
-  document.querySelectorAll(".legend-item").forEach(item => {
+  document.querySelectorAll(".legend-item[data-type]").forEach(item => {
     const type = item.dataset.type;
     const input = item.querySelector("input");
     const show = activeTypes.includes(type);
