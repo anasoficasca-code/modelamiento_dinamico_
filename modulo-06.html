@@ -129,37 +129,52 @@
       </div>
 
       <div class="network-viz-wrap">
-        <svg id="networkViz" viewBox="0 0 1409 780" preserveAspectRatio="xMidYMid meet"></svg>
+        <svg id="networkViz" viewBox="0 0 1470 780" preserveAspectRatio="xMidYMid meet"></svg>
 
-        <aside class="network-legend" id="networkLegend">
-          <div class="legend-title">Convenciones</div>
+        <div class="network-sidebar">
+          <aside class="network-legend" id="networkLegend">
+            <div class="legend-title">Convenciones</div>
 
-          <label class="legend-item" data-type="comp">
-            <input type="checkbox" checked>
-            <span class="legend-swatch swatch-comp"></span>
-            Complementarias
-          </label>
+            <label class="legend-item" data-type="comp">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-comp"></span>
+              Complementarias
+            </label>
 
-          <label class="legend-item" data-type="func">
-            <input type="checkbox" checked>
-            <span class="legend-swatch swatch-func"></span>
-            Funcional
-          </label>
+            <label class="legend-item" data-type="func">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-func"></span>
+              Funcional
+            </label>
 
-          <div class="legend-divider"></div>
+            <div class="legend-divider"></div>
 
-          <label class="legend-item" data-type="causal">
-            <input type="checkbox" checked>
-            <span class="legend-swatch swatch-causal"></span>
-            Causal
-          </label>
+            <label class="legend-item" data-type="causal">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-causal"></span>
+              Causal
+            </label>
 
-          <label class="legend-item" data-type="cond">
-            <input type="checkbox" checked>
-            <span class="legend-swatch swatch-cond"></span>
-            Condicionamiento
-          </label>
-        </aside>
+            <label class="legend-item" data-type="cond">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-cond"></span>
+              Condicionamiento
+            </label>
+
+            <div class="legend-divider"></div>
+            <div class="legend-hint">Clic en una línea: ver sustento.<br>Doble clic en una bola: apagarla.</div>
+          </aside>
+
+          <div class="edge-info-panel" id="edgeInfoPanel">
+            <div class="edge-info-header">
+              <span id="edgeInfoTitle">Conexión</span>
+              <button class="edge-info-close" id="edgeInfoClose" type="button" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="edge-info-type" id="edgeInfoType"></div>
+            <div class="edge-info-quote" id="edgeInfoQuote"></div>
+            <div class="edge-info-page" id="edgeInfoPage"></div>
+          </div>
+        </div>
       </div>
     </div>
 
