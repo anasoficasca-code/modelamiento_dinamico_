@@ -458,7 +458,12 @@ body {
 .swatch-comp   { border-color: #4ade80; }
 .swatch-func   { border-color: #5b8def; }
 .swatch-causal { border-color: #f76fb0; border-top-width: 1.5px; }
-.swatch-cond   { border-color: #ef9552; border-top-style: dashed; }
+.swatch-cond   { border-color: #ef9552; }
+
+.swatch-directa   { border-color: #ffffff; }
+.swatch-nodirecta { border-color: #ffffff; border-top-style: dashed; }
+
+.legend-item.legend-static { cursor: default; }
 
 .legend-divider {
   height: 1px;
@@ -477,8 +482,14 @@ body {
 .ods-node.node-off .node-ring { opacity: 0.18; }
 .ods-node.node-off .node-inner { opacity: 0.28; }
 
+.ods-node { transition: opacity .2s; }
+.ods-node.node-focus-dim { opacity: 0.12; }
+.ods-node.node-focus-active .node-ring { filter: drop-shadow(0 0 8px #fff); }
+
 .edge-group { cursor: pointer; }
 .edge-group.hidden-edge { display: none; }
+.edge-group { transition: opacity .2s; }
+.edge-group.edge-focus-dim { opacity: 0.05; }
 
 .ods-edge.edge-visual { fill: none; pointer-events: none; transition: opacity .15s, filter .15s; }
 .ods-edge.edge-hit { fill: none; stroke: transparent; stroke-width: 12; pointer-events: stroke; }
