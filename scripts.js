@@ -118,7 +118,7 @@ const relations = {
   });
 })();
 
-// ===================== DIAGRAMA INTERACTIVO (arrastrar nodos con inercia) =====================
+// ===================== DIAGRAMA INTERACTIVO (arrastrar nodos, tipo imán) =====================
 (function initDraggableDiagram(){
   const svg = document.getElementById("network-svg");
   if (!svg) return;
@@ -133,31 +133,41 @@ const relations = {
 
   // vector de "curvatura" fijo de cada relación (control - punto medio), tomado del diseño original
   const edgeDefs = [
-    { id: "e1", from: "green",  to: "yellow", bow: { x: 30.1,  y: 1     } },
+    { id: "e1", from: "green",  to: "yellow", bow: { x: 30.1,  y: 1      } },
     { id: "e2", from: "purple", to: "green",  bow: { x: -25.6, y: -29.35 } },
     { id: "e3", from: "blue",   to: "green",  bow: { x: 24.1,  y: -29.5  } },
-    { id: "e4", from: "blue",   to: "yellow", bow: { x: 23.05, y: 28.85 } },
-    { id: "e5", from: "purple", to: "blue",   bow: { x: 0,     y: 67.9  } },
-    { id: "e6", from: "purple", to: "yellow", bow: { x: -24.65,y: 28.8  } }
+    { id: "e4", from: "blue",   to: "yellow", bow: { x: 23.05, y: 28.85  } },
+    { id: "e5", from: "purple", to: "blue",   bow: { x: 0,     y: 67.9   } },
+    { id: "e6", from: "purple", to: "yellow", bow: { x: -24.65,y: 28.8   } }
   ];
 
-  // estado físico de cada nodo: desplazamiento (dx,dy) respecto a su posición base, y velocidad
+  const ids = Object.keys(nodeDefs);
+
+  // estado físico: posición absoluta actual, velocidad, si se está arrastrando
   const state = {};
-  Object.keys(nodeDefs).forEach((id) => {
-    state[id] = { dx: 0, dy: 0, vx: 0, vy: 0, dragging: false };
+  ids.forEach((id) => {
+    const n = nodeDefs[id];
+    state[id] = { x: n.cx, y: n.cy, vx: 0, vy: 0, dragging: false };
   });
 
-  const SPRING = 120;   // qué tan fuerte "jala" de vuelta a su lugar
-  const DAMPING = 12;   // fricción / qué tan rápido se detiene el rebote
+  // todos los pares de nodos (grafo completo) con su distancia original "de reposo".
+  // esto es lo que hace el efecto imán: cada par intenta mantener su separación original.
+  const pairs = [];
+  for (let i = 0; i < ids.length; i++){
+    for (let j = i + 1; j < ids.length; j++){
+      const a = nodeDefs[ids[i]], b = nodeDefs[ids[j]];
+      const rest = Math.hypot(b.cx - a.cx, b.cy - a.cy);
+      pairs.push({ a: ids[i], b: ids[j], rest });
+    }
+  }
+
+  const K_HOME = 16;   // qué tanto "recuerda" cada bolita su lugar original
+  const K_EDGE = 42;   // fuerza del "imán" entre bolitas conectadas
+  const DAMPING = 12;  // fricción, evita que oscile para siempre
   const SETTLE_EPS = 0.05;
 
   let rafId = null;
   let lastFrame = null;
-
-  function nodeCenter(id){
-    const n = nodeDefs[id], s = state[id];
-    return { x: n.cx + s.dx, y: n.cy + s.dy };
-  }
 
   function toSvgPoint(evt){
     const pt = svg.createSVGPoint();
@@ -167,11 +177,11 @@ const relations = {
     return pt.matrixTransform(ctm.inverse());
   }
 
-  function updateNodePosition(id){
+  function updateNodeTransform(id){
     const g = svg.querySelector(`[data-node="${id}"]`);
     if (!g) return;
-    const c = nodeCenter(id);
-    g.setAttribute("transform", `translate(${c.x.toFixed(2)},${c.y.toFixed(2)})`);
+    const s = state[id];
+    g.setAttribute("transform", `translate(${s.x.toFixed(2)},${s.y.toFixed(2)})`);
   }
 
   function updateEdge(edge){
@@ -179,7 +189,7 @@ const relations = {
     if (!g) return;
 
     const nA = nodeDefs[edge.from], nB = nodeDefs[edge.to];
-    const A = nodeCenter(edge.from), B = nodeCenter(edge.to);
+    const A = state[edge.from], B = state[edge.to];
 
     let ux = B.x - A.x, uy = B.y - A.y;
     const dist = Math.hypot(ux, uy) || 1;
@@ -210,25 +220,56 @@ const relations = {
   }
 
   function stepPhysics(dt){
-    let anyMoving = false;
-    Object.keys(state).forEach((id) => {
-      const s = state[id];
-      if (s.dragging) { anyMoving = true; return; }
+    // fuerza acumulada sobre cada nodo este fotograma
+    const forces = {};
+    ids.forEach((id) => { forces[id] = { fx: 0, fy: 0 }; });
 
-      const ax = -SPRING * s.dx - DAMPING * s.vx;
-      const ay = -SPRING * s.dy - DAMPING * s.vy;
+    // 1) resorte débil hacia la posición original de cada nodo
+    ids.forEach((id) => {
+      const n = nodeDefs[id], s = state[id];
+      forces[id].fx += K_HOME * (n.cx - s.x);
+      forces[id].fy += K_HOME * (n.cy - s.y);
+    });
+
+    // 2) "imán": cada par conectado intenta mantener su distancia original,
+    //    así que si arrastras uno, jala a los demás detrás de él
+    pairs.forEach(({ a, b, rest }) => {
+      const sa = state[a], sb = state[b];
+      const dx = sb.x - sa.x, dy = sb.y - sa.y;
+      const dist = Math.hypot(dx, dy) || 1;
+      const ux = dx / dist, uy = dy / dist;
+      const stretch = dist - rest;
+      const fx = K_EDGE * stretch * ux;
+      const fy = K_EDGE * stretch * uy;
+      forces[a].fx += fx; forces[a].fy += fy;
+      forces[b].fx -= fx; forces[b].fy -= fy;
+    });
+
+    let anyMoving = false;
+
+    ids.forEach((id) => {
+      const s = state[id];
+      if (s.dragging){ anyMoving = true; return; }
+
+      const f = forces[id];
+      const ax = f.fx - DAMPING * s.vx;
+      const ay = f.fy - DAMPING * s.vy;
       s.vx += ax * dt;
       s.vy += ay * dt;
-      s.dx += s.vx * dt;
-      s.dy += s.vy * dt;
+      s.x += s.vx * dt;
+      s.y += s.vy * dt;
 
-      if (Math.abs(s.dx) < SETTLE_EPS && Math.abs(s.dy) < SETTLE_EPS && Math.abs(s.vx) < SETTLE_EPS && Math.abs(s.vy) < SETTLE_EPS){
-        s.dx = 0; s.dy = 0; s.vx = 0; s.vy = 0;
+      const n = nodeDefs[id];
+      const atHome = Math.abs(s.x - n.cx) < SETTLE_EPS && Math.abs(s.y - n.cy) < SETTLE_EPS;
+      const atRest = Math.abs(s.vx) < SETTLE_EPS && Math.abs(s.vy) < SETTLE_EPS;
+      if (atHome && atRest){
+        s.x = n.cx; s.y = n.cy; s.vx = 0; s.vy = 0;
       } else {
         anyMoving = true;
       }
-      updateNodePosition(id);
+      updateNodeTransform(id);
     });
+
     updateAllEdges();
     return anyMoving;
   }
@@ -238,7 +279,7 @@ const relations = {
     const dt = Math.min((ts - lastFrame) / 1000, 0.032);
     lastFrame = ts;
 
-    const draggingAny = Object.values(state).some((s) => s.dragging);
+    const draggingAny = ids.some((id) => state[id].dragging);
     const moving = stepPhysics(dt);
 
     if (moving || draggingAny){
@@ -262,7 +303,7 @@ const relations = {
     const s = state[id];
 
     let startPoint = null;
-    let startOffset = null;
+    let startPos = null;
     let lastPoint = null;
     let lastTime = null;
 
@@ -274,7 +315,7 @@ const relations = {
       s.vx = 0; s.vy = 0;
 
       startPoint = toSvgPoint(e);
-      startOffset = { x: s.dx, y: s.dy };
+      startPos = { x: s.x, y: s.y };
       lastPoint = startPoint;
       lastTime = performance.now();
       ensureLoop();
@@ -283,8 +324,8 @@ const relations = {
     g.addEventListener("pointermove", (e) => {
       if (!s.dragging) return;
       const p = toSvgPoint(e);
-      s.dx = startOffset.x + (p.x - startPoint.x);
-      s.dy = startOffset.y + (p.y - startPoint.y);
+      s.x = startPos.x + (p.x - startPoint.x);
+      s.y = startPos.y + (p.y - startPoint.y);
 
       const now = performance.now();
       const dt = Math.max(now - lastTime, 1) / 1000;
@@ -292,8 +333,8 @@ const relations = {
       s.vy = (p.y - lastPoint.y) / dt;
       lastPoint = p; lastTime = now;
 
-      updateNodePosition(id);
-      updateAllEdges();
+      updateNodeTransform(id);
+      ensureLoop();
     });
 
     function endDrag(e){
@@ -308,5 +349,6 @@ const relations = {
     g.addEventListener("pointercancel", endDrag);
   }
 
-  Object.keys(nodeDefs).forEach(attachDrag);
+  ids.forEach(attachDrag);
+  updateAllEdges();
 })();
