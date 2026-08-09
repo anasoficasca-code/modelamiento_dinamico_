@@ -1,374 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAPOT · Modelo Propio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="modulo-08.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAPOT - Módulo 08: Mi Modelo de Ciudad</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="modulo-08.css">
 </head>
 <body>
-<div class="app">
-
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="mark"><i class="fa-solid fa-diagram-project"></i></div>
-      <span>RAPOT</span>
-    </div>
-
-    <div class="nav-group">
-      <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
-    </div>
-
-    <div class="nav-group">
-      <div class="nav-label">MÓDULOS</div>
-      <a href="modulo-01.html" class="nav-item"><span class="num">01</span><i class="fa-solid fa-diagram-project"></i> Construir la Red</a>
-      <a href="modulo-02.html" class="nav-item"><span class="num">02</span><i class="fa-solid fa-chart-simple"></i> Medir la Red</a>
-      <a href="modulo-03.html" class="nav-item"><span class="num">03</span><i class="fa-solid fa-eye"></i> Discurso vs Realidad</a>
-      <a href="modulo-04.html" class="nav-item"><span class="num">04</span><i class="fa-solid fa-bullseye"></i> Macromodelos</a>
-      <a href="modulo-05.html" class="nav-item"><span class="num">05</span><i class="fa-solid fa-magnifying-glass"></i> Lo que no está</a>
-      <a href="modulo-06.html" class="nav-item"><span class="num">06</span><i class="fa-solid fa-earth-americas"></i> POT ↔ ODS</a>
-      <a href="modulo-07.html" class="nav-item"><span class="num">07</span><i class="fa-solid fa-flask"></i> Simulador</a>
-      <a href="modulo-08.html" class="nav-item active"><span class="num">08</span><i class="fa-solid fa-city"></i> Modelo Propio</a>
-    </div>
-
-    <div class="nav-group">
-      <div class="nav-label">GESTIÓN</div>
-      <a href="proyectos.html" class="nav-item"><i class="fa-solid fa-folder"></i> Proyectos</a>
-      <a href="fuentes.html" class="nav-item"><i class="fa-solid fa-file-lines"></i> Fuentes y Documentos</a>
-      <a href="favoritos.html" class="nav-item"><i class="fa-solid fa-star"></i> Favoritos</a>
-      <a href="reportes.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Reportes</a>
-      <a href="configuracion.html" class="nav-item"><i class="fa-solid fa-gear"></i> Configuración</a>
-    </div>
-
-    <div class="sidebar-footer">
-      <div class="avatar-sm">EU</div>
-      <div class="user-meta">
-        <div class="name">Equipo Urbano</div>
-        <div class="role">Administrador</div>
+  <div class="main">
+    <!-- SIDEBAR RAPOT -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="mark"><i class="fa-solid fa-diagram-project"></i></div>
+        <span>RAPOT</span>
       </div>
-      <a href="demo.html" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
-    </div>
-  </aside>
 
-  <main class="main">
+      <div class="nav-group">
+        <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+      </div>
 
-    <div class="topbar">
-      <h1>Modelo Propio</h1>
-      <div class="topbar-actions">
-        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i> Buscar en el sistema...</div>
-        <div class="icon-btn"><i class="fa-regular fa-bell"></i><span class="dot"></span></div>
-        <div class="icon-btn"><i class="fa-regular fa-circle-question"></i></div>
+      <div class="nav-group">
+        <div class="nav-label">MÓDULOS</div>
+        <a href="modulo-01.html" class="nav-item"><span class="num">01</span><i class="fa-solid fa-diagram-project"></i> Construir la Red</a>
+        <a href="modulo-02.html" class="nav-item"><span class="num">02</span><i class="fa-solid fa-chart-simple"></i> Medir la Red</a>
+        <a href="modulo-03.html" class="nav-item"><span class="num">03</span><i class="fa-solid fa-eye"></i> Discurso vs Realidad</a>
+        <a href="modulo-04.html" class="nav-item"><span class="num">04</span><i class="fa-solid fa-bullseye"></i> Macromodelos</a>
+        <a href="modulo-05.html" class="nav-item"><span class="num">05</span><i class="fa-solid fa-magnifying-glass"></i> Lo que no está</a>
+        <a href="modulo-06.html" class="nav-item"><span class="num">06</span><i class="fa-solid fa-earth-americas"></i> POT ↔️ ODS</a>
+        <a href="modulo-07.html" class="nav-item"><span class="num">07</span><i class="fa-solid fa-flask"></i> Simulador</a>
+        <a href="modulo-08.html" class="nav-item active"><span class="num">08</span><i class="fa-solid fa-city"></i> Modelo Propio</a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label">GESTIÓN</div>
+        <a href="proyectos.html" class="nav-item"><i class="fa-solid fa-folder"></i> Proyectos</a>
+        <a href="fuentes.html" class="nav-item"><i class="fa-solid fa-file-lines"></i> Fuentes y Documentos</a>
+        <a href="favoritos.html" class="nav-item"><i class="fa-solid fa-star"></i> Favoritos</a>
+        <a href="reportes.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Reportes</a>
+        <a href="configuracion.html" class="nav-item"><i class="fa-solid fa-gear"></i> Configuración</a>
+      </div>
+
+      <div class="sidebar-footer">
         <div class="avatar-sm">EU</div>
+        <div class="user-meta">
+          <div class="name">Equipo Urbano</div>
+          <div class="role">Administrador</div>
+        </div>
+        <a href="demo.html" class="logout-btn" title="Cerrar sesión"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
       </div>
-    </div>
+    </aside>
 
-    <div class="welcome">
-      <h2>Construye tu Modelo de Ciudad</h2>
-      <p>Diseña tu propia versión del POT basada en los aprendizajes de RAPOT. Crea estructuras, define conexiones y valida contra ODS.</p>
-    </div>
+    <!-- CONTENIDO -->
+    <div class="content">
+      <div class="topbar">
+        <h1><i class="fa-solid fa-city"></i> Mi Modelo de Ciudad</h1>
+      </div>
 
-    <!-- BUILDER INTERFACE -->
-    <div class="builder-layout">
-
-      <!-- LEFT: ELEMENT LIBRARY -->
-      <div class="element-library">
-        <div class="library-section">
-          <h3><i class="fa-solid fa-layer-group"></i> Elementos Base</h3>
-          
-          <div class="element-tabs">
-            <button class="tab-btn active" onclick="switchTab('structures')">
-              <i class="fa-solid fa-boxes"></i> Estructuras
-            </button>
-            <button class="tab-btn" onclick="switchTab('actors')">
-              <i class="fa-solid fa-users"></i> Actores
-            </button>
-            <button class="tab-btn" onclick="switchTab('processes')">
-              <i class="fa-solid fa-cogs"></i> Procesos
-            </button>
+      <div class="grid">
+        <!-- LEFT: SELECTORES -->
+        <div class="left-panel">
+          <!-- ESTRUCTURAS -->
+          <div class="card">
+            <h3><i class="fa-solid fa-layer-group"></i> Estructuras</h3>
+            <div id="structuresSelector"></div>
           </div>
 
-          <div class="elements-list" id="structuresList">
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'structure', 'Ecología')">
-              <i class="fa-solid fa-leaf"></i>
-              <span>Estructura Ecológica</span>
-            </div>
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'structure', 'Funcional')">
-              <i class="fa-solid fa-network-wired"></i>
-              <span>Estructura Funcional</span>
-            </div>
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'structure', 'Económica')">
-              <i class="fa-solid fa-chart-line"></i>
-              <span>Estructura Económica</span>
-            </div>
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'structure', 'Patrimonio')">
-              <i class="fa-solid fa-landmark"></i>
-              <span>Estructura Cultural</span>
-            </div>
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'structure', 'Nueva')">
-              <i class="fa-solid fa-plus"></i>
-              <span>+ Nueva Estructura</span>
-            </div>
-          </div>
-
-          <div class="elements-list" id="actorsList" style="display: none;">
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'actor', 'Ciudadanía')">
-              <i class="fa-solid fa-users"></i>
-              <span>Ciudadanía</span>
-            </div>
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'actor', 'Instituciones')">
-              <i class="fa-solid fa-building"></i>
-              <span>Instituciones</span>
-            </div>
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'actor', 'Empresa')">
-              <i class="fa-solid fa-briefcase"></i>
-              <span>Sector Privado</span>
-            </div>
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'actor', 'Academia')">
-              <i class="fa-solid fa-book"></i>
-              <span>Academia</span>
-            </div>
-          </div>
-
-          <div class="elements-list" id="processesList" style="display: none;">
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'process', 'Planificación')">
-              <i class="fa-solid fa-calendar-check"></i>
-              <span>Planificación</span>
-            </div>
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'process', 'Implementación')">
-              <i class="fa-solid fa-tools"></i>
-              <span>Implementación</span>
-            </div>
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'process', 'Monitoreo')">
-              <i class="fa-solid fa-chart-pie"></i>
-              <span>Monitoreo</span>
-            </div>
-            <div class="draggable-element" draggable="true" ondragstart="dragElement(event, 'process', 'Evaluación')">
-              <i class="fa-solid fa-star"></i>
-              <span>Evaluación</span>
-            </div>
+          <!-- COMPONENTES -->
+          <div class="card">
+            <h3><i class="fa-solid fa-cube"></i> Componentes</h3>
+            <p>Selecciona componentes:</p>
+            <div class="components-list" id="componentsSelector"></div>
+            <button class="btn-clear" id="clearBtn">🗑️ Limpiar Todo</button>
           </div>
         </div>
 
-        <div class="library-info">
-          <div class="info-card">
-            <h4><i class="fa-solid fa-lightbulb"></i> Consejos</h4>
-            <ul>
-              <li>Arrastra elementos al canvas</li>
-              <li>Haz clic para editar propiedades</li>
-              <li>Conecta elementos con flechas</li>
-              <li>Valida contra ODS</li>
-            </ul>
+        <!-- CENTER: RED -->
+        <div class="center">
+          <svg id="networkSvg"></svg>
+        </div>
+
+        <!-- RIGHT: CONEXIONES -->
+        <div class="right-panel">
+          <div class="card">
+            <h3><i class="fa-solid fa-link"></i> Conexiones</h3>
+            <p id="connectionInfo" style="min-height: 2rem; font-size: 0.8rem;">Selecciona 2 nodos o haz click en una línea</p>
+            
+            <div id="connectionPanel" class="connection-panel" style="display: none;">
+              <p style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.5rem;">Tipo de relación:</p>
+              <label><input type="radio" name="convention" value="flujo"> Flujo</label>
+              <label><input type="radio" name="convention" value="bidirectional"> Bidireccional</label>
+              <label><input type="radio" name="convention" value="fuerte"> Fuerte</label>
+              <label><input type="radio" name="convention" value="conflicto"> Conflicto</label>
+              
+              <button class="btn-confirm" onclick="window.confirmConnection()">✓ Confirmar</button>
+              <button class="btn-cancel" onclick="window.closeConnection()">✕ Cancelar</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3><i class="fa-solid fa-chart-simple"></i> Estadísticas</h3>
+            <p>Componentes: <strong id="countComponents">0</strong></p>
+            <p>Conexiones: <strong id="countLinks">0</strong></p>
           </div>
         </div>
       </div>
-
-      <!-- CENTER: CANVAS -->
-      <div class="canvas-container">
-        <div class="canvas-header">
-          <h3><i class="fa-solid fa-paintbrush"></i> Tu Modelo</h3>
-          <div class="canvas-tools">
-            <button class="tool-btn" onclick="enableDrawing()"><i class="fa-solid fa-pen"></i> Conectar</button>
-            <button class="tool-btn" onclick="deleteSelected()"><i class="fa-solid fa-trash"></i> Eliminar</button>
-            <button class="tool-btn" onclick="zoomIn()"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-            <button class="tool-btn" onclick="zoomOut()"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-          </div>
-        </div>
-        
-        <svg id="modelCanvas" 
-             ondrop="dropElement(event)" 
-             ondragover="allowDrop(event)"
-             style="width: 100%; height: 550px; border: 2px solid rgba(47,212,200,0.3); border-radius: 12px; background: rgba(15,21,34,0.5);">
-        </svg>
-
-        <div class="canvas-stats">
-          <span><i class="fa-solid fa-cube"></i> <span id="nodeCount">0</span> elementos</span>
-          <span><i class="fa-solid fa-arrow-right"></i> <span id="linkCount">0</span> conexiones</span>
-          <span><i class="fa-solid fa-plug"></i> <span id="densityCount">0</span> densidad</span>
-        </div>
-      </div>
-
-      <!-- RIGHT: PROPERTIES & VALIDATION -->
-      <div class="properties-panel">
-        
-        <!-- SELECTED ELEMENT -->
-        <div class="panel-section">
-          <h4><i class="fa-solid fa-sliders"></i> Propiedades</h4>
-          
-          <div class="property-form" id="propertyForm">
-            <div class="form-group">
-              <label>Nombre</label>
-              <input type="text" id="elementName" placeholder="Nombre del elemento" onchange="updateElement()">
-            </div>
-
-            <div class="form-group">
-              <label>Descripción</label>
-              <textarea id="elementDesc" placeholder="Descripción" onchange="updateElement()"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label>Color</label>
-              <div class="color-picker">
-                <input type="color" id="elementColor" value="#2fd4c8" onchange="updateElement()">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Indicadores Clave</label>
-              <input type="text" id="elementKPI" placeholder="Ej: Densidad, Resiliencia" onchange="updateElement()">
-            </div>
-
-            <button class="btn-apply" onclick="applyProperties()">
-              <i class="fa-solid fa-check"></i> Aplicar
-            </button>
-          </div>
-        </div>
-
-        <!-- VALIDATION -->
-        <div class="panel-section">
-          <h4><i class="fa-solid fa-shield-check"></i> Validación</h4>
-          
-          <div class="validation-checks">
-            <div class="check-item">
-              <i class="fa-solid fa-check-circle"></i>
-              <span>Estructuras balanceadas</span>
-            </div>
-            <div class="check-item">
-              <i class="fa-solid fa-check-circle"></i>
-              <span>Inclusión de actores</span>
-            </div>
-            <div class="check-item warning">
-              <i class="fa-solid fa-circle-exclamation"></i>
-              <span>Alineación ODS: 71%</span>
-            </div>
-            <div class="check-item">
-              <i class="fa-solid fa-check-circle"></i>
-              <span>Red conectada</span>
-            </div>
-          </div>
-
-          <div class="ods-alignment">
-            <h5><i class="fa-solid fa-earth-americas"></i> Alineación ODS</h5>
-            <div class="ods-bars">
-              <div class="ods-bar">
-                <div class="bar-fill" style="width: 85%;"></div>
-                <span>Cubiertos: 14/17</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- EXPORT -->
-        <div class="panel-section">
-          <h4><i class="fa-solid fa-download"></i> Exportar</h4>
-          
-          <button class="export-btn" onclick="exportModel('json')">
-            <i class="fa-solid fa-file-code"></i> JSON
-          </button>
-          <button class="export-btn" onclick="exportModel('pdf')">
-            <i class="fa-solid fa-file-pdf"></i> PDF
-          </button>
-          <button class="export-btn" onclick="saveModel()">
-            <i class="fa-solid fa-cloud-arrow-up"></i> Guardar en Nube
-          </button>
-        </div>
-
-      </div>
-
     </div>
+  </div>
 
-    <!-- TEMPLATES SECTION -->
-    <div class="templates-section">
-      <h3><i class="fa-solid fa-newspaper"></i> Plantillas Recomendadas</h3>
-      
-      <div class="templates-grid">
-        <div class="template-card">
-          <div class="template-icon" style="background: rgba(74,222,128,0.2); color: #4ade80;">
-            <i class="fa-solid fa-leaf"></i>
-          </div>
-          <h4>Bogotá Verde</h4>
-          <p>Prioriza ecología y ciclos naturales</p>
-          <button class="btn-load" onclick="loadTemplate('green')">Cargar</button>
-        </div>
-
-        <div class="template-card">
-          <div class="template-icon" style="background: rgba(91,141,239,0.2); color: #5b8def;">
-            <i class="fa-solid fa-users"></i>
-          </div>
-          <h4>Bogotá Inclusiva</h4>
-          <p>Enfoque en género, discapacidad, infancia</p>
-          <button class="btn-load" onclick="loadTemplate('inclusive')">Cargar</button>
-        </div>
-
-        <div class="template-card">
-          <div class="template-icon" style="background: rgba(162,118,242,0.2); color: #a276f2;">
-            <i class="fa-solid fa-briefcase"></i>
-          </div>
-          <h4>Bogotá Productiva</h4>
-          <p>Economía verde e innovación</p>
-          <button class="btn-load" onclick="loadTemplate('economic')">Cargar</button>
-        </div>
-
-        <div class="template-card">
-          <div class="template-icon" style="background: rgba(245,201,69,0.2); color: #f5c945;">
-            <i class="fa-solid fa-network-wired"></i>
-          </div>
-          <h4>Bogotá Integrada</h4>
-          <p>Combinación de todos los enfoques</p>
-          <button class="btn-load" onclick="loadTemplate('integrated')">Cargar</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- COLLABORATORS -->
-    <div class="collaborators-section">
-      <h3><i class="fa-solid fa-people-group"></i> Comparte tu Modelo</h3>
-      
-      <div class="share-controls">
-        <div class="share-input">
-          <input type="text" id="shareLink" placeholder="Tu modelo se guardará aquí..." readonly>
-          <button class="btn-copy" onclick="copyLink()"><i class="fa-solid fa-copy"></i> Copiar</button>
-        </div>
-        
-        <div class="collaborators-list">
-          <h4>Colaboradores</h4>
-          <div class="collab-item">
-            <span class="collab-avatar">EU</span>
-            <span class="collab-name">Equipo Urbano</span>
-            <span class="collab-role">Editor</span>
-          </div>
-          <button class="btn-add-collab" onclick="inviteCollaborator()">
-            <i class="fa-solid fa-user-plus"></i> Invitar
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ACTION BUTTONS -->
-    <div class="action-buttons">
-      <button class="btn-primary" onclick="publishModel()">
-        <i class="fa-solid fa-rocket"></i> Publicar Modelo
-      </button>
-      <button class="btn-secondary" onclick="compareWithPOT()">
-        <i class="fa-solid fa-scale-balanced"></i> Comparar con POT Original
-      </button>
-      <button class="btn-secondary" onclick="resetBuilder()">
-        <i class="fa-solid fa-rotate-left"></i> Limpiar Canvas
-      </button>
-    </div>
-
-    <footer>
-      "No se trata de representar la ciudad, sino de comprenderla para transformarla." — <span>Equipo POT Reverse Engineering</span>
-    </footer>
-
-  </main>
-
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="modulo-08.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script src="modulo-08.js"></script>
 </body>
 </html>
