@@ -70,50 +70,31 @@
       <p>Analiza cómo las relaciones del POT favorecen, limitan o entran en conflicto con los ODS.</p>
     </div>
 
-    <!-- ALIGNMENT STATS -->
-    <div class="alignment-stats">
-      <div class="stat-card">
-        <div class="stat-icon" style="background: rgba(74,222,128,0.2); color: #4ade80;">
-          <i class="fa-solid fa-check-circle"></i>
-        </div>
-        <div class="stat-content">
-          <div class="stat-value">45</div>
-          <div class="stat-label">Alineaciones Fuertes</div>
-          <div class="stat-meta">POT ↔ ODS con sinergia</div>
-        </div>
+    <!-- ODS INSIGHTS (antes: alignment-stats) -->
+    <div class="ods-insight-stats" id="odsInsightStats">
+      <div class="insight-card" data-insight="conectados" style="--insight-color:#4ade80;" onclick="toggleInsight('conectados')">
+        <div class="insight-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <div class="insight-title">ODS más conectados</div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon" style="background: rgba(245,201,69,0.2); color: #f5c945;">
-          <i class="fa-solid fa-exclamation-triangle"></i>
-        </div>
-        <div class="stat-content">
-          <div class="stat-value">18</div>
-          <div class="stat-label">Conflictos Potenciales</div>
-          <div class="stat-meta">Donde POT limita ODS</div>
-        </div>
+      <div class="insight-card" data-insight="hubs" style="--insight-color:#5b8def;" onclick="toggleInsight('hubs')">
+        <div class="insight-icon"><i class="fa-solid fa-circle-nodes"></i></div>
+        <div class="insight-title">Hubs</div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon" style="background: rgba(162,118,242,0.2); color: #a276f2;">
-          <i class="fa-solid fa-link"></i>
-        </div>
-        <div class="stat-content">
-          <div class="stat-value">12</div>
-          <div class="stat-label">ODS Cubiertos</div>
-          <div class="stat-meta">De 17 objetivos globales</div>
-        </div>
+      <div class="insight-card" data-insight="puentes" style="--insight-color:#f5c945;" onclick="toggleInsight('puentes')">
+        <div class="insight-icon"><i class="fa-solid fa-bridge"></i></div>
+        <div class="insight-title">Puentes</div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon" style="background: rgba(47,212,200,0.2); color: #2fd4c8;">
-          <i class="fa-solid fa-percentage"></i>
-        </div>
-        <div class="stat-content">
-          <div class="stat-value">71%</div>
-          <div class="stat-label">Alineación General</div>
-          <div class="stat-meta">Del POT con los ODS</div>
-        </div>
+      <div class="insight-card" data-insight="perifericos" style="--insight-color:#8891a5;" onclick="toggleInsight('perifericos')">
+        <div class="insight-icon"><i class="fa-solid fa-satellite"></i></div>
+        <div class="insight-title">Periféricos</div>
+      </div>
+
+      <div class="insight-card" data-insight="predominantes" style="--insight-color:#f76fb0;" onclick="toggleInsight('predominantes')">
+        <div class="insight-icon"><i class="fa-solid fa-code-branch"></i></div>
+        <div class="insight-title">Relaciones predominantes</div>
       </div>
     </div>
 
