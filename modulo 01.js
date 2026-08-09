@@ -345,6 +345,8 @@ function renderStructureList() {
     item.className = 'structure-item' + (structId === activeStructureId ? ' active' : '');
     item.dataset.struct = structId;
     item.style.setProperty('--struct-color', cfg.color);
+    item.style.setProperty('--struct-bg', hexToRgba(cfg.color, 0.14));
+    item.style.setProperty('--struct-border', hexToRgba(cfg.color, 0.45));
     item.innerHTML = `
       <span class="filter-dot" style="background:${cfg.color};"></span>
       <span class="structure-name">${cfg.label}</span>
