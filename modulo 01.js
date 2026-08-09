@@ -36,46 +36,31 @@ const POT_DATA = {
     { origen: "Humedales", destino: "Áreas de resiliencia climática", tipo: "Resiliencia", sustento: "Los humedales regulan el agua, previenen inundaciones y son hogar de especies polinizadoras.", page: "p. 57" }
   ],
   EFS: [
+    { origen: "Servicios de cuidado", destino: "Equipamientos", tipo: "Indirecta", sustento: "Los servicios de cuidado se apoyan en la red de equipamientos comunitarios.", page: "p. 29" },
+    { origen: "Ciclorrutas", destino: "Vivienda", tipo: "Indirecta", sustento: "Las ciclorrutas amplían el acceso de las viviendas a la red de movilidad.", page: "p. 39" },
+    { origen: "Servicios públicos", destino: "Vivienda", tipo: "Indirecta", sustento: "Los servicios públicos condicionan la habitabilidad de la vivienda.", page: "p. 34" },
+    { origen: "Transporte público", destino: "Vivienda", tipo: "Indirecta", sustento: "El transporte público facilita el acceso de las comunidades a la vivienda.", page: "p. 30" },
+    { origen: "Vivienda", destino: "Servicios sociales", tipo: "Soporte", sustento: "La vivienda se articula con los servicios sociales de cuidado.", page: "p. 29" },
+    { origen: "Servicios sociales", destino: "Equipamientos", tipo: "Indirecta", sustento: "Los servicios sociales se prestan a través de los equipamientos existentes.", page: "p. 32" },
+    { origen: "Corredores verdes", destino: "Ciclorrutas", tipo: "Soporte", sustento: "Los corredores verdes conectan la red de ciclorrutas de la ciudad.", page: "p. 39" },
+    { origen: "Corredores verdes", destino: "Transporte público", tipo: "Soporte", sustento: "Los corredores verdes se integran con los puntos de transporte público.", page: "p. 30" },
+    { origen: "Red vial", destino: "Transporte público", tipo: "Soporte", sustento: "La red vial es la base física del transporte público urbano.", page: "p. 30" },
+    { origen: "Manzanas del Cuidado", destino: "Equipamientos", tipo: "Soporte", sustento: "Las Manzanas del Cuidado concentran equipamientos de servicios y cuidado.", page: "p. 32" },
+    { origen: "Parques", destino: "Manzanas del Cuidado", tipo: "Soporte", sustento: "Los parques hacen parte del sistema de Manzanas del Cuidado.", page: "p. 40" },
+    { origen: "Red vial", destino: "Equipamientos", tipo: "Soporte", sustento: "La red vial articula el acceso a los equipamientos de la ciudad.", page: "p. 36" },
     { origen: "Vivienda", destino: "Equipamientos", tipo: "Soporte", sustento: "La vivienda se articula con los sistemas de cuidado y equipamientos comunitarios.", page: "p. 29" },
-    { origen: "Movilidad", destino: "Vivienda", tipo: "Directa", sustento: "La movilidad conecta a las comunidades con sus viviendas y servicios.", page: "p. 30" },
-    { origen: "Espacio público", destino: "Equipamientos", tipo: "Directa", sustento: "El espacio público integra los equipamientos de servicios y cuidado.", page: "p. 31" },
-    { origen: "Equipamientos", destino: "Salud", tipo: "Soporte", sustento: "Los equipamientos incluyen centros de salud comunitaria.", page: "p. 32" },
-    { origen: "Salud", destino: "Educación", tipo: "Soporte", sustento: "La salud y la educación son servicios complementarios de cuidado.", page: "p. 32" },
-    { origen: "Educación", destino: "Comunidades", tipo: "Directa", sustento: "La educación fortalece el tejido comunitario.", page: "p. 33" },
-    { origen: "Comunidades", destino: "Espacio público", tipo: "Directa", sustento: "Las comunidades se reúnen en espacios públicos compartidos.", page: "p. 31" },
-    { origen: "Infraestructura de servicios", destino: "Agua potable", tipo: "Directa", sustento: "La infraestructura garantiza servicios de agua potable.", page: "p. 34" },
-    { origen: "Agua potable", destino: "Vivienda", tipo: "Soporte", sustento: "El acceso a agua es fundamental para la vivienda digna.", page: "p. 34" },
-    { origen: "Saneamiento", destino: "Vivienda", tipo: "Soporte", sustento: "El saneamiento es esencial para la calidad de vida.", page: "p. 35" },
-    { origen: "Energía", destino: "Equipamientos", tipo: "Soporte", sustento: "La energía permite el funcionamiento de los equipamientos.", page: "p. 36" },
-    { origen: "Telecomunicaciones", destino: "Comunidades", tipo: "Indirecta", sustento: "Las TIC conectan a las comunidades.", page: "p. 37" },
-    { origen: "Transporte público", destino: "Movilidad", tipo: "Directa", sustento: "El transporte público es la base de la movilidad urbana.", page: "p. 30" },
-    { origen: "Ciclorrutas", destino: "Movilidad", tipo: "Soporte", sustento: "Las ciclorrutas complementan el sistema de movilidad.", page: "p. 39" },
-    { origen: "Espacios de recreación", destino: "Espacio público", tipo: "Directa", sustento: "Los espacios recreativos enriquecen el espacio público.", page: "p. 40" },
-    { origen: "Deportes", destino: "Comunidades", tipo: "Soporte", sustento: "El deporte cohesiona a las comunidades.", page: "p. 41" },
-    { origen: "Cultura", destino: "Equipamientos", tipo: "Directa", sustento: "La cultura se desarrolla en equipamientos especializados.", page: "p. 42" },
-    { origen: "Seguridad alimentaria", destino: "Vivienda", tipo: "Soporte", sustento: "La seguridad alimentaria es esencial para la vida digna.", page: "p. 43" },
-    { origen: "Huertos urbanos", destino: "Seguridad alimentaria", tipo: "Directa", sustento: "Los huertos urbanos producen alimentos frescos.", page: "p. 44" },
-    { origen: "Cuidadores y cuidadoras", destino: "Comunidades", tipo: "Directa", sustento: "Los cuidadores y cuidadoras fortalecen el tejido comunitario.", page: "p. 45" }
+    { origen: "Servicios públicos", destino: "Equipamientos", tipo: "Directa", sustento: "Los servicios públicos son prestados directamente en los equipamientos.", page: "p. 34" },
+    { origen: "Manzanas del Cuidado", destino: "Vivienda", tipo: "Soporte", sustento: "Las Manzanas del Cuidado se organizan alrededor de la vivienda cercana.", page: "p. 32" }
   ],
   ESE: [
-    { origen: "Economía creativa", destino: "Empleo", tipo: "Directa", sustento: "La economía creativa genera empleos locales y sostenibles.", page: "p. 31" },
-    { origen: "Distritos creativos", destino: "Economía creativa", tipo: "Soporte", sustento: "Los distritos creativos son espacios de innovación y creación.", page: "p. 46" },
-    { origen: "Turismo", destino: "Empleo", tipo: "Directa", sustento: "El turismo genera empleo y dinámicas económicas locales.", page: "p. 47" },
-    { origen: "Comercio local", destino: "Empleo", tipo: "Directa", sustento: "El comercio local genera oportunidades de trabajo.", page: "p. 48" },
-    { origen: "Emprendimiento", destino: "Economía creativa", tipo: "Soporte", sustento: "El emprendimiento impulsa la innovación económica.", page: "p. 49" },
-    { origen: "Innovación tecnológica", destino: "Emprendimiento", tipo: "Directa", sustento: "La innovación tecnológica potencia los emprendimientos.", page: "p. 50" },
-    { origen: "Formación técnica", destino: "Emprendimiento", tipo: "Soporte", sustento: "La formación técnica prepara emprendedores.", page: "p. 51" },
-    { origen: "Investigación", destino: "Innovación tecnológica", tipo: "Directa", sustento: "La investigación genera innovaciones.", page: "p. 52" },
-    { origen: "Universidades", destino: "Investigación", tipo: "Soporte", sustento: "Las universidades generan conocimiento e investigación.", page: "p. 53" },
-    { origen: "Centros de innovación", destino: "Emprendimiento", tipo: "Soporte", sustento: "Los centros de innovación apoyan emprendimientos.", page: "p. 54" },
-    { origen: "Finanzas solidarias", destino: "Emprendimiento", tipo: "Soporte", sustento: "Las finanzas solidarias financian emprendimientos locales.", page: "p. 55" },
-    { origen: "Cooperativas", destino: "Economía creativa", tipo: "Directa", sustento: "Las cooperativas impulsan la economía solidaria.", page: "p. 56" },
-    { origen: "Comercio justo", destino: "Comercio local", tipo: "Directa", sustento: "El comercio justo garantiza prácticas éticas.", page: "p. 57" },
-    { origen: "Producción sostenible", destino: "Economía creativa", tipo: "Soporte", sustento: "La producción sostenible es modelo de la nueva economía.", page: "p. 58" },
-    { origen: "Bienes y servicios", destino: "Empleo", tipo: "Indirecta", sustento: "Los bienes y servicios generan valor y empleo.", page: "p. 59" },
-    { origen: "Mercados locales", destino: "Comercio local", tipo: "Directa", sustento: "Los mercados locales dinamizan el comercio.", page: "p. 60" },
-    { origen: "Agricultura urbana", destino: "Producción sostenible", tipo: "Directa", sustento: "La agricultura urbana produce alimentos localmente.", page: "p. 61" },
-    { origen: "Agroindustria", destino: "Empleo", tipo: "Soporte", sustento: "La agroindustria genera valor agregado y empleo.", page: "p. 62" }
+    { origen: "Servicios empresariales", destino: "Distrito Centro Tecnológico e Innovación", tipo: "Soporte", sustento: "Los servicios empresariales se apoyan en el Distrito Centro Tecnológico e Innovación.", page: "p. 46" },
+    { origen: "Distrito Centro Tecnológico e Innovación", destino: "Sistema de educación educación", tipo: "Soporte", sustento: "El Distrito Centro Tecnológico e Innovación se articula con el sistema de educación.", page: "p. 51" },
+    { origen: "Distrito Centro Tecnológico e Innovación", destino: "Zonas industriales", tipo: "Indirecta", sustento: "El Distrito Centro Tecnológico e Innovación incrementa la productividad de las zonas industriales.", page: "p. 50" },
+    { origen: "Zonas industriales", destino: "Servicios empresariales", tipo: "Soporte", sustento: "Las zonas industriales generan demanda de servicios empresariales.", page: "p. 48" },
+    { origen: "Zonas industriales", destino: "Plazas de mercado", tipo: "Soporte", sustento: "Las zonas industriales abastecen las plazas de mercado locales.", page: "p. 60" },
+    { origen: "Sistema de educación educación", destino: "Servicios empresariales", tipo: "Soporte", sustento: "El sistema de educación forma el talento humano de los servicios empresariales.", page: "p. 53" },
+    { origen: "Servicios empresariales", destino: "Centros financieros", tipo: "Soporte", sustento: "Los servicios empresariales dependen del respaldo de los centros financieros.", page: "p. 55" },
+    { origen: "Zonas industriales", destino: "Producción artesanal", tipo: "Soporte", sustento: "Las zonas industriales complementan la producción artesanal local.", page: "p. 61" }
   ],
   // Estructura de Patrimonios: todavía en construcción.
   // No se agregan nodos ni relaciones hasta que exista información real.
@@ -126,12 +111,15 @@ const STRUCTURES = {
 
 const STRUCT_ORDER = ['EEP', 'EFS', 'ESE', 'EIP'];
 
-// Tipos de relación → estilo de línea (color viene de las variables CSS --rel-*)
+// Tipos de relación → estilo de línea DENTRO DEL LIENZO.
+// Estos colores son independientes de los de la leyenda (--rel-*, que van en blanco
+// para Directa/Indirecta): dentro del grafo, Directa/Indirecta/Soporte se ven en
+// naranja (igual que las capturas de referencia) y solo Resiliencia va en azul.
 const REL_STYLE = {
-  Directa: { color: 'var(--rel-directa)', hex: '#c9cedb', dashed: false },
-  Indirecta: { color: 'var(--rel-indirecta)', hex: '#c9cedb', dashed: true },
-  Soporte: { color: 'var(--rel-soporte)', hex: '#ff9a3d', dashed: false },
-  Resiliencia: { color: 'var(--rel-resiliencia)', hex: '#4d8dff', dashed: false }
+  Directa:     { color: 'var(--line-directa)',     hex: '#ff9a3d', dashed: false },
+  Indirecta:   { color: 'var(--line-indirecta)',    hex: '#ff9a3d', dashed: true  },
+  Soporte:     { color: 'var(--line-soporte)',      hex: '#ff9a3d', dashed: false },
+  Resiliencia: { color: 'var(--line-resiliencia)',  hex: '#4d8dff', dashed: false }
 };
 
 // -----------------------------------------------------------------------
@@ -159,6 +147,34 @@ const FIXED_LAYOUTS = {
     'Complejos de páramos':           { x: 0.069, y: 0.753, r: 25 },
     'Parques de borde':               { x: 0.428, y: 0.784, r: 24 },
     'Paisajes sostenibles':           { x: 0.253, y: 0.900, r: 24 }
+  },
+  // Posiciones calculadas directamente sobre la captura de referencia
+  // "Estructura Funcional y del Cuidado" (11 nodos, igual que la imagen).
+  EFS: {
+    'Servicios de cuidado':  { x: 0.531, y: 0.151, r: 28 },
+    'Equipamientos':         { x: 0.891, y: 0.169, r: 40 },
+    'Servicios públicos':    { x: 0.328, y: 0.265, r: 30 },
+    'Ciclorrutas':           { x: 0.073, y: 0.319, r: 32 },
+    'Servicios sociales':    { x: 0.727, y: 0.359, r: 29 },
+    'Vivienda':              { x: 0.531, y: 0.491, r: 54 },
+    'Transporte público':    { x: 0.205, y: 0.560, r: 31 },
+    'Red vial':              { x: 0.883, y: 0.648, r: 31 },
+    'Parques':               { x: 0.331, y: 0.711, r: 27 },
+    'Manzanas del Cuidado':  { x: 0.487, y: 0.805, r: 37 },
+    'Corredores verdes':     { x: 0.172, y: 0.846, r: 34 }
+  },
+  // Posiciones calculadas directamente sobre la captura de referencia
+  // "Estructura Socioeconómica, Creativa y de Innovación" (9 nodos, igual que la imagen).
+  ESE: {
+    'Servicios empresariales':                  { x: 0.093, y: 0.301, r: 48 },
+    'Distrito Centro Tecnológico e Innovación': { x: 0.423, y: 0.176, r: 34 },
+    'Centros de abastecimiento':                { x: 0.718, y: 0.156, r: 25 },
+    'Zonas industriales':                       { x: 0.859, y: 0.392, r: 49 },
+    'Plazas de mercado':                        { x: 0.327, y: 0.418, r: 31 },
+    'Sistema de educación educación':           { x: 0.457, y: 0.574, r: 47 },
+    'Zonas interés turístico':                  { x: 0.854, y: 0.623, r: 25 },
+    'Centros financieros':                      { x: 0.103, y: 0.708, r: 28 },
+    'Producción artesanal':                     { x: 0.286, y: 0.869, r: 28 }
   }
 };
 
@@ -197,7 +213,32 @@ const ICON_RULES = [
   [/emprendimiento/i, 'fa-rocket']
 ];
 
+// Íconos exactos por nodo (tienen prioridad sobre las reglas por palabra clave).
+// Se usan para los nodos de EFS y ESE, cuyos íconos en la captura de referencia
+// no coinciden con la regla genérica por palabra clave.
+const ICON_OVERRIDES = {
+  // EFS — Estructura Funcional y del Cuidado
+  'Servicios de cuidado': 'fa-heart',
+  'Equipamientos': 'fa-building',
+  'Servicios públicos': 'fa-faucet',
+  'Ciclorrutas': 'fa-bicycle',
+  'Servicios sociales': 'fa-hand-holding-heart',
+  'Transporte público': 'fa-bus',
+  'Red vial': 'fa-road',
+  'Manzanas del Cuidado': 'fa-share-nodes',
+  'Corredores verdes': 'fa-leaf',
+  // ESE — Estructura Socioeconómica, Creativa y de Innovación
+  'Servicios empresariales': 'fa-briefcase',
+  'Distrito Centro Tecnológico e Innovación': 'fa-share-nodes',
+  'Centros de abastecimiento': 'fa-truck',
+  'Sistema de educación educación': 'fa-graduation-cap',
+  'Zonas interés turístico': 'fa-map-location-dot',
+  'Centros financieros': 'fa-building-columns',
+  'Producción artesanal': 'fa-gem'
+};
+
 function getNodeIcon(label, fallback) {
+  if (ICON_OVERRIDES[label]) return ICON_OVERRIDES[label];
   for (const [regex, icon] of ICON_RULES) {
     if (regex.test(label)) return icon;
   }
@@ -252,6 +293,25 @@ function buildAllGraphs() {
         page: rel.page
       });
     });
+
+    // Nodos sin relaciones pero presentes en el layout fijo de referencia
+    // (p. ej. "Centros de abastecimiento" y "Zonas interés turístico" en ESE):
+    // deben verse en el lienzo igual que en la captura, aunque no tengan flechas.
+    const fixedForStruct = FIXED_LAYOUTS[structId];
+    if (fixedForStruct) {
+      Object.keys(fixedForStruct).forEach(name => {
+        if (!nodeMap.has(name)) {
+          nodeMap.set(name, {
+            id: name,
+            label: name,
+            struct: structId,
+            color: cfg.color,
+            icon: getNodeIcon(name, cfg.icon),
+            degree: 0
+          });
+        }
+      });
+    }
 
     const structNodes = Array.from(nodeMap.values());
     const fixedLayout = FIXED_LAYOUTS[structId];
