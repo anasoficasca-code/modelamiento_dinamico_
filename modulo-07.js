@@ -231,7 +231,7 @@ function closeRelationPanel() {
 let adjacency = {};       // nodeId -> Set de nodeIds vecinos
 let nodeLinks = {};       // nodeId -> [line elements]
 let selectedNode = null;
-const baseViewBox = { x: -225, y: -245, w: 1145, h: 996 };
+const baseViewBox = { x: -195, y: -238, w: 1018, h: 988 };
 let currentViewBox = { ...baseViewBox };
 
 function buildAdjacency() {
@@ -252,9 +252,9 @@ function buildAdjacency() {
 // texto) según el número real de conexiones del nodo. Un nodo con más
 // relaciones documentadas en el POT se dibuja más grande.
 const SIZE_PRESETS = {
-  low:  { r: 14, fo: 18, icon: 9,  textY: 24 },
-  mid:  { r: 19, fo: 27, icon: 11, textY: 30 },
-  high: { r: 26, fo: 38, icon: 14, textY: 38 }
+  low:  { r: 13, fo: 17, icon: 9,  textY: 23 },
+  mid:  { r: 21, fo: 30, icon: 12, textY: 32 },
+  high: { r: 34, fo: 48, icon: 17, textY: 48 }
 };
 
 function degreeTier(degree) {
