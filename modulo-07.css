@@ -340,6 +340,32 @@ body {
 
 .central-hint strong { color: var(--teal); }
 
+.central-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+.central-select {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--border-soft);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.central-select:hover {
+  border-color: var(--teal);
+}
+
 .central-sim-btn {
   justify-content: center;
   width: 100%;
@@ -596,8 +622,7 @@ body {
 .links line.type-off { opacity: 0.04 !important; }
 
 /* resaltado por selección de nodo */
-.node { cursor: grab; }
-.node.dragging { cursor: grabbing; }
+.node { cursor: pointer; }
 .node.node-dim { opacity: 0.12; }
 .links line.link-dim { opacity: 0.06; }
 .node.node-selected .node-fill { stroke-width: 2.2; filter: drop-shadow(0 0 5px currentColor); }
