@@ -72,11 +72,13 @@ const FINDINGS = {
 };
 
 /* Relación con hallazgo propio: al hacer CLIC en esa línea (comportamiento normal de
-   sustento documental) también se muestra el popup del hallazgo. */
+   sustento documental) también se muestra el popup del hallazgo, y además se aísla
+   la vista para mostrar SOLO esos dos nodos y la línea entre ellos. */
 const EDGE_FINDINGS = {
-  "ods2->ods8": {
-    title: "Relación inesperada: Hambre → Trabajo",
-    text: "El hambre (ODS 2) se conecta de forma directa con el trabajo decente (ODS 8): una carencia básica repercute en la dimensión económica de la red, una relación que no resulta evidente a primera vista.",
+  "ods1->ods13": {
+    title: "ODS 1 ↔ ODS 13 · Relación inesperada",
+    text: "El ODS 1 no entiende la pobreza únicamente como un problema económico: también exige reducir la vulnerabilidad de las personas pobres frente a fenómenos relacionados con el clima.",
+    nodes: ["ods1", "ods13"],
   },
 };
 
@@ -264,10 +266,7 @@ function drawEdges(svg) {
     group.addEventListener("click", () => {
       showEdgeInfo(i);
       const finding = EDGE_FINDINGS[edgeKey(edge)];
-      if (finding) {
-        showFindingPopup(finding);
-        setActivePanelButton("finding", "edge:" + edgeKey(edge));
-      }
+      if (finding) activateEdgeFinding(edgeKey(edge));
     });
     g.appendChild(group);
 
@@ -562,6 +561,7 @@ function clearSpotlight() {
   hideFindingPopup();
   clearActivePanelButtons();
   activeContradiction = null;
+  activeEdgeFinding = null;
 }
 
 function setSpotlightNodes(nodeIds, expand) {
@@ -652,46 +652,60 @@ function toggleContradiction(id) {
   if (data) showFindingPopup(data, "contradiction");
 }
 
-/* -------- estado activo de los botones de los paneles laterales -------- */
+/* -------- relación con hallazgo propio (ODS 1 ↔ ODS 13): aísla SOLO esos dos nodos
+   y la línea entre ellos -------- */
+let activeEdgeFinding = null;
+function activateEdgeFinding(key) {
+  const finding = EDGE_FINDINGS[key];
+  if (!finding) return;
+  const already = activeEdgeFinding === key;
+  if (already) {
+    clearSpotlight();
+    return;
+  }
+  const [s, t] = key.split("->");
+  const idx = RAW_EDGES.findIndex(e => e.s === s && e.t === t);
+  if (idx >= 0) showEdgeInfo(idx);
+  setSpotlightNodes(finding.nodes, false);
+  activeEdgeFinding = key;
+  setActivePanelButton("finding", "edge:" + key);
+  showFindingPopup(finding);
+}
+
+/* -------- estado activo de los chips de la barra "Hallazgos" / "Contradicción" -------- */
 function clearActivePanelButtons() {
-  document.querySelectorAll(".findings-panel .panel-list-item").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".contradiction-item").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".fc-chip").forEach(b => b.classList.remove("active"));
 }
 
 function setActivePanelButton(kind, key) {
   clearActivePanelButtons();
   const selector = kind === "finding"
-    ? `.findings-panel .panel-list-item[data-finding="${key}"]`
-    : `.contradiction-item[data-contradiction="${key}"]`;
+    ? `.fc-chip[data-finding="${key}"]`
+    : `.fc-chip[data-contradiction="${key}"]`;
   document.querySelector(selector)?.classList.add("active");
 }
 
-/* -------- conecta los botones de los paneles "Hallazgos" y "Contradicción" -------- */
+/* -------- conecta los chips de la barra "Hallazgos" y "Contradicción" -------- */
 function setupSidePanels() {
-  document.querySelectorAll(".findings-panel .panel-list-item").forEach(btn => {
+  document.querySelectorAll(".fc-chip[data-finding]").forEach(btn => {
     btn.addEventListener("click", () => {
       const key = btn.dataset.finding;
       if (key.startsWith("edge:")) {
-        const [, s, t] = key.match(/^edge:(\w+)->(\w+)$/) || [];
-        const idx = RAW_EDGES.findIndex(e => e.s === s && e.t === t);
-        if (idx >= 0) {
-          showEdgeInfo(idx);
-          showFindingPopup(EDGE_FINDINGS[key.slice(5)]);
-          setActivePanelButton("finding", key);
-        }
+        activateEdgeFinding(key.slice(5));
       } else {
         toggleNodeFlow(key);
       }
     });
   });
 
-  document.querySelectorAll(".contradiction-item").forEach(btn => {
+  document.querySelectorAll(".fc-chip[data-contradiction]").forEach(btn => {
     btn.addEventListener("click", () => toggleContradiction(btn.dataset.contradiction));
   });
 }
 
-/* -------- popup de hallazgo / contradicción (sobre el lienzo de la red) -------- */
-let findingPopupTimer = null;
+/* -------- popup de hallazgo / contradicción (sobre el lienzo de la red) --------
+   Permanece visible hasta que el usuario lo cierra manualmente o se limpia
+   el spotlight (clic en otra tarjeta/chip, o de nuevo en el mismo). */
 function showFindingPopup(finding, variant) {
   const popup = document.getElementById("findingPopup");
   if (!popup) return;
@@ -703,15 +717,10 @@ function showFindingPopup(finding, variant) {
   document.getElementById("findingPopupTitle").textContent = finding.title;
   document.getElementById("findingPopupText").textContent = finding.text;
   popup.classList.add("visible");
-  if (findingPopupTimer) clearTimeout(findingPopupTimer);
-  findingPopupTimer = setTimeout(() => popup.classList.remove("visible"), 9000);
 }
 
 function hideFindingPopup() {
-  const popup = document.getElementById("findingPopup");
-  if (!popup) return;
-  popup.classList.remove("visible");
-  if (findingPopupTimer) { clearTimeout(findingPopupTimer); findingPopupTimer = null; }
+  document.getElementById("findingPopup")?.classList.remove("visible");
 }
 
 /* -------- animación "puente": mueve temporalmente un nodo hacia una posición
