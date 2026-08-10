@@ -43,23 +43,26 @@ const SISTEMAS = {
 /* -------- Nodos: 32 componentes tomados de la hoja "Relaciones" -------- */
 /* tamaño (r) proporcional al número de conexiones (grado) de cada componente */
 const ODS_NODES = [
-  { id: "vivienda", name: "VIVIENDA", icon: "fa-house", color: "#ef9552", sistema: "habitat", x: 735, y: 390, r: 85 },
-  { id: "plazas", name: "PLAZAS", icon: "fa-chess-board", color: "#ef9552", sistema: "habitat", x: 890, y: 446, r: 29 },
+  { id: "vivienda", name: "VIVIENDA", icon: "fa-house", color: "#ef9552", sistema: "habitat", x: 735, y: 390, r: 88 },
+  { id: "plazas", name: "PLAZAS", icon: "fa-chess-board", color: "#ef9552", sistema: "habitat", x: 890, y: 446, r: 33 },
   { id: "alcantarillado", name: "ALCANTARILLADO", icon: "fa-faucet-drip", color: "#ef9552", sistema: "habitat", x: 706, y: 552, r: 29 },
-  { id: "espacio_publico", name: "ESPACIO\nPÚBLICO", icon: "fa-people-group", color: "#ef9552", sistema: "habitat", x: 580, y: 446, r: 36 },
+  { id: "espacio_publico", name: "ESPACIO\nPÚBLICO", icon: "fa-people-group", color: "#ef9552", sistema: "habitat", x: 580, y: 446, r: 46 },
   { id: "redes_de_energia", name: "REDES DE\nENERGÍA", icon: "fa-bolt", color: "#ef9552", sistema: "habitat", x: 652, y: 247, r: 29 },
   { id: "alumbrado_publico", name: "ALUMBRADO\nPÚBLICO", icon: "fa-lightbulb", color: "#ef9552", sistema: "habitat", x: 817, y: 247, r: 29 },
+  { id: "barrios", name: "BARRIOS", icon: "fa-city", color: "#ef9552", sistema: "habitat", x: 500, y: 560, r: 43 },
+  { id: "centralidades", name: "CENTRALIDADES", icon: "fa-building", color: "#ef9552", sistema: "habitat", x: 860, y: 560, r: 36 },
+  { id: "lotes", name: "LOTES", icon: "fa-vector-square", color: "#ef9552", sistema: "habitat", x: 470, y: 240, r: 29 },
 
-  { id: "humedales", name: "HUMEDALES", icon: "fa-water", color: "#4ade80", sistema: "eco", x: 330, y: 200, r: 43 },
-  { id: "rios", name: "RÍOS", icon: "fa-droplet", color: "#4ade80", sistema: "eco", x: 205, y: 300, r: 40 },
-  { id: "corredores_verdes", name: "CORREDORES\nVERDES", icon: "fa-seedling", color: "#4ade80", sistema: "eco", x: 420, y: 330, r: 40 },
-  { id: "parques_urbanos", name: "PARQUES\nURBANOS", icon: "fa-tree", color: "#4ade80", sistema: "eco", x: 155, y: 120, r: 33 },
-  { id: "corredores_ecologicos", name: "CORREDORES\nECOLÓGICOS", icon: "fa-leaf", color: "#4ade80", sistema: "eco", x: 120, y: 390, r: 33 },
-  { id: "cerros", name: "CERROS", icon: "fa-mountain", color: "#4ade80", sistema: "eco", x: 55, y: 420, r: 29 },
-  { id: "arbolado_urbano", name: "ARBOLADO\nURBANO", icon: "fa-tree-city", color: "#4ade80", sistema: "eco", x: 235, y: 420, r: 29 },
-  { id: "coberturas_vegetales", name: "COBERTURAS\nVEGETALES", icon: "fa-spa", color: "#4ade80", sistema: "eco", x: 335, y: 80, r: 29 },
-  { id: "fuentes_hidricas", name: "FUENTES\nHÍDRICAS", icon: "fa-faucet", color: "#4ade80", sistema: "eco", x: 110, y: 230, r: 29 },
-  { id: "quebradas", name: "QUEBRADAS", icon: "fa-water", color: "#4ade80", sistema: "eco", x: 85, y: 290, r: 29 },
+  { id: "humedales", name: "HUMEDALES", icon: "fa-water", color: "#4ade80", sistema: "eco", x: 330, y: 200, r: 62 },
+  { id: "rios", name: "RÍOS", icon: "fa-droplet", color: "#4ade80", sistema: "eco", x: 205, y: 300, r: 46 },
+  { id: "corredores_verdes", name: "CORREDORES\nVERDES", icon: "fa-seedling", color: "#4ade80", sistema: "eco", x: 420, y: 330, r: 54 },
+  { id: "parques_urbanos", name: "PARQUES\nURBANOS", icon: "fa-tree", color: "#4ade80", sistema: "eco", x: 155, y: 120, r: 39 },
+  { id: "corredores_ecologicos", name: "CORREDORES\nECOLÓGICOS", icon: "fa-leaf", color: "#4ade80", sistema: "eco", x: 120, y: 390, r: 39 },
+  { id: "cerros", name: "CERROS", icon: "fa-mountain", color: "#4ade80", sistema: "eco", x: 55, y: 420, r: 35 },
+  { id: "arbolado_urbano", name: "ARBOLADO\nURBANO", icon: "fa-tree-city", color: "#4ade80", sistema: "eco", x: 235, y: 420, r: 35 },
+  { id: "coberturas_vegetales", name: "COBERTURAS\nVEGETALES", icon: "fa-spa", color: "#4ade80", sistema: "eco", x: 335, y: 80, r: 42 },
+  { id: "fuentes_hidricas", name: "FUENTES\nHÍDRICAS", icon: "fa-faucet", color: "#4ade80", sistema: "eco", x: 110, y: 230, r: 35 },
+  { id: "quebradas", name: "QUEBRADAS", icon: "fa-water", color: "#4ade80", sistema: "eco", x: 85, y: 290, r: 35 },
 
   { id: "educacion", name: "EDUCACIÓN", icon: "fa-graduation-cap", color: "#f76fb0", sistema: "social", x: 1005, y: 175, r: 36 },
   { id: "equipamientos", name: "EQUIPAMIENTOS", icon: "fa-building-columns", color: "#f76fb0", sistema: "social", x: 1130, y: 80, r: 33 },
@@ -67,19 +70,30 @@ const ODS_NODES = [
   { id: "manzanas_del_cuidado", name: "MANZANAS\nDEL CUIDADO", icon: "fa-people-roof", color: "#f76fb0", sistema: "social", x: 995, y: 300, r: 29 },
   { id: "recreacion", name: "RECREACIÓN", icon: "fa-futbol", color: "#f76fb0", sistema: "social", x: 1255, y: 175, r: 33 },
   { id: "patrimonio", name: "PATRIMONIO", icon: "fa-landmark", color: "#f76fb0", sistema: "social", x: 1360, y: 320, r: 33 },
+  { id: "centros_comunitarios", name: "CENTROS\nCOMUNITARIOS", icon: "fa-people-roof", color: "#f76fb0", sistema: "social", x: 330, y: 545, r: 33 },
+  { id: "espacios_culturales", name: "ESPACIOS\nCULTURALES", icon: "fa-masks-theater", color: "#f76fb0", sistema: "social", x: 1010, y: 435, r: 29 },
+  { id: "bibliotecas", name: "BIBLIOTECAS", icon: "fa-book", color: "#f76fb0", sistema: "social", x: 390, y: 500, r: 29 },
+  { id: "centros_deportivos", name: "CENTROS\nDEPORTIVOS", icon: "fa-dumbbell", color: "#f76fb0", sistema: "social", x: 650, y: 375, r: 29 },
 
-  { id: "comercio", name: "COMERCIO", icon: "fa-shop", color: "#f5c945", sistema: "economico", x: 995, y: 525, r: 36 },
-  { id: "empleo", name: "EMPLEO", icon: "fa-briefcase", color: "#f5c945", sistema: "economico", x: 1155, y: 565, r: 36 },
+  { id: "comercio", name: "COMERCIO", icon: "fa-shop", color: "#f5c945", sistema: "economico", x: 995, y: 525, r: 40 },
+  { id: "empleo", name: "EMPLEO", icon: "fa-briefcase", color: "#f5c945", sistema: "economico", x: 1155, y: 565, r: 40 },
   { id: "produccion_artesanal", name: "PRODUCCIÓN\nARTESANAL", icon: "fa-hands", color: "#f5c945", sistema: "economico", x: 1305, y: 465, r: 29 },
   { id: "turismo", name: "TURISMO", icon: "fa-camera-retro", color: "#f5c945", sistema: "economico", x: 1305, y: 625, r: 29 },
+  { id: "economia_popular", name: "ECONOMÍA\nPOPULAR", icon: "fa-store", color: "#f5c945", sistema: "economico", x: 760, y: 470, r: 29 },
+  { id: "plazas_de_mercado", name: "PLAZAS DE\nMERCADO", icon: "fa-basket-shopping", color: "#f5c945", sistema: "economico", x: 650, y: 510, r: 29 },
+  { id: "agricultura_urbana", name: "AGRICULTURA\nURBANA", icon: "fa-carrot", color: "#f5c945", sistema: "economico", x: 495, y: 140, r: 29 },
 
-  { id: "transporte_publico", name: "TRANSPORTE\nPÚBLICO", icon: "fa-bus", color: "#5b8def", sistema: "movilidad", x: 600, y: 655, r: 40 },
+  { id: "transporte_publico", name: "TRANSPORTE\nPÚBLICO", icon: "fa-bus", color: "#5b8def", sistema: "movilidad", x: 600, y: 655, r: 56 },
   { id: "red_vial", name: "RED VIAL", icon: "fa-road", color: "#5b8def", sistema: "movilidad", x: 425, y: 705, r: 33 },
-  { id: "ciclorrutas", name: "CICLORRUTAS", icon: "fa-bicycle", color: "#5b8def", sistema: "movilidad", x: 765, y: 705, r: 36 },
+  { id: "ciclorrutas", name: "CICLORRUTAS", icon: "fa-bicycle", color: "#5b8def", sistema: "movilidad", x: 765, y: 705, r: 48 },
+  { id: "andenes", name: "ANDENES", icon: "fa-person-walking", color: "#5b8def", sistema: "movilidad", x: 480, y: 610, r: 29 },
+  { id: "metro", name: "METRO", icon: "fa-train-subway", color: "#5b8def", sistema: "movilidad", x: 905, y: 650, r: 29 },
+  { id: "regiotram", name: "REGIOTRAM", icon: "fa-train", color: "#5b8def", sistema: "movilidad", x: 1290, y: 650, r: 29 },
 
   { id: "planeacion_urbana", name: "PLANEACIÓN\nURBANA", icon: "fa-compass-drafting", color: "#a276f2", sistema: "gobernanza", x: 160, y: 555, r: 29 },
   { id: "organizaciones_comunitarias", name: "ORGANIZACIONES\nCOMUNITARIAS", icon: "fa-people-arrows", color: "#a276f2", sistema: "gobernanza", x: 95, y: 650, r: 29 },
   { id: "entidades_publicas", name: "ENTIDADES\nPÚBLICAS", icon: "fa-building-flag", color: "#a276f2", sistema: "gobernanza", x: 255, y: 525, r: 29 },
+  { id: "juntas_de_accion_comunal", name: "JUNTAS DE\nACCIÓN COMUNAL", icon: "fa-people-group", color: "#a276f2", sistema: "gobernanza", x: 210, y: 460, r: 29 },
 ];
 
 /* -------- física: cada nodo guarda su posición "casa" (ancla) y velocidad -------- */
@@ -91,10 +105,10 @@ ODS_NODES.forEach(n => {
 
 /* Tipos de relación (hoja "4 convenciones") */
 const TYPE_STYLE = {
-  soporte:        { color: "#4ade80", width: 2.6, label: "Soporte", desc: "El elemento aporta condiciones, recursos o servicios para que otro funcione.", dash: false, doubleEnd: false, double: false },
-  conectividad:   { color: "#5b8def", width: 2.6, label: "Conectividad", desc: "El elemento conecta lugares, personas, actividades o sistemas.", dash: false, doubleEnd: true, double: false },
-  dependencia:    { color: "#f76fb0", width: 2.4, label: "Dependencia", desc: "El funcionamiento de un elemento depende de otro.", dash: true, doubleEnd: false, double: false },
-  transformacion: { color: "#a276f2", width: 2.2, label: "Transformación", desc: "Un elemento modifica o transforma otro.", dash: false, doubleEnd: false, double: true },
+  soporte:        { color: "#4ade80", width: 1.3, label: "Soporte", desc: "El elemento aporta condiciones, recursos o servicios para que otro funcione.", dash: false, doubleEnd: false, double: false },
+  conectividad:   { color: "#5b8def", width: 1.3, label: "Conectividad", desc: "El elemento conecta lugares, personas, actividades o sistemas.", dash: false, doubleEnd: true, double: false },
+  dependencia:    { color: "#f76fb0", width: 1.2, label: "Dependencia", desc: "El funcionamiento de un elemento depende de otro.", dash: true, doubleEnd: false, double: false },
+  transformacion: { color: "#a276f2", width: 1.1, label: "Transformación", desc: "Un elemento modifica o transforma otro.", dash: false, doubleEnd: false, double: true },
 };
 
 /* -------- Aristas: 40 relaciones tomadas 1 a 1 de la hoja "Relaciones" -------- */
@@ -139,6 +153,23 @@ let RAW_EDGES = [
   { s: "corredores_verdes", t: "ciclorrutas", type: "conectividad", sustento: "Los Corredores verdes conectan con la red de Ciclorrutas.", paginaTexto: "Ambiental y ecológico → Movilidad y conectividad" },
   { s: "equipamientos", t: "transporte_publico", type: "conectividad", sustento: "Los Equipamientos se conectan con la ciudad a través del Transporte público.", paginaTexto: "Social, cultural y cuidado → Movilidad y conectividad" },
   { s: "comercio", t: "transporte_publico", type: "conectividad", sustento: "El Comercio se conecta con la ciudad a través del Transporte público.", paginaTexto: "Económico y productivo → Movilidad y conectividad" },
+
+  /* -------- 15 relaciones nuevas -------- */
+  { s: "barrios", t: "espacio_publico", type: "soporte", sustento: "Los Barrios aportan la base habitacional que sostiene el Espacio público.", paginaTexto: "Hábitat y espacio urbano → Hábitat y espacio urbano" },
+  { s: "barrios", t: "centros_comunitarios", type: "soporte", sustento: "Los Barrios sostienen la existencia de los Centros comunitarios.", paginaTexto: "Hábitat y espacio urbano → Social, cultural y cuidado" },
+  { s: "barrios", t: "economia_popular", type: "soporte", sustento: "Los Barrios sostienen las dinámicas de la Economía popular.", paginaTexto: "Hábitat y espacio urbano → Económico y productivo" },
+  { s: "centralidades", t: "comercio", type: "soporte", sustento: "Las Centralidades sostienen la concentración de Comercio.", paginaTexto: "Hábitat y espacio urbano → Económico y productivo" },
+  { s: "centralidades", t: "transporte_publico", type: "conectividad", sustento: "Las Centralidades se conectan con la ciudad a través del Transporte público.", paginaTexto: "Hábitat y espacio urbano → Movilidad y conectividad" },
+  { s: "lotes", t: "coberturas_vegetales", type: "transformacion", sustento: "Los Lotes se transforman al modificar las Coberturas vegetales existentes.", paginaTexto: "Hábitat y espacio urbano → Ambiental y ecológico" },
+  { s: "plazas", t: "espacios_culturales", type: "soporte", sustento: "Las Plazas sostienen la existencia de Espacios culturales.", paginaTexto: "Hábitat y espacio urbano → Social, cultural y cuidado" },
+  { s: "andenes", t: "espacio_publico", type: "conectividad", sustento: "Los Andenes conectan a las personas con el Espacio público.", paginaTexto: "Movilidad y conectividad → Hábitat y espacio urbano" },
+  { s: "metro", t: "centralidades", type: "conectividad", sustento: "El Metro conecta a la ciudad con las Centralidades.", paginaTexto: "Movilidad y conectividad → Hábitat y espacio urbano" },
+  { s: "regiotram", t: "empleo", type: "conectividad", sustento: "El Regiotram conecta a la población con las fuentes de Empleo.", paginaTexto: "Movilidad y conectividad → Económico y productivo" },
+  { s: "plazas_de_mercado", t: "barrios", type: "soporte", sustento: "Las Plazas de mercado sostienen la vida cotidiana de los Barrios.", paginaTexto: "Económico y productivo → Hábitat y espacio urbano" },
+  { s: "agricultura_urbana", t: "coberturas_vegetales", type: "soporte", sustento: "La Agricultura urbana sostiene y amplía las Coberturas vegetales.", paginaTexto: "Económico y productivo → Ambiental y ecológico" },
+  { s: "bibliotecas", t: "barrios", type: "soporte", sustento: "Las Bibliotecas sostienen la vida cultural de los Barrios.", paginaTexto: "Social, cultural y cuidado → Hábitat y espacio urbano" },
+  { s: "centros_deportivos", t: "espacio_publico", type: "soporte", sustento: "Los Centros deportivos sostienen el uso activo del Espacio público.", paginaTexto: "Social, cultural y cuidado → Hábitat y espacio urbano" },
+  { s: "juntas_de_accion_comunal", t: "centros_comunitarios", type: "conectividad", sustento: "Las Juntas de Acción Comunal conectan a la comunidad con los Centros comunitarios.", paginaTexto: "Gobernanza → Social, cultural y cuidado" },
 ];
 
 function nodeById(id) { return ODS_NODES.find(n => n.id === id); }
@@ -217,7 +248,7 @@ function edgePathDataDouble(edge, s, t) {
   const dist = Math.sqrt(dx * dx + dy * dy) || 1;
   const ux = dx / dist, uy = dy / dist;
   const px = -uy, py = ux;
-  const off = 3;
+  const off = 2.2;
   const startPad = s.r + 2;
   const endPad = t.r + 8;
   const x1 = s.x + ux * startPad, y1 = s.y + uy * startPad;
