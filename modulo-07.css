@@ -539,13 +539,13 @@ body {
   border-radius: 8px;
   background: #05070d;
   overflow: hidden;
-  max-height: 78vh;
+  max-height: 82vh;
 }
 
 .network-static-wrap svg {
   width: 100%;
   height: auto;
-  max-height: 78vh;
+  max-height: 82vh;
   display: block;
   margin: 0 auto;
 }
@@ -644,6 +644,10 @@ body {
 
 /* Sólida vs Punteada: independiente del color (Soporte/Resiliencia) */
 .link-punteada { stroke-dasharray: 3 2.2; }
+
+/* Líneas "puente" que conectan dos estructuras (colores) distintas */
+.link-cross { stroke-width: 1.1; opacity: 0.85; }
+.link-cross.link-punteada { stroke-dasharray: 4 3; }
 
 /* Relaciones documentadas: son las que tienen flecha y son clicables */
 .links line.link-soporte,
