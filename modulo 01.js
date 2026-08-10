@@ -90,70 +90,59 @@ const TYPE_STYLE = {
 
 /* -------- Aristas: relaciones de las 4 estructuras -------- */
 const RAW_EDGES = [
-  /* === 1. Estructura Ecológica Principal (verde) === */
-  { s: "cerros",     t: "rios",       type: "soporte",     directa: true,  cat: "e1", pagina: "186", sustento: "Los cerros orientales son los corredores montañosos de la estructura ecológica: contienen y alimentan los ríos que descienden al valle." },
-  { s: "quebradas",  t: "humedales",  type: "soporte",     directa: true,  cat: "e1", pagina: "186", sustento: "Las quebradas de la Sabana alimentan los humedales: su caudal mantiene la lámina de agua y la vida del ecosistema." },
-  { s: "humedales",  t: "rios",       type: "soporte",     directa: true,  cat: "e1", pagina: "186", sustento: "Los humedales regulan los ríos de la Sabana: amortiguan crecientes, sedimentan y depuran el agua que circula por la cuenca." },
-  { s: "humedales",  t: "resiliencia",type: "soporte",     directa: true,  cat: "e1", pagina: "186", sustento: "Los humedales son parte de las áreas de resiliencia climática: absorben el exceso hídrico y reducen el riesgo de inundación." },
-  { s: "rios",       t: "paramos",    type: "soporte",     directa: true,  cat: "e1", pagina: "186", sustento: "Los ríos de la Sabana nacen en los complejos de páramos: la agua que llega a la ciudad depende de esos ecosistemas altoandinos." },
-  { s: "bosques",    t: "coberturas", type: "soporte",     directa: true,  cat: "e1", pagina: "186", sustento: "Los bosques urbanos integran y sostienen las coberturas vegetales de la ciudad." },
-  { s: "resiliencia",t: "coberturas", type: "resiliencia", directa: true,  cat: "e1", pagina: "186", sustento: "Las áreas de resiliencia climática dependen de las coberturas vegetales para su funcionamiento: sin vegetación no hay regulación térmica ni hídrica." },
-  { s: "reservas",   t: "coberturas", type: "resiliencia", directa: true,  cat: "e1", pagina: "186", sustento: "Las reservas forestales sostienen las coberturas vegetales: garantizan suelo protegido y continuidad de la vegetación." },
-  { s: "cerros",     t: "areas",      type: "indirecta",   directa: false, cat: "e1", pagina: "186", sustento: "Los cerros orientales se vinculan con las áreas protegidas de manera indirecta: no toda su extensión está bajo régimen de protección, aunque la protege parcialmente." },
-  { s: "areas",      t: "parques_m",  type: "soporte",     directa: false, cat: "e1", pagina: "186", sustento: "Las áreas protegidas contienen a los parques ecológicos de montaña: el régimen de protección habilita su existencia." },
-  { s: "areas",      t: "reservas",   type: "soporte",     directa: false, cat: "e1", pagina: "186", sustento: "Las áreas protegidas dan origen a las reservas forestales: la protección jurídica habilita la reserva como figura de conservación." },
-  { s: "parques_m",  t: "coberturas", type: "soporte",     directa: false, cat: "e1", pagina: "186", sustento: "Los parques ecológicos de montaña aportan sus coberturas vegetales al sistema ecológico urbano." },
-  { s: "humedales",  t: "coberturas", type: "soporte",     directa: false, cat: "e1", pagina: "186", sustento: "Los humedales contribuyen a las coberturas vegetales del sistema ecológico: su vegetación palustre es cobertura viva." },
-  { s: "coberturas", t: "parque_b",   type: "soporte",     directa: true,  cat: "e1", pagina: "186", sustento: "Las coberturas vegetales sostienen el parque de borde: la franja verde que separa la ciudad del campo depende de ellas." },
-  { s: "paramos",    t: "paisajes",   type: "soporte",     directa: false, cat: "e1", pagina: "186", sustento: "Los complejos de páramos sustentan los paisajes sostenibles de la región: su conservación es condición de la sostenibilidad del territorio." },
+  /* === 1. Estructura Ecológica Principal — 9 tensiones === */
+  { s: "cerros",     t: "rios",       type: "soporte",   directa: true,  cat: "e1", pagina: "92", sustento: "Declara EEP como 'primera ordenante' y 'rectora' (p. 92) pero invierte más en autopistas que en protección ecológica; cerros orientales amenazados." },
+  { s: "quebradas",  t: "humedales",  type: "soporte",     directa: true,  cat: "e1", pagina: "186", sustento: "Humedales mencionados como vitales (p. 186) pero ocupan solo 3 páginas del documento; subordinados a proyectos de drenaje urbano." },
+  { s: "humedales",  t: "resiliencia",type: "indirecta", directa: true,  cat: "e1", pagina: "186", sustento: "Relación entre humedales y resiliencia climática afirmada (p. 186) pero sin mecanismos claros de protección operacional." },
+  { s: "rios",       t: "paramos",    type: "indirecta",    directa: true,  cat: "e1", pagina: "186", sustento: "Páramos como origen del agua (p. 186) pero fuera del territorio distrital; su protección depende de otras jurisdicciones sin pacto claro." },
+  { s: "bosques",    t: "coberturas", type: "soporte",   directa: true,  cat: "e1", pagina: "186", sustento: "'100+ hectáreas de bosques urbanos' prometidas (p. 92) pero sin presupuesto específico ni fechas; competencia con densificación urbana." },
+  { s: "resiliencia",t: "coberturas", type: "resiliencia",  directa: true,  cat: "e1", pagina: "186", sustento: "Resiliencia climática exige coberturas vegetales (p. 186) pero ciudad propone densificación de vivienda en zonas de vegetación." },
+  { s: "reservas",   t: "coberturas", type: "soporte",     directa: true,  cat: "e1", pagina: "186", sustento: "Reservas forestales como garantía de sostenibilidad (p. 186) pero su expansión es periférica respecto a inversiones de cuidado." },
+  { s: "areas",      t: "parques_m",  type: "indirecta",  directa: false, cat: "e1", pagina: "186", sustento: "Áreas protegidas y parques de montaña desconectados en operación: conservación vs. uso público sin claridad sobre límites." },
+  { s: "parque_b",   t: "paisajes",   type: "soporte",   directa: true,  cat: "e1", pagina: "186", sustento: "Parque de borde como protección del paisaje (p. 186) pero amenazado por proyectos de infraestructura; presión permanente." },
 
-  /* === 2. Estructura Funcional y del Cuidado (azul) === */
-  { s: "redvial",    t: "transporte", type: "soporte",     directa: true,  cat: "e2", pagina: "43", sustento: "La red vial es la infraestructura que hace posible el transporte público: sin corredores viales no hay sistema de buses ni Metro." },
-  { s: "redvial",    t: "equip",      type: "soporte",     directa: true,  cat: "e2", pagina: "43", sustento: "La red vial conecta y da acceso a los equipamientos educativos, de salud y comunitarios de la ciudad." },
-  { s: "corredores", t: "transporte", type: "soporte",     directa: true,  cat: "e2", pagina: "43", sustento: "Los corredores verdes alimentan y complementan el transporte público: alojan buses eléctricos e integran movilidad y ecosistema." },
-  { s: "corredores", t: "ciclorutas", type: "soporte",     directa: true,  cat: "e2", pagina: "43", sustento: "Los corredores verdes contienen ciclorrutas seguras: la cicloinfraestructura se integra a su diseño." },
-  { s: "manzanas",   t: "sserv",      type: "soporte",     directa: true,  cat: "e2", pagina: "43", sustento: "Las Manzanas del Cuidado cualifican los servicios sociales del Distrito y hacen efectiva la articulación interinstitucional." },
-  { s: "manzanas",   t: "parques",    type: "soporte",     directa: true,  cat: "e2", pagina: "43", sustento: "Las Manzanas del Cuidado aprovechan los parques como infraestructura de encuentro y cuidado comunitario." },
-  { s: "equip",      t: "scuidado",   type: "soporte",     directa: false, cat: "e2", pagina: "43", sustento: "Los equipamientos existen como anclas de los servicios de cuidado: la relación es inferida de la política de anclaje en equipamientos preexistentes." },
-  { s: "equip",      t: "sserv",      type: "soporte",     directa: false, cat: "e2", pagina: "43", sustento: "Los equipamientos se vinculan con los servicios sociales: la articulación de entidades del Distrito opera a través de ellos." },
-  { s: "equip",      t: "vivienda",   type: "soporte",     directa: true,  cat: "e2", pagina: "43", sustento: "Los equipamientos educativos deben estar cerca de la vivienda: la proximidad es prioridad de la estructura funcional." },
-  { s: "vivienda",   t: "servpub",    type: "soporte",     directa: false, cat: "e2", pagina: "43", sustento: "La vivienda depende de los servicios públicos: la relación es inferida de la condición básica de habitabilidad." },
-  { s: "vivienda",   t: "ciclorutas", type: "soporte",     directa: false, cat: "e2", pagina: "43", sustento: "La vivienda se vincula con las ciclorrutas: el acceso ciclistas desde el barrio es condición de movilidad cotidiana." },
-  { s: "vivienda",   t: "transporte", type: "soporte",     directa: false, cat: "e2", pagina: "43", sustento: "La vivienda se conecta con el transporte público: la accesibilidad determina la calidad de vida de los hogares." },
+  /* === 2. Estructura Funcional y del Cuidado — 8 tensiones === */
+  { s: "redvial",    t: "transporte", type: "resiliencia",  directa: true,  cat: "e2", pagina: "43", sustento: "Red vial dedicada a autos pero POT propone 'transporte público prioritario' (p. 43); inversiones reales enfocadas en autopistas." },
+  { s: "corredores", t: "ciclorutas", type: "soporte",   directa: true,  cat: "e2", pagina: "43", sustento: "Corredores verdes como 'ejes de proximidad' (p. 43) pero diseño basado en automóvil; limitadas a ciclovías fragmentadas." },
+  { s: "manzanas",   t: "sserv",      type: "indirecta", directa: true,  cat: "e2", pagina: "43", sustento: "Manzanas del Cuidado articularían servicios sociales (p. 43) pero sin conexión clara con red de movilidad que determina acceso." },
+  { s: "equip",      t: "scuidado",   type: "indirecta", directa: false, cat: "e2", pagina: "43", sustento: "Equipamientos son anclas de servicios de cuidado (p. 43) pero distribuidos de forma fragmentada; acceso a 30 minutos sin verificación." },
+  { s: "vivienda",   t: "servpub",    type: "soporte",     directa: false, cat: "e2", pagina: "43", sustento: "Servicios públicos como derecho básico pero subordinados a lógica de expansión periférica; miles de hogares sin conexión de agua." },
+  { s: "equip",      t: "vivienda",   type: "indirecta",    directa: true,  cat: "e2", pagina: "43", sustento: "Proximidad entre equipamientos y vivienda mencionada (p. 43) pero sin mecanismos; densificación y desplazamiento contradicen intención." },
+  { s: "vivienda",   t: "ciclorutas", type: "soporte",   directa: false, cat: "e2", pagina: "43", sustento: "Ciclorutas como movilidad cotidiana desde vivienda (p. 43) pero solo 231 km programados; cobertura insuficiente." },
+  { s: "parques",    t: "manzanas",   type: "soporte",     directa: true,  cat: "e2", pagina: "43", sustento: "Parques como infraestructura de cuidado comunitario (p. 43) pero déficit de 6 m²/hab.; espacio público realmente para movilidad." },
 
-  /* === 3. Estructura Socioeconómica Creativa e Innovación (naranja) === */
-  { s: "financieros",t: "empresariales", type: "soporte", directa: true,  cat: "e3", pagina: "239-241", sustento: "Los centros financieros sostienen los servicios empresariales: el capital y la banca financian la economía del conocimiento." },
-  { s: "empresariales", t: "tecnodistrito", type: "soporte", directa: true, cat: "e3", pagina: "239-241", sustento: "Los servicios empresariales alimentan el distrito tecnológico: proveen demanda, clientes y profesionalización." },
-  { s: "empresariales", t: "industriales", type: "soporte", directa: true,  cat: "e3", pagina: "239-241", sustento: "Los servicios empresariales sirven a las zonas industriales: logística, diseño, comercio y gestión." },
-  { s: "tecnodistrito", t: "innovacion", type: "soporte", directa: true,   cat: "e3", pagina: "239-241", sustento: "El distrito tecnológico genera innovación: es el nodo que concentra emprendimiento y economía creativa." },
-  { s: "abastecimiento", t: "plazas", type: "soporte",     directa: false, cat: "e3", pagina: "239-241", sustento: "Los centros de abastecimiento abastecen las plazas de mercado: la relación logística es inferida de la cadena de distribución de alimentos." },
-  { s: "plazas",     t: "empresariales", type: "soporte", directa: false,  cat: "e3", pagina: "239-241", sustento: "Las plazas de mercado se vinculan con los servicios empresariales: el comercio local se integra a la economía formal de servicios." },
-  { s: "industriales", t: "turismo", type: "soporte",      directa: false, cat: "e3", pagina: "239-241", sustento: "Las zonas industriales se relacionan con las zonas de interés turístico: la reconversión y el turismo industrial son vías de interés económico." },
-  { s: "artesanal",  t: "turismo",      type: "soporte",   directa: false, cat: "e3", pagina: "239-241", sustento: "La producción artesanal alimenta las zonas de interés turístico: la cultura material local atrae y sostiene el turismo cultural." },
+  /* === 3. Estructura Socioeconómica Creativa e Innovación — 7 tensiones === */
+  { s: "financieros",t: "empresariales", type: "soporte",  directa: true,  cat: "e3", pagina: "239-241", sustento: "Centros financieros como base del crecimiento (p. 239-241) pero concentrados en norte; subordinados a lógica de aglomeración capitalista." },
+  { s: "tecnodistrito", t: "innovacion", type: "soporte", directa: true,  cat: "e3", pagina: "239-241", sustento: "Distrito tecnológico como nodo de innovación (p. 239-241) pero ubicado en zona de conflictividad ambiental; contradice EEP." },
+  { s: "industriales", t: "turismo", type: "indirecta", directa: false, cat: "e3", pagina: "239-241", sustento: "Reconversión industrial a turismo (p. 239-241) sin claridad operacional; Restrepo (cueros) vs. destino turístico: lógicas opuestas." },
+  { s: "plazas",     t: "empresariales", type: "resiliencia", directa: false, cat: "e3", pagina: "239-241", sustento: "Plazas de mercado como 'economía local' (p. 43) pero POT favorece formalización; ambas demandan espacio público incompatible." },
+  { s: "artesanal",  t: "turismo",      type: "indirecta",   directa: false, cat: "e3", pagina: "239-241", sustento: "Producción artesanal mencionada (p. 239-241) pero sin instrumentos de protección; amenazada por renovación urbana." },
+  { s: "abastecimiento", t: "plazas",  type: "soporte",  directa: false, cat: "e3", pagina: "239-241", sustento: "Cadena logística de alimentos (p. 239-241) pero inversiones en modernización corporativa vs. sistemas tradicionales." },
+  { s: "empresariales", t: "tecnodistrito", type: "soporte", directa: true, cat: "e3", pagina: "239-241", sustento: "Servicios empresariales sustentan innovación (p. 239-241) pero subordinados a inversión extranjera; economía local como periférica." },
 
-  /* === 4. Estructura Integradora de Patrimonio (morada) === */
-  { s: "sitios_sagrados", t: "pinmaterial", type: "resiliencia", directa: true, cat: "e4", pagina: "126", sustento: "El sistema de sitios sagrados sostiene el patrimonio inmaterial: las prácticas, rituales y memorias se arraigan en esos lugares." },
-  { s: "pinmaterial",  t: "pnatural",    type: "resiliencia", directa: true, cat: "e4", pagina: "126", sustento: "El patrimonio inmaterial se entrelaza con el patrimonio natural: los saberes y usos tradicionales dependen de los ecosistemas." },
-  { s: "pnatural",     t: "pecomaterial",type: "resiliencia", directa: true, cat: "e4", pagina: "126", sustento: "El patrimonio natural integra el patrimonio ecológico material: la conservación de la naturaleza es parte del patrimonio colectivo." },
+  /* === 4. Estructura Integradora de Patrimonio — 3 tensiones === */
+  { s: "sitios_sagrados", t: "pinmaterial", type: "indirecta", directa: true, cat: "e4", pagina: "126", sustento: "Sitios sagrados como base del patrimonio (p. 126) pero mencionados una sola vez; Cabildo Muisca sin claridad operacional." },
+  { s: "pinmaterial",  t: "pnatural",    type: "indirecta", directa: true, cat: "e4", pagina: "126", sustento: "Patrimonio inmaterial entrelazado con natural (p. 126) pero sin mecanismos de co-gestión con comunidades; apenas párrafos sobre operación." },
+  { s: "pnatural",     t: "pecomaterial",type: "soporte", directa: true, cat: "e4", pagina: "126", sustento: "Patrimonio natural como conservación de naturaleza (p. 126) pero subordinado a proyectos de infraestructura y densificación." },
 
   /* === CONEXIONES ENTRE ESTRUCTURAS === */
   /* EEP ↔ EFC */
-  { s: "coberturas", t: "corredores", type: "soporte", directa: true, cat: "e1-e2", pagina: "92", sustento: "Los corredores verdes tienen diseño ecosistémico integrado a las coberturas vegetales: el espacio público para movilidad sostiene la conectividad de la estructura ecológica." },
-  { s: "humedales", t: "manzanas", type: "soporte", directa: false, cat: "e1-e2", pagina: "43", sustento: "Los humedales y áreas de resiliencia climática rodean y sustentam las Manzanas del Cuidado: la infraestructura de servicios de cuidado se integra a espacios verdes." },
-  { s: "rios", t: "transporte", type: "soporte", directa: false, cat: "e1-e2", pagina: "43", sustento: "Los ríos estructuran los corredores de transporte público: el drenaje sostenible y el trasporte se articulan en el mismo espacio." },
+  { s: "coberturas", t: "corredores", type: "soporte", directa: true, cat: "e1-e2", pagina: "92", sustento: "Corredores verdes como 'diseño ecosistémico' (p. 92) pero implementados como vías verdes sin protección real; presión por densificación." },
+  { s: "humedales", t: "manzanas", type: "indirecta", directa: false, cat: "e1-e2", pagina: "43", sustento: "Manzanas del Cuidado rodean humedales en teoría (p. 43) pero sin conexión operacional; servicios sin articulación con espacios verdes." },
+  { s: "rios", t: "transporte", type: "resiliencia", directa: false, cat: "e1-e2", pagina: "43", sustento: "Ríos como ordenantes ecológicos (p. 92) pero transporte público prioriza vías arteriales que vulneran riberas; ALO versus Bogotá Reverdece." },
   
   /* EFC ↔ ESECI */
-  { s: "redvial", t: "financieros", type: "soporte", directa: false, cat: "e2-e3", pagina: "170", sustento: "La red vial conecta los centros financieros con las aglomeraciones económicas de la ciudad: la infraestructura funcional habilita la concentración de servicios empresariales." },
-  { s: "manzanas", t: "plazas", type: "soporte", directa: false, cat: "e2-e3", pagina: "43", sustento: "Las Manzanas del Cuidado integran a las plazas de mercado como infraestructura de economía local y distribución: el comercio tradicional es sostén de la vida cotidiana." },
-  { s: "equip", t: "tecnodistrito", type: "soporte", directa: false, cat: "e2-e3", pagina: "170", sustento: "Los equipamientos de educación superior albergan nodos del distrito tecnológico: la investigación y la innovación se localizan en infraestructura de formación." },
+  { s: "redvial", t: "financieros", type: "soporte", directa: false, cat: "e2-e3", pagina: "170", sustento: "Red vial conecta centros financieros (p. 170) pero infraestructura funcional subordinada a lógica capitalista; cuidado periférico." },
+  { s: "manzanas", t: "plazas", type: "resiliencia", directa: false, cat: "e2-e3", pagina: "43", sustento: "Manzanas integran plazas de mercado (p. 43) pero 'modernización' las desplaza; dos visiones incompatibles de economía urbana." },
+  { s: "equip", t: "tecnodistrito", type: "indirecta", directa: false, cat: "e2-e3", pagina: "170", sustento: "Equipamientos educativos albergan innovación (p. 170) pero sin claridad sobre dónde se ubicará CTIB; conflicto de usos del suelo." },
 
   /* ESECI ↔ Patrimonio */
-  { s: "turismo", t: "pinmaterial", type: "soporte", directa: false, cat: "e3-e4", pagina: "239-241", sustento: "Las zonas de interés turístico se articulan con el patrimonio inmaterial: el turismo cultural reconoce y dinamiza los saberes y prácticas locales de la ciudad." },
-  { s: "artesanal", t: "pnatural", type: "soporte", directa: false, cat: "e3-e4", pagina: "239-241", sustento: "La producción artesanal depende del patrimonio natural: los saberes artesanales de materiales locales se arraigan en los ecosistemas." },
+  { s: "turismo", t: "pinmaterial", type: "resiliencia", directa: false, cat: "e3-e4", pagina: "239-241", sustento: "Turismo cultural reconoce patrimonio (p. 239-241) pero 'destino turístico inteligente' y mercantilización amenazan autenticidad." },
+  { s: "artesanal", t: "pnatural", type: "soporte", directa: false, cat: "e3-e4", pagina: "239-241", sustento: "Producción artesanal depende de naturaleza (p. 239-241) pero sin protección; renovación urbana desplaza hacia periferia." },
 
   /* EEP ↔ Patrimonio */
-  { s: "coberturas", t: "pecomaterial", type: "resiliencia", directa: false, cat: "e1-e4", pagina: "126", sustento: "Las coberturas vegetales son patrimonio ecológico material: la continuidad de los ecosistemas urbanos sostiene la herencia natural de la ciudad." },
-  { s: "paisajes", t: "pinmaterial", type: "soporte", directa: false, cat: "e1-e4", pagina: "126", sustento: "Los paisajes sostenibles integran el patrimonio inmaterial: el conocimiento local sobre territorio y ambiente se enraiza en el paisaje vivido." },
+  { s: "coberturas", t: "pecomaterial", type: "soporte", directa: false, cat: "e1-e4", pagina: "126", sustento: "Coberturas son patrimonio ecológico material (p. 126) pero estructura de patrimonio apenas ocupa 3 páginas vs. 40 de movilidad." },
+  { s: "paisajes", t: "pinmaterial", type: "indirecta", directa: false, cat: "e1-e4", pagina: "126", sustento: "Paisajes sostenibles integran patrimonio inmaterial (p. 126) pero sin mecanismos operacionales; conocimiento local sin protección." },
 ];
 
 function nodeById(id) { return ODS_NODES.find(n => n.id === id); }
@@ -487,6 +476,9 @@ const nodeOff = new Set();
 const catOff = new Set();
 
 function refreshEdgeVisibility() {
+  // Primero, ocultar/mostrar líneas
+  const visibleNodes = new Set(ODS_NODES.map(n => n.id));
+  
   document.querySelectorAll(".edge-group").forEach(group => {
     const type = group.dataset.type;
     const cat = group.dataset.cat;
@@ -494,6 +486,19 @@ function refreshEdgeVisibility() {
     const t = group.dataset.target;
     const hidden = typeOff.has(type) || nodeOff.has(s) || nodeOff.has(t) || catOff.has(cat);
     group.classList.toggle("hidden-edge", hidden);
+    
+    // Si la línea está visible, marcar sus nodos como conectados
+    if (!hidden) {
+      visibleNodes.add(s);
+      visibleNodes.add(t);
+    }
+  });
+
+  // Luego, ocultar nodos que NO tienen líneas visibles
+  document.querySelectorAll(".ods-node").forEach(node => {
+    const nodeId = node.dataset.id;
+    const hasVisibleEdges = visibleNodes.has(nodeId) && !nodeOff.has(nodeId);
+    node.classList.toggle("hidden-node", !hasVisibleEdges);
   });
 }
 
@@ -540,19 +545,16 @@ function clearSpotlight() {
 
 function setSpotlightNodes(nodeIds, expand) {
   spotlight = { mode: "nodes", nodes: new Set(nodeIds), expand: !!expand };
-  document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
   applySpotlightState();
 }
 
 function setSpotlightTypes(types) {
   spotlight = { mode: "types", types };
-  document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
   applySpotlightState();
 }
 
 function setSpotlightCats(cats, keepAllNodes) {
   spotlight = { mode: "cats", cats, keepAllNodes: !!keepAllNodes };
-  document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
   applySpotlightState();
 }
 
@@ -578,8 +580,13 @@ function applySpotlightState() {
     });
   } else if (spotlight && spotlight.mode === "types") {
     visibleEdges = new Set();
+    visibleNodes = new Set();
     RAW_EDGES.forEach((edge, i) => {
-      if (spotlight.types.includes(edge.type)) visibleEdges.add(i);
+      if (spotlight.types.includes(edge.type)) {
+        visibleEdges.add(i);
+        visibleNodes.add(edge.s);
+        visibleNodes.add(edge.t);
+      }
     });
   } else if (spotlight && spotlight.mode === "cats") {
     visibleNodes = new Set();
@@ -622,10 +629,10 @@ function toggleNodeFlow(id) {
 
 /* -------- tarjetas de insights -------- */
 const NODE_INSIGHTS = {
-  ecologica:     ODS_NODES.filter(n => n.cat === "e1").map(n => n.id),
-  funcional:     ODS_NODES.filter(n => n.cat === "e2").map(n => n.id),
-  socioeconomica:ODS_NODES.filter(n => n.cat === "e3").map(n => n.id),
-  patrimonio:    ODS_NODES.filter(n => n.cat === "e4").map(n => n.id),
+  e1: ODS_NODES.filter(n => n.cat === "e1").map(n => n.id),
+  e2: ODS_NODES.filter(n => n.cat === "e2").map(n => n.id),
+  e3: ODS_NODES.filter(n => n.cat === "e3").map(n => n.id),
+  e4: ODS_NODES.filter(n => n.cat === "e4").map(n => n.id),
 };
 
 const TYPE_KEY = {
@@ -643,10 +650,17 @@ function toggleInsight(key) {
     return;
   }
 
+  document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
+
+  if (key === "todas" || key === "todos") {
+    clearSpotlight();
+    return;
+  }
+
   if (TYPE_KEY[key]) {
     setSpotlightTypes([TYPE_KEY[key]]);
   } else if (NODE_INSIGHTS[key] && NODE_INSIGHTS[key].length) {
-    setSpotlightCats(NODE_INSIGHTS[key].map(id => nodeById(id).cat), true);
+    setSpotlightCats([key], true);
     NODE_INSIGHTS[key].forEach(id => {
       const el = document.querySelector(`.ods-node[data-id="${id}"]`);
       if (el) el.classList.add("node-focus-active");
@@ -684,10 +698,10 @@ function filterNetwork(mode) {
   if (event && event.currentTarget) event.currentTarget.classList.add("active");
 
   const groups = {
-    all:     { types: ["soporte", "resiliencia", "indirecta"], cats: ["e1", "e2", "e3", "e4"] },
-    soporte:     { types: ["soporte"],             cats: ["e1", "e2", "e3", "e4"] },
-    resiliencia: { types: ["resiliencia"],         cats: ["e1", "e2", "e3", "e4"] },
-    indirecta:   { types: ["indirecta"],           cats: ["e1", "e2", "e3", "e4"] },
+    all:     { types: ["soporte", "resiliencia", "indirecta"], cats: ["e1", "e2", "e3", "e4", "e1-e2", "e2-e3", "e3-e4", "e1-e4"] },
+    soporte:     { types: ["soporte"],             cats: ["e1", "e2", "e3", "e4", "e1-e2", "e2-e3", "e3-e4", "e1-e4"] },
+    resiliencia: { types: ["resiliencia"],         cats: ["e1", "e2", "e3", "e4", "e1-e2", "e2-e3", "e3-e4", "e1-e4"] },
+    indirecta:   { types: ["indirecta"],           cats: ["e1", "e2", "e3", "e4", "e1-e2", "e2-e3", "e3-e4", "e1-e4"] },
     e1:          { types: ["soporte", "resiliencia", "indirecta"], cats: ["e1"] },
     e2:          { types: ["soporte", "resiliencia", "indirecta"], cats: ["e2"] },
     e3:          { types: ["soporte", "resiliencia", "indirecta"], cats: ["e3"] },
@@ -696,12 +710,12 @@ function filterNetwork(mode) {
   const active = groups[mode] || groups.all;
 
   document.querySelectorAll(".legend-item[data-mode='type']").forEach(item => {
-    const type = item.dataset.type;
+    const tension = item.dataset.type;
     const input = item.querySelector("input");
-    const show = active.types.includes(type);
+    const show = active.types.includes(tension);
     input.checked = show;
     item.classList.toggle("off", !show);
-    if (show) typeOff.delete(type); else typeOff.add(type);
+    if (show) typeOff.delete(tension); else typeOff.add(tension);
   });
 
   document.querySelectorAll(".legend-item[data-mode='cat']").forEach(item => {
@@ -717,64 +731,7 @@ function filterNetwork(mode) {
 }
 
 /* -------- métricas de red -------- */
-function computeMetrics() {
-  const nodeCount = ODS_NODES.length;
-  const edgeCount = RAW_EDGES.length;
-
-  const degrees = {};
-  ODS_NODES.forEach(n => { degrees[n.id] = 0; });
-  RAW_EDGES.forEach(e => { degrees[e.s] = (degrees[e.s] || 0) + 1; degrees[e.t] = (degrees[e.t] || 0) + 1; });
-
-  const avgDegree = (2 * edgeCount) / nodeCount;
-  const density = (2 * edgeCount) / (nodeCount * (nodeCount - 1));
-
-  /* grado máximo y nodo más conectado */
-  let maxId = null, maxDeg = 0;
-  ODS_NODES.forEach(n => { if (degrees[n.id] > maxDeg) { maxDeg = degrees[n.id]; maxId = n.id; } });
-
-  /* por estructura */
-  const byStruct = {};
-  Object.keys(STRUCT_STYLE).forEach(cat => {
-    byStruct[cat] = {
-      nodes: ODS_NODES.filter(n => n.cat === cat).length,
-      edges: RAW_EDGES.filter(e => e.cat === cat).length,
-    };
-  });
-
-  /* centralidad: hubs (grado >= 4) */
-  const hubs = ODS_NODES.filter(n => degrees[n.id] >= 4);
-
-  /* tipo de línea */
-  const cont = RAW_EDGES.filter(e => e.directa).length;
-  const disc = RAW_EDGES.filter(e => !e.directa).length;
-
-  return { nodeCount, edgeCount, avgDegree, density, maxId, maxDeg, byStruct, hubs, cont, disc, degrees };
-}
-
-function renderMetrics() {
-  const m = computeMetrics();
-  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-
-  set("metricNodes", m.nodeCount);
-  set("metricEdges", m.edgeCount);
-  set("metricAvgDegree", m.avgDegree.toFixed(2));
-  set("metricDensity", (m.density * 100).toFixed(1) + "%");
-
-  const maxNode = nodeById(m.maxId);
-  set("metricHubNode", maxNode ? maxNode.name.replace(/\n/g, " ") : "—");
-  set("metricHubDegree", m.maxDeg);
-  set("metricHubs", m.hubs.length);
-  set("metricCont", m.cont);
-  set("metricDisc", m.disc);
-
-  /* leyenda de contadores por estructura */
-  Object.keys(STRUCT_STYLE).forEach(cat => {
-    const el = document.getElementById("struct-" + cat);
-    if (el) el.textContent = `${byStructLabel(m, cat)}: ${m.byStruct[cat].nodes} nodos · ${m.byStruct[cat].edges} relaciones`;
-  });
-}
-
-function byStructLabel(m, cat) { return STRUCT_STYLE[cat].label; }
+/* -------- MÉTRICAS ELIMINADAS -------- */
 
 /* -------- botones de acción -------- */
 function generateODSReport() { console.log("Generando reporte de red..."); }
@@ -784,5 +741,4 @@ function shareAnalysis() { console.log("Compartiendo análisis..."); }
 document.addEventListener("DOMContentLoaded", () => {
   renderNetwork();
   setupLegendToggle();
-  renderMetrics();
 });
