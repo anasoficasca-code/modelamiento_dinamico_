@@ -1,311 +1,797 @@
-const potData = {
-  structures: [
-    { id: "eep", name: "Sistema Ambiental y EEP", color: "#2fd4c8", components: [
-      { id: 1, name: "Río Bogotá" }, { id: 2, name: "Río Tunjuelo" }, { id: 3, name: "Río Cauca" }, { id: 4, name: "Quebrada Chiguaza" }, { id: 5, name: "Quebrada Arzobispo" },
-      { id: 6, name: "Quebrada Piedra Negra" }, { id: 7, name: "Humedal Juan Amarillo" }, { id: 8, name: "Humedal Córdoba" }, { id: 9, name: "Humedal Torca" }, { id: 10, name: "Humedal Santa María del Lago" },
-      { id: 11, name: "Laguna Subachoque" }, { id: 12, name: "Humedal Jaboque" }, { id: 13, name: "Cerros Orientales" }, { id: 14, name: "Cerro Monserrate" }, { id: 15, name: "Páramo Sumapaz" },
-      { id: 16, name: "Páramo Cruz Verde" }, { id: 17, name: "Páramo Chingaza" }, { id: 18, name: "Serranía Usme" }, { id: 19, name: "Loma Coruña" }, { id: 20, name: "Loma Espolón" },
-      { id: 21, name: "Loma Mercedes" }, { id: 22, name: "Alto Misericordia" }, { id: 23, name: "Serranía Macarena" }, { id: 24, name: "Páramo Guasca" }, { id: 25, name: "Bosque Bolívar" },
-      { id: 26, name: "Bosque Encenillo" }, { id: 27, name: "Bosque Roble" }, { id: 28, name: "Bosque Florida" }, { id: 29, name: "Bosque Alférez" }, { id: 30, name: "Bosque San Antonio" },
-      { id: 31, name: "Frailejonales" }, { id: 32, name: "Bosques riparios" }, { id: 33, name: "Matorrales deciduos" }, { id: 34, name: "Pastizales naturales" }, { id: 35, name: "Arbustal denso" },
-      { id: 36, name: "Herbazal húmedo" }, { id: 37, name: "Reserva Bosque Oriental" }, { id: 38, name: "Parque Sumapaz" }, { id: 39, name: "Parque Chingaza" }, { id: 40, name: "Santuario Fauna Togüi" }
-    ]},
-    { id: "patrimonio", name: "Estructura de Patrimonios", color: "#a276f2", components: [
-      { id: 101, name: "Catedral Metropolitana" }, { id: 102, name: "Iglesia Candelaria" }, { id: 103, name: "Iglesia Santa Clara" }, { id: 104, name: "Monasterio Teusaquillo" }, { id: 105, name: "Iglesia San Ignacio" },
-      { id: 106, name: "Convento Santo Domingo" }, { id: 107, name: "Capilla Sagrario" }, { id: 108, name: "Basílica Voto Nacional" }, { id: 109, name: "Iglesia Lourdes" }, { id: 110, name: "Santuario Monserrate" },
-      { id: 111, name: "Museo de Oro" }, { id: 112, name: "Museo Nacional" }, { id: 113, name: "Museo Botero" }, { id: 114, name: "Museo Arte Moderno" }, { id: 115, name: "Museo Histórico" },
-      { id: 116, name: "Museo Terracota" }, { id: 117, name: "Galería Arte Colonial" }, { id: 118, name: "Biblioteca Arango" }, { id: 119, name: "Archivo Bogotá" }, { id: 120, name: "Hemeroteca Distrital" },
-      { id: 121, name: "Sitio El Abra" }, { id: 122, name: "Sitio Soacha" }, { id: 123, name: "Sitio Zipaquirá" }, { id: 124, name: "Sitio Usme" }, { id: 125, name: "Plaza Bolívar" },
-      { id: 126, name: "Plaza Democracia" }, { id: 127, name: "Parque Berrío" }, { id: 128, name: "Parque Santander" }, { id: 129, name: "Centro Histórico" }, { id: 130, name: "Palacio Nariño" }
-    ]},
-    { id: "funcional", name: "Estructura Funcional y Cuidado", color: "#3b82f6", components: [
-      { id: 201, name: "Colegio Flores" }, { id: 202, name: "Colegio Nueva Colombia" }, { id: 203, name: "Colegio Rural Sumapaz" }, { id: 204, name: "Colegio Usaquén" }, { id: 205, name: "Colegio Fontdecaba" },
-      { id: 206, name: "Universidad Nacional" }, { id: 207, name: "Universidad Andes" }, { id: 208, name: "Universidad Javeriana" }, { id: 209, name: "Universidad Rosario" }, { id: 210, name: "SENA Bogotá" },
-      { id: 211, name: "Hospital Nacional" }, { id: 212, name: "Hospital San Ignacio" }, { id: 213, name: "Hospital Misericordia" }, { id: 214, name: "Hospital Tunal" }, { id: 215, name: "Hospital Simón Bolívar" },
-      { id: 216, name: "Clínica Palermo" }, { id: 217, name: "Clínica Reina Sofía" }, { id: 218, name: "Centro Salud Chapinero" }, { id: 219, name: "Centro Salud Usaquén" }, { id: 220, name: "Instituto Salud" },
-      { id: 221, name: "Jardín Infantil Auxiliadora" }, { id: 222, name: "Jardín Mundo Mágico" }, { id: 223, name: "Guardería Refugio" }, { id: 224, name: "Centro Desarrollo Crecer" }, { id: 225, name: "Hogar Infantil Arcoíris" },
-      { id: 226, name: "Parque Piecitos Felices" }, { id: 227, name: "Parque Colina Feliz" }, { id: 228, name: "Ludoteca Barrio Nuevo" }, { id: 229, name: "Comedor San Bosco" }, { id: 230, name: "Biblioteca Felicidad" }
-    ]},
-    { id: "socioeconomica", name: "Estructura Socioeconómica", color: "#f59e0b", components: [
-      { id: 301, name: "Tiendas Barrio Localidad 1" }, { id: 302, name: "Tiendas Barrio Localidad 3" }, { id: 303, name: "Comercio Informal Centro" }, { id: 304, name: "Pequeño Comercio Paseo" }, { id: 305, name: "Mercado Flores" },
-      { id: 306, name: "Centro Abastos Corabastos" }, { id: 307, name: "Mercado Samper Mendoza" }, { id: 308, name: "Plaza Minorista" }, { id: 309, name: "Centro Comercial Carrefour" }, { id: 310, name: "Centro Comercial Éxito" },
-      { id: 311, name: "Talleres Confecciones" }, { id: 312, name: "Talleres Zapatería" }, { id: 313, name: "Talleres Carpintería" }, { id: 314, name: "Talleres Ebanistería" }, { id: 315, name: "Taller Cerámica" },
-      { id: 316, name: "Taller Textiles" }, { id: 317, name: "Taller Joyería" }, { id: 318, name: "Taller Restauración" }, { id: 319, name: "Taller Artes Gráficas" }, { id: 320, name: "Taller Estampación" },
-      { id: 321, name: "Centro Innovación Hub" }, { id: 322, name: "Parque Tecnológico" }, { id: 323, name: "Incubadora Negocios" }, { id: 324, name: "Laboratorio Innovación" }, { id: 325, name: "Centro Desarrollo Empresarial" },
-      { id: 326, name: "Espacio Creativo Huerta" }, { id: 327, name: "Estudio Diseño Industrial" }, { id: 328, name: "Agencia Publicidad" }, { id: 329, name: "Productora Audiovisual" }, { id: 330, name: "Estudio Música Digital" }
-    ]}
-  ]
-};
+/* ==========================================================
+   RED — TENSIONES DEL POT — MEDIR LA RED (Módulo 02)
+   diagrama con física de nodos
+   - Los nodos parten de una posición fija, pero se pueden ARRASTRAR:
+     al mover una bola, las conectadas la "siguen" (fuerza de resorte),
+     y el conjunto tiende a volver a su posición original.
+   - Cada línea es una tensión medida contra el texto del POT:
+     incoherencia, contradicción, desconexión, jerarquía implícita,
+     o elemento periférico discursivo.
+   - Clic en una línea -> panel con la tensión, el tipo y la frase exacta del POT.
+   - Doble clic en una bola -> la apaga (opacidad) y oculta sus líneas.
+   - Triple clic en una bola -> aísla su flujo (solo se ven los nodos
+     y líneas con los que se conecta directamente).
+   - Convenciones:
+       Incoherencia:          rojo      #ef4444  continua con flecha
+       Contradicción:         rosa      #f76fb0  continua con flecha
+       Desconexión:           azul      #5b8def  punteada, sin flecha
+       Jerarquía implícita:   morado    #a276f2  doble línea
+       Periférico discursivo: amarillo  #f5c945  punteada, sin flecha
+   ========================================================== */
 
-let simulation = null;
-let allNodes = [];
-let allLinks = [];
-let manualLinks = [];
-let selectedNode1 = null;
-let selectedNode2 = null;
-let selectedLinkIndex = null;
-const state = { selectedComponents: new Set() };
+const SVG_NS = "http://www.w3.org/2000/svg";
+const XHTML_NS = "http://www.w3.org/1999/xhtml";
 
-document.addEventListener('DOMContentLoaded', () => {
-  renderStructures();
-  renderComponents();
-  setupListeners();
-  initNetwork();
+/* -------- Nodos: componentes del modelo de ciudad propio, organizados por categoría -------- */
+const ODS_NODES = [
+  /* infraestructura — izquierda */
+  { id: "movilidad",  num: "", name: "MOVILIDAD\n(METRO / VIAS)",  icon: "fa-road",                color: "#2fd4c8", x: 160,  y: 250, r: 60 },
+  { id: "vivienda",   num: "", name: "VIVIENDA\nHABITAR",          icon: "fa-house",               color: "#2fd4c8", x: 150,  y: 500, r: 60 },
+  { id: "corredores", num: "", name: "CORREDORES\nVERDES",         icon: "fa-seedling",            color: "#2fd4c8", x: 220,  y: 690, r: 54 },
+  /* ecologico — centro */
+  { id: "cuenca",     num: "", name: "CUENCA DEL\nRIO BOGOTA",     icon: "fa-water",               color: "#4ade80", x: 620,  y: 600, r: 58 },
+  { id: "suelos",     num: "", name: "SUELO\nECOLOGICO",           icon: "fa-tree",                color: "#4ade80", x: 500,  y: 400, r: 58 },
+  /* social-cuidado — centro-derecha */
+  { id: "manzanas",   num: "", name: "MANZANAS\nDEL CUIDADO",      icon: "fa-people-roof",         color: "#5b8def", x: 860,  y: 240, r: 58 },
+  { id: "sservicios", num: "", name: "SERVICIOS\nSOCIALES",        icon: "fa-hands-holding-circle", color: "#5b8def", x: 1100, y: 400, r: 56 },
+  { id: "patrimonio", num: "", name: "PATRIMONIO\nCULTURAL",       icon: "fa-landmark",            color: "#5b8def", x: 760,  y: 480, r: 54 },
+  /* economico — derecha */
+  { id: "suelomerc",  num: "", name: "SUELO\nMERCANCIA",           icon: "fa-coins",               color: "#ef9552", x: 1250, y: 220, r: 60 },
+  { id: "competitividad", num: "", name: "CIUDAD\nCOMPETITIVA",    icon: "fa-chart-line",          color: "#ef9552", x: 1330, y: 520, r: 56 },
+  { id: "inversion",  num: "", name: "INVERSION\nPUBLICA",         icon: "fa-money-bill-trend-up", color: "#ef9552", x: 1080, y: 640, r: 54 },
+  /* fenómenos emergentes — los emergentes no son componentes, son lo que la red produce */
+  { id: "segregacion", num: "", name: "SEGREGACIÓN\n(EMERGENTE)",  icon: "fa-right-left",          color: "#ef4444", x: 1350, y: 110, r: 46 },
+  { id: "trancon",    num: "", name: "TRANCÓN\n(EMERGENTE)",       icon: "fa-traffic-light",       color: "#ef9552", x: 740,  y: 130, r: 46 },
+  { id: "salud_urbana", num: "", name: "SALUD URBANA\n(EMERGENTE)", icon: "fa-heart-pulse",         color: "#4ade80", x: 380,  y: 130, r: 46 },
+];
+
+/* -------- física: cada nodo guarda su posición "casa" (ancla) y velocidad -------- */
+ODS_NODES.forEach(n => {
+  n.homeX = n.x; n.homeY = n.y;
+  n.vx = 0; n.vy = 0;
+  n.fixed = false;
 });
 
-function renderStructures() {
-  const container = document.getElementById('structuresSelector');
-  container.innerHTML = potData.structures.map(s => `
-    <div class="struct-item" style="border-left: 3px solid ${s.color};">
-      <label>
-        <input type="checkbox" class="struct-checkbox" data-id="${s.id}">
-        <div>
-          <div class="struct-name">${s.name}</div>
-          <div class="struct-count">${s.components.length} componentes</div>
-        </div>
-      </label>
-    </div>
-  `).join('');
+/* Tipos de relación del modelo propio */
+const TYPE_STYLE = {
+  soporte:      { color: "#4ade80", width: 2.6, label: "Relación de soporte" },
+  tension:      { color: "#f76fb0", width: 2.6, label: "Relación de tensión" },
+  dependencia:  { color: "#5b8def", width: 2.6, label: "Relación de dependencia" },
+  emergencia:   { color: "#f5c945", width: 2.4, label: "Relación de emergencia" },
+};
+
+/* -------- Aristas semilla del modelo propio: componentes → componentes, 1 a 1 con la tabla -------- */
+let RAW_EDGES = [
+  { s: "movilidad",   t: "vivienda",   type: "soporte",     directa: true,  sustento: "Supuesto: sin movilidad de calidad, la vivienda queda desconectada del trabajo, la educación y el cuidado; el acceso físico a la ciudad condiciona el derecho a habitarla.", paginaTexto: "Infraestructura → Social" },
+  { s: "corredores",  t: "suelos",     type: "soporte",     directa: true,  sustento: "Supuesto: los corredores verdes mantienen la función ecológica del suelo urbano (infiltración, sombra, biodiversidad); son la condición material de que el suelo siga siendo suelo vivo.", paginaTexto: "Infraestructura → Ecológico" },
+  { s: "sservicios",  t: "manzanas",   type: "soporte",     directa: true,  sustento: "Supuesto: los servicios sociales (salud, educación, cuidado) son la razón de ser de las Manzanas del Cuidado; sin ellos, las manzanas son solo equipamientos vacíos.", paginaTexto: "Social → Social" },
+  { s: "suelomerc",   t: "suelos",     type: "tension",     directa: true,  sustento: "Supuesto crítico: cuando el suelo se trata como mercancía, su valor de cambio subordina su valor ecológico; la urbanización especulativa tensiona el suelo vivo (EURE, 2023).", paginaTexto: "Económico → Ecológico" },
+  { s: "competitividad", t: "vivienda", type: "tension",    directa: true,  sustento: "Supuesto crítico: el paradigma de la ciudad competitiva prioriza el territorio rentable sobre el hábitat: la vivienda deja de ser un derecho y se convierte en producto de mercado (Caicedo et al., 2022).", paginaTexto: "Económico → Social" },
+  { s: "vivienda",    t: "suelomerc",  type: "dependencia", directa: true,  sustento: "Supuesto: en el modelo actual, la producción de vivienda depende estructuralmente del mercado de suelo y del subsidio; el acceso a habitar queda condicionado por la lógica inmobiliaria.", paginaTexto: "Social → Económico" },
+  { s: "movilidad",   t: "inversion",  type: "dependencia", directa: true,  sustento: "Supuesto: las obras de movilidad dependen de la inversión pública y de la capacidad fiscal del Distrito; sin financiación, la red física prometida no existe.", paginaTexto: "Infraestructura → Económico" },
+  { s: "cuenca",      t: "sservicios", type: "dependencia", directa: true,  sustento: "Supuesto: la salud pública de la ciudad depende de la cuenca del río Bogotá (agua, inundaciones, enfermedad); si la cuenca enferma, los servicios sociales se colapsan.", paginaTexto: "Ecológico → Social" },
+  { s: "suelos",      t: "patrimonio", type: "dependencia", directa: true,  sustento: "Supuesto: el patrimonio cultural material (arqueológico, sitos sagrados) está inscrito en el suelo urbano; su existencia depende de que el suelo lo proteja.", paginaTexto: "Ecológico → Social" },
+  { s: "suelomerc",   t: "segregacion", type: "emergencia", directa: true, sustento: "Emergencia: la segregación no está en ningún nodo; surge de la combinación de suelo-mercancía, movilidad desigual y vivienda como producto. Es el fenómeno urbano que produce la configuración.", paginaTexto: "Emergencia estructural" },
+  { s: "inversion",   t: "trancon",    type: "emergencia",  directa: true, sustento: "Emergencia: el trancón emerge cuando la inversión en infraestructura crece más rápido que la cobertura del transporte público: no es un defecto de un nodo, sino de su articulación.", paginaTexto: "Emergencia estructural" },
+  { s: "corredores",  t: "salud_urbana", type: "emergencia", directa: true, sustento: "Emergencia positiva: la salud urbana (aire, calor, bien­estar) surge de la red de corredores verdes, cuenca y movilidad limpia — el modelo debe explicar cómo se produce.", paginaTexto: "Emergencia estructural" },
+];
+
+function nodeById(id) { return ODS_NODES.find(n => n.id === id); }
+
+/* -------- física: longitud de reposo de cada resorte (arista) — macromodelos -------- */
+RAW_EDGES.forEach(edge => {
+  const s = nodeById(edge.s), t = nodeById(edge.t);
+  if (!s || !t) return;
+  const dist = Math.hypot(t.x - s.x, t.y - s.y);
+  edge.restLength = dist;
+  /* repulsión para tensiones: los extremos se mantienen visiblemente apartados */
+  if (edge.type === "tension") edge.repel = 40;
+});
+
+/* -------- defs: glow por color de nodo + flechas por tipo -------- */
+function buildDefs(svg) {
+  const defs = document.createElementNS(SVG_NS, "defs");
+
+  const uniqueColors = [...new Set(ODS_NODES.map(n => n.color))];
+  uniqueColors.forEach(color => {
+    const filter = document.createElementNS(SVG_NS, "filter");
+    filter.setAttribute("id", "glow-" + color.replace("#", ""));
+    filter.setAttribute("x", "-60%"); filter.setAttribute("y", "-60%");
+    filter.setAttribute("width", "220%"); filter.setAttribute("height", "220%");
+    const blur = document.createElementNS(SVG_NS, "feGaussianBlur");
+    blur.setAttribute("stdDeviation", "3.2"); blur.setAttribute("result", "blur");
+    const merge = document.createElementNS(SVG_NS, "feMerge");
+    ["blur", "blur", "SourceGraphic"].forEach(ref => {
+      const m = document.createElementNS(SVG_NS, "feMergeNode");
+      m.setAttribute("in", ref);
+      merge.appendChild(m);
+    });
+    filter.appendChild(blur); filter.appendChild(merge);
+    defs.appendChild(filter);
+  });
+
+  Object.entries(TYPE_STYLE).forEach(([type, style]) => {
+    const marker = document.createElementNS(SVG_NS, "marker");
+    marker.setAttribute("id", "arrow-" + type);
+    marker.setAttribute("viewBox", "0 0 10 10");
+    marker.setAttribute("refX", "8"); marker.setAttribute("refY", "5");
+    marker.setAttribute("markerWidth", "7"); marker.setAttribute("markerHeight", "7");
+    marker.setAttribute("orient", "auto-start-reverse");
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", "M0,0 L10,5 L0,10 z");
+    path.setAttribute("fill", style.color);
+    marker.appendChild(path);
+    defs.appendChild(marker);
+  });
+
+  svg.appendChild(defs);
 }
 
-function renderComponents() {
-  const container = document.getElementById('componentsSelector');
-  const selectedStructs = Array.from(document.querySelectorAll('.struct-checkbox:checked')).map(el => el.dataset.id);
-  
-  if (selectedStructs.length === 0) {
-    container.innerHTML = '<p style="color: var(--text-dim); font-size: 0.8rem;">Selecciona una estructura</p>';
+/* -------- aristas: grupo con línea visual + línea invisible más ancha para clic -------- */
+function edgePathData(edge, s, t) {
+  const dx = t.x - s.x, dy = t.y - s.y;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+  const ux = dx / dist, uy = dy / dist;
+  const startPad = s.r + 2;
+  const endPad = t.r + 8;
+  const x1 = s.x + ux * startPad, y1 = s.y + uy * startPad;
+  const x2 = t.x - ux * endPad,   y2 = t.y - uy * endPad;
+
+  if (edge.curve) {
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    const px = -uy, py = ux;
+    const cx = mx + px * edge.curve, cy = my + py * edge.curve;
+    return `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`;
+  }
+  return `M${x1},${y1} L${x2},${y2}`;
+}
+
+/* doble línea paralela para jerarquías implícitas */
+function edgePathDataDouble(edge, s, t) {
+  const dx = t.x - s.x, dy = t.y - s.y;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+  const ux = dx / dist, uy = dy / dist;
+  const px = -uy, py = ux;
+  const off = 3;
+  const startPad = s.r + 2;
+  const endPad = t.r + 2;
+  const x1 = s.x + ux * startPad, y1 = s.y + uy * startPad;
+  const x2 = t.x - ux * endPad,   y2 = t.y - uy * endPad;
+  return [
+    `M${x1 + px * off},${y1 + py * off} L${x2 + px * off},${y2 + py * off}`,
+    `M${x1 - px * off},${y1 - py * off} L${x2 - px * off},${y2 - py * off}`,
+  ];
+}
+
+function drawEdges(svg) {
+  const g = document.createElementNS(SVG_NS, "g");
+  g.setAttribute("class", "edges-layer");
+
+  RAW_EDGES.forEach((edge, i) => {
+    const s = nodeById(edge.s);
+    const t = nodeById(edge.t);
+    if (!s || !t) return;
+    const style = TYPE_STYLE[edge.type];
+    const d = edgePathData(edge, s, t);
+
+    const group = document.createElementNS(SVG_NS, "g");
+    group.setAttribute("class", "edge-group");
+    group.setAttribute("data-index", i);
+    group.setAttribute("data-type", edge.type);
+    group.setAttribute("data-source", edge.s);
+    group.setAttribute("data-target", edge.t);
+    group.style.setProperty("--edge-color", style.color);
+
+    const hit = document.createElementNS(SVG_NS, "path");
+    hit.setAttribute("d", d);
+    hit.setAttribute("class", "ods-edge edge-hit");
+
+    const visual = document.createElementNS(SVG_NS, "path");
+    visual.setAttribute("d", d);
+    visual.setAttribute("class", "ods-edge edge-visual");
+    visual.setAttribute("stroke", style.color);
+    visual.setAttribute("stroke-width", style.width);
+    /* emergencia: punteada y sin flecha — es un fenómeno que surge, no una relación directa */
+    if (edge.type === "emergencia" || !edge.directa) visual.setAttribute("stroke-dasharray", "6,5");
+    if (edge.directa && edge.type !== "emergencia") visual.setAttribute("marker-end", `url(#arrow-${edge.type})`);
+    visual.setAttribute("opacity", "0.9");
+    edge._el = { visual, hit };
+
+    group.appendChild(visual);
+    group.appendChild(hit);
+    group.addEventListener("click", () => showEdgeInfo(i));
+    g.appendChild(group);
+  });
+
+  svg.appendChild(g);
+}
+
+/* -------- nodos -------- */
+function drawNodes(svg) {
+  const g = document.createElementNS(SVG_NS, "g");
+  g.setAttribute("class", "nodes-layer");
+
+  ODS_NODES.forEach(node => {
+    const group = document.createElementNS(SVG_NS, "g");
+    group.setAttribute("class", "ods-node");
+    group.setAttribute("data-id", node.id);
+
+    const circle = document.createElementNS(SVG_NS, "circle");
+    circle.setAttribute("class", "node-ring");
+    circle.setAttribute("cx", node.x); circle.setAttribute("cy", node.y); circle.setAttribute("r", node.r);
+    circle.setAttribute("stroke", node.color);
+    circle.setAttribute("stroke-width", 2.5);
+    circle.setAttribute("filter", "url(#glow-" + node.color.replace("#", "") + ")");
+
+    const fo = document.createElementNS(SVG_NS, "foreignObject");
+    const size = node.r * 2.2;
+    fo.setAttribute("x", node.x - size / 2); fo.setAttribute("y", node.y - size / 2);
+    fo.setAttribute("width", size); fo.setAttribute("height", size);
+
+    const wrapper = document.createElementNS(XHTML_NS, "div");
+    wrapper.setAttribute("class", "node-inner");
+    wrapper.setAttribute("style",
+      "width:100%;height:100%;display:flex;flex-direction:column;" +
+      "align-items:center;justify-content:center;gap:1px;pointer-events:none;"
+    );
+
+    const iconEl = document.createElementNS(XHTML_NS, "i");
+    iconEl.setAttribute("class", "fa-solid " + node.icon + " node-icon");
+    iconEl.setAttribute("style", `color:${node.color}; font-size:${node.r * 0.42}px; margin:1px 0;`);
+
+    const nameEl = document.createElementNS(XHTML_NS, "div");
+    nameEl.setAttribute("class", "node-name");
+    nameEl.setAttribute("style", `font-size:${Math.max(node.r * 0.155, 7.5)}px; padding:0 3px; font-weight:700; color:#e7eaf2; line-height:1.15; white-space:pre-line;`);
+    nameEl.textContent = node.name;
+
+    wrapper.appendChild(iconEl); wrapper.appendChild(nameEl);
+    fo.appendChild(wrapper);
+
+    group.appendChild(circle);
+    group.appendChild(fo);
+    attachNodeClickHandler(group, node.id);
+    attachNodeDragHandler(group, node);
+    g.appendChild(group);
+
+    node._el = { group, circle, fo };
+  });
+
+  svg.appendChild(g);
+}
+
+/* -------- física: mover nodos y recalcular líneas cada frame -------- */
+const PHYSICS = {
+  spring: 0.045,
+  anchor: 0.02,
+  damping: 0.82,
+  minVel: 0.02,
+};
+
+function updatePositions() {
+  ODS_NODES.forEach(n => {
+    if (!n._el) return;
+    n._el.circle.setAttribute("cx", n.x);
+    n._el.circle.setAttribute("cy", n.y);
+    const size = n.r * 2.2;
+    n._el.fo.setAttribute("x", n.x - size / 2);
+    n._el.fo.setAttribute("y", n.y - size / 2);
+  });
+  RAW_EDGES.forEach(edge => {
+    if (!edge._el) return;
+    const s = nodeById(edge.s), t = nodeById(edge.t);
+    if (!s || !t) return;
+    const d = edgePathData(edge, s, t);
+    if (edge.type === "jerarquia" && edge._el.d1) {
+      const [d1, d2] = edgePathDataDouble(edge, s, t);
+      edge._el.visual.childNodes[0].setAttribute("d", d1);
+      edge._el.visual.childNodes[1].setAttribute("d", d2);
+    } else {
+      edge._el.visual.setAttribute("d", d);
+    }
+    edge._el.hit.setAttribute("d", d);
+  });
+}
+
+let physicsRunning = false;
+function physicsStep() {
+  let moving = false;
+
+  RAW_EDGES.forEach(edge => {
+    const s = nodeById(edge.s), t = nodeById(edge.t);
+    if (!s || !t) return;
+    const dx = t.x - s.x, dy = t.y - s.y;
+    const dist = Math.hypot(dx, dy) || 1;
+    const diff = (dist - edge.restLength) * PHYSICS.spring;
+    const fx = (dx / dist) * diff, fy = (dy / dist) * diff;
+    if (edge.repel) {
+      /* repulsión: las tensiones implícitas empujan los nodos apartados */
+      if (!s.fixed) { s.vx -= fx * 2.2; s.vy -= fy * 2.2; }
+      if (!t.fixed) { t.vx += fx * 2.2; t.vy += fy * 2.2; }
+    } else {
+      if (!s.fixed) { s.vx += fx; s.vy += fy; }
+      if (!t.fixed) { t.vx -= fx; t.vy -= fy; }
+    }
+  });
+
+  ODS_NODES.forEach(n => {
+    if (n.fixed) { n.vx = 0; n.vy = 0; return; }
+    n.vx += (n.homeX - n.x) * PHYSICS.anchor;
+    n.vy += (n.homeY - n.y) * PHYSICS.anchor;
+    n.vx *= PHYSICS.damping;
+    n.vy *= PHYSICS.damping;
+    n.x += n.vx;
+    n.y += n.vy;
+    if (Math.abs(n.vx) > PHYSICS.minVel || Math.abs(n.vy) > PHYSICS.minVel) moving = true;
+  });
+
+  updatePositions();
+
+  if (moving || ODS_NODES.some(n => n.fixed)) {
+    requestAnimationFrame(physicsStep);
+  } else {
+    physicsRunning = false;
+  }
+}
+
+function wakePhysics() {
+  if (!physicsRunning) {
+    physicsRunning = true;
+    requestAnimationFrame(physicsStep);
+  }
+}
+
+/* -------- arrastrar una bola -------- */
+function attachNodeDragHandler(group, node) {
+  const svg = document.getElementById("networkViz");
+  let dragging = false;
+  let moved = false;
+  let startClientX = 0, startClientY = 0;
+
+  function toSvgPoint(clientX, clientY) {
+    const pt = svg.createSVGPoint();
+    pt.x = clientX; pt.y = clientY;
+    const m = svg.getScreenCTM().inverse();
+    return pt.matrixTransform(m);
+  }
+
+  group.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    moved = false;
+    startClientX = e.clientX; startClientY = e.clientY;
+    node.fixed = true;
+    group.classList.add("dragging");
+    group.setPointerCapture(e.pointerId);
+    wakePhysics();
+  });
+
+  group.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    if (Math.hypot(e.clientX - startClientX, e.clientY - startClientY) > 4) moved = true;
+    const p = toSvgPoint(e.clientX, e.clientY);
+    node.x = p.x; node.y = p.y;
+    node.vx = 0; node.vy = 0;
+    updatePositions();
+    wakePhysics();
+  });
+
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    node.fixed = false;
+    group.classList.remove("dragging");
+    try { group.releasePointerCapture(e.pointerId); } catch (err) {}
+    wakePhysics();
+    if (moved) {
+      group.dataset.suppressClick = "1";
+      setTimeout(() => { delete group.dataset.suppressClick; }, 0);
+    }
+  }
+
+  group.addEventListener("pointerup", endDrag);
+  group.addEventListener("pointercancel", endDrag);
+}
+
+function renderNetwork() {
+  const svg = document.getElementById("networkViz");
+  if (!svg) return;
+  svg.innerHTML = "";
+  buildDefs(svg);
+  drawEdges(svg);
+  drawNodes(svg);
+}
+
+/* -------- panel de sustento documental (clic en línea) -------- */
+function showEdgeInfo(index) {
+  const edge = RAW_EDGES[index];
+  const s = nodeById(edge.s), t = nodeById(edge.t);
+  const style = TYPE_STYLE[edge.type];
+
+  document.querySelectorAll(".edge-group").forEach(el => el.classList.remove("edge-selected"));
+  document.querySelector(`.edge-group[data-index="${index}"]`)?.classList.add("edge-selected");
+
+  const title = `${s.name} → ${t.name}`.replace(/\n/g, " ");
+  document.getElementById("edgeInfoTitle").textContent = title;
+
+  const typeEl = document.getElementById("edgeInfoType");
+  typeEl.textContent = style.label;
+  typeEl.style.color = style.color;
+  typeEl.style.background = style.color + "26";
+
+  document.getElementById("edgeInfoQuote").textContent = edge.sustento;
+  document.getElementById("edgeInfoPage").textContent =
+    edge.paginaTexto ? `Categorías: ${edge.paginaTexto}` : "Supuesto por definir: escribe la justificación de esta relación.";
+
+  document.getElementById("edgeInfoPanel").classList.add("visible");
+
+  /* resaltar la fila correspondiente de la tabla */
+  document.querySelectorAll(".matrix-row[data-edge]").forEach(row => {
+    row.classList.toggle("row-highlight", Number(row.dataset.edge) === index);
+  });
+}
+
+function hideEdgeInfo() {
+  document.getElementById("edgeInfoPanel").classList.remove("visible");
+  document.querySelectorAll(".edge-group").forEach(el => el.classList.remove("edge-selected"));
+  document.querySelectorAll(".matrix-row[data-edge]").forEach(row => row.classList.remove("row-highlight"));
+}
+
+/* -------- estado de visibilidad: por tipo (leyenda) + por nodo (doble clic) -------- */
+const typeOff = new Set();
+const nodeOff = new Set();
+
+function refreshEdgeVisibility() {
+  document.querySelectorAll(".edge-group").forEach(group => {
+    const type = group.dataset.type;
+    const s = group.dataset.source;
+    const t = group.dataset.target;
+    const hidden = typeOff.has(type) || nodeOff.has(s) || nodeOff.has(t);
+    group.classList.toggle("hidden-edge", hidden);
+  });
+}
+
+function toggleNode(id) {
+  const group = document.querySelector(`.ods-node[data-id="${id}"]`);
+  if (!group) return;
+  if (nodeOff.has(id)) {
+    nodeOff.delete(id);
+    group.classList.remove("node-off");
+  } else {
+    nodeOff.add(id);
+    group.classList.add("node-off");
+  }
+  refreshEdgeVisibility();
+}
+
+/* -------- clic simple / doble / triple sobre una bola -------- */
+function attachNodeClickHandler(group, id) {
+  let count = 0;
+  let timer = null;
+  group.addEventListener("click", () => {
+    if (group.dataset.suppressClick) return;
+    count++;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (count === 2) {
+        toggleNode(id);
+      } else if (count >= 3) {
+        toggleNodeFlow(id);
+      }
+      count = 0;
+    }, 320);
+  });
+}
+
+/* -------- spotlight -------- */
+let spotlight = null;
+
+function clearSpotlight() {
+  spotlight = null;
+  document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
+  applySpotlightState();
+}
+
+function setSpotlightNodes(nodeIds, expand) {
+  spotlight = { mode: "nodes", nodes: new Set(nodeIds), expand: !!expand };
+  document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
+  applySpotlightState();
+}
+
+function setSpotlightTypes(types) {
+  spotlight = { mode: "types", types };
+  document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
+  applySpotlightState();
+}
+
+function applySpotlightState() {
+  let visibleNodes = null;
+  let visibleEdges = null;
+
+  if (spotlight && spotlight.mode === "nodes") {
+    visibleNodes = new Set(spotlight.nodes);
+    visibleEdges = new Set();
+    RAW_EDGES.forEach((edge, i) => {
+      const sIn = spotlight.nodes.has(edge.s);
+      const tIn = spotlight.nodes.has(edge.t);
+      if (spotlight.expand) {
+        if (sIn || tIn) {
+          visibleEdges.add(i);
+          visibleNodes.add(edge.s);
+          visibleNodes.add(edge.t);
+        }
+      } else {
+        if (sIn && tIn) visibleEdges.add(i);
+      }
+    });
+  } else if (spotlight && spotlight.mode === "types") {
+    visibleEdges = new Set();
+    RAW_EDGES.forEach((edge, i) => {
+      if (spotlight.types.includes(edge.type)) visibleEdges.add(i);
+    });
+  }
+
+  document.querySelectorAll(".ods-node").forEach(el => {
+    const id = el.dataset.id;
+    const dim = visibleNodes ? !visibleNodes.has(id) : false;
+    el.classList.toggle("node-focus-dim", dim);
+    el.classList.toggle("node-focus-active", !!(spotlight && spotlight.mode === "nodes" && spotlight.nodes.has(id)));
+  });
+
+  document.querySelectorAll(".edge-group").forEach(el => {
+    const idx = Number(el.dataset.index);
+    const dim = visibleEdges ? !visibleEdges.has(idx) : false;
+    el.classList.toggle("edge-focus-dim", dim);
+  });
+}
+
+function toggleNodeFlow(id) {
+  const already = spotlight && spotlight.mode === "nodes" && spotlight.expand &&
+                   spotlight.nodes.size === 1 && spotlight.nodes.has(id);
+  if (already) {
+    clearSpotlight();
+  } else {
+    setSpotlightNodes([id], true);
+  }
+}
+
+/* -------- tarjetas de insights -------- */
+/* categoría de cada nodo */
+const NODE_CATEGORY = {
+  movilidad: "infra", vivienda: "infra", corredores: "infra",
+  cuenca: "eco", suelos: "eco",
+  manzanas: "soc", sservicios: "soc", patrimonio: "soc",
+  suelomerc: "econ", competitividad: "econ", inversion: "econ",
+  segregacion: "econ", trancon: "infra", salud_urbana: "eco",
+};
+const CATEGORY_LABEL = {
+  infra: "Infraestructura", eco: "Ecológico", soc: "Social / Cuidado", econ: "Económico",
+};
+const CATEGORY_COLOR = {
+  infra: "#2fd4c8", eco: "#4ade80", soc: "#5b8def", econ: "#ef9552",
+};
+
+const NODE_INSIGHTS = {
+  infra: ODS_NODES.filter(n => NODE_CATEGORY[n.id] === "infra").map(n => n.id),
+  eco:   ODS_NODES.filter(n => NODE_CATEGORY[n.id] === "eco").map(n => n.id),
+  soc:   ODS_NODES.filter(n => NODE_CATEGORY[n.id] === "soc").map(n => n.id),
+  econ:  ODS_NODES.filter(n => NODE_CATEGORY[n.id] === "econ").map(n => n.id),
+};
+
+function categoryOf(id) { return NODE_CATEGORY[id] || "infra"; }
+function assignCategory(node, cat) { NODE_CATEGORY[node.id] = cat; }
+
+function toggleInsight(key) {
+  const card = document.querySelector(`.insight-card[data-insight="${key}"]`);
+  if (!card) return;
+
+  if (card.classList.contains("active")) {
+    clearSpotlight();
     return;
   }
 
-  let html = '';
-  selectedStructs.forEach(structId => {
-    const struct = potData.structures.find(s => s.id === structId);
-    struct.components.forEach(comp => {
-      const checked = state.selectedComponents.has(comp.id) ? 'checked' : '';
-      html += <div class="comp-item"><label><input type="checkbox" class="comp-checkbox" data-id="${comp.id}" ${checked}> ${comp.name}</label></div>;
-    });
-  });
-
-  container.innerHTML = html;
-  
-  document.querySelectorAll('.comp-checkbox').forEach(cb => {
-    cb.addEventListener('change', (e) => {
-      const id = parseInt(e.target.dataset.id);
-      e.target.checked ? state.selectedComponents.add(id) : state.selectedComponents.delete(id);
-      initNetwork();
-    });
-  });
-}
-
-function initNetwork() {
-  allNodes = [];
-  allLinks = [];
-  const structureMap = {};
-
-  state.selectedComponents.forEach(compId => {
-    const struct = potData.structures.find(s => s.components.some(c => c.id === compId));
-    const comp = struct.components.find(c => c.id === compId);
-    
-    if (comp && struct) {
-      allNodes.push({ id: comp.id, label: comp.name, color: struct.color, size: 32 });
-      
-      if (!structureMap[struct.id]) {
-        structureMap[struct.id] = { ...struct, comps: [] };
-      }
-      structureMap[struct.id].comps.push(comp.id);
-    }
-  });
-
-  const structureIds = Object.keys(structureMap);
-  let autoConnectionCount = 0;
-  
-  for (let i = 0; i < structureIds.length; i++) {
-    for (let j = i + 1; j < structureIds.length; j++) {
-      const struct1 = structureMap[structureIds[i]];
-      const struct2 = structureMap[structureIds[j]];
-      
-      if (struct1.comps.length > 0 && struct2.comps.length > 0) {
-        struct1.comps.forEach(comp1 => {
-          struct2.comps.forEach(comp2 => {
-            const link = { source: comp1, target: comp2, type: 'flujo', isAuto: true };
-            allLinks.push(link);
-            autoConnectionCount++;
-          });
-        });
-      }
-    }
+  if (key === "todos") {
+    const allIds = ODS_NODES.map(n => n.id);
+    setSpotlightNodes(allIds, false);
+  } else if (NODE_INSIGHTS[key] && NODE_INSIGHTS[key].length) {
+    setSpotlightNodes(NODE_INSIGHTS[key], true);
+  } else {
+    setSpotlightNodes(ODS_NODES.map(n => n.id), false);
   }
 
-  allLinks = allLinks.concat(manualLinks);
-
-  drawNetwork();
+  card.classList.add("active");
 }
 
-function drawNetwork() {
-  const svg = d3.select('#networkSvg');
-  const container = svg.node().parentElement;
-  const width = container.clientWidth;
-  const height = container.clientHeight;
-
-  svg.attr('width', width).attr('height', height);
-  svg.selectAll('*').remove();
-
-  const g = svg.append('g');
-  const defs = svg.append('defs');
-
-  ['#2fd4c8', '#f76fb0', '#4ade80'].forEach((color, i) => {
-    defs.append('marker')
-      .attr('id', m-${i})
-      .attr('markerWidth', 8)
-      .attr('markerHeight', 8)
-      .attr('refX', 24)
-      .attr('refY', 2)
-      .attr('orient', 'auto')
-      .append('polygon')
-      .attr('points', '0 0, 8 2, 0 4')
-      .attr('fill', color);
-  });
-
-  if (simulation) simulation.stop();
-
-  simulation = d3.forceSimulation(allNodes)
-    .force('link', d3.forceLink(allLinks).id(d => d.id).distance(100).strength(0.3))
-    .force('charge', d3.forceManyBody().strength(-250))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collide', d3.forceCollide().radius(45));
-
-  const link = g.selectAll('line')
-    .data(allLinks)
-    .enter()
-    .append('line')
-    .attr('stroke', d => d.type === 'flujo' ? '#2fd4c8' : d.type === 'conflicto' ? '#f76fb0' : '#4ade80')
-    .attr('stroke-width', 1.5)
-    .attr('stroke-dasharray', d => d.type === 'conflicto' ? '3,3' : '0')
-    .attr('opacity', 0.5)
-    .attr('marker-end', d => d.type === 'conflicto' ? 'url(#m-1)' : 'url(#m-0)')
-    .attr('cursor', 'pointer')
-    .on('click', (e, d) => {
-      selectedLinkIndex = allLinks.indexOf(d);
-      const n1 = allNodes.find(n => n.id === d.source);
-      const n2 = allNodes.find(n => n.id === d.target);
-      document.getElementById('connectionInfo').innerHTML = <strong>${n1.label}</strong><br>↔️ ${d.type}<br><strong>${n2.label}</strong>;
-      document.getElementById('connectionPanel').style.display = 'block';
-    });
-
-  const nodeGroup = g.selectAll('g')
-    .data(allNodes)
-    .enter()
-    .append('g')
-    .style('cursor', 'pointer')
-    .on('click', (e, d) => selectNode(d.id))
-    .call(d3.drag()
-      .on('start', (e, d) => { simulation.alphaTarget(0.3).restart(); d.fx = e.x; d.fy = e.y; })
-      .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
-      .on('end', (e, d) => { simulation.alphaTarget(0); d.fx = null; d.fy = null; })
-    );
-
-  nodeGroup.append('circle')
-    .attr('r', d => d.size + 12)
-    .attr('fill', d => d.color)
-    .attr('opacity', 0.2);
-  
-  nodeGroup.append('circle')
-    .attr('r', d => d.size)
-    .attr('fill', '#3b82f6')
-    .attr('opacity', 1);
-  
-  nodeGroup.append('circle')
-    .attr('cx', 0)
-    .attr('cy', 0)
-    .attr('r', 6)
-    .attr('fill', 'none')
-    .attr('stroke', '#fff')
-    .attr('stroke-width', 1);
-  
-  nodeGroup.append('text')
-    .attr('text-anchor', 'middle')
-    .attr('dy', d => d.size + 18)
-    .attr('font-size', '8px')
-    .attr('fill', '#fff')
-    .attr('pointer-events', 'none')
-    .attr('font-weight', 600)
-    .text(d => d.label);
-
-  simulation.on('tick', () => {
-    link
-      .attr('x1', d => d.source.x)
-      .attr('y1', d => d.source.y)
-      .attr('x2', d => d.target.x)
-      .attr('y2', d => d.target.y);
-    
-    nodeGroup.attr('transform', d => translate(${d.x},${d.y}));
-  });
-
-  updateStats();
-}
-
-function updateStats() {
-  document.getElementById('countComponents').textContent = state.selectedComponents.size;
-  document.getElementById('countLinks').textContent = allLinks.length;
-}
-
-function setupListeners() {
-  document.querySelectorAll('.struct-checkbox').forEach(cb => {
-    cb.addEventListener('change', () => {
-      renderComponents();
-      initNetwork();
+/* -------- panel de convenciones -------- */
+function setupLegendToggle() {
+  document.querySelectorAll(".legend-item input").forEach(input => {
+    input.addEventListener("change", (e) => {
+      const item = e.target.closest(".legend-item");
+      const type = item.dataset.type;
+      if (e.target.checked) typeOff.delete(type); else typeOff.add(type);
+      item.classList.toggle("off", !e.target.checked);
+      refreshEdgeVisibility();
     });
   });
 
-  document.getElementById('clearBtn').addEventListener('click', () => {
-    state.selectedComponents.clear();
-    manualLinks = [];
-    document.querySelectorAll('.comp-checkbox').forEach(cb => cb.checked = false);
-    initNetwork();
+  document.getElementById("edgeInfoClose")?.addEventListener("click", hideEdgeInfo);
+}
+
+/* -------- controles Todos / por tipo de tensión -------- */
+function filterNetwork(mode) {
+  document.querySelectorAll(".network-controls .control-btn").forEach(btn => btn.classList.remove("active"));
+  event.currentTarget.classList.add("active");
+
+  const groups = {
+    all: ["soporte", "tension", "dependencia", "emergencia"],
+    soporte: ["soporte"],
+    tension: ["tension"],
+    dependencia: ["dependencia"],
+    emergencia: ["emergencia"],
+  };
+  const activeTypes = groups[mode] || groups.all;
+
+  document.querySelectorAll(".legend-item[data-type]").forEach(item => {
+    const type = item.dataset.type;
+    const input = item.querySelector("input");
+    const show = activeTypes.includes(type);
+    input.checked = show;
+    item.classList.toggle("off", !show);
+    if (show) typeOff.delete(type); else typeOff.add(type);
+  });
+  refreshEdgeVisibility();
+}
+
+/* -------- botones de acción (placeholders) -------- */
+function generateODSReport() { console.log("Generando reporte de red..."); }
+function downloadAlignment() { console.log("Descargando tabla de relaciones..."); }
+function shareAnalysis() { console.log("Compartiendo análisis..."); }
+
+/* -------- CONSTRUCTOR: añadir componentes y relaciones -------- */
+const ICON_BY_CATEGORY = {
+  infra: "fa-road",
+  eco: "fa-tree",
+  soc: "fa-people-roof",
+  econ: "fa-coins",
+};
+
+function populateEdgeSelects() {
+  const fromSel = document.getElementById("edgeFrom");
+  const toSel = document.getElementById("edgeTo");
+  if (!fromSel || !toSel) return;
+  const currentFrom = fromSel.value;
+  const currentTo = toSel.value;
+  const buildOptions = (current) => {
+    let html = `<option value="">${current ? current : "…"}</option>`;
+    ODS_NODES.forEach(n => {
+      const label = n.name.replace(/\n/g, " ");
+      html += `<option value="${n.id}"${n.id === current ? " selected" : ""}>${label}</option>`;
+    });
+    return html;
+  };
+  fromSel.innerHTML = "<option value=\"\">De…</option>" + ODS_NODES.map(n =>
+    `<option value="${n.id}"${n.id === currentFrom ? " selected" : ""}>${n.name.replace(/\n/g, " ")}</option>`).join("");
+  toSel.innerHTML = "<option value=\"\">Hacia…</option>" + ODS_NODES.map(n =>
+    `<option value="${n.id}"${n.id === currentTo ? " selected" : ""}>${n.name.replace(/\n/g, " ")}</option>`).join("");
+}
+
+function addNode() {
+  const input = document.getElementById("nodeName");
+  const sel = document.getElementById("nodeCat");
+  const name = (input.value || "").trim().toUpperCase();
+  const cat = sel.value;
+  if (!name) { flashButton(input.closest(".builder-form").querySelector(".btn-builder")); return; }
+  if (ODS_NODES.some(n => n.id === slugify(name))) {
+    alert("Ya existe un componente con ese nombre.");
+    return;
+  }
+  const node = {
+    id: slugify(name),
+    num: "",
+    name: name,
+    icon: ICON_BY_CATEGORY[cat],
+    color: CATEGORY_COLOR[cat],
+    x: 500 + Math.random() * 300,
+    y: 120 + Math.random() * 300,
+    r: 54,
+  };
+  node.homeX = node.x; node.homeY = node.y;
+  node.vx = 0; node.vy = 0; node.fixed = false;
+  ODS_NODES.push(node);
+  assignCategory(node, cat);
+  input.value = "";
+  refreshAfterBuilder();
+}
+
+function addEdge() {
+  const from = document.getElementById("edgeFrom").value;
+  const to = document.getElementById("edgeTo").value;
+  const type = document.getElementById("edgeType").value;
+  const just = document.getElementById("edgeJust").value.trim();
+  const btn = document.getElementById("edgeJust").closest(".builder-form").querySelector(".btn-builder");
+  if (!from || !to || from === to) { flashButton(btn); return; }
+  const s = nodeById(from), t = nodeById(to);
+  if (!s || !t) return;
+  RAW_EDGES.push({
+    s: from,
+    t: to,
+    type,
+    directa: true,
+    sustento: just ? `Supuesto: ${just}` : "Supuesto por definir.",
+    paginaTexto: `${CATEGORY_LABEL[categoryOf(from)]} → ${CATEGORY_LABEL[categoryOf(to)]}`,
+  });
+  const last = RAW_EDGES[RAW_EDGES.length - 1];
+  last.restLength = Math.hypot(t.x - s.x, t.y - s.y) || 300;
+  if (type === "tension") last.repel = 40;
+  document.getElementById("edgeJust").value = "";
+  flashButton(btn);
+  refreshAfterBuilder();
+}
+
+function refreshAfterBuilder() {
+  populateEdgeSelects();
+  renderTable();
+  renderNetwork();
+}
+
+function flashButton(btn) {
+  if (!btn) return;
+  btn.classList.add("flash");
+  setTimeout(() => btn.classList.remove("flash"), 700);
+}
+
+function slugify(str) {
+  return str.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_|_$/g, "");
+}
+
+const TYPE_TAG_CLASS = {
+  soporte: "sop", tension: "tens", dependencia: "dep", emergencia: "emer",
+};
+const TYPE_LINE_DESC = {
+  soporte: "Continua",
+  tension: "Continua",
+  dependencia: "Continua",
+  emergencia: "Punteada",
+};
+
+/* -------- tabla del modelo: generada dinámicamente -------- */
+function renderTable() {
+  const container = document.getElementById("modelTable");
+  if (!container) return;
+  const header = container.querySelector(".matrix-row.header");
+  container.innerHTML = "";
+  container.appendChild(header);
+
+  RAW_EDGES.forEach((edge, i) => {
+    const s = nodeById(edge.s), t = nodeById(edge.t);
+    if (!s || !t) return;
+    const style = TYPE_STYLE[edge.type];
+    const row = document.createElement("div");
+    row.className = "matrix-row";
+    row.dataset.edge = i;
+    row.innerHTML = `
+      <div class="matrix-cell">${i + 1}</div>
+      <div class="matrix-cell">${s.name.replace(/\n/g, " ")} → ${t.name.replace(/\n/g, " ")}</div>
+      <div class="matrix-cell">${TYPE_LINE_DESC[edge.type]}</div>
+      <div class="matrix-cell"><span class="legend-swatch legend-swatch-line" style="border-color:${style.color};${edge.type === "emergencia" ? "border-top-style:dashed;" : ""}"></span><span style="color:${style.color};font-weight:700;">${style.color === "#4ade80" ? "Verde" : style.color === "#f76fb0" ? "Rosa" : style.color === "#5b8def" ? "Azul" : "Amarillo"}</span></div>
+      <div class="matrix-cell"><span class="alignment-tag ${TYPE_TAG_CLASS[edge.type]}">${style.label.replace("Relación de ", "").replace(/^./, c => c.toUpperCase())}</span></div>
+      <div class="matrix-cell quote-cell">“${edge.sustento}”</div>
+    `;
+    row.addEventListener("click", () => showEdgeInfo(i));
+    container.appendChild(row);
   });
 }
 
-function selectNode(nodeId) {
-  if (!selectedNode1) {
-    selectedNode1 = nodeId;
-  } else if (selectedNode1 !== nodeId && !selectedNode2) {
-    selectedNode2 = nodeId;
-    const n1 = allNodes.find(n => n.id === selectedNode1);
-    const n2 = allNodes.find(n => n.id === selectedNode2);
-    document.getElementById('connectionInfo').innerHTML = <strong>${n1.label}</strong><br>→<br><strong>${n2.label}</strong>;
-    document.getElementById('connectionPanel').style.display = 'block';
-  }
-}
+document.addEventListener("DOMContentLoaded", () => {
+  renderNetwork();
+  setupLegendToggle();
+  populateEdgeSelects();
+  renderTable();
+});
 
-function confirmConnection() {
-  const type = document.querySelector('input[name="convention"]:checked')?.value;
-  if (!type) { alert('⚠️ Selecciona tipo'); return; }
-  
-  if (selectedLinkIndex !== null) {
-    const link = allLinks[selectedLinkIndex];
-    link.type = type;
-    if (link.isAuto) {
-      link.isAuto = false;
-      if (!manualLinks.find(l => l.source === link.source && l.target === link.target)) {
-        manualLinks.push(link);
-      }
-    }
-  } else if (selectedNode1 && selectedNode2) {
-    const newLink = { source: selectedNode1, target: selectedNode2, type: type, isAuto: false };
-    manualLinks.push(newLink);
-  }
-  
-  closeConnection();
-  initNetwork();
+/* acceso público para extensiones y pruebas */
+if (typeof window !== "undefined") {
+  window.__odsNodes = ODS_NODES;
+  window.__odsEdges = RAW_EDGES;
 }
-
-function closeConnection() {
-  document.getElementById('connectionPanel').style.display = 'none';
-  selectedNode1 = null;
-  selectedNode2 = null;
-  selectedLinkIndex = null;
-  document.querySelectorAll('input[name="convention"]').forEach(r => r.checked = false);
-}
-
-window.confirmConnection = confirmConnection;
-window.closeConnection = closeConnection;
