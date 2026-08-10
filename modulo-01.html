@@ -3,17 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAPOT · Módulo 01 — Construir la Red</title>
+<title>RAPOT · Construir la Red</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="modulo-01.css">
 </head>
 <body>
-<div id="app">
+<div class="app">
 
-  <!-- SIDEBAR RAPOT -->
-  <aside id="sidebar-rapot">
+  <aside class="sidebar">
     <div class="brand">
       <div class="mark"><i class="fa-solid fa-diagram-project"></i></div>
       <span>RAPOT</span>
@@ -39,7 +38,7 @@
       <div class="nav-label">GESTIÓN</div>
       <a href="proyectos.html" class="nav-item"><i class="fa-solid fa-folder"></i> Proyectos</a>
       <a href="fuentes.html" class="nav-item"><i class="fa-solid fa-file-lines"></i> Fuentes y Documentos</a>
-      <a href="favoritos.html" class="nav-item"><i class="fa-regular fa-star"></i> Favoritos</a>
+      <a href="favoritos.html" class="nav-item"><i class="fa-solid fa-star"></i> Favoritos</a>
       <a href="reportes.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Reportes</a>
       <a href="configuracion.html" class="nav-item"><i class="fa-solid fa-gear"></i> Configuración</a>
     </div>
@@ -50,162 +49,289 @@
         <div class="name">Equipo Urbano</div>
         <div class="role">Administrador</div>
       </div>
+      <a href="demo.html" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
-  <div id="main-container">
-    <header>
-      <div>
-        <h1>01. Construir la Red</h1>
-        <p>Crea la red de conceptos y relaciones del POT a partir de fuentes oficiales.</p>
-      </div>
-      <div class="header-action"><i class="fa-solid fa-download"></i> Descargar plantilla</div>
-    </header>
+  <main class="main">
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <i class="fa-solid fa-diagram-project"></i>
-        <div class="stat-value" id="statConceptos">—</div>
-        <div class="stat-label">Conceptos</div>
-        <div class="stat-sub">Nodos identificados</div>
-      </div>
-      <div class="stat-card">
-        <i class="fa-solid fa-link"></i>
-        <div class="stat-value" id="statRelaciones">—</div>
-        <div class="stat-label">Relaciones</div>
-        <div class="stat-sub">—</div>
-      </div>
-      <div class="stat-card">
-        <i class="fa-solid fa-file-lines"></i>
-        <div class="stat-value" id="statFuentes">—</div>
-        <div class="stat-label">Fuentes</div>
-        <div class="stat-sub">—</div>
-      </div>
-      <div class="stat-card">
-        <i class="fa-solid fa-diagram-project"></i>
-        <div class="stat-value" id="statTipos">—</div>
-        <div class="stat-label">Tipos de relación</div>
-        <div class="stat-sub">Directa, Indirecta, Soporte…</div>
+    <div class="topbar">
+      <h1>Construir la Red — EFC</h1>
+      <div class="topbar-actions">
+        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i> Buscar en el sistema...</div>
+        <div class="icon-btn"><i class="fa-regular fa-bell"></i><span class="dot"></span></div>
+        <div class="icon-btn"><i class="fa-regular fa-circle-question"></i></div>
+        <div class="avatar-sm">EU</div>
       </div>
     </div>
 
-    <div class="graph-panel">
-      <div class="graph-panel-header">
-        <div class="graph-panel-title">Vista de la red</div>
-        <div class="graph-panel-tools">
-          <div class="tool-btn"><i class="fa-solid fa-filter"></i> Filtros</div>
-          <div class="tool-btn"><i class="fa-solid fa-rotate-right"></i></div>
+    <div class="welcome">
+      <h2>Construir la Red</h2>
+      <p>Identifica y visualiza las relaciones de la Estructura Funcional y del Cuidado (EFC): red vial, corredores verdes, transporte público, equipamientos, vivienda, Manzanas del Cuidado y sus servicios.</p>
+    </div>
+
+    <!-- INSIGHTS: tarjetas clicables para explorar la red -->
+    <div class="ods-insight-stats" id="odsInsightStats">
+      <div class="insight-card" data-insight="conceptos" style="--insight-color:#5b8def;" onclick="toggleInsight('conceptos')">
+        <div class="insight-icon"><i class="fa-solid fa-circle-nodes"></i></div>
+        <div class="insight-title">Conceptos</div>
+      </div>
+
+      <div class="insight-card" data-insight="conexiones" style="--insight-color:#ef9552;" onclick="toggleInsight('conexiones')">
+        <div class="insight-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <div class="insight-title">Conexiones</div>
+      </div>
+
+      <div class="insight-card" data-insight="tipos" style="--insight-color:#f5c945;" onclick="toggleInsight('tipos')">
+        <div class="insight-icon"><i class="fa-solid fa-code-branch"></i></div>
+        <div class="insight-title">Tipo de relación</div>
+      </div>
+
+      <div class="insight-card" data-insight="todos" style="--insight-color:#2fd4c8;" onclick="toggleInsight('todos')">
+        <div class="insight-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <div class="insight-title">Ver toda la red</div>
+      </div>
+    </div>
+
+    <!-- RED CONCEPTUAL -->
+    <div class="network-section">
+      <div class="network-header">
+        <h3><i class="fa-solid fa-sitemap"></i> Red Estructura Funcional y del Cuidado (EFC) — POT Interactiva</h3>
+        <div class="network-controls">
+          <button class="control-btn active" onclick="filterNetwork('all')">Todos</button>
+          <button class="control-btn" onclick="filterNetwork('soporte')">Soporte</button>
         </div>
       </div>
 
-      <div style="padding:0 18px;">
-        <div class="graph-tabs" style="border-bottom:1px solid var(--panel-border); padding-bottom:2px;">
-          <div class="graph-tab active" data-tab="todas">Todas</div>
-          <div class="graph-tab" data-tab="conceptos">Conceptos</div>
-          <div class="graph-tab" data-tab="relaciones">Relaciones</div>
+      <div class="network-viz-wrap">
+        <svg id="networkViz" viewBox="0 0 1470 780" preserveAspectRatio="xMidYMid meet"></svg>
+
+        <div class="network-sidebar">
+          <aside class="network-legend" id="networkLegend">
+            <div class="legend-title">Convenciones</div>
+
+            <label class="legend-item" data-type="soporte">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-soporte"></span>
+              Soporte
+            </label>
+
+            <div class="legend-title">Tipo de relación</div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-directa"></span>
+              Directa — continua
+            </div>
+
+            <div class="legend-divider"></div>
+            <div class="legend-hint">Clic en una línea: ver frase exacta del POT y página.<br>Doble clic en una bola: apagarla/encenderla.<br>Triple clic en una bola: ver solo su flujo.</div>
+          </aside>
+
+          <div class="edge-info-panel" id="edgeInfoPanel">
+            <div class="edge-info-header">
+              <span id="edgeInfoTitle">Conexión</span>
+              <button class="edge-info-close" id="edgeInfoClose" type="button" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="edge-info-type" id="edgeInfoType"></div>
+            <div class="edge-info-quote" id="edgeInfoQuote"></div>
+            <div class="edge-info-page" id="edgeInfoPage"></div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="graph-wrapper">
-
-        <!-- LEGEND / FILTERS -->
-        <div class="legend-panel">
-          <div class="legend-section">
-            <div class="legend-title">Tipos de relación</div>
-            <label class="filter-item">
-              <input type="checkbox" class="filter-type" value="Directa" checked>
-              <span><span class="filter-line solid" style="border-color:var(--rel-directa);"></span> Directa</span>
-            </label>
-            <label class="filter-item">
-              <input type="checkbox" class="filter-type" value="Indirecta" checked>
-              <span><span class="filter-line dashed" style="border-color:var(--rel-indirecta);"></span> Indirecta</span>
-            </label>
-            <label class="filter-item">
-              <input type="checkbox" class="filter-type" value="Soporte" checked>
-              <span><span class="filter-line solid" style="border-color:var(--rel-soporte);"></span> Soporte</span>
-            </label>
-            <label class="filter-item">
-              <input type="checkbox" class="filter-type" value="Resiliencia" checked>
-              <span><span class="filter-line solid" style="border-color:var(--rel-resiliencia);"></span> Resiliencia</span>
-            </label>
-          </div>
-
-          <div class="legend-section">
-            <div class="legend-title">Estructuras</div>
-            <div class="structure-list" id="structureList"><!-- generado por JS --></div>
-          </div>
+    <!-- TABLA DE SUSTENTO -->
+    <div class="analysis-container">
+      <div class="analysis-card full-width">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-table"></i> Tabla de Relaciones — Estructura Funcional y del Cuidado (EFC)</h3>
         </div>
 
-        <!-- CANVAS -->
-        <div class="canvas-container">
-          <div id="canvas-wrap">
-            <svg id="graphSvgLayer"></svg>
-            <div id="nodeLayer" class="node-layer"></div>
+        <div class="matrix-container">
+          <div class="matrix-row header">
+            <div class="matrix-cell header-cell">Relación</div>
+            <div class="matrix-cell header-cell">Flecha</div>
+            <div class="matrix-cell header-cell">Línea</div>
+            <div class="matrix-cell header-cell">Color</div>
+            <div class="matrix-cell header-cell">Tipo</div>
+            <div class="matrix-cell header-cell">Página POT</div>
+            <div class="matrix-cell header-cell">Texto exacto</div>
+          </div>
 
-            <div class="diagram-title-card">
-              <div class="diagram-title" id="diagramTitle">—</div>
-              <div class="diagram-subtitle" id="diagramSubtitle">—</div>
-            </div>
+          <div class="matrix-row" data-edge="0">
+            <div class="matrix-cell">Red vial ➞ Transporte público</div>
+            <div class="matrix-cell">➡️</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-soporte" style="margin:0;"></span> Naranja</div>
+            <div class="matrix-cell"><span class="alignment-tag strong">Soporte</span></div>
+            <div class="matrix-cell">p. 43</div>
+            <div class="matrix-cell quote-cell">“Además del Metro, Bogotá necesita con urgencia ampliar sus entradas y salidas, tapar más huecos, hacer más vías, ciclorrutas, cables y corredores verdes con buses eléctricos para que el transporte público de calidad llegue a todas partes, conecte a la gente, la saque del trancón y la contaminación.”</div>
+          </div>
 
-            <div class="layers-card" id="layersCard">
-              <div class="layers-title">Leyenda de capas</div>
-              <label class="layers-row">
-                Nodos Principales
-                <span class="switch">
-                  <input type="checkbox" id="togglePrincipal" checked>
-                  <span class="slider"></span>
-                </span>
-              </label>
-              <label class="layers-row">
-                Conexiones Activas
-                <span class="switch">
-                  <input type="checkbox" id="toggleEdges" checked>
-                  <span class="slider"></span>
-                </span>
-              </label>
-            </div>
+          <div class="matrix-row" data-edge="1">
+            <div class="matrix-cell">Corredores verdes ➞ Transporte público</div>
+            <div class="matrix-cell">➡️</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-soporte" style="margin:0;"></span> Naranja</div>
+            <div class="matrix-cell"><span class="alignment-tag strong">Soporte</span></div>
+            <div class="matrix-cell">p. 30</div>
+            <div class="matrix-cell quote-cell">“Y que, en todo caso, las diversas zonas de la ciudad estén conectadas por un sistema multimodal de transporte público, colectivo, de energías limpias y renovables basadas en la red Metro y alimentadas por los demás modos y medios de transporte público como los corredores verdes, los cables y las ciclorrutas.”</div>
+          </div>
 
-            <!-- Lista de conceptos (se muestra al hacer clic en la pestaña "Conceptos") -->
-            <div class="concepts-list-panel" id="conceptsListPanel">
-              <div class="concepts-list-title" id="conceptsListTitle">Conceptos</div>
-              <ul class="concepts-list" id="conceptsList"></ul>
-            </div>
+          <div class="matrix-row" data-edge="2">
+            <div class="matrix-cell">Corredores verdes ➞ Ciclorutas</div>
+            <div class="matrix-cell">➡️</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-soporte" style="margin:0;"></span> Naranja</div>
+            <div class="matrix-cell"><span class="alignment-tag strong">Soporte</span></div>
+            <div class="matrix-cell">p. 239–241</div>
+            <div class="matrix-cell quote-cell">“Por eso, además del Metro, y para alimentarlo y complementarlo, están los corredores verdes, con diseño ecosistémico, transporte público eléctrico, ciclorrutas seguras y andenes, plazas y espacios de encuentro...”</div>
+          </div>
+
+          <div class="matrix-row" data-edge="3">
+            <div class="matrix-cell">Equipamientos ➞ Vivienda</div>
+            <div class="matrix-cell">➡️</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-soporte" style="margin:0;"></span> Naranja</div>
+            <div class="matrix-cell"><span class="alignment-tag strong">Soporte</span></div>
+            <div class="matrix-cell">p. 126</div>
+            <div class="matrix-cell quote-cell">“Por un lado, priorizamos que los colegios o equipamientos educativos estén cerca de la vivienda o incluso cerca del trabajo de los padres.”</div>
+          </div>
+
+          <div class="matrix-row" data-edge="4">
+            <div class="matrix-cell">Equipamientos ➞ Manzanas del Cuidado</div>
+            <div class="matrix-cell">➡️</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-soporte" style="margin:0;"></span> Naranja</div>
+            <div class="matrix-cell"><span class="alignment-tag strong">Soporte</span></div>
+            <div class="matrix-cell">p. 125</div>
+            <div class="matrix-cell quote-cell">“Aprovechar los equipamientos existentes como anclas de las Manzanas del Cuidado, para que en estos diferentes entidades del Distrito cuiden a quienes nos cuidan, fue el cuello de botella que se resolvió con el pot.”</div>
+          </div>
+
+          <div class="matrix-row" data-edge="5">
+            <div class="matrix-cell">Manzanas del Cuidado ➞ Servicios sociales</div>
+            <div class="matrix-cell">➡️</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-soporte" style="margin:0;"></span> Naranja</div>
+            <div class="matrix-cell"><span class="alignment-tag strong">Soporte</span></div>
+            <div class="matrix-cell">p. 126</div>
+            <div class="matrix-cell quote-cell">“...cualifica los servicios sociales del Distrito y hace efectiva la articulación interinstitucional.”</div>
+          </div>
+
+          <div class="matrix-row" data-edge="6">
+            <div class="matrix-cell">Manzanas del Cuidado ➞ Servicios de cuidado</div>
+            <div class="matrix-cell">➡️</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-soporte" style="margin:0;"></span> Naranja</div>
+            <div class="matrix-cell"><span class="alignment-tag strong">Soporte</span></div>
+            <div class="matrix-cell">p. 122</div>
+            <div class="matrix-cell quote-cell">“Las Manzanas del Cuidado son áreas acotadas que agrupan diversas infraestructuras para brindar servicios de manera simultánea y articulada a las personas cuidadoras, a quienes ellas cuidan y a sus familias.”</div>
           </div>
         </div>
-
-        <!-- DETAIL PANEL -->
-        <div class="detail-panel" id="detailPanel" style="display:none;">
-          <div class="detail-card">
-            <div class="detail-label">Concepto</div>
-            <div class="detail-content" id="detailName">—</div>
-          </div>
-          <div class="detail-card">
-            <div class="detail-label">Estructura</div>
-            <div class="detail-content" id="detailStruct">—</div>
-          </div>
-          <div class="detail-card">
-            <div class="detail-label">Conexiones (→)</div>
-            <div class="detail-content" id="detailOut" style="font-size:11px;">—</div>
-          </div>
-          <div class="detail-card">
-            <div class="detail-label">Conexiones (←)</div>
-            <div class="detail-content" id="detailIn" style="font-size:11px;">—</div>
-          </div>
-        </div>
-
       </div>
+    </div>
+
+    <!-- LECTURA DE LA RED -->
+    <div class="synergies-section">
+      <div class="synergies-grid">
+        <div class="synergy-card success">
+          <div class="synergy-icon"><i class="fa-solid fa-handshake"></i></div>
+          <div class="synergy-content">
+            <h4>Estructura de la Red</h4>
+            <ul>
+              <li><strong>Corredores verdes como articulador:</strong> alimentan al Metro y complementan el sistema multimodal (pág. 30 y 239–241)</li>
+              <li><strong>Transporte público como nodo central:</strong> recibe las conexiones de la red vial y los corredores verdes</li>
+              <li><strong>Manzanas del Cuidado:</strong> articulan equipamientos, servicios sociales y servicios de cuidado (pág. 122, 125, 126)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="synergy-card conflict">
+          <div class="synergy-icon"><i class="fa-solid fa-seedling"></i></div>
+          <div class="synergy-content">
+            <h4>Lectura Conceptual</h4>
+            <ul>
+              <li><strong>Soporte (naranja):</strong> todas las relaciones de la EFC son de soporte, con línea continua y dirección definida</li>
+              <li><strong>Movilidad sostenible:</strong> corredores verdes con diseño ecosistémico alimentan el Metro y las ciclorrutas seguras</li>
+              <li><strong>Cuidado:</strong> los equipamientos funcionan como anclas que resuelven el cuello de botella del cuidado en el Distrito</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECOMENDACIONES -->
+    <div class="recommendations-section">
+      <h3><i class="fa-solid fa-lightbulb"></i> Recomendaciones para la Red EFC</h3>
+
+      <div class="recommendations-grid">
+        <div class="rec-card">
+          <div class="rec-number">1</div>
+          <div class="rec-content">
+            <h4>Consolidar los corredores verdes como eje articulador</h4>
+            <p>Fortalecer los corredores verdes con diseño ecosistémico para alimentar y complementar la red Metro y el sistema multimodal de energías limpias.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +20%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">2</div>
+          <div class="rec-content">
+            <h4>Ampliar la cobertura del transporte público</h4>
+            <p>Garantizar que el transporte público de calidad llegue a todas las zonas de la ciudad, saque a la gente del trancón y la contaminación (pág. 43).
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +18%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">3</div>
+          <div class="rec-content">
+            <h4>Reforzar las Manzanas del Cuidado</h4>
+            <p>Expandir las Manzanas del Cuidado usando los equipamientos como anclas para articular servicios sociales y de cuidado de manera simultánea.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +15%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">4</div>
+          <div class="rec-content">
+            <h4>Monitorear nuevas relaciones EFC</h4>
+            <p>Crear indicadores específicos para rastrear nuevas relaciones funcionales y de cuidado que surjan en revisiones y actualizaciones del POT.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +8%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTONES DE ACCIÓN -->
+    <div class="action-buttons">
+      <button class="btn-primary" onclick="generateODSReport()">
+        <i class="fa-solid fa-file-pdf"></i> Generar Reporte EFC
+      </button>
+      <button class="btn-secondary" onclick="downloadAlignment()">
+        <i class="fa-solid fa-download"></i> Descargar Tabla
+      </button>
+      <button class="btn-secondary" onclick="shareAnalysis()">
+        <i class="fa-solid fa-share-nodes"></i> Compartir Análisis
+      </button>
     </div>
 
     <footer>
-      <p>"No se trata de representar la ciudad, sino de comprenderla para transformarla." — Equipo POT RE</p>
+      "No se trata de representar la ciudad, sino de comprenderla para transformarla." — <span>Equipo POT Reverse Engineering</span>
     </footer>
 
-  </div>
+  </main>
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="modulo-01.js"></script>
+
 </body>
 </html>
