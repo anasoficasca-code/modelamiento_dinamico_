@@ -114,24 +114,6 @@ header p{
 }
 .header-action:hover{ color:var(--text); border-color:var(--accent); }
 
-/* PASOS */
-.steps-bar{
-  display:flex; align-items:stretch; gap:0; margin:0 30px; padding:14px 18px;
-  background:var(--panel); border:1px solid var(--panel-border); border-radius:12px; flex-shrink:0;
-}
-.step{
-  display:flex; align-items:center; gap:10px; flex:1; padding:0 14px; position:relative;
-}
-.step .step-num{
-  width:26px; height:26px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center;
-  font-size:12px; font-weight:700; background:rgba(255,255,255,0.05); color:var(--text-faint);
-}
-.step.active .step-num{ background:var(--accent); color:#06110f; }
-.step-title{ font-size:12.5px; font-weight:700; color:var(--text-dim); }
-.step.active .step-title{ color:var(--text); }
-.step-desc{ font-size:10.5px; color:var(--text-faint); }
-.step-chevron{ color:var(--text-faint); font-size:12px; padding:0 4px; align-self:center; }
-
 .stats-grid{
   display:grid; grid-template-columns:repeat(4, 1fr); gap:12px;
   padding:20px 30px; flex-shrink:0;
@@ -312,8 +294,32 @@ line.edge{ transition: opacity .3s, stroke-dasharray .3s; }
 .node.secondary{ opacity:0.94; }
 .node.principal{ z-index:2; }
 
-#canvas-wrap.mode-concepts svg#graphSvgLayer{ display:none; }
+#canvas-wrap.mode-concepts svg#graphSvgLayer{ display:none !important; }
 #canvas-wrap.mode-relations .node .label{ opacity:0.35; }
+
+/* Modo "Conceptos": se oculta el diagrama y se muestra la lista de conceptos */
+#canvas-wrap.mode-concepts #nodeLayer,
+#canvas-wrap.mode-concepts .diagram-title-card,
+#canvas-wrap.mode-concepts .layers-card{ display:none !important; }
+.concepts-list-panel{
+  display:none; position:absolute; inset:16px; z-index:8; overflow-y:auto;
+  background:var(--panel); border:1px solid var(--panel-border); border-radius:12px;
+  padding:18px 20px;
+}
+#canvas-wrap.mode-concepts .concepts-list-panel{ display:block; }
+.concepts-list-title{
+  font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:14px; color:var(--text);
+  margin-bottom:12px;
+}
+.concepts-list{
+  list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2, 1fr); gap:8px;
+}
+.concepts-list li{
+  display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:9px;
+  background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05);
+  font-size:12.5px; color:var(--text);
+}
+.concepts-list li i{ font-size:12px; width:16px; text-align:center; flex-shrink:0; color:var(--concept-color, var(--accent)); }
 
 /* DETAIL PANEL */
 .detail-panel{
@@ -425,40 +431,6 @@ footer{
       <div class="header-action"><i class="fa-solid fa-download"></i> Descargar plantilla</div>
     </header>
 
-    <div class="steps-bar">
-      <div class="step active">
-        <div class="step-num">1</div>
-        <div>
-          <div class="step-title">Cargar datos</div>
-          <div class="step-desc">Importa tus fuentes de información</div>
-        </div>
-      </div>
-      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>
-          <div class="step-title">Identificar relaciones</div>
-          <div class="step-desc">Encuentra vínculos entre conceptos</div>
-        </div>
-      </div>
-      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>
-          <div class="step-title">Clasificar y justificar</div>
-          <div class="step-desc">Define el tipo de relación y su justificación</div>
-        </div>
-      </div>
-      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div>
-          <div class="step-title">Generar red</div>
-          <div class="step-desc">Visualiza y exporta tu red de conocimiento</div>
-        </div>
-      </div>
-    </div>
-
     <div class="stats-grid">
       <div class="stat-card">
         <i class="fa-solid fa-diagram-project"></i>
@@ -560,6 +532,12 @@ footer{
                   <span class="slider"></span>
                 </span>
               </label>
+            </div>
+
+            <!-- Lista de conceptos (se muestra al hacer clic en la pestaña "Conceptos") -->
+            <div class="concepts-list-panel" id="conceptsListPanel">
+              <div class="concepts-list-title" id="conceptsListTitle">Conceptos</div>
+              <ul class="concepts-list" id="conceptsList"></ul>
             </div>
           </div>
         </div>
@@ -1004,6 +982,28 @@ function selectStructure(structId) {
   const g = structureGraphs[structId];
   nodes = g.nodes.map(n => Object.assign({}, n)); // copia fresca: posiciones deterministas por estructura
   applyFilters();
+
+  const conceptsTabActive = document.querySelector('.graph-tab[data-tab="conceptos"]')?.classList.contains('active');
+  if (conceptsTabActive) renderConceptsList();
+}
+
+function renderConceptsList() {
+  const g = structureGraphs[activeStructureId];
+  const cfg = STRUCTURES[activeStructureId];
+  const listEl = document.getElementById('conceptsList');
+  const titleEl = document.getElementById('conceptsListTitle');
+  if (!listEl) return;
+
+  titleEl.textContent = `Conceptos — ${cfg.fullName} (${g.nodes.length})`;
+  listEl.innerHTML = '';
+
+  g.nodes.forEach(n => {
+    const li = document.createElement('li');
+    li.style.setProperty('--concept-color', cfg.color);
+    li.innerHTML = `<i class="fa-solid ${n.icon}"></i><span>${n.label}</span>`;
+    li.addEventListener('click', () => showDetail(n));
+    listEl.appendChild(li);
+  });
 }
 
 function updateTitleCard() {
@@ -1477,6 +1477,7 @@ function bindControls() {
       const canvas = document.getElementById('canvas-wrap');
       canvas.classList.toggle('mode-concepts', mode === 'conceptos');
       canvas.classList.toggle('mode-relations', mode === 'relaciones');
+      if (mode === 'conceptos') renderConceptsList();
     });
   });
 
