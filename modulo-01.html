@@ -63,40 +63,6 @@
       <div class="header-action"><i class="fa-solid fa-download"></i> Descargar plantilla</div>
     </header>
 
-    <div class="steps-bar">
-      <div class="step active">
-        <div class="step-num">1</div>
-        <div>
-          <div class="step-title">Cargar datos</div>
-          <div class="step-desc">Importa tus fuentes de información</div>
-        </div>
-      </div>
-      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>
-          <div class="step-title">Identificar relaciones</div>
-          <div class="step-desc">Encuentra vínculos entre conceptos</div>
-        </div>
-      </div>
-      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>
-          <div class="step-title">Clasificar y justificar</div>
-          <div class="step-desc">Define el tipo de relación y su justificación</div>
-        </div>
-      </div>
-      <span class="step-chevron"><i class="fa-solid fa-chevron-right"></i></span>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div>
-          <div class="step-title">Generar red</div>
-          <div class="step-desc">Visualiza y exporta tu red de conocimiento</div>
-        </div>
-      </div>
-    </div>
-
     <div class="stats-grid">
       <div class="stat-card">
         <i class="fa-solid fa-diagram-project"></i>
@@ -198,6 +164,12 @@
                   <span class="slider"></span>
                 </span>
               </label>
+            </div>
+
+            <!-- Lista de conceptos (se muestra al hacer clic en la pestaña "Conceptos") -->
+            <div class="concepts-list-panel" id="conceptsListPanel">
+              <div class="concepts-list-title" id="conceptsListTitle">Conceptos</div>
+              <ul class="concepts-list" id="conceptsList"></ul>
             </div>
           </div>
         </div>
