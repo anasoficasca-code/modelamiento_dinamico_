@@ -114,8 +114,8 @@
 
       <div class="network-toolbar">
         <div class="net-stats">
-          <div class="stat-chip"><i class="fa-solid fa-circle-nodes"></i><span id="statNodes">39</span> nodos</div>
-          <div class="stat-chip"><i class="fa-solid fa-diagram-project"></i><span id="statLinks">45</span> conexiones</div>
+          <div class="stat-chip"><i class="fa-solid fa-circle-nodes"></i><span id="statNodes">40</span> nodos</div>
+          <div class="stat-chip"><i class="fa-solid fa-diagram-project"></i><span id="statLinks">53</span> conexiones</div>
           <div class="stat-chip"><i class="fa-solid fa-power-off"></i><span id="statActive">4/4</span> estructuras activas</div>
           <div class="stat-chip" id="selectedChip" style="display:none;"><i class="fa-solid fa-arrows-to-circle"></i><span id="statSelected">-</span></div>
         </div>
@@ -129,6 +129,14 @@
 
       <div class="network-static-wrap">
         <svg id="staticNetwork" viewBox="85 70 815 700" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow-soporte" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#ef9552"/>
+            </marker>
+            <marker id="arrow-resiliencia" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="#4c8dff"/>
+            </marker>
+          </defs>
 
           <!-- ===================== LINKS ===================== -->
           <g class="links">
@@ -194,6 +202,16 @@
             <!-- Cruces largos entre estructuras -->
             <line class="link-resiliencia l-eco l-func" data-s="coberturas_vegetales" data-t="vivienda" x1="227.5" y1="337.3" x2="310.0" y2="592.1"/>
             <line class="link-soporte l-econ l-func" data-s="servicios_empresariales" data-t="equipamientos" x1="537.7" y1="387.7" x2="438.4" y2="493.6"/>
+
+            <!-- Relaciones documentadas en la tabla del POT (Soporte / Resiliencia) -->
+            <line class="link-soporte l-func l-econ" data-s="vivienda" data-t="servicios_empresariales" x1="310.0" y1="592.1" x2="537.7" y2="387.7"/>
+            <line class="link-soporte l-func l-econ" data-s="transporte_publico" data-t="servicios_empresariales" x1="193.2" y1="612.5" x2="537.7" y2="387.7"/>
+            <line class="link-soporte l-func l-econ" data-s="servicios_sociales" data-t="servicios_empresariales" x1="380.8" y1="551.2" x2="537.7" y2="387.7"/>
+            <line class="link-soporte l-func l-econ" data-s="vivienda" data-t="produccion_artesanal" x1="310.0" y1="592.1" x2="727.5" y2="527.1"/>
+            <line class="link-soporte l-patri l-econ" data-s="patrimonio_natural" data-t="produccion_artesanal" x1="543.6" y1="688.5" x2="727.5" y2="527.1"/>
+            <line class="link-soporte l-eco l-func" data-s="rios" data-t="equipamientos" x1="192.4" y1="195.7" x2="438.4" y2="493.6"/>
+            <line class="link-soporte l-eco l-func" data-s="quebradas" data-t="equipamientos" x1="282.2" y1="192.8" x2="438.4" y2="493.6"/>
+            <line class="link-resiliencia l-eco l-econ" data-s="humedales" data-t="produccion_alimentos" x1="331.1" y1="255.6" x2="748" y2="573"/>
           </g>
 
           <!-- ===================== NODES ===================== -->
@@ -339,6 +357,12 @@
               <text class="node-label" y="7"><tspan x="0">Zonas int.</tspan><tspan x="0" dy="6.5">turístico</tspan></text>
             </g>
 
+            <g class="node n-econ" data-struct="econ" id="n_produccion_alimentos" transform="translate(748,573)">
+              <circle class="node-fill" r="18"/>
+              <foreignObject x="-11" y="-14" width="22" height="22"><div xmlns="http://www.w3.org/1999/xhtml" class="node-icon"><i class="fa-solid fa-wheat-awn" style="font-size:10px;"></i></div></foreignObject>
+              <text class="node-label" y="7"><tspan x="0">Producción</tspan><tspan x="0" dy="6.5">de alimentos</tspan></text>
+            </g>
+
             <!-- FUNCIONAL Y DEL CUIDADO -->
             <g class="node n-func" data-struct="func" id="n_servicios_cuidado" transform="translate(310.0,489.9)">
               <circle class="node-fill" r="20"/>
@@ -439,6 +463,18 @@
 
           </g>
         </svg>
+      </div>
+
+      <div class="relation-panel" id="relationPanel" style="display:none;">
+        <button class="relation-close" onclick="closeRelationPanel()" title="Cerrar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="relation-header">
+          <span class="relation-concepts" id="relConcepts">Desde → Hacia</span>
+          <span class="relation-badge" id="relBadge">Soporte</span>
+        </div>
+        <p class="relation-phrase" id="relPhrase">"..."</p>
+        <div class="relation-page"><i class="fa-solid fa-book-open"></i> Página <span id="relPage">-</span> del POT</div>
       </div>
     </div>
 
