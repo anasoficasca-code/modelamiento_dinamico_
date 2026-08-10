@@ -288,15 +288,102 @@ body {
   align-items: stretch;
 }
 
-#networkViz {
+.network-canvas {
+  position: relative;
   flex: 1;
   min-width: 0;
+}
+
+#networkViz {
   width: 100%;
   height: 560px;
   background: var(--panel-alt);
   border: 1px solid var(--border);
   border-radius: 8px;
   display: block;
+}
+
+/* -------- POPUP DE HALLAZGOS (triple clic en ODS con insight / relación destacada) -------- */
+.finding-popup {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 270px;
+  max-width: calc(100% - 28px);
+  background: var(--panel-alt);
+  border: 1px solid var(--finding-color, var(--teal));
+  box-shadow: 0 10px 28px rgba(0,0,0,0.4), 0 0 16px color-mix(in srgb, var(--finding-color, var(--teal)) 30%, transparent);
+  border-radius: 10px;
+  padding: 14px 30px 14px 16px;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  z-index: 5;
+}
+
+.finding-popup.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.finding-popup-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.finding-popup-close:hover { color: var(--pink); }
+
+.finding-popup-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--finding-color, var(--teal));
+  margin-bottom: 8px;
+}
+
+.finding-popup-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+
+.finding-popup-text {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  line-height: 1.55;
+}
+
+/* indicador visual sobre los nodos/relaciones que tienen un hallazgo asociado */
+@keyframes findingPulse {
+  0%, 100% { stroke-opacity: 1; }
+  50% { stroke-opacity: 0.35; }
+}
+
+.ods-node.has-finding .node-ring {
+  stroke-width: 3.5;
+  animation: findingPulse 2.2s ease-in-out infinite;
+}
+
+.edge-group.has-finding .edge-visual {
+  stroke-width: 3;
+  filter: drop-shadow(0 0 3px var(--edge-color));
 }
 
 .network-sidebar {
