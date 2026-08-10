@@ -1,6 +1,10 @@
 /* ==========================================================
-   RED POT ↔ ODS — diagrama estático (posiciones fijas)
-   - Nodos con posición fija (nada se mueve).
+   RED POT ↔ ODS — diagrama con física de nodos
+   - Los nodos parten de una posición fija, pero ahora se pueden
+     ARRASTRAR: al mover una bola, las que están conectadas a ella
+     la "siguen" (fuerza de resorte a lo largo de cada línea), y
+     todo el conjunto tiende a volver a su posición original con
+     un resorte suave de anclaje (para que no quede desordenado).
    - Conexiones tomadas 1 a 1 de la tabla de sustento documental.
    - Clic en una línea -> panel con Conexión / Tipo / Sustento / Página.
    - Doble clic en una bola -> la apaga (opacidad) y oculta sus líneas.
@@ -35,6 +39,13 @@ const ODS_NODES = [
 ];
 
 /* ODS 1, 2 y 13 son intencionalmente un poco más grandes (r 60) que el resto (r 40, todos iguales) */
+
+/* -------- física: cada nodo guarda su posición "casa" (ancla) y velocidad -------- */
+ODS_NODES.forEach(n => {
+  n.homeX = n.x; n.homeY = n.y;
+  n.vx = 0; n.vy = 0;
+  n.fixed = false; // true mientras el usuario lo está arrastrando
+});
 
 /* El punteado depende de si la relación es "no directa" (inferida): las relaciones
    directas se dibujan con línea sólida y las inferidas con línea punteada.
@@ -84,6 +95,8 @@ const RAW_EDGES = [
   { s: "ods17", t: "ods9",  type: "func",   directa: true, pagina: 76, sustento: "Entre estos sectores figuran la energía sostenible, la infraestructura y el transporte, así como las tecnologías de la información y las comunicaciones." },
   /* 7 → 9: agregada según lo indicado (funcional / azul) */
   { s: "ods7",  t: "ods9",  type: "func",   directa: true, pagina: null, sustento: "Conexión ODS 7 – ODS 9 (funcional), añadida según lo indicado. Pendiente de completar con la cita y página exactas del documento de sustento." },
+  /* 1 → 10: agregada según lo indicado */
+  { s: "ods1",  t: "ods10", type: "comp",   directa: true, pagina: null, sustento: "Conexión ODS 1 – ODS 10 (complementaria), añadida según lo indicado. Pendiente de completar con la cita y página exactas del documento de sustento." },
 ];
 
 /* "17 → todos": el ODS 17 se conecta con el resto (excepto ODS 9, ya listado arriba) */
@@ -95,6 +108,13 @@ ODS_NODES.forEach(n => {
 });
 
 function nodeById(id) { return ODS_NODES.find(n => n.id === id); }
+
+/* -------- física: longitud de reposo de cada resorte (arista) -------- */
+RAW_EDGES.forEach(edge => {
+  const s = nodeById(edge.s), t = nodeById(edge.t);
+  if (!s || !t) return;
+  edge.restLength = Math.hypot(t.x - s.x, t.y - s.y);
+});
 
 /* -------- defs: glow por color de nodo + flechas por tipo -------- */
 function buildDefs(svg) {
@@ -136,6 +156,24 @@ function buildDefs(svg) {
 }
 
 /* -------- aristas: grupo con línea visual + línea invisible más ancha para clic -------- */
+function edgePathData(edge, s, t) {
+  const dx = t.x - s.x, dy = t.y - s.y;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+  const ux = dx / dist, uy = dy / dist;
+  const startPad = s.r + 2;
+  const endPad = t.r + 8;
+  const x1 = s.x + ux * startPad, y1 = s.y + uy * startPad;
+  const x2 = t.x - ux * endPad,   y2 = t.y - uy * endPad;
+
+  if (edge.curve) {
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    const px = -uy, py = ux; // perpendicular unitario
+    const cx = mx + px * edge.curve, cy = my + py * edge.curve;
+    return `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`;
+  }
+  return `M${x1},${y1} L${x2},${y2}`;
+}
+
 function drawEdges(svg) {
   const g = document.createElementNS(SVG_NS, "g");
   g.setAttribute("class", "edges-layer");
@@ -145,26 +183,7 @@ function drawEdges(svg) {
     const t = nodeById(edge.t);
     if (!s || !t) return;
     const style = TYPE_STYLE[edge.type];
-
-    const dx = t.x - s.x, dy = t.y - s.y;
-    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    const ux = dx / dist, uy = dy / dist;
-    const startPad = s.r + 2;
-    const endPad = t.r + 8;
-    const x1 = s.x + ux * startPad, y1 = s.y + uy * startPad;
-    const x2 = t.x - ux * endPad,   y2 = t.y - uy * endPad;
-
-    /* si la arista trae "curve", se dibuja como curva (Q) desplazada en
-       perpendicular al segmento, para separarla de otra línea que quede encima */
-    let d;
-    if (edge.curve) {
-      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
-      const px = -uy, py = ux; // perpendicular unitario
-      const cx = mx + px * edge.curve, cy = my + py * edge.curve;
-      d = `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`;
-    } else {
-      d = `M${x1},${y1} L${x2},${y2}`;
-    }
+    const d = edgePathData(edge, s, t);
 
     const group = document.createElementNS(SVG_NS, "g");
     group.setAttribute("class", "edge-group");
@@ -191,6 +210,9 @@ function drawEdges(svg) {
     group.appendChild(hit);
     group.addEventListener("click", () => showEdgeInfo(i));
     g.appendChild(group);
+
+    /* referencias para poder recalcular el trazo en cada frame de física */
+    edge._el = { visual, hit };
   });
 
   svg.appendChild(g);
@@ -245,10 +267,135 @@ function drawNodes(svg) {
     group.appendChild(circle);
     group.appendChild(fo);
     attachNodeClickHandler(group, node.id);
+    attachNodeDragHandler(group, node);
     g.appendChild(group);
+
+    /* referencias para poder mover el nodo en cada frame de física */
+    node._el = { group, circle, fo };
   });
 
   svg.appendChild(g);
+}
+
+/* -------- física: mover nodos y recalcular líneas cada frame -------- */
+const PHYSICS = {
+  spring: 0.045,   // qué tanto "sigue" un nodo a los que están conectados a él
+  anchor: 0.02,    // qué tanto tira cada nodo de vuelta a su posición original
+  damping: 0.82,   // fricción (evita que oscile para siempre)
+  minVel: 0.02,
+};
+
+function updatePositions() {
+  ODS_NODES.forEach(n => {
+    if (!n._el) return;
+    n._el.circle.setAttribute("cx", n.x);
+    n._el.circle.setAttribute("cy", n.y);
+    const size = n.r * 1.9;
+    n._el.fo.setAttribute("x", n.x - size / 2);
+    n._el.fo.setAttribute("y", n.y - size / 2);
+  });
+  RAW_EDGES.forEach(edge => {
+    if (!edge._el) return;
+    const s = nodeById(edge.s), t = nodeById(edge.t);
+    if (!s || !t) return;
+    const d = edgePathData(edge, s, t);
+    edge._el.visual.setAttribute("d", d);
+    edge._el.hit.setAttribute("d", d);
+  });
+}
+
+let physicsRunning = false;
+function physicsStep() {
+  let moving = false;
+
+  RAW_EDGES.forEach(edge => {
+    const s = nodeById(edge.s), t = nodeById(edge.t);
+    if (!s || !t) return;
+    const dx = t.x - s.x, dy = t.y - s.y;
+    const dist = Math.hypot(dx, dy) || 1;
+    const diff = (dist - edge.restLength) * PHYSICS.spring;
+    const fx = (dx / dist) * diff, fy = (dy / dist) * diff;
+    if (!s.fixed) { s.vx += fx; s.vy += fy; }
+    if (!t.fixed) { t.vx -= fx; t.vy -= fy; }
+  });
+
+  ODS_NODES.forEach(n => {
+    if (n.fixed) { n.vx = 0; n.vy = 0; return; }
+    n.vx += (n.homeX - n.x) * PHYSICS.anchor;
+    n.vy += (n.homeY - n.y) * PHYSICS.anchor;
+    n.vx *= PHYSICS.damping;
+    n.vy *= PHYSICS.damping;
+    n.x += n.vx;
+    n.y += n.vy;
+    if (Math.abs(n.vx) > PHYSICS.minVel || Math.abs(n.vy) > PHYSICS.minVel) moving = true;
+  });
+
+  updatePositions();
+
+  if (moving || ODS_NODES.some(n => n.fixed)) {
+    requestAnimationFrame(physicsStep);
+  } else {
+    physicsRunning = false;
+  }
+}
+
+function wakePhysics() {
+  if (!physicsRunning) {
+    physicsRunning = true;
+    requestAnimationFrame(physicsStep);
+  }
+}
+
+/* -------- arrastrar una bola: los nodos conectados la "siguen" -------- */
+function attachNodeDragHandler(group, node) {
+  const svg = document.getElementById("networkViz");
+  let dragging = false;
+  let moved = false;
+  let startClientX = 0, startClientY = 0;
+
+  function toSvgPoint(clientX, clientY) {
+    const pt = svg.createSVGPoint();
+    pt.x = clientX; pt.y = clientY;
+    const m = svg.getScreenCTM().inverse();
+    return pt.matrixTransform(m);
+  }
+
+  group.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    moved = false;
+    startClientX = e.clientX; startClientY = e.clientY;
+    node.fixed = true;
+    group.classList.add("dragging");
+    group.setPointerCapture(e.pointerId);
+    wakePhysics();
+  });
+
+  group.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    if (Math.hypot(e.clientX - startClientX, e.clientY - startClientY) > 4) moved = true;
+    const p = toSvgPoint(e.clientX, e.clientY);
+    node.x = p.x; node.y = p.y;
+    node.vx = 0; node.vy = 0;
+    updatePositions();
+    wakePhysics();
+  });
+
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    node.fixed = false;
+    group.classList.remove("dragging");
+    try { group.releasePointerCapture(e.pointerId); } catch (err) {}
+    wakePhysics();
+    if (moved) {
+      /* evita que el "click" que sigue al arrastre dispare doble/triple clic */
+      group.dataset.suppressClick = "1";
+      setTimeout(() => { delete group.dataset.suppressClick; }, 0);
+    }
+  }
+
+  group.addEventListener("pointerup", endDrag);
+  group.addEventListener("pointercancel", endDrag);
 }
 
 function renderNetwork() {
@@ -327,6 +474,7 @@ function attachNodeClickHandler(group, id) {
   let count = 0;
   let timer = null;
   group.addEventListener("click", () => {
+    if (group.dataset.suppressClick) return;
     count++;
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
