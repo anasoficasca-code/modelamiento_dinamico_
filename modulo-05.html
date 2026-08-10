@@ -66,396 +66,344 @@
     </div>
 
     <div class="welcome">
-      <h2>Lo que no está</h2>
-      <p>Detecta actores, procesos, especies y dinámicas ausentes o subrepresentadas.</p>
+      <h2>Lo que no está — ausencias, subrepresentaciones e invisibilizados</h2>
+      <p>¿Los componentes que utiliza el POT son suficientes para explicar el fenómeno que llamamos ciudad? <strong>¿Qué queda por fuera?</strong> ¿Qué actores, procesos, especies, relaciones o fenómenos están subrepresentados o invisibilizados? Este módulo busca lo que el plan <strong>no nombra</strong>, lo que nombra con <strong>un solo rol administrativo</strong> pese a sus múltiples roles reales, y los elementos que desempeñan <strong>varias funciones simultáneas</strong> — como el lote vacío.</p>
     </div>
 
-    <!-- ABSENCES OVERVIEW -->
-    <div class="absences-overview">
-      <div class="overview-item">
-        <div class="overview-icon" style="background: rgba(247,111,176,0.2); color: #f76fb0;">
-          <i class="fa-solid fa-exclamation-circle"></i>
-        </div>
-        <div class="overview-content">
-          <div class="overview-value">23</div>
-          <div class="overview-label">Vacíos Identificados</div>
-          <div class="overview-meta">Actores, procesos o dinámicas no contempladas</div>
-        </div>
+    <!-- INSIGHTS -->
+    <div class="ods-insight-stats" id="odsInsightStats">
+      <div class="insight-card" data-insight="ausentes" style="--insight-color:#ef4444;" onclick="toggleInsight('ausentes')">
+        <div class="insight-icon"><i class="fa-solid fa-eye-slash"></i></div>
+        <div class="insight-title">Ausentes</div>
       </div>
 
-      <div class="overview-item">
-        <div class="overview-icon" style="background: rgba(162,118,242,0.2); color: #a276f2;">
-          <i class="fa-solid fa-arrow-down"></i>
-        </div>
-        <div class="overview-content">
-          <div class="overview-value">8</div>
-          <div class="overview-label">Subrepresentaciones</div>
-          <div class="overview-meta">Elementos presentes pero insuficientemente conectados</div>
-        </div>
+      <div class="insight-card" data-insight="subrepresentados" style="--insight-color:#f5c945;" onclick="toggleInsight('subrepresentados')">
+        <div class="insight-icon"><i class="fa-solid fa-user-slash"></i></div>
+        <div class="insight-title">Subrepresentados</div>
       </div>
 
-      <div class="overview-item">
-        <div class="overview-icon" style="background: rgba(74,222,128,0.2); color: #4ade80;">
-          <i class="fa-solid fa-check-circle"></i>
-        </div>
-        <div class="overview-content">
-          <div class="overview-value">64</div>
-          <div class="overview-label">Elementos Bien Representados</div>
-          <div class="overview-meta">Nodos con cobertura adecuada</div>
-        </div>
+      <div class="insight-card" data-insight="multirrol" style="--insight-color:#a276f2;" onclick="toggleInsight('multirrol')">
+        <div class="insight-icon"><i class="fa-solid fa-masks-theater"></i></div>
+        <div class="insight-title">Roles múltiples</div>
+      </div>
+
+      <div class="insight-card" data-insight="declarados" style="--insight-color:#4ade80;" onclick="toggleInsight('declarados')">
+        <div class="insight-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="insight-title">Declarados (lo que sí está)</div>
+      </div>
+
+      <div class="insight-card" data-insight="todos" style="--insight-color:#2fd4c8;" onclick="toggleInsight('todos')">
+        <div class="insight-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <div class="insight-title">Ver toda la red</div>
       </div>
     </div>
 
-    <!-- FILTER TABS -->
-    <div class="filter-tabs">
-      <button class="tab-btn active" onclick="filterAbsences('all')">
-        <i class="fa-solid fa-list"></i> Todas las Ausencias
-      </button>
-      <button class="tab-btn" onclick="filterAbsences('actors')">
-        <i class="fa-solid fa-users"></i> Actores Faltantes
-      </button>
-      <button class="tab-btn" onclick="filterAbsences('processes')">
-        <i class="fa-solid fa-cogs"></i> Procesos Ocultos
-      </button>
-      <button class="tab-btn" onclick="filterAbsences('subrepresented')">
-        <i class="fa-solid fa-chart-pie"></i> Subrepresentados
-      </button>
-    </div>
-
-    <!-- ABSENCES GRID -->
-    <div class="absences-grid">
-
-      <!-- SECTION: ACTORES FALTANTES -->
-      <div class="absence-section">
-        <div class="section-header">
-          <h3><i class="fa-solid fa-users-slash"></i> Actores Faltantes (9)</h3>
-          <span class="section-badge">CRÍTICO</span>
-        </div>
-
-        <div class="absence-cards">
-
-          <div class="absence-card critical">
-            <div class="card-header">
-              <div class="absence-icon" style="background: rgba(247,111,176,0.2); color: #f76fb0;">
-                <i class="fa-solid fa-baby"></i>
-              </div>
-              <div class="card-title">
-                <h4>Infancia y Primera Infancia</h4>
-                <p>Población 0-5 años</p>
-              </div>
-              <div class="severity-badge critical">CRÍTICO</div>
-            </div>
-            <div class="card-body">
-              <p><strong>¿Qué falta?</strong> Espacios específicos para infancia temprana, guarderías comunitarias, parques seguros para bebés.</p>
-              <p><strong>Por qué importa:</strong> El POT habla de Manzanas del Cuidado pero no los implementa para 0-5 años, grupo vulnerable.</p>
-              <p><strong>Impacto:</strong> Madres/cuidadores quedan excluidos de espacios públicos y empleo.</p>
-              <div class="impact-meter">
-                <div class="impact-bar" style="width: 94%;"></div>
-                <span class="impact-label">Impacto: Alto</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="absence-card critical">
-            <div class="card-header">
-              <div class="absence-icon" style="background: rgba(247,111,176,0.2); color: #f76fb0;">
-                <i class="fa-solid fa-wheelchair"></i>
-              </div>
-              <div class="card-title">
-                <h4>Personas con Discapacidad</h4>
-                <p>Población con movilidad reducida</p>
-              </div>
-              <div class="severity-badge critical">CRÍTICO</div>
-            </div>
-            <div class="card-body">
-              <p><strong>¿Qué falta?</strong> Accesibilidad genuina, transporte adaptado, espacios públicos accesibles, empleo inclusivo.</p>
-              <p><strong>Por qué importa:</strong> Representan ~15% de la población bogotana pero apenas aparecen en el POT.</p>
-              <p><strong>Impacto:</strong> Exclusión sistemática del sistema funcional de la ciudad.</p>
-              <div class="impact-meter">
-                <div class="impact-bar" style="width: 92%;"></div>
-                <span class="impact-label">Impacto: Alto</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="absence-card critical">
-            <div class="card-header">
-              <div class="absence-icon" style="background: rgba(247,111,176,0.2); color: #f76fb0;">
-                <i class="fa-solid fa-person-hiking"></i>
-              </div>
-              <div class="card-title">
-                <h4>Migrantes y Población Flotante</h4>
-                <p>Personas en situación de desplazamiento</p>
-              </div>
-              <div class="severity-badge critical">CRÍTICO</div>
-            </div>
-            <div class="card-body">
-              <p><strong>¿Qué falta?</strong> Espacios de acogida, refugios temporales, acceso a servicios sin requisitos de residencia.</p>
-              <p><strong>Por qué importa:</strong> Bogotá recibe miles de migrantes diarios pero el POT no contempla infraestructura para ellos.</p>
-              <p><strong>Impacto:</strong> Vulnerabilidad extrema, uso informal de espacios públicos.</p>
-              <div class="impact-meter">
-                <div class="impact-bar" style="width: 88%;"></div>
-                <span class="impact-label">Impacto: Alto</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="absence-card warning">
-            <div class="card-header">
-              <div class="absence-icon" style="background: rgba(245,201,69,0.2); color: #f5c945;">
-                <i class="fa-solid fa-tree"></i>
-              </div>
-              <div class="card-title">
-                <h4>Fauna Urbana</h4>
-                <p>Especies silvestres en ciudad</p>
-              </div>
-              <div class="severity-badge warning">ALTO</div>
-            </div>
-            <div class="card-body">
-              <p><strong>¿Qué falta?</strong> Corredores de biodiversidad, espacios de anidación, protección de especies endémicas.</p>
-              <p><strong>Por qué importa:</strong> El POT habla de "conectores ecosistémicos" pero no de los animales que los usan.</p>
-              <p><strong>Impacto:</strong> Pérdida de biodiversidad urbana y servicios ecosistémicos.</p>
-              <div class="impact-meter">
-                <div class="impact-bar" style="width: 76%;"></div>
-                <span class="impact-label">Impacto: Medio-Alto</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="absence-card warning">
-            <div class="card-header">
-              <div class="absence-icon" style="background: rgba(245,201,69,0.2); color: #f5c945;">
-                <i class="fa-solid fa-flask"></i>
-              </div>
-              <div class="card-title">
-                <h4>Investigación y Ciencia Local</h4>
-                <p>Actores de I+D territoriales</p>
-              </div>
-              <div class="severity-badge warning">ALTO</div>
-            </div>
-            <div class="card-body">
-              <p><strong>¿Qué falta?</strong> Espacios para investigación, incubadoras de innovación local, conexión con universidades.</p>
-              <p><strong>Por qué importa:</strong> La innovación se menciona en el POT pero sin espacios específicos.</p>
-              <p><strong>Impacto:</strong> Pérdida de capacidad de I+D local y conocimiento.</p>
-              <div class="impact-meter">
-                <div class="impact-bar" style="width: 72%;"></div>
-                <span class="impact-label">Impacto: Medio</span>
-              </div>
-            </div>
-          </div>
-
+    <!-- RED -->
+    <div class="network-section">
+      <div class="network-header">
+        <h3><i class="fa-solid fa-magnifying-glass"></i> Red de Ausencias — Lo que el POT usa vs lo que deja afuera</h3>
+        <div class="network-controls">
+          <button class="control-btn active" onclick="filterNetwork('all')">Todos</button>
+          <button class="control-btn" onclick="filterNetwork('ausente_absoluto')">Ausentes</button>
+          <button class="control-btn" onclick="filterNetwork('subrepresentado')">Subrepresentados</button>
+          <button class="control-btn" onclick="filterNetwork('declarado_conectado')">Declarados</button>
+          <button class="control-btn" onclick="filterNetwork('rol_multiple')">Roles múltiples</button>
         </div>
       </div>
 
-      <!-- SECTION: PROCESOS OCULTOS -->
-      <div class="absence-section">
-        <div class="section-header">
-          <h3><i class="fa-solid fa-gears"></i> Procesos Ocultos (7)</h3>
-          <span class="section-badge">RELEVANTE</span>
-        </div>
+      <div class="network-viz-wrap">
+        <svg id="networkViz" viewBox="0 0 1470 780" preserveAspectRatio="xMidYMid meet"></svg>
 
-        <div class="absence-cards">
+        <div class="network-sidebar">
+          <aside class="network-legend" id="networkLegend">
+            <div class="legend-title">Capas de la red</div>
 
-          <div class="absence-card warning">
-            <div class="card-header">
-              <div class="absence-icon" style="background: rgba(245,201,69,0.2); color: #f5c945;">
-                <i class="fa-solid fa-droplet"></i>
-              </div>
-              <div class="card-title">
-                <h4>Ciclo del Agua en Ciudad</h4>
-                <p>Drenaje, infiltración, contaminación hídrica</p>
-              </div>
-              <div class="severity-badge warning">ALTO</div>
+            <label class="legend-item" data-type="ausente_absoluto">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-ausente"></span>
+              Ausente — no aparece en el POT
+            </label>
+
+            <label class="legend-item" data-type="subrepresentado">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-subrep"></span>
+              Subrepresentado — un solo rol administrativo
+            </label>
+
+            <label class="legend-item" data-type="declarado_conectado">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-declarado"></span>
+              Relación declarada en el POT
+            </label>
+
+            <label class="legend-item" data-type="rol_multiple">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-multirrol"></span>
+              Rol múltiple — varios roles simultáneos
+            </label>
+
+            <div class="legend-divider"></div>
+            <div class="legend-title">Categoría de nodo</div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-node-declarado"></span>
+              Declarado — el POT sí lo nombra
             </div>
-            <div class="card-body">
-              <p><strong>¿Qué falta?</strong> Gestión integrada del agua lluvia, PTAR distribuidas, humedales de tratamiento.</p>
-              <p><strong>Proceso oculto:</strong> El agua desaparece de ríos sin contemplar reutilización local.</p>
-              <p><strong>Consecuencia:</strong> Desconexión entre disponibilidad de agua y consumo urbano.</p>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-node-ausente"></span>
+              Ausente — queda por fuera
             </div>
-          </div>
-
-          <div class="absence-card warning">
-            <div class="card-header">
-              <div class="absence-icon" style="background: rgba(245,201,69,0.2); color: #f5c945;">
-                <i class="fa-solid fa-wind"></i>
-              </div>
-              <div class="card-title">
-                <h4>Flujos de Aire y Vientos Dominantes</h4>
-                <p>Microclima urbano, dispersión de contaminantes</p>
-              </div>
-              <div class="severity-badge warning">ALTO</div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-node-subrep"></span>
+              Subrepresentado — un rol, muchos papeles
             </div>
-            <div class="card-body">
-              <p><strong>¿Qué falta?</strong> Corredores de ventilación, diseño de construcciones que respete flujos de aire.</p>
-              <p><strong>Proceso oculto:</strong> La contaminación se concentra en zonas bajas sin planificación de flujos.</p>
-              <p><strong>Consecuencia:</strong> Islas de calor y mala calidad del aire sin solución integrada.</p>
+
+            <div class="legend-divider"></div>
+            <div class="legend-hint">Clic en una línea: ver la ausencia, el tipo y el sustento.<br>Doble clic en una bola: apagarla/encenderla.<br>Triple clic en una bola: ver solo su flujo.<br>Los nodos se arrastran y las conectadas lo siguen.</div>
+          </aside>
+
+          <div class="edge-info-panel" id="edgeInfoPanel">
+            <div class="edge-info-header">
+              <span id="edgeInfoTitle">Relación</span>
+              <button class="edge-info-close" id="edgeInfoClose" type="button" aria-label="Cerrar">&times;</button>
             </div>
-          </div>
-
-          <div class="absence-card info">
-            <div class="card-header">
-              <div class="absence-icon" style="background: rgba(91,141,239,0.2); color: #5b8def;">
-                <i class="fa-solid fa-money-bill"></i>
-              </div>
-              <div class="card-title">
-                <h4>Dinámicas Informales y Economía Subterránea</h4>
-                <p>Comercio ambulante, trabajos sin contrato</p>
-              </div>
-              <div class="severity-badge info">MEDIO</div>
-            </div>
-            <div class="card-body">
-              <p><strong>¿Qué falta?</strong> Espacios regulados para comercio ambulante, formalización de trabajos precarios.</p>
-              <p><strong>Proceso oculto:</strong> ~40% de empleo en Bogotá es informal pero el POT lo ignora.</p>
-              <p><strong>Consecuencia:</strong> Informalidad crece sin ordenamiento territorial.</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- SECTION: ELEMENTOS SUBREPRESENTADOS -->
-      <div class="absence-section">
-        <div class="section-header">
-          <h3><i class="fa-solid fa-chart-pie"></i> Elementos Subrepresentados (8)</h3>
-          <span class="section-badge">DESEQUILIBRIO</span>
-        </div>
-
-        <div class="subrepresented-list">
-
-          <div class="subrepresented-item">
-            <div class="item-left">
-              <h4>Personas Mayores (60+)</h4>
-              <p>Aparece 1 vez en 87 nodos (1%)</p>
-            </div>
-            <div class="item-right">
-              <div class="representation-bar">
-                <div class="rep-actual" style="width: 8%;"></div>
-                <div class="rep-needed" style="width: 18%;"></div>
-              </div>
-              <span class="rep-label">8% representación | 18% de población</span>
-            </div>
-          </div>
-
-          <div class="subrepresented-item">
-            <div class="item-left">
-              <h4>Mujeres Jefas de Hogar</h4>
-              <p>Aparece 2 veces en 87 nodos (2%)</p>
-            </div>
-            <div class="item-right">
-              <div class="representation-bar">
-                <div class="rep-actual" style="width: 12%;"></div>
-                <div class="rep-needed" style="width: 28%;"></div>
-              </div>
-              <span class="rep-label">12% representación | 28% de hogares</span>
-            </div>
-          </div>
-
-          <div class="subrepresented-item">
-            <div class="item-left">
-              <h4>Jóvenes LGBTQ+</h4>
-              <p>Aparece 0 veces en 87 nodos (0%)</p>
-            </div>
-            <div class="item-right">
-              <div class="representation-bar">
-                <div class="rep-actual" style="width: 2%;"></div>
-                <div class="rep-needed" style="width: 12%;"></div>
-              </div>
-              <span class="rep-label">0% representación | 12% de jóvenes</span>
-            </div>
-          </div>
-
-          <div class="subrepresented-item">
-            <div class="item-left">
-              <h4>Trabajo Doméstico y de Cuidado</h4>
-              <p>Aparece 3 veces en 87 nodos (3%)</p>
-            </div>
-            <div class="item-right">
-              <div class="representation-bar">
-                <div class="rep-actual" style="width: 15%;"></div>
-                <div class="rep-needed" style="width: 35%;"></div>
-              </div>
-              <span class="rep-label">15% representación | 35% del tiempo de mujeres</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-
-    <!-- SYNTHESIS & RECOMMENDATIONS -->
-    <div class="synthesis-section">
-      <h3><i class="fa-solid fa-lightbulb"></i> Lo que Cambiaría si lo Incluimos</h3>
-
-      <div class="change-scenarios">
-        <div class="scenario-card">
-          <div class="scenario-icon" style="background: rgba(247,111,176,0.2); color: #f76fb0;">
-            <i class="fa-solid fa-plus"></i>
-          </div>
-          <div class="scenario-content">
-            <h4>Inclusión de Infancia y Personas con Discapacidad</h4>
-            <p>El modelo pasaría de "acceso" a "acceso universal". Las Manzanas del Cuidado se volverían realmente inclusivas. Nuevos espacios: guarderías, centros de rehabilitación, parques seguros.</p>
-          </div>
-          <div class="scenario-impact">
-            <i class="fa-solid fa-arrow-right"></i>
-            +4 nuevos tipos de nodos
-          </div>
-        </div>
-
-        <div class="scenario-card">
-          <div class="scenario-icon" style="background: rgba(91,141,239,0.2); color: #5b8def;">
-            <i class="fa-solid fa-plus"></i>
-          </div>
-          <div class="scenario-content">
-            <h4>Integración de Ciclos Naturales (agua, aire, suelo)</h4>
-            <p>El modelo ecológico dejaría de ser estático y se volvería dinámico. La ciudad reconocería que vive dentro de ciclos hidrológicos y atmosféricos.</p>
-          </div>
-          <div class="scenario-impact">
-            <i class="fa-solid fa-arrow-right"></i>
-            +6 nuevos procesos
-          </div>
-        </div>
-
-        <div class="scenario-card">
-          <div class="scenario-icon" style="background: rgba(162,118,242,0.2); color: #a276f2;">
-            <i class="fa-solid fa-plus"></i>
-          </div>
-          <div class="scenario-content">
-            <h4>Formalización de la Economía Informal</h4>
-            <p>El modelo económico incluiría a los 40% de trabajadores informales. Se crearían espacios seguros para comercio ambulante y trabajo doméstico pagado.</p>
-          </div>
-          <div class="scenario-impact">
-            <i class="fa-solid fa-arrow-right"></i>
-            +8 nuevos espacios
-          </div>
-        </div>
-
-        <div class="scenario-card">
-          <div class="scenario-icon" style="background: rgba(74,222,128,0.2); color: #4ade80;">
-            <i class="fa-solid fa-plus"></i>
-          </div>
-          <div class="scenario-content">
-            <h4>Reconocimiento de Fauna Urbana y Biodiversidad</h4>
-            <p>Los conectores ecosistémicos tendrían objetivo: permitir movimiento de especies. Se plantarían árboles frutales, se crearían refugios de animales, se protegeríaninidos.</p>
-          </div>
-          <div class="scenario-impact">
-            <i class="fa-solid fa-arrow-right"></i>
-            +5 nuevos nodos
+            <div class="edge-info-type" id="edgeInfoType"></div>
+            <div class="edge-info-quote" id="edgeInfoQuote"></div>
+            <div class="edge-info-page" id="edgeInfoPage"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ACTION BUTTONS -->
+    <!-- MULTIRROL DEL LOTE VACÍO -->
+    <div class="multirrol-section">
+      <div class="section-header">
+        <h3><i class="fa-solid fa-warehouse"></i> El lote vacío: ¿suelo sin desarrollar o sistema vivo?</h3>
+        <p>Un lote vacío no es una sola cosa. Desde una perspectiva sistémica, el mismo predio desempeña simultáneamente roles ecológicos, sociales y económicos que el POT administra como un único ítem: "suelo sin desarrollar". Pasa el cursor o haz clic en cada rol para verlo en la red.</p>
+      </div>
+
+      <div class="multirrol-grid" id="loteRoles"></div>
+
+      <div class="multirrol-note">
+        <div class="multirrol-note-icon"><i class="fa-solid fa-lightbulb"></i></div>
+        <div>
+          <strong>Insight clave:</strong> los componentes de una ciudad no poseen necesariamente una única labor o desempeño, ni pertenecen exclusivamente a un único sistema. Un lote vacío puede ser hábitat temporal, refugio de especies, espacio de infiltración, corredor ecológico, reservorio de biodiversidad espontánea, lugar de apropiación comunitaria, oportunidad inmobiliaria y amortiguador térmico — <strong>varias de estas cosas simultáneamente</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLA DE INVISIBILIZADOS -->
+    <div class="analysis-container">
+      <div class="analysis-card full-width">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-table"></i> Tabla de Invisibilizados — lo que el POT no ve (o ve de un solo color)</h3>
+        </div>
+
+        <div class="matrix-container">
+          <div class="matrix-row header">
+            <div class="matrix-cell header-cell">#</div>
+            <div class="matrix-cell header-cell">Elemento</div>
+            <div class="matrix-cell header-cell">Rol administrativo asignado</div>
+            <div class="matrix-cell header-cell">Roles reales simultáneos</div>
+            <div class="matrix-cell header-cell">Categoría en el POT</div>
+          </div>
+
+          <div class="matrix-row" data-edge="0">
+            <div class="matrix-cell">1</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-ausente" style="margin-right:6px;"></span>Lote vacío</div>
+            <div class="matrix-cell">Suelo sin desarrollar / edificable</div>
+            <div class="matrix-cell">Hábitat temporal, refugio de especies, infiltración, corredor ecológico, biodiversidad espontánea, apropiación comunitaria, reserva especulativa, amortiguador térmico</div>
+            <div class="matrix-cell">Ausente como sistema (solo ítem catastral)</div>
+          </div>
+
+          <div class="matrix-row" data-edge="1">
+            <div class="matrix-cell">2</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-ausente" style="margin-right:6px;"></span>Economía informal / vendedores</div>
+            <div class="matrix-cell">Infracción a reubicar / problema de espacio público</div>
+            <div class="matrix-cell">Motor económico de proximidad, red social de barrio, proveedor de alimentación y servicios accesibles</div>
+            <div class="matrix-cell">Ausente como sistema económico</div>
+          </div>
+
+          <div class="matrix-row" data-edge="2">
+            <div class="matrix-cell">3</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-ausente" style="margin-right:6px;"></span>Fauna urbana (murciélagos, aves, polinizadores)</div>
+            <div class="matrix-cell">No nombrada</div>
+            <div class="matrix-cell">Polinización, control de plagas, bioindicación de calidad ambiental</div>
+            <div class="matrix-cell">Ausente — invisibilizada</div>
+          </div>
+
+          <div class="matrix-row" data-edge="3">
+            <div class="matrix-cell">4</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-ausente" style="margin-right:6px;"></span>Río Bogotá y su cuenca</div>
+            <div class="matrix-cell">Fuera del perímetro del POT</div>
+            <div class="matrix-cell">Causa la estructura ecológica de la ciudad: acuíferos, humedales, flujo hídrico</div>
+            <div class="matrix-cell">Ausente — omitido de la jerarquía de instrumentos (señalado por la CCB)</div>
+          </div>
+
+          <div class="matrix-row" data-edge="4">
+            <div class="matrix-cell">5</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-ausente" style="margin-right:6px;"></span>Tierras comunales / resguardo Muisca</div>
+            <div class="matrix-cell">Periférico al trazado del Metro</div>
+            <div class="matrix-cell">Derechos y memoria territorial, patrimonio vivo en tensión con la infraestructura mayor</div>
+            <div class="matrix-cell">Ausente como componente estructural</div>
+          </div>
+
+          <div class="matrix-row" data-edge="5">
+            <div class="matrix-cell">6</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-ausente" style="margin-right:6px;"></span>Biodiversidad espontánea de lotes y predios</div>
+            <div class="matrix-cell">"No uso"</div>
+            <div class="matrix-cell">Reservorio de conectividad ecológica entre fragmentos verdes</div>
+            <div class="matrix-cell">Ausente — sin categoría</div>
+          </div>
+
+          <div class="matrix-row" data-edge="6">
+            <div class="matrix-cell">7</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-subrep" style="margin-right:6px;"></span>Agua lluvia</div>
+            <div class="matrix-cell">Drenaje a canalizar / riesgo a mitigar</div>
+            <div class="matrix-cell">Recurso de recarga de acuíferos, base del sistema de humedales, oportunidad de cosecha urbana</div>
+            <div class="matrix-cell">Subrepresentado — un solo rol</div>
+          </div>
+
+          <div class="matrix-row" data-edge="7">
+            <div class="matrix-cell">8</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-subrep" style="margin-right:6px;"></span>Suelo</div>
+            <div class="matrix-cell">Metros cuadrados edificables / soporte de infraestructura</div>
+            <div class="matrix-cell">Patrimonio común, filtro térmico, superficie de infiltración, lugar de memoria</div>
+            <div class="matrix-cell">Subrepresentado — categoría "expansión / consolidación"</div>
+          </div>
+
+          <div class="matrix-row" data-edge="8">
+            <div class="matrix-cell">9</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-subrep" style="margin-right:6px;"></span>Humedales</div>
+            <div class="matrix-cell">Inventario estático de un listado</div>
+            <div class="matrix-cell">Red dinámica: filtro de agua, hábitat, eslabón de la cuenca</div>
+            <div class="matrix-cell">Subrepresentado — inventario sin red</div>
+          </div>
+
+          <div class="matrix-row" data-edge="9">
+            <div class="matrix-cell">10</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-subrep" style="margin-right:6px;"></span>Suelo en ladera informal</div>
+            <div class="matrix-cell">Amenaza y riesgo a mitigar</div>
+            <div class="matrix-cell">Ciudad ya construida, comunidad establecida, redes sociales y economía propia</div>
+            <div class="matrix-cell">Subrepresentado — categoría de riesgo</div>
+          </div>
+
+          <div class="matrix-row" data-edge="10">
+            <div class="matrix-cell">11</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-subrep" style="margin-right:6px;"></span>Recreación informal (canchas vecinales)</div>
+            <div class="matrix-cell">Equipamiento menor</div>
+            <div class="matrix-cell">Tejido social, salud comunitaria, cohesión barrial</div>
+            <div class="matrix-cell">Subrepresentado — jerarquía baja de equipamiento</div>
+          </div>
+
+          <div class="matrix-row" data-edge="11">
+            <div class="matrix-cell">12</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-node-subrep" style="margin-right:6px;"></span>Economía de la noche y cultura local</div>
+            <div class="matrix-cell">No planificada / zonificación restrictiva</div>
+            <div class="matrix-cell">Identidad cultural, economía creativa, vitalidad del espacio público</div>
+            <div class="matrix-cell">Subrepresentado — fuera del planeamiento</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HALLAZGOS PARA EL MODELO PROPIO -->
+    <div class="synergies-section">
+      <div class="synergies-grid">
+        <div class="synergy-card success">
+          <div class="synergy-icon"><i class="fa-solid fa-masks-theater"></i></div>
+          <div class="synergy-content">
+            <h4>Hallazgo 1 — Los componentes no tienen una única labor</h4>
+            <p>Un lote vacío, un vendedor informal o un humedal no pertenecen a un solo sistema: desempeñan simultáneamente roles ecológicos, sociales y económicos. Todo componente urbano debería modelarse con <strong>múltiples roles</strong>, no con una categoría administrativa.</p>
+          </div>
+        </div>
+
+        <div class="synergy-card conflict">
+          <div class="synergy-icon"><i class="fa-solid fa-user-slash"></i></div>
+          <div class="synergy-content">
+            <h4>Hallazgo 2 — Lo administrativo ≠ lo sistémico</h4>
+            <p>Las categorías administrativas (usos del suelo, inventarios, jerarquías de equipamiento) <strong>reducen la riqueza de funcionamiento</strong> de la ciudad: convierten sistemas vivos en ítems estáticos y ocultan sus relaciones.</p>
+          </div>
+        </div>
+
+        <div class="synergy-card success">
+          <div class="synergy-icon"><i class="fa-solid fa-eye-slash"></i></div>
+          <div class="synergy-content">
+            <h4>Hallazgo 3 — Lo ausente estructuralmente no está ausente funcionalmente</h4>
+            <p>La ciudad real opera con lo que el plan no nombra: la economía informal sostiene los barrios, la fauna presta servicios ecosistémicos, la cuenca causa la estructura ecológica. <strong>Las ausencias del plan no son ausencias de la ciudad.</strong></p>
+          </div>
+        </div>
+
+        <div class="synergy-card conflict">
+          <div class="synergy-icon"><i class="fa-solid fa-city"></i></div>
+          <div class="synergy-content">
+            <h4>Hallazgo 4 — Enriquecer el modelo propio</h4>
+            <p>El modelo de ciudad que construyamos debe incluir: <strong>nodos de rol múltiple</strong>, <strong>capas invisibles</strong> (lo que el plan no nombra) y <strong>agentes no humanos</strong> (agua, fauna, suelo, clima). Solo así podrá explicar el fenómeno urbano completo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECOMENDACIONES -->
+    <div class="recommendations-section">
+      <h3><i class="fa-solid fa-lightbulb"></i> Recomendaciones para leer lo que no está</h3>
+
+      <div class="recommendations-grid">
+        <div class="rec-card">
+          <div class="rec-number">1</div>
+          <div class="rec-content">
+            <h4>Inventariar ausencias, no solo componentes</h4>
+            <p>Antes de aceptar la lista de componentes de un plan, preguntarse sistemáticamente qué actores, especies y procesos quedan por fuera — como hizo el último grupo con el lote vacío.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +23%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">2</div>
+          <div class="rec-content">
+            <h4>Asignar roles múltiples a cada componente</h4>
+            <p>Para cada nodo del modelo propio, listar sus roles simultáneos (ecológico, social, económico, cultural) en lugar de una única categoría administrativa.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +20%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">3</div>
+          <div class="rec-content">
+            <h4>Incluir agentes no humanos</h4>
+            <p>Agua, fauna, suelo y clima son actores del sistema urbano: modelarlos como nodos con capacidad de causar, condicionar y retroalimentar, no como fondo del escenario.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +17%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">4</div>
+          <div class="rec-content">
+            <h4>Cruzar lo ausente con la estructura relacional</h4>
+            <p>Verificar qué conexiones faltan en el plan: si un elemento ausente causa o condiciona a los declarados (como la cuenca a la EEP), el modelo declarado está incompleto.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +14%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTONES -->
     <div class="action-buttons">
-      <button class="btn-primary" onclick="generateAbsenceReport()">
+      <button class="btn-primary" onclick="generateODSReport()">
         <i class="fa-solid fa-file-pdf"></i> Generar Reporte de Ausencias
       </button>
-      <button class="btn-secondary" onclick="suggestAdditions()">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> Sugerir Adiciones al POT
+      <button class="btn-secondary" onclick="downloadAlignment()">
+        <i class="fa-solid fa-download"></i> Descargar Tabla
       </button>
-      <button class="btn-secondary" onclick="compareWithODS()">
-        <i class="fa-solid fa-chart-line"></i> Comparar con ODS
+      <button class="btn-secondary" onclick="shareAnalysis()">
+        <i class="fa-solid fa-share-nodes"></i> Compartir Análisis
       </button>
     </div>
 
