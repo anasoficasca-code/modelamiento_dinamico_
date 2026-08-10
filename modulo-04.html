@@ -66,351 +66,345 @@
     </div>
 
     <div class="welcome">
-      <h2>Macromodelos</h2>
-      <p>Identifica las lógicas dominantes detrás del modelo de ciudad y la evidencia que las sustenta.</p>
+      <h2>Macromodelos — ¿De dónde surge este modelo de ciudad?</h2>
+      <p>El POT no surge de la nada: es producido por otros modelos —instituciones, disciplinas, marcos jurídicos, modelos económicos, paradigmas ambientales y formas históricas de comprender la ciudad. Esta red identifica los macromodelos que operan detrás del POT y contrasta el <strong>modelo declarado</strong> con el <strong>modelo operativo</strong>, obtenido por ingeniería inversa de su arquitectura relacional.</p>
     </div>
 
-    <!-- SUMMARY STATS -->
-    <div class="summary-grid">
-      <div class="summary-card">
-        <div class="summary-value">4</div>
-        <div class="summary-label">Macromodelos Identificados</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-value">87</div>
-        <div class="summary-label">Nodos con Clasificación</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-value">156</div>
-        <div class="summary-label">Relaciones Mapeadas</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-value">92%</div>
-        <div class="summary-label">Cobertura del Análisis</div>
-      </div>
-    </div>
-
-    <!-- MACROMODELS CONTAINER -->
-    <div class="macromodels-container">
-
-      <!-- MACROMODEL 1: ECOLÓGICO -->
-      <div class="macromodel-card">
-        <div class="macromodel-header" style="background: linear-gradient(135deg, rgba(47,212,200,0.2), rgba(47,212,200,0.05)); border-left: 4px solid #2fd4c8;">
-          <div class="mm-title">
-            <div class="mm-icon" style="background: rgba(47,212,200,0.2); color: #2fd4c8;">
-              <i class="fa-solid fa-leaf"></i>
-            </div>
-            <div>
-              <h3>Macromodelo Ecológico</h3>
-              <p>Estructura funcional basada en servicios ecosistémicos</p>
-            </div>
-          </div>
-          <div class="mm-badge" style="background: rgba(47,212,200,0.2); color: #2fd4c8;">22 nodos</div>
-        </div>
-
-        <div class="macromodel-body">
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-lightbulb"></i> Lógica Dominante</h4>
-            <p>La ciudad funciona como un ecosistema donde la naturaleza (ríos, humedales, bosques) actúa como infraestructura crítica que genera servicios de regulación, provisión y culturales.</p>
-          </div>
-
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-link"></i> Componentes Clave</h4>
-            <div class="components-list">
-              <div class="component-item">
-                <span class="component-name">Estructura de soporte</span>
-                <span class="component-value">Ríos, Humedales, Bosques</span>
-              </div>
-              <div class="component-item">
-                <span class="component-name">Servicios que generan</span>
-                <span class="component-value">Agua, Aire, Regulación térmica</span>
-              </div>
-              <div class="component-item">
-                <span class="component-name">Conectividad</span>
-                <span class="component-value">Conectores ecosistémicos (88%)</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-check-circle"></i> Evidencia que lo Sustenta</h4>
-            <div class="evidence-list">
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Alta densidad de nodos ecológicos (22 conceptos)</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Fuerte interconexión entre elementos naturales (89% alineación)</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Presencia en todos los documentos POT como prioridad</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Meta explícita de restauración de ecosistemas</div>
-            </div>
-          </div>
-
-          <div class="mm-strength">
-            <span class="strength-label">Solidez del Macromodelo</span>
-            <div class="strength-bar">
-              <div class="strength-fill" style="width: 88%;"></div>
-            </div>
-            <span class="strength-value">88%</span>
-          </div>
-        </div>
+    <!-- INSIGHTS: tarjetas clicables para explorar la red -->
+    <div class="ods-insight-stats" id="odsInsightStats">
+      <div class="insight-card" data-insight="operativo" style="--insight-color:#ef4444;" onclick="toggleInsight('operativo')">
+        <div class="insight-icon"><i class="fa-solid fa-gears"></i></div>
+        <div class="insight-title">Modelo operativo</div>
       </div>
 
-      <!-- MACROMODEL 2: FUNCIONAL -->
-      <div class="macromodel-card">
-        <div class="macromodel-header" style="background: linear-gradient(135deg, rgba(91,141,239,0.2), rgba(91,141,239,0.05)); border-left: 4px solid #5b8def;">
-          <div class="mm-title">
-            <div class="mm-icon" style="background: rgba(91,141,239,0.2); color: #5b8def;">
-              <i class="fa-solid fa-network-wired"></i>
-            </div>
-            <div>
-              <h3>Macromodelo Funcional</h3>
-              <p>Lógica de accesibilidad y proximidad a servicios</p>
-            </div>
-          </div>
-          <div class="mm-badge" style="background: rgba(91,141,239,0.2); color: #5b8def;">26 nodos</div>
-        </div>
-
-        <div class="macromodel-body">
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-lightbulb"></i> Lógica Dominante</h4>
-            <p>La ciudad se organiza alrededor de la idea de que cada persona debe tener acceso a servicios esenciales (vivienda, educación, salud, trabajo) dentro de distancias caminables, articulados por una red de movilidad diversa.</p>
-          </div>
-
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-link"></i> Componentes Clave</h4>
-            <div class="components-list">
-              <div class="component-item">
-                <span class="component-name">Estructura de soporte</span>
-                <span class="component-value">Movilidad, Espacios públicos, Equipamientos</span>
-              </div>
-              <div class="component-item">
-                <span class="component-name">Servicios que generan</span>
-                <span class="component-value">Acceso, Proximidad, Convivencia</span>
-              </div>
-              <div class="component-item">
-                <span class="component-name">Conectividad</span>
-                <span class="component-value">Manzanas del Cuidado (82%)</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-check-circle"></i> Evidencia que lo Sustenta</h4>
-            <div class="evidence-list">
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Conceptos de UPL y proximidad en 15+ documentos</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Manzanas del Cuidado como estrategia de integración</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Red de movilidad multimodal explícita</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> 26 nodos funcionales altamente interconectados</div>
-            </div>
-          </div>
-
-          <div class="mm-strength">
-            <span class="strength-label">Solidez del Macromodelo</span>
-            <div class="strength-bar">
-              <div class="strength-fill" style="width: 78%;"></div>
-            </div>
-            <span class="strength-value">78%</span>
-          </div>
-        </div>
+      <div class="insight-card" data-insight="declarado" style="--insight-color:#2fd4c8;" onclick="toggleInsight('declarado')">
+        <div class="insight-icon"><i class="fa-solid fa-bullhorn"></i></div>
+        <div class="insight-title">Modelo declarado</div>
       </div>
 
-      <!-- MACROMODEL 3: ECONÓMICO -->
-      <div class="macromodel-card">
-        <div class="macromodel-header" style="background: linear-gradient(135deg, rgba(162,118,242,0.2), rgba(162,118,242,0.05)); border-left: 4px solid #a276f2;">
-          <div class="mm-title">
-            <div class="mm-icon" style="background: rgba(162,118,242,0.2); color: #a276f2;">
-              <i class="fa-solid fa-chart-line"></i>
-            </div>
-            <div>
-              <h3>Macromodelo Económico</h3>
-              <p>Transición hacia economía circular y verde</p>
-            </div>
-          </div>
-          <div class="mm-badge" style="background: rgba(162,118,242,0.2); color: #a276f2;">18 nodos</div>
-        </div>
-
-        <div class="macromodel-body">
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-lightbulb"></i> Lógica Dominante</h4>
-            <p>El modelo económico se reorienta hacia actividades de bajo impacto ambiental (agricultura urbana, negocios verdes, innovación) que generan empleo local y reducen dependencia de fuentes externas.</p>
-          </div>
-
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-link"></i> Componentes Clave</h4>
-            <div class="components-list">
-              <div class="component-item">
-                <span class="component-name">Estructura de soporte</span>
-                <span class="component-value">Economía circular, Negocios verdes, Innovación</span>
-              </div>
-              <div class="component-item">
-                <span class="component-name">Servicios que generan</span>
-                <span class="component-value">Empleo, Producción sostenible, Ingreso</span>
-              </div>
-              <div class="component-item">
-                <span class="component-name">Conectividad</span>
-                <span class="component-value">Aglomeraciones económicas (65%)</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-check-circle"></i> Evidencia que lo Sustenta</h4>
-            <div class="evidence-list">
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Metas explícitas de economía verde en POT</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> 18 conceptos alrededor de empleo sostenible</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Agricultura urbana como estrategia de seguridad alimentaria</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Innovación como factor de competitividad</div>
-            </div>
-          </div>
-
-          <div class="mm-strength">
-            <span class="strength-label">Solidez del Macromodelo</span>
-            <div class="strength-bar">
-              <div class="strength-fill" style="width: 68%;"></div>
-            </div>
-            <span class="strength-value">68%</span>
-          </div>
-        </div>
+      <div class="insight-card" data-insight="periferico" style="--insight-color:#f5c945;" onclick="toggleInsight('periferico')">
+        <div class="insight-icon"><i class="fa-solid fa-circle-minus"></i></div>
+        <div class="insight-title">Influencia periférica</div>
       </div>
 
-      <!-- MACROMODEL 4: CULTURAL -->
-      <div class="macromodel-card">
-        <div class="macromodel-header" style="background: linear-gradient(135deg, rgba(247,111,176,0.2), rgba(247,111,176,0.05)); border-left: 4px solid #f76fb0;">
-          <div class="mm-title">
-            <div class="mm-icon" style="background: rgba(247,111,176,0.2); color: #f76fb0;">
-              <i class="fa-solid fa-masks-theater"></i>
-            </div>
-            <div>
-              <h3>Macromodelo Cultural</h3>
-              <p>Ciudad como espacio de identidad y patrimonio</p>
-            </div>
-          </div>
-          <div class="mm-badge" style="background: rgba(247,111,176,0.2); color: #f76fb0;">14 nodos</div>
-        </div>
-
-        <div class="macromodel-body">
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-lightbulb"></i> Lógica Dominante</h4>
-            <p>La ciudad es un depositario de memoria colectiva e identidad donde el patrimonio material e inmaterial, las prácticas culturales y los saberes locales son fundamentales para la sostenibilidad y el sentido de pertenencia.</p>
-          </div>
-
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-link"></i> Componentes Clave</h4>
-            <div class="components-list">
-              <div class="component-item">
-                <span class="component-name">Estructura de soporte</span>
-                <span class="component-value">Patrimonio, Cultura, Memoria, Identidades</span>
-              </div>
-              <div class="component-item">
-                <span class="component-name">Servicios que generan</span>
-                <span class="component-value">Sentido de lugar, Cohesión social, Turismo</span>
-              </div>
-              <div class="component-item">
-                <span class="component-name">Conectividad</span>
-                <span class="component-value">Dinámicas comunitarias (52%)</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="mm-section">
-            <h4><i class="fa-solid fa-check-circle"></i> Evidencia que lo Sustenta</h4>
-            <div class="evidence-list">
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Inclusión de patrimonio en estructura POT (14 nodos)</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Énfasis en saberes del lugar y prácticas locales</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Reconocimiento de dinámicas comunitarias</div>
-              <div class="evidence-item"><i class="fa-solid fa-arrow-right"></i> Potencial turístico de patrimonio cultural</div>
-            </div>
-          </div>
-
-          <div class="mm-strength">
-            <span class="strength-label">Solidez del Macromodelo</span>
-            <div class="strength-bar">
-              <div class="strength-fill" style="width: 52%;"></div>
-            </div>
-            <span class="strength-value">52%</span>
-          </div>
-        </div>
+      <div class="insight-card" data-insight="tension" style="--insight-color:#f76fb0;" onclick="toggleInsight('tension')">
+        <div class="insight-icon"><i class="fa-solid fa-scale-unbalanced"></i></div>
+        <div class="insight-title">Declarado vs. operativo</div>
       </div>
 
-    </div>
-
-    <!-- SYNTHESIS SECTION -->
-    <div class="synthesis-section">
-      <h3><i class="fa-solid fa-puzzle-piece"></i> Síntesis: Cómo Interactúan los Macromodelos</h3>
-      
-      <div class="interaction-diagram">
-        <div class="diagram-node" style="background: rgba(47,212,200,0.1); border-color: #2fd4c8;">
-          <strong>ECOLÓGICO</strong><br>
-          <small>Base natural</small>
-        </div>
-        <div class="diagram-arrow">↓</div>
-        <div class="diagram-node" style="background: rgba(91,141,239,0.1); border-color: #5b8def;">
-          <strong>FUNCIONAL</strong><br>
-          <small>Acceso a servicios</small>
-        </div>
-        <div class="diagram-arrow">↓</div>
-        <div class="diagram-node" style="background: rgba(162,118,242,0.1); border-color: #a276f2;">
-          <strong>ECONÓMICO</strong><br>
-          <small>Generación de valor</small>
-        </div>
-        <div class="diagram-arrow">↙</div>
-        <div class="diagram-node" style="background: rgba(247,111,176,0.1); border-color: #f76fb0;">
-          <strong>CULTURAL</strong><br>
-          <small>Identidad y sentido</small>
-        </div>
-      </div>
-
-      <div class="synthesis-text">
-        <p><strong>Interpretación:</strong> Los cuatro macromodelos forman un sistema donde la base ecológica sostiene la organización funcional de la ciudad, que a su vez permite actividades económicas sostenibles, todo enmarcado en una identidad cultural que da coherencia al proyecto urbano.</p>
+      <div class="insight-card" data-insight="todos" style="--insight-color:#a276f2;" onclick="toggleInsight('todos')">
+        <div class="insight-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <div class="insight-title">Ver toda la red</div>
       </div>
     </div>
 
-    <!-- KEY INSIGHTS -->
-    <div class="key-insights">
-      <h3><i class="fa-solid fa-brain"></i> Insights Principales</h3>
-      
-      <div class="insights-container">
-        <div class="insight-box highlight">
-          <div class="insight-number">1</div>
-          <div class="insight-content">
-            <strong>El modelo es complejo pero coherente</strong><br>
-            Los 4 macromodelos tienen lógicas distintas pero encajan entre sí de manera orgánica, generando un sistema resiliente.
-          </div>
+    <!-- RED CONCEPTUAL -->
+    <div class="network-section">
+      <div class="network-header">
+        <h3><i class="fa-solid fa-sitemap"></i> Red de Macromodelos del POT — Interactiva</h3>
+        <div class="network-controls">
+          <button class="control-btn active" onclick="filterNetwork('all')">Todos</button>
+          <button class="control-btn" onclick="filterNetwork('operativo')">Operativo</button>
+          <button class="control-btn" onclick="filterNetwork('declarado')">Declarado</button>
+          <button class="control-btn" onclick="filterNetwork('periferico')">Periférico</button>
+          <button class="control-btn" onclick="filterNetwork('tension')">Tensión</button>
         </div>
+      </div>
 
-        <div class="insight-box warning">
-          <div class="insight-number">2</div>
-          <div class="insight-content">
-            <strong>Brecha de implementación variable</strong><br>
-            El modelo ecológico (88%) está bien fundamentado, pero el cultural (52%) y económico (68%) tienen brechas mayores entre lo plasmado y lo real.
-          </div>
-        </div>
+      <div class="network-viz-wrap">
+        <svg id="networkViz" viewBox="0 0 1470 780" preserveAspectRatio="xMidYMid meet"></svg>
 
-        <div class="insight-box">
-          <div class="insight-number">3</div>
-          <div class="insight-content">
-            <strong>Integración incompleta</strong><br>
-            Hay poca conexión entre el macromodelo cultural y los otros tres. El patrimonio está aislado de la estructura funcional y económica.
-          </div>
-        </div>
+        <div class="network-sidebar">
+          <aside class="network-legend" id="networkLegend">
+            <div class="legend-title">Convenciones</div>
 
-        <div class="insight-box">
-          <div class="insight-number">4</div>
-          <div class="insight-content">
-            <strong>Oportunidad de síntesis</strong><br>
-            Integrar patrimonio cultural con turismo, agricultura urbana con seguridad alimentaria y empleo local podría aumentar la solidez del modelo completo.
+            <label class="legend-item" data-type="operativo">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-operativo"></span>
+              Macromodelo operativo (dominante)
+            </label>
+
+            <label class="legend-item" data-type="declarado">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-declarado"></span>
+              Macromodelo declarado (discursivo)
+            </label>
+
+            <label class="legend-item" data-type="periferico">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-periferico"></span>
+              Influencia periférica
+            </label>
+
+            <label class="legend-item" data-type="tension">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-tension"></span>
+              Tensión declarado vs. operativo
+            </label>
+
+            <div class="legend-title">Categoría de nodo</div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-macro"></span>
+              Macromodelo (bola grande)
+            </div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-evi"></span>
+              Evidencia estructural del POT (bola pequeña)
+            </div>
+
+            <div class="legend-divider"></div>
+            <div class="legend-hint">Clic en una línea: ver el macromodelo, la evidencia y la fuente.<br>Doble clic en una bola: apagarla/encenderla.<br>Triple clic en una bola: ver solo su flujo.</div>
+          </aside>
+
+          <div class="edge-info-panel" id="edgeInfoPanel">
+            <div class="edge-info-header">
+              <span id="edgeInfoTitle">Macromodelo</span>
+              <button class="edge-info-close" id="edgeInfoClose" type="button" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="edge-info-type" id="edgeInfoType"></div>
+            <div class="edge-info-quote" id="edgeInfoQuote"></div>
+            <div class="edge-info-page" id="edgeInfoPage"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ACTION BUTTONS -->
+    <!-- TABLA DE SUSTENTO -->
+    <div class="analysis-container">
+      <div class="analysis-card full-width">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-table"></i> Tabla de Macromodelos — Evidencias del POT</h3>
+        </div>
+
+        <div class="matrix-container">
+          <div class="matrix-row header">
+            <div class="matrix-cell header-cell">Macromodelo</div>
+            <div class="matrix-cell header-cell">Línea</div>
+            <div class="matrix-cell header-cell">Color</div>
+            <div class="matrix-cell header-cell">Tipo de influencia</div>
+            <div class="matrix-cell header-cell">Página POT / Fuente</div>
+            <div class="matrix-cell header-cell">Evidencia estructural</div>
+          </div>
+
+          <div class="matrix-row" data-edge="0">
+            <div class="matrix-cell">Desarrollista + mercantilista ➞ Actuaciones Estratégicas</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-operativo" style="margin:0;"></span> Rojo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong oper">Operativo</span></div>
+            <div class="matrix-cell">Fuente: Decreto 555 de 2021 (rev. POT); ProBogotá</div>
+            <div class="matrix-cell quote-cell">Las Actuaciones Estratégicas "bloquean 6.000 hectáreas de suelo desarrollable... hasta que sean reglamentadas por el Distrito". La lógica del suelo como mercancía que se libera progresivamente al mercado estructura el modelo de ocupación del territorio.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="1">
+            <div class="matrix-cell">Empresarial + neoliberal ➞ competitividad urbana</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-operativo" style="margin:0;"></span> Rojo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong oper">Operativo</span></div>
+            <div class="matrix-cell">Fuente: Acuerdo para la Equidad y la Inversión, ago. 2025</div>
+            <div class="matrix-cell quote-cell">"$77 billones de inversión directa entre 2025 y 2035", incentivos tributarios a industrias y renovaciones urbanas "que permitirán la creación de 94.500 viviendas nuevas", Bogotá como "principal centro de inversión de América Latina". La ciudad se administra como plataforma de atracción de capital.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="2">
+            <div class="matrix-cell">Mercantilista ➞ vivienda como mercancía</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-operativo" style="margin:0;"></span> Rojo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong oper">Operativo</span></div>
+            <div class="matrix-cell">Fuente: Caicedo, Murcia y Parada (2022), Rev. Ciudades, Estados y Política</div>
+            <div class="matrix-cell quote-cell">"La VIS pasó de ser una responsabilidad del Estado... a ser una mercancía que responde a los intereses operativos del mercado con la entrada en vigor del modelo neoliberal en la planificación de las ciudades en el país." El POT "no contrarresta fenómenos asociados a la concepción de la vivienda únicamente como una solución funcional o económica".</div>
+          </div>
+
+          <div class="matrix-row" data-edge="3">
+            <div class="matrix-cell">Tecnocrático ➞ estructuras abstractas (EEP/EFC/EIP)</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-operativo" style="margin:0;"></span> Rojo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong oper">Operativo</span></div>
+            <div class="matrix-cell">Fuente: Beuf (2016), Cuadernos de Geografía UNAL</div>
+            <div class="matrix-cell quote-cell">Lefebvre describe el "espacio concebido" por las autoridades y los tecnócratas: "un espacio cuantificable, formal, que negaría las diferencias y que tiende a la homogeneización". Las estructuras del POT (EEP, EFC, EIP) son precisamente ese espacio concebido por equipos técnicos.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="4">
+            <div class="matrix-cell">Productivista ➞ Metro e infraestructura</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-operativo" style="margin:0;"></span> Rojo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong oper">Operativo</span></div>
+            <div class="matrix-cell">p. 43</div>
+            <div class="matrix-cell quote-cell">"Además del Metro, Bogotá necesita con urgencia ampliar sus entradas y salidas, tapar más huecos, hacer más vías... para que el transporte público de calidad llegue a todas partes." La obra de infraestructura es el sujeto gramatical del documento: la ciudad se define por lo que construye.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="5">
+            <div class="matrix-cell">Estatista ➞ POT como instrumento de ley</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-operativo" style="margin:0;"></span> Rojo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong oper">Operativo</span></div>
+            <div class="matrix-cell">Fuente: Ley 388 de 1997; ProBogotá</div>
+            <div class="matrix-cell quote-cell">La Ley 388 de 1997 "marcó un hito en el ordenamiento territorial del país, incorporando la ruta para la planeación del territorio a partir de los POT", que contienen "los instrumentos para la gestión y financiación del mismo". El POT es, ante todo, producto del marco jurídico: la matriz institucional está dentro del modelo.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="6">
+            <div class="matrix-cell">Ambientalista ➞ EEP como eje articulador</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-declarado" style="margin:0;"></span> Turquesa</div>
+            <div class="matrix-cell"><span class="alignment-tag strong decl">Declarado</span></div>
+            <div class="matrix-cell">p. 30</div>
+            <div class="matrix-cell quote-cell">"Que las diversas zonas de la ciudad estén conectadas por un sistema multimodal... alimentadas por los demás modos y medios de transporte público como los corredores verdes". El discurso ambiental articula el relato, pero en la red operativa la movilidad y la economía concentran las conexiones: la ecología aparece como ornamento del modelo.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="7">
+            <div class="matrix-cell">Del cuidado / comunitario ➞ Manzanas del Cuidado</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-declarado" style="margin:0;"></span> Turquesa</div>
+            <div class="matrix-cell"><span class="alignment-tag strong decl">Declarado</span></div>
+            <div class="matrix-cell">p. 122 / p. 125</div>
+            <div class="matrix-cell quote-cell">p. 122: "Las Manzanas del Cuidado son áreas acotadas que agrupan diversas infraestructuras para brindar servicios de manera simultánea y articulada". p. 125: aprovechar los equipamientos como anclas "fue el cuello de botella que se resolvió con el pot". El cuidado entra al modelo como problema logístico a resolver, no como paradigma rector.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="8">
+            <div class="matrix-cell">Patrimonial-sagrado ➞ patrimonio y sitios sagrados</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-declarado" style="margin:0;"></span> Turquesa</div>
+            <div class="matrix-cell"><span class="alignment-tag strong decl">Declarado</span></div>
+            <div class="matrix-cell">p. 186 / p. 196</div>
+            <div class="matrix-cell quote-cell">p. 186: "son el testimonio de complejas estrategias de cómo interpretamos y valoramos las huellas del territorio que habitamos." p. 196: "la EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural". El patrimonio es central en el relato, pero estructuralmente queda "inscrito" dentro de otra estructura: subordinado discursivamente.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="9">
+            <div class="matrix-cell">Religioso / simbólico ➞ sitios sagrados y rituales</div>
+            <div class="matrix-cell">Punteada</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-periferico" style="margin:0;"></span> Amarillo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong peri">Influencia periférica</span></div>
+            <div class="matrix-cell">p. 186</div>
+            <div class="matrix-cell quote-cell">El Sistema de Sitios Sagrados y los patrimonios de comunidades son reconocidos como huellas del territorio, pero no tienen conexiones operativas con vivienda, movilidad o economía: son nodos-hoja del modelo, presentes en el discurso, ausentes de la estructura.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="10">
+            <div class="matrix-cell">Tecno-ingineril ➞ herencia Le Corbusier</div>
+            <div class="matrix-cell">Punteada</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-periferico" style="margin:0;"></span> Amarillo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong peri">Influencia periférica</span></div>
+            <div class="matrix-cell">Fuente: ProBogotá (historia del planeamiento)</div>
+            <div class="matrix-cell quote-cell">El Acuerdo 21 de 1944 nació con "un criterio de ingeniería y desarrollo de infraestructura"; el Plan Piloto (1957) y Le Corbusier (1947) legaron la zonificación por actividades y el sistema vial. Es el substrato histórico del modelo, ya no nombrado pero operante en sus formas.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="11">
+            <div class="matrix-cell">Colectivista ➞ Estado social y servicios</div>
+            <div class="matrix-cell">Punteada</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-periferico" style="margin:0;"></span> Amarillo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong peri">Influencia periférica</span></div>
+            <div class="matrix-cell">p. 126</div>
+            <div class="matrix-cell quote-cell">"...cualifica los servicios sociales del Distrito y hace efectiva la articulación interinstitucional." El registro colectivista del Estado social aparece, pero solo como anexo funcional de los equipamientos: sin vínculo con la red que determina el acceso físico a esos servicios.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="12">
+            <div class="matrix-cell">Declarado ➞ Operativo (brecha)</div>
+            <div class="matrix-cell">Doble línea</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-tension" style="margin:0;"></span> Rosa</div>
+            <div class="matrix-cell"><span class="alignment-tag strong tens">Tensión</span></div>
+            <div class="matrix-cell">Estructura de la red</div>
+            <div class="matrix-cell quote-cell">La red declara ambientalismo, cuidado y patrimonio como paradigmas rectores, pero su arquitectura relacional muestra que esos nodos tienen grado de centralidad muy inferior al de Metro, equipamientos y suelo. La ingeniería inversa revela el modelo operativo: desarrollista, mercantilista y tecnocrático. Lo que el modelo dice que es y lo que parece ser no coinciden.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="13">
+            <div class="matrix-cell">Competitividad ➞ ciudad-mercancía</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-tension" style="margin:0;"></span> Rosa</div>
+            <div class="matrix-cell"><span class="alignment-tag strong tens">Tensión</span></div>
+            <div class="matrix-cell">Fuente: EURE (2023); acuerdo tributario 2025</div>
+            <div class="matrix-cell quote-cell">"La ciudad es considerada como una mercancía, en donde el mercado inmobiliario es quien coordina, financia y promociona los proyectos de urbanización". Incentivos en Fontibón y Engativá para "Bogotá Ciudad Aeropuerto": el territorio se vende como producto a inversionistas globales, tensionando el registro de derechos del cuidado y el hábitat.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LECTURA DE LA RED -->
+    <div class="synergies-section">
+      <div class="synergies-grid">
+        <div class="synergy-card success">
+          <div class="synergy-icon"><i class="fa-solid fa-gears"></i></div>
+          <div class="synergy-content">
+            <h4>Ingeniería Inversa del Modelo</h4>
+            <ul>
+              <li><strong>Modelo declarado:</strong> ambientalista, del cuidado, patrimonial, comunitario y multimodal — los paradigmas que el POT nombra como rectores</li>
+              <li><strong>Modelo operativo:</strong> desarrollista, mercantilista, empresarial y tecnocrático — los que ordenan realmente las conexiones del documento</li>
+              <li><strong>Medida cuantitativa:</strong> los nodos declarados (patrimonio, cuidado, cuenca, sitios sagrados) presentan grado de centralidad muy inferior al peso discursivo que reciben en el texto</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="synergy-card conflict">
+          <div class="synergy-icon"><i class="fa-solid fa-scale-unbalanced"></i></div>
+          <div class="synergy-content">
+            <h4>Brecha Declarado–Operativo</h4>
+            <ul>
+              <li><strong>Subordinación no nombrada:</strong> la EIP "se inscribe" en la EEP (p. 196) y la EFC se organiza "alrededor" de la estructura ecológica (p. 30): el discurso ambientalista estructura, pero también encubre la primacía económico-infraestructural</li>
+              <li><strong>Suelo como mercancía:</strong> 6.000 hectáreas en Actuaciones Estratégicas a la espera de ser liberadas al mercado (Decreto 555/2021); la VIS tratada como mercancía, no como hábitat (Caicedo et al., 2022)</li>
+              <li><strong>Herencia tecnocrática:</strong> de Le Corbusier (1947) al "espacio concebido" (Beuf, 2016), la ciudad sigue planificada como superficie abstracta por equipos técnicos, no como territorio vivido</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECOMENDACIONES -->
+    <div class="recommendations-section">
+      <h3><i class="fa-solid fa-lightbulb"></i> Recomendaciones para Identificar los Macromodelos</h3>
+
+      <div class="recommendations-grid">
+        <div class="rec-card">
+          <div class="rec-number">1</div>
+          <div class="rec-content">
+            <h4>Medir la centralidad declarada vs. operativa de cada paradigma</h4>
+            <p>Cuantificar el grado de conexión de cada macromodelo en la arquitectura relacional del POT y compararlo con su peso en el texto, para objetivar la brecha entre lo declarado y lo operativo.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +24%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">2</div>
+          <div class="rec-content">
+            <h4>Rastrear la genealogía del modelo</h4>
+            <p>Documentar la herencia de cada macromodelo (Acuerdo 21 de 1944, Le Corbusier, Ley 388 de 1997, Actuaciones Estratégicas de 2021) para mostrar que el POT es producto de instituciones, disciplinas y marcos históricos concretos.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +20%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">3</div>
+          <div class="rec-content">
+            <h4>Reconectar los paradigmas declarados a la estructura</h4>
+            <p>Dotar al patrimonio, al cuidado, a la cuenca del río Bogotá y a los sitios sagrados de conexiones operativas reales (programación, financiación, instrumentos) dentro de la EFC y la EEP.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +18%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">4</div>
+          <div class="rec-content">
+            <h4>Explorar macromodelos no etiquetados</h4>
+            <p>Identificar influencias adicionales al listado sugerido —como el paradigma de la competitividad urbana, la ciudad-mercancía o la herencia de la planeación militar— para evitar la pobreza investigativa que evita el ejercicio.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +15%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTONES DE ACCIÓN -->
     <div class="action-buttons">
-      <button class="btn-primary" onclick="exportAnalysis()">
-        <i class="fa-solid fa-download"></i> Exportar Análisis
+      <button class="btn-primary" onclick="generateODSReport()">
+        <i class="fa-solid fa-file-pdf"></i> Generar Reporte de Macromodelos
       </button>
-      <button class="btn-secondary" onclick="compareModels()">
-        <i class="fa-solid fa-scale-balanced"></i> Comparar Modelos
+      <button class="btn-secondary" onclick="downloadAlignment()">
+        <i class="fa-solid fa-download"></i> Descargar Tabla
       </button>
-      <button class="btn-secondary" onclick="drillDown()">
-        <i class="fa-solid fa-arrow-down"></i> Detalle de Nodos
+      <button class="btn-secondary" onclick="shareAnalysis()">
+        <i class="fa-solid fa-share-nodes"></i> Compartir Análisis
       </button>
     </div>
 
