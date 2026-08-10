@@ -1,526 +1,813 @@
-// MODULO 07: SIMULADOR
-console.log('Módulo 07: Simulador - Inicializado');
+:root {
+  --bg: #0a0e17;
+  --sidebar: #0c1120;
+  --panel: #121828;
+  --panel-alt: #0f1522;
+  --border: rgba(255,255,255,0.07);
+  --border-soft: rgba(255,255,255,0.04);
+  --text: #e7eaf2;
+  --text-dim: #8891a5;
+  --text-faint: #5a6274;
+  --teal: #2fd4c8;
+  --teal-dim: rgba(47,212,200,0.12);
+  --blue: #5b8def;
+  --purple: #a276f2;
+  --green: #4ade80;
+  --yellow: #f5c945;
+  --pink: #f76fb0;
+  --orange: #ef9552;
 
-// ---------------------------------------------------------------------------
-// ESCENARIOS (apagar/encender una estructura completa)
-// ---------------------------------------------------------------------------
-const scenarios = {
-  sin_eep:   { label: 'Escenario sin Estructura Ecológica Principal', struct: 'eco' },
-  sin_efc:   { label: 'Escenario sin Estructura Funcional y del Cuidado', struct: 'func' },
-  sin_eseci: { label: 'Escenario sin Estructura Socioeconómica, Creativa y de Innovación', struct: 'econ' },
-  sin_eip:   { label: 'Escenario sin Estructura Integradora de Patrimonios', struct: 'patri' }
-};
+  /* Colores de cada estructura del modelo (según convención) */
+  --eco: #22b88a;     /* Sistema Ambiental y de Estructura Ecológica Principal */
+  --func: #3b6fe0;    /* Estructura Funcional y del Cuidado */
+  --econ: #d9a441;    /* Estructura Socioeconómica, Creativa y de Innovación */
+  --patri: #b13bff;   /* Estructura Integradora de Patrimonios */
 
-function loadScenario(scenarioKey, buttonEl) {
-  const scenario = scenarios[scenarioKey];
-  if (!scenario) return;
+  /* Colores de los tipos de relación (según leyenda) */
+  --line-directa: rgba(255,255,255,0.55);
+  --line-indirecta: rgba(255,255,255,0.38);
+  --line-soporte: #ef9552;
+  --line-resiliencia: #4c8dff;
 
-  const struct = scenario.struct;
-  const isOff = buttonEl.classList.toggle('active');
-
-  const icon = buttonEl.querySelector('i');
-  if (icon) {
-    icon.classList.toggle('fa-circle-minus', !isOff);
-    icon.classList.toggle('fa-power-off', isOff);
-  }
-
-  document.querySelectorAll('.node.n-' + struct).forEach(node => {
-    node.classList.toggle('node-off', isOff);
-  });
-
-  document.querySelectorAll('.links line.l-' + struct).forEach(link => {
-    link.classList.toggle('link-off', isOff);
-  });
-
-  console.log((isOff ? 'Apagando' : 'Reactivando') + ' estructura:', scenario.label);
-  updateStats();
+  --off-red: #ef4444;
 }
 
-// ---------------------------------------------------------------------------
-// LEYENDA
-// "Directa/Indirecta" = estilo de línea (sólida/punteada), independiente del
-// color. "Soporte/Resiliencia" = tipo de relación (color naranja/azul).
-// Ambas dimensiones convivenen en la misma línea, así que se filtran por
-// separado.
-// ---------------------------------------------------------------------------
-function toggleLinkType(type, itemEl) {
-  const isOff = itemEl.classList.toggle('off');
-  const icon = itemEl.querySelector('i');
-  if (icon) {
-    icon.classList.toggle('fa-square-check', !isOff);
-    icon.classList.toggle('fa-square', isOff);
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  let selector;
-  if (type === 'directa') selector = '#staticNetwork .links line:not(.link-punteada)';
-  else if (type === 'indirecta') selector = '#staticNetwork .links line.link-punteada';
-  else selector = '#staticNetwork .links line.link-' + type;
-
-  document.querySelectorAll(selector).forEach(link => {
-    link.classList.toggle('type-off', isOff);
-  });
-
-  console.log((isOff ? 'Ocultando' : 'Mostrando') + ' relaciones tipo:', type);
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
 }
 
-// ---------------------------------------------------------------------------
-// RELACIONES DOCUMENTADAS EN EL POT
-// Fuente: "Red_relaciones_POT_CORREGIDA_FRASES_EXACTAS.xlsx" (hoja "Todas
-// las relaciones"). Clave: "origen|destino" tal como aparece en la tabla
-// (columnas Concepto origen -> Concepto destino). El sentido de la flecha se
-// resuelve comparando esto contra data-s/data-t de cada línea, así que no
-// importa en qué orden se dibujó la línea en el SVG.
-// ---------------------------------------------------------------------------
-const relationData = {
-  "corredores_mont|rios": { page: '70', relation: 'soporte', description: 'Art. 7', phrase: '"corredores montañosos … ríos y humedales"' },
-  "quebradas|humedales": { page: '72', relation: 'soporte', description: 'Art. 42 / 62', phrase: '"ríos y quebradas … humedales"' },
-  "cerros_orientales|humedales": { page: '70', relation: 'soporte', description: 'Art. 7', phrase: '"cerros orientales … ríos y humedales"' },
-  "humedales|rios": { page: '72', relation: 'soporte', description: 'Art. 42 / 62', phrase: '"ríos y quebradas … humedales"' },
-  "rios|complejos_paramos": { page: '70', relation: 'soporte', description: 'Art. 7', phrase: '"complejos de páramos … ríos y humedales"' },
-  "bosques_urbanos|coberturas_vegetales": { page: '73', relation: 'soporte', description: 'Art. 74', phrase: '"cobertura vegetal … flora propia"' },
-  "areas_resiliencia|coberturas_vegetales": { page: '72', relation: 'resiliencia', description: 'Art. 42', phrase: '"territorio resiliente … cambio climático"' },
-  "humedales|areas_resiliencia": { page: '72', relation: 'soporte', description: 'Art. 42', phrase: '"amortiguación de los impactos ambientales"' },
-  "areas_protegidas|humedales": { page: '71', relation: 'soporte', punteada: true, description: 'Art. 41 / 51', phrase: '"Reservas Distritales de Humedal"' },
-  "areas_protegidas|parques_eco_montana": { page: '71', relation: 'soporte', punteada: true, description: 'Art. 51 / 54', phrase: '"Parques Distritales Ecológicos de Montaña"' },
-  "areas_protegidas|reservas_forestales": { page: '71', relation: 'soporte', punteada: true, description: 'Art. 41 / 45 / 48', phrase: '"Reserva Forestal Protectora … Regional"' },
-  "reservas_forestales|humedales": { page: '72', relation: 'resiliencia', description: 'Art. 42', phrase: '"conectividad y complementariedad"' },
-  "parques_eco_montana|coberturas_vegetales": { page: '72', relation: 'soporte', punteada: true, description: 'Art. 54', phrase: '"restaurar y preservar … especies nativas"' },
-  "coberturas_vegetales|parques_borde": { page: '136', relation: 'soporte', punteada: true, description: 'Art. 121', phrase: '"coberturas vegetales … parques de borde"' },
-  "coberturas_vegetales|paisajes_sostenibles": { page: '72', relation: 'soporte', punteada: true, description: 'Art. 52 / 74', phrase: '"funcionalidad ecosistémica … conectividad"' },
-  "complejos_paramos|paisajes_sostenibles": { page: '70', relation: 'soporte', punteada: true, description: 'Art. 7 / 52', phrase: '"complejos de páramos … paisajes"' },
-  "equipamientos|servicios_cuidado": { page: '117–118', relation: 'soporte', punteada: true, description: 'Art. 94–95', phrase: '"equipamientos y servicios de cuidado"' },
-  "equipamientos|servicios_sociales": { page: '117–118', relation: 'soporte', punteada: true, description: 'Art. 94–95', phrase: '"equipamientos y servicios sociales"' },
-  "equipamientos|vivienda": { page: '117', relation: 'soporte', description: 'Art. 94 / 95', phrase: '"equipamientos … soluciones habitacionales"' },
-  "servicios_publicos|vivienda": { page: '179', relation: 'soporte', punteada: true, description: 'Art. 179', phrase: '"servicio público … actividades en la ciudad"' },
-  "ciclorrutas|vivienda": { page: '117', relation: 'soporte', punteada: true, description: 'Art. 88', phrase: '"accesibilidad … conectividad"' },
-  "ciclorrutas|transporte_publico": { page: '117 / 158–159', relation: 'resiliencia', punteada: true, noArrow: true, description: 'Art. 88 / 158–159', phrase: '"cicloinfraestructura … corredores verdes"' },
-  "transporte_publico|vivienda": { page: '117', relation: 'soporte', punteada: true, description: 'Art. 88', phrase: '"accesibilidad … conectividad"' },
-  "red_vial|transporte_publico": { page: '158–159', relation: 'soporte', description: 'Art. 158–159', phrase: '"malla arterial … transporte público"' },
-  "red_vial|equipamientos": { page: '117', relation: 'soporte', description: 'Art. 88 / 95', phrase: '"accesibilidad … equipamientos"' },
-  "corredores_verdes|ciclorrutas": { page: '117', relation: 'soporte', description: 'Política de movilidad', phrase: '"corredores verdes … cicloinfraestructura"' },
-  "corredores_verdes|transporte_publico": { page: '158–159', relation: 'soporte', description: 'Art. 158–159', phrase: '"corredores verdes de transporte público"' },
-  "manzanas_cuidado|servicios_sociales": { page: '117–118', relation: 'soporte', description: 'Art. 94–95', phrase: '"manzanas del cuidado … servicios sociales"' },
-  "manzanas_cuidado|equipamientos": { page: '117–118', relation: 'soporte', description: 'Art. 94–95', phrase: '"manzanas del cuidado … equipamientos"' },
-  "manzanas_cuidado|parques": { page: '117', relation: 'soporte', description: 'Art. 94', phrase: '"jardines infantiles, colegios, parques"' },
-  "distrito_tec|servicios_empresariales": { page: '122', relation: 'soporte', description: 'Art. 101', phrase: '"Eje de servicios empresariales"' },
-  "distrito_tec|sist_educacion": { page: '122', relation: 'soporte', description: 'Art. 100–101', phrase: '"formación del talento humano"' },
-  "centros_abastecimiento|plazas_mercado": { page: '122', relation: 'soporte', punteada: true, description: 'Art. 100–101', phrase: '"Centros de Abasto Mayorista … Plazas de Mercado"' },
-  "plazas_mercado|servicios_empresariales": { page: '122', relation: 'soporte', description: 'Art. 101', phrase: '"Plazas de Mercado … infraestructuras"' },
-  "zonas_industriales|servicios_empresariales": { page: '122', relation: 'soporte', description: 'Art. 101', phrase: '"Eje de servicios empresariales … zonas industriales"' },
-  "zonas_industriales|sist_educacion": { page: '122', relation: 'soporte', punteada: true, description: 'Art. 100–101', phrase: '"formación del talento humano … empresas"' },
-  "zonas_industriales|produccion_artesanal": { page: '122', relation: 'soporte', description: 'Art. 100–101', phrase: '"producción tradicional … industrias creativas"' },
-  "zonas_interes_turistico|plazas_mercado": { page: '122', relation: 'soporte', description: 'Art. 101', phrase: '"Zonas de Interés Turístico … Plazas de Mercado"' },
-  "centros_financieros|servicios_empresariales": { page: '122', relation: 'soporte', description: 'Art. 100', phrase: '"centros financieros y de servicios empresariales"' },
-  "sitios_sagrados|patrimonio_inmaterial": { page: '103–104', relation: 'resiliencia', description: 'Art. 80', phrase: '"patrimonio cultural inmaterial … comunidades"' },
-  "patrimonio_arqueologico|patrimonio_natural": { page: '103–104', relation: 'soporte', description: 'Art. 80', phrase: '"Patrimonio Natural … Patrimonio Arqueológico"' },
-  "patrimonio_arqueologico|patrimonio_material": { page: '103–104', relation: 'resiliencia', description: 'Art. 80', phrase: '"Patrimonio Cultural material … Patrimonio Arqueológico"' },
-  "patrimonio_natural|patrimonio_inmaterial": { page: '103–104', relation: 'soporte', description: 'Art. 80', phrase: '"patrimonio cultural material, inmaterial y natural"' },
-  "patrimonio_material|patrimonio_natural": { page: '103–104', relation: 'soporte', description: 'Art. 80', phrase: '"integra … material, inmaterial y natural"' },
-  "patrimonio_material|patrimonio_inmaterial": { page: '103–104', relation: 'soporte', description: 'Art. 80', phrase: '"patrimonio cultural material, inmaterial y natural"' },
-};
+.app { display: flex; min-height: 100vh; }
 
-function findRelation(s, t) {
-  return relationData[s + '|' + t] || relationData[t + '|' + s] || null;
+/* SIDEBAR */
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 14px;
 }
 
-// Marca con 'has-data' cada línea (todas, en este dataset, tienen ficha) y le
-// asigna: flecha (forward/backward/both/ninguna si noArrow), y el modificador
-// 'link-punteada' cuando la lectura del POT es "Indirecta" (línea punteada).
-function applyArrowDirections() {
-  document.querySelectorAll('#staticNetwork .links line').forEach(line => {
-    const s = line.getAttribute('data-s');
-    const t = line.getAttribute('data-t');
-    const rel = relationData[s + '|' + t];
-    const relRev = relationData[t + '|' + s];
-    const isDirectional = line.classList.contains('link-soporte') || line.classList.contains('link-resiliencia');
-
-    if (!rel && !relRev) {
-      if (isDirectional) line.classList.add('arrow-forward');
-      return;
-    }
-
-    line.classList.add('has-data');
-
-    const noArrow = (rel && rel.noArrow) || (relRev && relRev.noArrow);
-    if (noArrow) return; // sin flecha: el POT no permite identificar una dirección inequívoca
-
-    let cls = 'arrow-forward';
-    if ((rel && rel.bidirectional) || (relRev && relRev.bidirectional)) {
-      cls = 'arrow-both';
-    } else if (relRev) {
-      cls = 'arrow-backward';
-    }
-    line.classList.add(cls);
-  });
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 6px 22px 6px;
 }
 
-// Oculta por defecto las líneas Directa/Indirecta que NO tienen ficha
-// (no debería quedar ninguna en este dataset, pero se conserva por si se
-// agregan relaciones sin evidencia documentada más adelante).
-function hideUndocumentedLines() {
-  document.querySelectorAll('#staticNetwork .links line.link-directa, #staticNetwork .links line.link-indirecta').forEach(line => {
-    if (!line.classList.contains('has-data')) {
-      line.classList.add('type-off');
-    }
-  });
+.brand .mark {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--teal), #1a9d94);
+  display: flex; align-items: center; justify-content: center;
+  color: #06110f; font-size: 15px;
 }
 
-let selectedLink = null;
-
-function openRelationPanel(line) {
-  const s = line.getAttribute('data-s');
-  const t = line.getAttribute('data-t');
-  const sEl = document.getElementById('n_' + s);
-  const tEl = document.getElementById('n_' + t);
-  const sLabel = sEl ? nodeLabel(sEl) : s;
-  const tLabel = tEl ? nodeLabel(tEl) : t;
-
-  const rel = findRelation(s, t);
-  const isSoporte = line.classList.contains('link-soporte');
-  const relationName = rel ? rel.relation : (isSoporte ? 'soporte' : 'resiliencia');
-
-  document.querySelectorAll('.links line.link-selected').forEach(l => l.classList.remove('link-selected'));
-  line.classList.add('link-selected');
-  selectedLink = line;
-
-  const arrowSymbol = line.classList.contains('arrow-both') ? '↔' : (line.classList.contains('arrow-forward') || line.classList.contains('arrow-backward') ? '→' : '—');
-  document.getElementById('relConcepts').textContent = `${sLabel} ${arrowSymbol} ${tLabel}`;
-
-  const badge = document.getElementById('relBadge');
-  const badgeNames = { soporte: 'Soporte', resiliencia: 'Resiliencia', directa: 'Directa' };
-  badge.textContent = badgeNames[relationName] || 'Directa';
-  badge.className = 'relation-badge badge-' + relationName;
-
-  const descEl = document.getElementById('relDescription');
-  if (rel && rel.description) {
-    descEl.textContent = rel.description;
-    descEl.style.display = 'block';
-  } else {
-    descEl.style.display = 'none';
-  }
-
-  document.getElementById('relPhrase').textContent = rel ? rel.phrase : 'Aún no hay una ficha con la frase exacta del POT para esta relación.';
-  document.getElementById('relPage').textContent = rel ? ('Página ' + rel.page) : '—';
-
-  document.getElementById('relationPanel').style.display = 'block';
-  document.getElementById('relationPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+.brand span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700; font-size: 16px; letter-spacing: 0.5px;
 }
 
-function closeRelationPanel() {
-  document.getElementById('relationPanel').style.display = 'none';
-  if (selectedLink) selectedLink.classList.remove('link-selected');
-  selectedLink = null;
+.nav-group { margin-bottom: 20px; }
+
+.nav-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 1px;
+  color: var(--text-faint);
+  padding: 0 10px; margin-bottom: 8px;
 }
 
-// ---------------------------------------------------------------------------
-// RED: adjacencia, tamaño dinámico según conectividad, selección/resaltado,
-// zoom, reset, stats
-// ---------------------------------------------------------------------------
-let adjacency = {};       // nodeId -> Set de nodeIds vecinos
-let nodeLinks = {};       // nodeId -> [line elements]
-let selectedNode = null;
-const baseViewBox = { x: -170, y: -220, w: 719, h: 734 };
-let currentViewBox = { ...baseViewBox };
-
-function buildAdjacency() {
-  adjacency = {};
-  nodeLinks = {};
-  document.querySelectorAll('#staticNetwork .links line').forEach(line => {
-    const s = line.getAttribute('data-s');
-    const t = line.getAttribute('data-t');
-    if (!s || !t) return;
-    (adjacency[s] = adjacency[s] || new Set()).add(t);
-    (adjacency[t] = adjacency[t] || new Set()).add(s);
-    (nodeLinks[s] = nodeLinks[s] || []).push(line);
-    (nodeLinks[t] = nodeLinks[t] || []).push(line);
-  });
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: 8px;
+  color: var(--text-dim);
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
-// Tres presets de tamaño (radio del círculo, tamaño del ícono, posición del
-// texto) según el número real de conexiones del nodo. Un nodo con más
-// relaciones documentadas en el POT se dibuja más grande.
-const SIZE_PRESETS = {
-  low:  { r: 17, fo: 22, icon: 11, textY: 29 },
-  mid:  { r: 24, fo: 36, icon: 13, textY: 36 },
-  high: { r: 32, fo: 52, icon: 15, textY: 44 }
-};
+.nav-item i { width: 16px; text-align: center; font-size: 13px; }
 
-function degreeTier(degree) {
-  if (degree >= 6) return 'high';
-  if (degree >= 3) return 'mid';
-  return 'low';
+.nav-item .num {
+  font-size: 11px; font-weight: 700; width: 16px; text-align: center; color: var(--text-faint);
 }
 
-// Redimensiona cada nodo (círculo, ícono y posición del texto) según su
-// grado real de conectividad calculado a partir de las líneas del SVG.
-function applyDynamicSizing() {
-  document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
-    const id = nodeEl.id.replace(/^n_/, '');
-    const degree = (adjacency[id] || new Set()).size;
-    const tier = degreeTier(degree);
-    const preset = SIZE_PRESETS[tier];
+.nav-item:hover { background: rgba(255,255,255,0.04); color: var(--text); }
 
-    nodeEl.classList.remove('node-hub', 'node-main');
-    if (tier === 'mid') nodeEl.classList.add('node-hub');
-    if (tier === 'high') nodeEl.classList.add('node-main');
-
-    const circle = nodeEl.querySelector('circle.node-fill');
-    if (circle) circle.setAttribute('r', preset.r);
-
-    const fo = nodeEl.querySelector('foreignObject');
-    if (fo) {
-      const off = -preset.fo / 2;
-      fo.setAttribute('x', off);
-      fo.setAttribute('y', off);
-      fo.setAttribute('width', preset.fo);
-      fo.setAttribute('height', preset.fo);
-    }
-
-    const icon = nodeEl.querySelector('.node-icon i');
-    if (icon) icon.style.fontSize = preset.icon + 'px';
-
-    const text = nodeEl.querySelector('text.node-label');
-    if (text) {
-      text.setAttribute('y', preset.textY);
-      // Evita que las etiquetas largas se salgan del círculo.
-      const label = text.textContent.trim();
-      const estWidth = label.length * (tier === 'high' ? 4.1 : tier === 'mid' ? 3.7 : 3.4);
-      const maxWidth = preset.r * 2 * 1.55;
-      if (estWidth > maxWidth) {
-        text.setAttribute('textLength', maxWidth.toFixed(0));
-        text.setAttribute('lengthAdjust', 'spacingAndGlyphs');
-      } else {
-        text.removeAttribute('textLength');
-        text.removeAttribute('lengthAdjust');
-      }
-    }
-  });
+.nav-item.active {
+  background: var(--teal-dim);
+  color: var(--teal);
 }
 
-// Asigna deg-low / deg-mid / deg-high para el glow (mismo criterio que el
-// tamaño, así el glow y el tamaño crecen juntos).
-function applyConnectivityGlow() {
-  document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
-    const id = nodeEl.id.replace(/^n_/, '');
-    const degree = (adjacency[id] || new Set()).size;
-    const tier = degreeTier(degree);
-    nodeEl.classList.remove('deg-low', 'deg-mid', 'deg-high');
-    nodeEl.classList.add('deg-' + tier);
-  });
+.nav-item.active .num { color: var(--teal); }
+
+.sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  display: flex; align-items: center; gap: 10px;
 }
 
-function nodeLabel(nodeEl) {
-  const span = nodeEl.querySelector('.node-label');
-  return span ? span.textContent.replace(/\s+/g, ' ').trim() : nodeEl.id;
+.avatar-sm {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--text-dim);
+  flex-shrink: 0;
 }
 
-// ---------------------------------------------------------------------------
-// PANEL "¿Qué pasa si se desconecta un nodo central?"
-// Ofrece varias opciones (no solo el de mayor grado): se listan los nodos
-// con más conexiones documentadas para que el usuario elija cuál simular.
-// ---------------------------------------------------------------------------
-let centralNodeId = null;
-let centralNodeOff = false;
-const CENTRAL_OPTIONS_COUNT = 8;
+.user-meta { line-height: 1.3; flex: 1; min-width: 0; }
 
-function topCentralNodes(count) {
-  return Object.keys(adjacency)
-    .map(id => ({ id, degree: adjacency[id].size }))
-    .sort((a, b) => b.degree - a.degree)
-    .slice(0, count);
+.user-meta .name { font-size: 12.5px; font-weight: 600; color: var(--text); }
+
+.user-meta .role { font-size: 11px; color: var(--text-faint); }
+
+.logout-btn {
+  background: none; border: none; color: var(--text-faint);
+  font-size: 13px; cursor: pointer; padding: 4px;
+  text-decoration: none;
 }
 
-function updateCentralNodePanel() {
-  const select = document.getElementById('centralNodeSelect');
-  if (!select) return;
+.logout-btn:hover { color: var(--pink); }
 
-  const options = topCentralNodes(CENTRAL_OPTIONS_COUNT);
-  select.innerHTML = options.map(opt => {
-    const nodeEl = document.getElementById('n_' + opt.id);
-    const label = nodeEl ? nodeLabel(nodeEl) : opt.id;
-    return `<option value="${opt.id}">${label} · ${opt.degree} conexiones</option>`;
-  }).join('');
+/* MAIN */
+.main { flex: 1; padding: 22px 34px 50px; min-width: 0; overflow-y: auto; }
 
-  if (options.length) {
-    centralNodeId = options[0].id;
-    select.value = centralNodeId;
-  }
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 26px;
 }
 
-function onCentralNodeChange() {
-  // Si había un nodo apagado y el usuario elige otro, reconecta el anterior
-  // antes de cambiar de selección.
-  if (centralNodeOff) toggleCentralNode();
-  const select = document.getElementById('centralNodeSelect');
-  centralNodeId = select.value;
+.topbar h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 19px; font-weight: 600;
 }
 
-function toggleCentralNode() {
-  if (!centralNodeId) return;
-  const nodeEl = document.getElementById('n_' + centralNodeId);
-  if (!nodeEl) return;
+.topbar-actions { display: flex; align-items: center; gap: 14px; }
 
-  centralNodeOff = !centralNodeOff;
-
-  nodeEl.classList.toggle('node-off', centralNodeOff);
-  (nodeLinks[centralNodeId] || []).forEach(line => {
-    line.classList.toggle('link-off', centralNodeOff);
-  });
-
-  const select = document.getElementById('centralNodeSelect');
-  if (select) select.disabled = centralNodeOff;
-
-  const btn = document.getElementById('centralSimBtn');
-  if (btn) {
-    btn.classList.toggle('active', centralNodeOff);
-    btn.innerHTML = centralNodeOff
-      ? '<i class="fa-solid fa-power-off"></i>Reconectar'
-      : '<i class="fa-solid fa-power-off"></i>Simular';
-  }
-
-  console.log((centralNodeOff ? 'Desconectando' : 'Reconectando') + ' nodo central:', centralNodeId);
+.search-box {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: var(--text-faint);
+  font-size: 13px;
+  width: 230px;
 }
 
-// ---------------------------------------------------------------------------
-// Los nodos son fijos (posición calculada por el layout de la red); ya no se
-// pueden arrastrar. updateLinesForNode se conserva por si en el futuro se
-// necesita mover un nodo por código.
-// ---------------------------------------------------------------------------
-function updateLinesForNode(id, x, y) {
-  document.querySelectorAll('#staticNetwork .links line[data-s="' + id + '"]').forEach(l => {
-    l.setAttribute('x1', x); l.setAttribute('y1', y);
-  });
-  document.querySelectorAll('#staticNetwork .links line[data-t="' + id + '"]').forEach(l => {
-    l.setAttribute('x2', x); l.setAttribute('y2', y);
-  });
+.search-box i { font-size: 12px; }
+
+.icon-btn {
+  width: 34px; height: 34px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+  position: relative;
 }
 
-function selectNode(id) {
-  const nodeEl = document.getElementById('n_' + id);
-  if (!nodeEl) return;
-
-  if (selectedNode === id) {
-    clearSelection();
-    return;
-  }
-
-  selectedNode = id;
-  const neighbors = adjacency[id] || new Set();
-
-  document.querySelectorAll('#staticNetwork .node').forEach(n => {
-    const nid = n.id.replace(/^n_/, '');
-    const keep = nid === id || neighbors.has(nid);
-    n.classList.toggle('node-dim', !keep);
-    n.classList.toggle('node-selected', nid === id);
-  });
-
-  document.querySelectorAll('#staticNetwork .links line').forEach(l => {
-    const active = l.getAttribute('data-s') === id || l.getAttribute('data-t') === id;
-    l.classList.toggle('link-dim', !active);
-    l.classList.toggle('link-active', active);
-  });
-
-  const chip = document.getElementById('selectedChip');
-  const label = document.getElementById('statSelected');
-  if (chip && label) {
-    label.textContent = nodeLabel(nodeEl) + ' · ' + neighbors.size + ' conexiones';
-    chip.style.display = 'flex';
-  }
+.icon-btn .dot {
+  position: absolute; top: 6px; right: 7px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--pink);
 }
 
-function clearSelection() {
-  selectedNode = null;
-  document.querySelectorAll('#staticNetwork .node').forEach(n => {
-    n.classList.remove('node-dim', 'node-selected');
-  });
-  document.querySelectorAll('#staticNetwork .links line').forEach(l => {
-    l.classList.remove('link-dim', 'link-active');
-  });
-  const chip = document.getElementById('selectedChip');
-  if (chip) chip.style.display = 'none';
+.welcome { margin-bottom: 28px; }
+
+.welcome h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 26px; font-weight: 700; margin-bottom: 6px;
 }
 
-function applyViewBox() {
-  const svg = document.getElementById('staticNetwork');
-  if (!svg) return;
-  svg.setAttribute('viewBox', `${currentViewBox.x} ${currentViewBox.y} ${currentViewBox.w} ${currentViewBox.h}`);
+.welcome p { color: var(--text-dim); font-size: 14px; }
+
+/* SCENARIO SELECTOR */
+.scenario-selector {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 28px;
 }
 
-function zoomNetwork(factor) {
-  const cx = currentViewBox.x + currentViewBox.w / 2;
-  const cy = currentViewBox.y + currentViewBox.h / 2;
-  const newW = Math.max(300, Math.min(1400, currentViewBox.w / factor));
-  const newH = Math.max(250, Math.min(1200, currentViewBox.h / factor));
-  currentViewBox = { x: cx - newW / 2, y: cy - newH / 2, w: newW, h: newH };
-  applyViewBox();
+.selector-header h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
-function resetNetwork() {
-  document.querySelectorAll('.scenario-btn.active').forEach(btn => {
-    const key = btn.getAttribute('data-scenario');
-    loadScenario(key, btn);
-  });
-
-  document.querySelectorAll('.legend-item.off').forEach(item => {
-    toggleLinkType(item.getAttribute('data-linktype'), item);
-  });
-
-  clearSelection();
-  closeRelationPanel();
-
-  if (centralNodeOff) toggleCentralNode();
-
-  currentViewBox = { ...baseViewBox };
-  applyViewBox();
-  updateStats();
-  console.log('Red reiniciada');
+.selector-header h3 i {
+  color: var(--teal);
 }
 
-function updateStats() {
-  const totalNodes = document.querySelectorAll('#staticNetwork .node').length;
-  const totalLinks = document.querySelectorAll('#staticNetwork .links line').length;
-  const totalStructs = Object.keys(scenarios).length;
-  const offStructs = document.querySelectorAll('.scenario-btn.active').length;
-
-  const nEl = document.getElementById('statNodes');
-  const lEl = document.getElementById('statLinks');
-  const aEl = document.getElementById('statActive');
-  if (nEl) nEl.textContent = totalNodes;
-  if (lEl) lEl.textContent = totalLinks;
-  if (aEl) aEl.textContent = (totalStructs - offStructs) + '/' + totalStructs;
+.scenario-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  buildAdjacency();
-  applyArrowDirections();
-  applyDynamicSizing();
-  applyConnectivityGlow();
-  hideUndocumentedLines();
-  applyViewBox();
-  updateCentralNodePanel();
-  updateStats();
+.scenario-btn {
+  background: var(--panel-alt);
+  border: 2px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  min-height: 96px;
+}
 
-  document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
-    nodeEl.addEventListener('click', (e) => {
-      e.stopPropagation();
-      selectNode(nodeEl.id.replace(/^n_/, ''));
-    });
-  });
+.scenario-btn:hover {
+  border-color: var(--teal);
+  background: rgba(47,212,200,0.05);
+}
 
-  document.querySelectorAll('#staticNetwork .links line.link-soporte, #staticNetwork .links line.link-resiliencia, #staticNetwork .links line.has-data').forEach(line => {
-    line.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openRelationPanel(line);
-    });
-  });
+.scenario-btn i {
+  font-size: 18px;
+  color: var(--teal);
+  transition: color .2s;
+}
 
-  const svg = document.getElementById('staticNetwork');
-  if (svg) {
-    svg.addEventListener('click', (e) => {
-      if (e.target === svg) {
-        clearSelection();
-        closeRelationPanel();
-      }
-    });
-  }
-});
+.btn-title {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text);
+  display: block;
+  transition: color .2s;
+}
+
+.btn-question {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--text-faint);
+  display: block;
+  font-style: italic;
+  transition: color .2s;
+}
+
+.scenario-btn.active .btn-question {
+  color: #f3a3a3;
+}
+
+/* Estado "apagado": la estructura fue removida del escenario */
+.scenario-btn.active {
+  border-color: var(--off-red);
+  background: rgba(239,68,68,0.08);
+}
+
+.scenario-btn.active i {
+  color: var(--off-red);
+}
+
+.scenario-btn.active .btn-title {
+  color: #f3a3a3;
+}
+
+/* STATIC IMPACT NETWORK */
+.network-static-section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 28px;
+}
+
+.network-layout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 18px;
+  align-items: start;
+}
+
+.network-main {
+  min-width: 0;
+}
+
+.central-node-panel {
+  background: var(--panel-alt);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+}
+
+.central-node-panel h4 {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.central-node-panel h4 i { color: var(--off-red); font-size: 12px; }
+
+.central-question {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.central-hint {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.central-hint strong { color: var(--teal); }
+
+.central-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+.central-select {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--border-soft);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.central-select:hover {
+  border-color: var(--teal);
+}
+
+.central-sim-btn {
+  justify-content: center;
+  width: 100%;
+  background: rgba(239,68,68,0.12);
+  border-color: rgba(239,68,68,0.4);
+  color: #f3a3a3;
+  font-weight: 700;
+}
+
+.central-sim-btn:hover {
+  border-color: var(--off-red);
+  color: var(--off-red);
+  background: rgba(239,68,68,0.18);
+}
+
+.central-sim-btn.active {
+  background: rgba(239,68,68,0.22);
+  border-color: var(--off-red);
+  color: #ffb3b3;
+}
+
+@media (max-width: 1000px) {
+  .network-layout { grid-template-columns: 1fr; }
+  .central-node-panel { position: static; }
+}
+
+.network-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.network-header h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.network-header h4 i {
+  color: var(--teal);
+  font-size: 12px;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 600;
+  background: var(--panel-alt);
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  padding: 5px 9px;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
+}
+
+.legend-item:hover {
+  border-color: var(--teal);
+}
+
+.legend-item i {
+  color: var(--teal);
+  font-size: 11px;
+}
+
+.legend-line {
+  display: inline-block;
+  width: 22px;
+  height: 0;
+  border-top: 2px solid;
+}
+
+.legend-line.line-directa { border-top-style: solid; border-top-color: var(--line-directa); }
+.legend-line.line-indirecta { border-top-style: dashed; border-top-color: var(--line-indirecta); }
+.legend-line.line-soporte { border-top-style: solid; border-top-color: var(--line-soporte); }
+.legend-line.line-resiliencia { border-top-style: solid; border-top-color: var(--line-resiliencia); }
+
+/* leyenda "apagada": ese tipo de relación se oculta en el diagrama */
+.legend-item.off {
+  opacity: .5;
+}
+
+.legend-item.off i {
+  color: var(--text-faint);
+}
+
+.legend-item.off .legend-line {
+  opacity: .35;
+}
+
+/* TOOLBAR: estadísticas + controles de zoom/reset */
+.network-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.net-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: var(--panel-alt);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px;
+  padding: 5px 12px;
+}
+
+.stat-chip i { color: var(--teal); font-size: 10px; }
+
+.stat-chip span { color: var(--text); font-weight: 700; }
+
+#selectedChip { border-color: var(--teal); background: rgba(47,212,200,0.08); }
+#selectedChip i { color: var(--teal); }
+
+.net-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.net-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--panel-alt);
+  border: 1px solid var(--border-soft);
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.net-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.network-static-wrap {
+  width: 100%;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: #05070d;
+  overflow: hidden;
+  max-height: 78vh;
+}
+
+.network-static-wrap svg {
+  width: 100%;
+  height: auto;
+  max-height: 78vh;
+  display: block;
+  margin: 0 auto;
+}
+
+/* NODOS */
+.node-fill {
+  stroke-width: 0.9;
+  fill-opacity: 1;
+}
+
+.node-hub .node-fill { stroke-width: 1.1; }
+.node-main .node-fill { stroke-width: 1.3; }
+
+.node-label {
+  font-size: 5.6px;
+  fill: #dfe4ee;
+  text-anchor: middle;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  paint-order: stroke fill;
+  stroke: rgba(0,0,0,0.5);
+  stroke-width: 1.1px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.node-hub .node-label { font-size: 6.1px; }
+.node-main .node-label { font-size: 6.6px; }
+
+.node-icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* categoría: ecológica */
+.n-eco .node-fill { fill: #0d2420; stroke: var(--eco); }
+.n-eco .node-icon i { color: var(--eco); }
+
+/* categoría: económica / creativa */
+.n-econ .node-fill { fill: #2a2013; stroke: var(--econ); }
+.n-econ .node-icon i { color: var(--econ); }
+
+/* categoría: funcional y del cuidado */
+.n-func .node-fill { fill: #0f1a30; stroke: var(--func); }
+.n-func .node-icon i { color: var(--func); }
+
+/* categoría: integradora de patrimonios */
+.n-patri .node-fill { fill: #241130; stroke: var(--patri); }
+.n-patri .node-icon i { color: var(--patri); }
+
+/* glow proporcional al número de conexiones del nodo (calculado en JS) */
+.n-eco.deg-low .node-fill    { filter: drop-shadow(0 0 2px rgba(34,184,138,0.35)); }
+.n-eco.deg-mid .node-fill    { filter: drop-shadow(0 0 4px rgba(34,184,138,0.55)); }
+.n-eco.deg-high .node-fill   { filter: drop-shadow(0 0 7px rgba(34,184,138,0.8)); }
+
+.n-econ.deg-low .node-fill   { filter: drop-shadow(0 0 2px rgba(217,164,65,0.35)); }
+.n-econ.deg-mid .node-fill   { filter: drop-shadow(0 0 4px rgba(217,164,65,0.55)); }
+.n-econ.deg-high .node-fill  { filter: drop-shadow(0 0 7px rgba(217,164,65,0.8)); }
+
+.n-func.deg-low .node-fill   { filter: drop-shadow(0 0 2px rgba(59,111,224,0.35)); }
+.n-func.deg-mid .node-fill   { filter: drop-shadow(0 0 4px rgba(59,111,224,0.55)); }
+.n-func.deg-high .node-fill  { filter: drop-shadow(0 0 7px rgba(59,111,224,0.8)); }
+
+.n-patri.deg-low .node-fill  { filter: drop-shadow(0 0 2px rgba(177,59,255,0.35)); }
+.n-patri.deg-mid .node-fill  { filter: drop-shadow(0 0 4px rgba(177,59,255,0.55)); }
+.n-patri.deg-high .node-fill { filter: drop-shadow(0 0 7px rgba(177,59,255,0.8)); }
+
+/* estado apagado (escenario "sin estructura X" activo) */
+.node.node-off { opacity: 0.12; }
+.node.node-off .node-fill { filter: none; }
+.link-off { opacity: 0.05; }
+
+/* estado apagado por leyenda (tipo de relación oculto) */
+.links line.type-off { opacity: 0.04 !important; }
+
+/* resaltado por selección de nodo */
+.node { cursor: pointer; }
+.node.node-dim { opacity: 0.12; }
+.links line.link-dim { opacity: 0.06; }
+.node.node-selected .node-fill { stroke-width: 2.2; filter: drop-shadow(0 0 5px currentColor); }
+.links line.link-active { opacity: 1; stroke-width: 1.3 !important; }
+
+.node, .links line {
+  transition: opacity .3s ease, stroke-width .2s ease;
+}
+
+/* LINKS (según convención de tipos de relación) */
+.link-directa { stroke: var(--line-directa); stroke-width: 0.35; fill: none; }
+.link-indirecta { stroke: var(--line-indirecta); stroke-width: 0.3; stroke-dasharray: 3 2.5; fill: none; }
+.link-soporte { stroke: var(--line-soporte); stroke-width: 0.6; fill: none; }
+.link-resiliencia { stroke: var(--line-resiliencia); stroke-width: 0.75; fill: none; }
+.link-thick { stroke-width: 0.9; }
+
+/* Sólida vs Punteada: independiente del color (Soporte/Resiliencia) */
+.link-punteada { stroke-dasharray: 3 2.2; }
+
+/* Relaciones documentadas: son las que tienen flecha y son clicables */
+.links line.link-soporte,
+.links line.link-resiliencia {
+  cursor: pointer;
+}
+
+.links line.link-soporte:hover,
+.links line.link-resiliencia:hover {
+  stroke-width: 1.6;
+}
+
+.links line.link-directa.has-data,
+.links line.link-indirecta.has-data {
+  cursor: pointer;
+  opacity: 1 !important;
+}
+
+.links line.link-directa.has-data.arrow-forward   { marker-end: url(#arrow-directa); }
+.links line.link-directa.has-data.arrow-backward  { marker-start: url(#arrow-directa); }
+.links line.link-directa.has-data.arrow-both      { marker-start: url(#arrow-directa); marker-end: url(#arrow-directa); }
+.links line.link-soporte.arrow-forward    { marker-end: url(#arrow-soporte); }
+.links line.link-soporte.arrow-backward   { marker-start: url(#arrow-soporte); }
+.links line.link-soporte.arrow-both       { marker-start: url(#arrow-soporte); marker-end: url(#arrow-soporte); }
+
+.links line.link-resiliencia.arrow-forward  { marker-end: url(#arrow-resiliencia); }
+.links line.link-resiliencia.arrow-backward { marker-start: url(#arrow-resiliencia); }
+.links line.link-resiliencia.arrow-both     { marker-start: url(#arrow-resiliencia); marker-end: url(#arrow-resiliencia); }
+
+.links line.link-selected {
+  stroke-width: 1.9 !important;
+  filter: drop-shadow(0 0 3px currentColor);
+}
+
+/* PANEL DE DETALLE DE RELACIÓN (frase + página del POT) */
+.relation-panel {
+  position: relative;
+  margin-top: 14px;
+  background: var(--panel-alt);
+  border: 1px solid var(--teal);
+  border-radius: 10px;
+  padding: 16px 44px 16px 18px;
+  animation: relFadeIn .2s ease;
+}
+
+@keyframes relFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.relation-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.relation-close:hover { color: var(--pink); }
+
+.relation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.relation-concepts {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.relation-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+
+.relation-badge.badge-soporte { background: rgba(239,149,82,0.18); color: var(--line-soporte); }
+.relation-badge.badge-resiliencia { background: rgba(76,141,255,0.18); color: var(--line-resiliencia); }
+.relation-badge.badge-directa { background: rgba(255,255,255,0.12); color: #dfe4ee; }
+
+.relation-description {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border-soft);
+}
+
+.relation-phrase {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.relation-page {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.relation-page i { font-size: 11px; }
+
+/* leyenda de categorías de estructura */
+.struct-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-soft);
+}
+
+.struct-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.struct-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.hint-text {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hint-text i { color: var(--teal); }
+
+/* RESPONSIVE */
+@media (max-width: 1400px) {
+  .scenario-buttons { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { padding: 16px 20px 40px; }
+  .scenario-buttons { grid-template-columns: 1fr; }
+  .legend { gap: 10px; }
+}
