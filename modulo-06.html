@@ -110,7 +110,16 @@
       </div>
 
       <div class="network-viz-wrap">
-        <svg id="networkViz" viewBox="0 0 1470 780" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="network-canvas">
+          <svg id="networkViz" viewBox="0 0 1470 780" preserveAspectRatio="xMidYMid meet"></svg>
+
+          <div class="finding-popup" id="findingPopup">
+            <button class="finding-popup-close" id="findingPopupClose" type="button" aria-label="Cerrar">&times;</button>
+            <div class="finding-popup-badge" id="findingPopupBadge"><i class="fa-solid fa-magnifying-glass-chart"></i> Hallazgo</div>
+            <div class="finding-popup-title" id="findingPopupTitle"></div>
+            <div class="finding-popup-text" id="findingPopupText"></div>
+          </div>
+        </div>
 
         <div class="network-sidebar">
           <aside class="network-legend" id="networkLegend">
@@ -155,7 +164,7 @@
             </div>
 
             <div class="legend-divider"></div>
-            <div class="legend-hint">Clic en una línea: ver sustento.<br>Doble clic en una bola: apagarla/encenderla.<br>Triple clic en una bola: ver solo su flujo.</div>
+            <div class="legend-hint">Clic en una línea: ver sustento.<br>Doble clic en una bola: apagarla/encenderla.<br>Triple clic en una bola: ver solo su flujo.<br><i class="fa-solid fa-magnifying-glass-chart"></i> ODS 1, ODS 9, ODS 13 y la relación Hambre → Trabajo tienen hallazgos del análisis.</div>
           </aside>
 
           <div class="edge-info-panel" id="edgeInfoPanel">
