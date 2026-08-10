@@ -47,43 +47,50 @@ const TYPE_STYLE = {
   cond:   { color: "#ef9552", width: 1.6, label: "Condicionamiento" },
 };
 
-/* -------- Aristas: SOLO las conexiones indicadas -------- */
+/* -------- Aristas: tabla de sustento documental (Excel) tal cual, + ajustes puntuales indicados -------- */
 const RAW_EDGES = [
-  /* ---- líneas sólidas (relación directa) ---- */
-  { s: "ods6",  t: "ods4",  type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 6 – ODS 4 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods5",  t: "ods4",  type: "comp",   directa: true, pagina: null, sustento: "Conexión ODS 5 – ODS 4 (complementaria), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods1",  t: "ods4",  type: "cond",   directa: true, pagina: null, sustento: "Conexión ODS 1 – ODS 4 (condicionamiento), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods9",  t: "ods15", type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 9 – ODS 15 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods9",  t: "ods4",  type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 9 – ODS 4 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods9",  t: "ods8",  type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 9 – ODS 8 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods11", t: "ods13", type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 11 – ODS 13 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods9",  t: "ods13", type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 9 – ODS 13 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento.", curve: -12 },
-  { s: "ods13", t: "ods14", type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 14 – ODS 13 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods7",  t: "ods8",  type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 7 – ODS 8 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods1",  t: "ods13", type: "cond",   directa: true, pagina: null, sustento: "Conexión ODS 1 – ODS 13 (condicionamiento), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods8",  t: "ods12", type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 8 – ODS 12 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods1",  t: "ods10", type: "comp",   directa: true, pagina: null, sustento: "Conexión ODS 1 – ODS 10 (complementaria), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods6",  t: "ods8",  type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 6 – ODS 8 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods6",  t: "ods2",  type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 6 – ODS 2 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods2",  t: "ods8",  type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 2 – ODS 8 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods3",  t: "ods2",  type: "causal", directa: true, pagina: null, sustento: "Conexión ODS 3 – ODS 2 (causal), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods5",  t: "ods1",  type: "comp",   directa: true, pagina: null, sustento: "Conexión ODS 1 – ODS 5 (complementaria), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-
-  /* ---- líneas punteadas (relación inferida) ---- */
-  { s: "ods1",  t: "ods2",  type: "causal", directa: false, pagina: null, sustento: "Conexión ODS 1 – ODS 2 (causal, inferida), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods1",  t: "ods3",  type: "func",   directa: false, pagina: null, sustento: "Conexión ODS 1 – ODS 3 (funcional, inferida), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods16", t: "ods10", type: "comp",   directa: false, pagina: null, sustento: "Conexión ODS 10 – ODS 16 (complementaria, inferida), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods7",  t: "ods3",  type: "comp",   directa: false, pagina: null, sustento: "Conexión ODS 7 – ODS 3 (complementaria, inferida), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods14", t: "ods2",  type: "comp",   directa: false, pagina: null, sustento: "Conexión ODS 2 – ODS 14 (complementaria, inferida), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods6",  t: "ods3",  type: "comp",   directa: false, pagina: null, sustento: "Conexión ODS 6 – ODS 3 (complementaria, inferida), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
-  { s: "ods2",  t: "ods15", type: "cond",   directa: false, pagina: null, sustento: "Conexión ODS 2 – ODS 15 (condicionamiento, inferida), según el mapa de referencia. Pendiente de completar con la cita y página exactas del documento de sustento." },
+  { s: "ods6",  t: "ods5",  type: "comp",   directa: true, pagina: 35, sustento: "De aquí a 2030, lograr el acceso a servicios de saneamiento e higiene adecuados y equitativos para todos y poner fin a la defecación al aire libre, prestando especial atención a las necesidades de las mujeres y las niñas y las personas en situaciones de vulnerabilidad." },
+  { s: "ods5",  t: "ods1",  type: "comp",   directa: true, pagina: 18, sustento: "Crear marcos normativos sólidos en los planos nacional, regional e internacional, sobre la base de estrategias de desarrollo en favor de los pobres que tengan en cuenta las cuestiones de género, a fin de apoyar la inversión acelerada en medidas para erradicar la pobreza." },
+  { s: "ods5",  t: "ods4",  type: "comp",   directa: true, pagina: 32, sustento: "Si se facilita a las mujeres y niñas igualdad en el acceso a la educación, atención médica, un trabajo decente y representación en los procesos de adopción de decisiones políticas y económicas, se impulsarán las economías sostenibles y se beneficiará a las sociedades y a la humanidad en su conjunto." },
+  { s: "ods5",  t: "ods8",  type: "causal", directa: true, pagina: 32, sustento: "Si se facilita a las mujeres y niñas igualdad en el acceso a la educación, atención médica, un trabajo decente y representación en los procesos de adopción de decisiones políticas y económicas, se impulsarán las economías sostenibles y se beneficiará a las sociedades y a la humanidad en su conjunto." },
+  { s: "ods1",  t: "ods2",  type: "cond",   directa: true, pagina: 16, sustento: "Entre sus manifestaciones se incluyen el hambre y la malnutrición, el acceso limitado a la educación y a otros servicios básicos, la discriminación y la exclusión sociales y la falta de participación en la adopción de decisiones." },
+  { s: "ods1",  t: "ods3",  type: "func",   directa: true, pagina: 18, sustento: "Proporción del gasto público total que se dedica a servicios esenciales (educación, salud y protección social)." },
+  { s: "ods1",  t: "ods4",  type: "cond",   directa: true, pagina: 16, sustento: "Entre sus manifestaciones se incluyen el hambre y la malnutrición, el acceso limitado a la educación y a otros servicios básicos..." },
+  { s: "ods1",  t: "ods8",  type: "causal", directa: true, pagina: 16, sustento: "El crecimiento económico debe ser inclusivo con el fin de crear empleos sostenibles y promover la igualdad." },
+  { s: "ods1",  t: "ods13", type: "cond",   directa: true, pagina: 18, sustento: "De aquí a 2030, fomentar la resiliencia de los pobres y las personas que se encuentran en situaciones de vulnerabilidad y reducir su exposición y vulnerabilidad a los fenómenos extremos relacionados con el clima..." },
+  { s: "ods2",  t: "ods1",  type: "cond",   directa: true, pagina: 20, sustento: "El sector alimentario y el sector agrícola ofrecen soluciones claves para el desarrollo y son vitales para la eliminación del hambre y la pobreza." },
+  { s: "ods2",  t: "ods8",  type: "causal", directa: true, pagina: 20, sustento: "Si se hace bien, la agricultura, la silvicultura y las piscifactorías pueden suministrarnos comida nutritiva para todos y generar ingresos decentes..." },
+  { s: "ods2",  t: "ods13", type: "cond",   directa: true, pagina: 20, sustento: "El cambio climático está poniendo mayor presión sobre los recursos de los que dependemos y aumentan los riesgos asociados a desastres tales como sequías e inundaciones." },
+  { s: "ods2",  t: "ods15", type: "cond",   directa: true, pagina: 20, sustento: "Pero ahora mismo, nuestros suelos, agua, océanos, bosques y nuestra biodiversidad están siendo rápidamente degradados." },
+  { s: "ods6",  t: "ods2",  type: "causal", directa: true, pagina: 35, sustento: "La escasez de recursos hídricos, la mala calidad del agua y el saneamiento inadecuado influyen negativamente en la seguridad alimentaria..." },
+  { s: "ods6",  t: "ods4",  type: "causal", directa: true, pagina: 35, sustento: "La escasez de recursos hídricos, la mala calidad del agua y el saneamiento inadecuado influyen negativamente en [...] las oportunidades de educación para las familias pobres..." },
+  { s: "ods8",  t: "ods1",  type: "causal", directa: true, pagina: 16, sustento: "El crecimiento económico debe ser inclusivo con el fin de crear empleos sostenibles y promover la igualdad." },
+  { s: "ods8",  t: "ods12", type: "causal", directa: true, pagina: 41, sustento: "Mejorar progresivamente, de aquí a 2030, la producción y el consumo eficientes de los recursos mundiales y procurar desvincular el crecimiento económico de la degradación del medio ambiente..." },
+  { s: "ods9",  t: "ods3",  type: "causal", directa: true, pagina: 44, sustento: "Desde hace tiempo se reconoce que, para conseguir un incremento de la productividad y de los ingresos y mejoras en los resultados sanitarios y educativos, se necesitan inversiones en infraestructura." },
+  { s: "ods9",  t: "ods4",  type: "causal", directa: true, pagina: 44, sustento: "Desde hace tiempo se reconoce que, para conseguir un incremento de la productividad y de los ingresos y mejoras en los resultados sanitarios y educativos, se necesitan inversiones en infraestructura." },
+  { s: "ods9",  t: "ods11", type: "func",   directa: true, pagina: 44, sustento: "El ritmo de crecimiento y urbanización también está generando la necesidad de contar con nuevas inversiones en infraestructuras sostenibles que permitirán a las ciudades ser más resistentes al cambio climático..." },
+  { s: "ods9",  t: "ods13", type: "func",   directa: true, pagina: 44, sustento: "...nuevas inversiones en infraestructuras sostenibles que permitirán a las ciudades ser más resistentes al cambio climático...", curve: -12 },
+  { s: "ods11", t: "ods7",  type: "func",   directa: true, pagina: 52, sustento: "El futuro que queremos incluye a ciudades de oportunidades, con acceso a servicios básicos, energía, vivienda, transporte y más facilidades para todos." },
+  { s: "ods11", t: "ods13", type: "comp",   directa: true, pagina: 53, sustento: "De aquí a 2020, aumentar considerablemente el número de ciudades y asentamientos humanos que adoptan e implementan políticas y planes integrados para promover la inclusión, el uso eficiente de los recursos, la mitigación del cambio climático y la adaptación a él y la resiliencia ante los desastres..." },
+  { s: "ods12", t: "ods3",  type: "causal", directa: true, pagina: 56, sustento: "...reducir significativamente su liberación a la atmósfera, el agua y el suelo a fin de minimizar sus efectos adversos en la salud humana y el medio ambiente." },
+  { s: "ods13", t: "ods1",  type: "cond",   directa: true, pagina: 18, sustento: "De aquí a 2030, fomentar la resiliencia de los pobres y las personas que se encuentran en situaciones de vulnerabilidad y reducir su exposición y vulnerabilidad a los fenómenos extremos relacionados con el clima..." },
+  { s: "ods13", t: "ods2",  type: "cond",   directa: true, pagina: 20, sustento: "El cambio climático está poniendo mayor presión sobre los recursos de los que dependemos y aumentan los riesgos asociados a desastres tales como sequías e inundaciones." },
+  { s: "ods13", t: "ods14", type: "comp",   directa: true, pagina: 63, sustento: "Nuestras precipitaciones, el agua potable, el clima, el tiempo, las costas, gran parte de nuestros alimentos e incluso el oxígeno del aire que respiramos provienen, en última instancia del mar y son regulados por este." },
+  /* 14 → 2: corregida según lo indicado — es causal (morada) y punteada, no complementaria/verde */
+  { s: "ods14", t: "ods2",  type: "causal", directa: false, pagina: 63, sustento: "Nuestras precipitaciones, el agua potable, el clima, el tiempo, las costas, gran parte de nuestros alimentos e incluso el oxígeno del aire que respiramos provienen, en última instancia del mar y son regulados por este." },
+  { s: "ods15", t: "ods1",  type: "comp",   directa: true, pagina: 70, sustento: "De aquí a 2020, integrar los valores de los ecosistemas y la biodiversidad en la planificación, los procesos de desarrollo, las estrategias de reducción de la pobreza..." },
+  { s: "ods15", t: "ods11", type: "comp",   directa: false, pagina: 52, sustento: "Redoblar los esfuerzos para proteger y salvaguardar el patrimonio cultural y natural del mundo." },
+  { s: "ods16", t: "ods10", type: "comp",   directa: false, pagina: 71, sustento: "Promover sociedades pacíficas e inclusivas para el desarrollo sostenible, facilitar el acceso a la justicia para todos y construir a todos los niveles instituciones eficaces e inclusivas que rindan cuentas." },
+  { s: "ods17", t: "ods9",  type: "func",   directa: true, pagina: 76, sustento: "Entre estos sectores figuran la energía sostenible, la infraestructura y el transporte, así como las tecnologías de la información y las comunicaciones." },
+  /* 7 → 9: agregada según lo indicado (funcional / azul) */
+  { s: "ods7",  t: "ods9",  type: "func",   directa: true, pagina: null, sustento: "Conexión ODS 7 – ODS 9 (funcional), añadida según lo indicado. Pendiente de completar con la cita y página exactas del documento de sustento." },
 ];
 
-/* "17 → todos": el ODS 17 se conecta con el resto de los ODS */
+/* "17 → todos": el ODS 17 se conecta con el resto (excepto ODS 9, ya listado arriba) */
 const TODOS_SUSTENTO = "...a fin de apoyar el logro de los Objetivos de Desarrollo Sostenible en todos los países, particularmente los países en desarrollo.";
 const TODOS_PAGINA = 79;
 ODS_NODES.forEach(n => {
-  if (n.id === "ods17") return;
+  if (n.id === "ods17" || n.id === "ods9") return;
   RAW_EDGES.push({ s: "ods17", t: n.id, type: "func", directa: true, pagina: TODOS_PAGINA, sustento: TODOS_SUSTENTO, esTodos: true });
 });
 
