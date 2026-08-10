@@ -67,167 +67,357 @@
 
     <div class="welcome">
       <h2>Medir la Red</h2>
-      <p>Análisis de métricas: centralidad, intermediación, densidad y comunidades.</p>
+      <p>Visualiza las tensiones internas del POT: incoherencias, contradicciones, desconexiones, jerarquías implícitas y los elementos discursivamente importantes pero estructuralmente periféricos. Cada línea es una tensión medida contra el texto del POT.</p>
     </div>
 
-    <!-- KPI ROW -->
-    <div class="kpi-row">
-      <div class="kpi-card">
-        <div class="kpi-icon teal"><i class="fa-solid fa-circle-nodes"></i></div>
-        <div class="kpi-content">
-          <div class="kpi-label">Nodos Activos</div>
-          <div class="kpi-value" id="totalNodes">87</div>
-          <div class="kpi-meta">Conceptos</div>
-        </div>
+    <!-- INSIGHTS: tarjetas clicables para explorar la red -->
+    <div class="ods-insight-stats" id="odsInsightStats">
+      <div class="insight-card" data-insight="incoherencias" style="--insight-color:#ef4444;" onclick="toggleInsight('incoherencias')">
+        <div class="insight-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="insight-title">Incoherencias</div>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-icon blue"><i class="fa-solid fa-link"></i></div>
-        <div class="kpi-content">
-          <div class="kpi-label">Conexiones</div>
-          <div class="kpi-value" id="totalLinks">156</div>
-          <div class="kpi-meta">Relaciones</div>
-        </div>
+      <div class="insight-card" data-insight="contradicciones" style="--insight-color:#f76fb0;" onclick="toggleInsight('contradicciones')">
+        <div class="insight-icon"><i class="fa-solid fa-shuffle"></i></div>
+        <div class="insight-title">Contradicciones</div>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-icon purple"><i class="fa-solid fa-chart-pie"></i></div>
-        <div class="kpi-content">
-          <div class="kpi-label">Densidad</div>
-          <div class="kpi-value" id="density">0.41</div>
-          <div class="kpi-meta">Conectividad</div>
-        </div>
+      <div class="insight-card" data-insight="desconexiones" style="--insight-color:#5b8def;" onclick="toggleInsight('desconexiones')">
+        <div class="insight-icon"><i class="fa-solid fa-unlink"></i></div>
+        <div class="insight-title">Desconexiones</div>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-icon green"><i class="fa-solid fa-sitemap"></i></div>
-        <div class="kpi-content">
-          <div class="kpi-label">Comunidades</div>
-          <div class="kpi-value">4</div>
-          <div class="kpi-meta">Clusters</div>
-        </div>
+      <div class="insight-card" data-insight="jerarquias" style="--insight-color:#a276f2;" onclick="toggleInsight('jerarquias')">
+        <div class="insight-icon"><i class="fa-solid fa-layer-group"></i></div>
+        <div class="insight-title">Jerarquías implícitas</div>
+      </div>
+
+      <div class="insight-card" data-insight="perifericos" style="--insight-color:#f5c945;" onclick="toggleInsight('perifericos')">
+        <div class="insight-icon"><i class="fa-solid fa-circle-minus"></i></div>
+        <div class="insight-title">Periféricos discursivos</div>
+      </div>
+
+      <div class="insight-card" data-insight="todos" style="--insight-color:#2fd4c8;" onclick="toggleInsight('todos')">
+        <div class="insight-icon"><i class="fa-solid fa-diagram-project"></i></div>
+        <div class="insight-title">Ver toda la red</div>
       </div>
     </div>
 
-    <!-- MAIN LAYOUT: Network + Controls -->
-    <div class="simulator-layout">
-
-      <!-- LEFT: CONTROLS -->
-      <div class="control-panel">
-        <h3><i class="fa-solid fa-sliders"></i> Simulador de Red</h3>
-        
-        <div class="control-section">
-          <label>Selecciona un Concepto:</label>
-          <select id="nodeSelect" onchange="selectNode(this.value)">
-            <option value="">-- Todos los conceptos --</option>
-          </select>
-        </div>
-
-        <div class="control-section">
-          <input type="text" id="searchBox" placeholder="Buscar concepto..." onkeyup="searchNodes(this.value)">
-        </div>
-
-        <div class="control-section">
-          <label>Filtrar por Estructura:</label>
-          <select onchange="filterByStructure(this.value)">
-            <option value="all">Todas las estructuras</option>
-            <option value="EEP">EEP - Ecológica</option>
-            <option value="EFC">EFC - Funcional</option>
-            <option value="ESECI">ESECI - Socioeconómica</option>
-            <option value="EIP">EIP - Patrimonios</option>
-          </select>
-        </div>
-
-        <h4 style="margin-top: 20px;"><i class="fa-solid fa-tools"></i> Acciones</h4>
-        <div class="action-buttons-group">
-          <button class="action-btn" onclick="applyAction('apagar')">
-            <i class="fa-solid fa-power-off"></i> Apagar nodo
-          </button>
-          <button class="action-btn" onclick="applyAction('desconectar')">
-            <i class="fa-solid fa-plug"></i> Desconectar
-          </button>
-          <button class="action-btn" onclick="applyAction('aumentar')">
-            <i class="fa-solid fa-arrow-up"></i> Aumentar
-          </button>
-          <button class="action-btn" onclick="applyAction('disminuir')">
-            <i class="fa-solid fa-arrow-down"></i> Disminuir
-          </button>
-        </div>
-
-        <button class="reset-btn" onclick="resetSimulation()">
-          <i class="fa-solid fa-rotate-left"></i> Resetear
-        </button>
-
-        <div class="info-box" id="selectedNodeInfo">
-          <div class="info-placeholder">Selecciona un nodo para ver detalles</div>
-        </div>
-
-        <div class="node-list" id="nodeList"></div>
-      </div>
-
-      <!-- CENTER: NETWORK VISUALIZATION -->
-      <div class="network-container">
-        <div class="network-header">
-          <h3><i class="fa-solid fa-diagram-project"></i> Red de Conceptos POT</h3>
-        </div>
-        <svg id="networkViz" style="width: 100%; height: 550px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;"></svg>
-      </div>
-
-      <!-- RIGHT: STATS -->
-      <div class="stats-panel">
-        <h3><i class="fa-solid fa-chart-bar"></i> Estadísticas Antes/Después</h3>
-        
-        <div class="stat-comparison">
-          <div class="comparison-item">
-            <div class="comparison-label">Nodos</div>
-            <div class="comparison-values">
-              <span class="before">87</span>
-              <span class="arrow">→</span>
-              <span class="after" id="afterNodes">87</span>
-            </div>
-            <div class="delta" id="deltaNodos">-</div>
-          </div>
-
-          <div class="comparison-item">
-            <div class="comparison-label">Enlaces</div>
-            <div class="comparison-values">
-              <span class="before">156</span>
-              <span class="arrow">→</span>
-              <span class="after" id="afterLinks">156</span>
-            </div>
-            <div class="delta" id="deltaImpacto">-</div>
-          </div>
-
-          <div class="comparison-item">
-            <div class="comparison-label">Densidad</div>
-            <div class="comparison-values">
-              <span class="before">0.41</span>
-              <span class="arrow">→</span>
-              <span class="after" id="afterDensity">0.41</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="insights-box">
-          <h4><i class="fa-solid fa-lightbulb"></i> Insights</h4>
-          <ul>
-            <li>Movilidad es el nodo más central (0.89)</li>
-            <li>Ríos actúa como puente entre estructuras</li>
-            <li>4 comunidades identificadas en la red</li>
-            <li>Densidad indica conexiones moderadas</li>
-          </ul>
+    <!-- RED CONCEPTUAL -->
+    <div class="network-section">
+      <div class="network-header">
+        <h3><i class="fa-solid fa-sitemap"></i> Red de Tensiones del POT — Interactiva</h3>
+        <div class="network-controls">
+          <button class="control-btn active" onclick="filterNetwork('all')">Todos</button>
+          <button class="control-btn" onclick="filterNetwork('incoherencia')">Incoherencias</button>
+          <button class="control-btn" onclick="filterNetwork('contradiccion')">Contradicciones</button>
+          <button class="control-btn" onclick="filterNetwork('desconexion')">Desconexiones</button>
+          <button class="control-btn" onclick="filterNetwork('jerarquia')">Jerarquías</button>
+          <button class="control-btn" onclick="filterNetwork('periferico')">Periféricos</button>
         </div>
       </div>
 
+      <div class="network-viz-wrap">
+        <svg id="networkViz" viewBox="0 0 1470 780" preserveAspectRatio="xMidYMid meet"></svg>
+
+        <div class="network-sidebar">
+          <aside class="network-legend" id="networkLegend">
+            <div class="legend-title">Convenciones</div>
+
+            <label class="legend-item" data-type="incoherencia">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-incoherencia"></span>
+              Incoherencia
+            </label>
+
+            <label class="legend-item" data-type="contradiccion">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-contradiccion"></span>
+              Contradicción
+            </label>
+
+            <label class="legend-item" data-type="desconexion">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-desconexion"></span>
+              Desconexión
+            </label>
+
+            <label class="legend-item" data-type="jerarquia">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-jerarquia"></span>
+              Jerarquía implícita
+            </label>
+
+            <label class="legend-item" data-type="periferico">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-periferico"></span>
+              Periférico discursivo
+            </label>
+
+            <div class="legend-title">Tipo de línea</div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-solida"></span>
+              Tensión directa — continua
+            </div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-punteada"></span>
+              Tensión implícita — punteada
+            </div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-doble"></span>
+              Subordinación — doble línea
+            </div>
+
+            <div class="legend-divider"></div>
+            <div class="legend-hint">Clic en una línea: ver la tensión, el tipo y la frase exacta del POT.<br>Doble clic en una bola: apagarla/encenderla.<br>Triple clic en una bola: ver solo su flujo.</div>
+          </aside>
+
+          <div class="edge-info-panel" id="edgeInfoPanel">
+            <div class="edge-info-header">
+              <span id="edgeInfoTitle">Tensión</span>
+              <button class="edge-info-close" id="edgeInfoClose" type="button" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="edge-info-type" id="edgeInfoType"></div>
+            <div class="edge-info-quote" id="edgeInfoQuote"></div>
+            <div class="edge-info-page" id="edgeInfoPage"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- ACTION BUTTONS -->
+    <!-- TABLA DE SUSTENTO -->
+    <div class="analysis-container">
+      <div class="analysis-card full-width">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-table"></i> Tabla de Tensiones — Red del POT</h3>
+        </div>
+
+        <div class="matrix-container">
+          <div class="matrix-row header">
+            <div class="matrix-cell header-cell">Tensión</div>
+            <div class="matrix-cell header-cell">Línea</div>
+            <div class="matrix-cell header-cell">Color</div>
+            <div class="matrix-cell header-cell">Tipo</div>
+            <div class="matrix-cell header-cell">Página POT / Fuente</div>
+            <div class="matrix-cell header-cell">Texto exacto</div>
+          </div>
+
+          <div class="matrix-row" data-edge="0">
+            <div class="matrix-cell">Metro ➞ Transporte público (centralidad vs. cobertura)</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-incoherencia" style="margin:0;"></span> Rojo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong inco">Incoherencia</span></div>
+            <div class="matrix-cell">p. 43</div>
+            <div class="matrix-cell quote-cell">“Además del Metro, Bogotá necesita con urgencia ampliar sus entradas y salidas... para que el transporte público de calidad llegue a todas partes, conecte a la gente, la saque del trancón y la contaminación.” La meta prioriza el Metro, mientras la cobertura universal queda subordinada.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="1">
+            <div class="matrix-cell">Multimodalidad declarada ➞ Metro como núcleo único</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-contradiccion" style="margin:0;"></span> Rosa</div>
+            <div class="matrix-cell"><span class="alignment-tag strong contr">Contradicción</span></div>
+            <div class="matrix-cell">p. 30 / p. 239–241</div>
+            <div class="matrix-cell quote-cell">p. 30: “un sistema multimodal de transporte público... alimentadas por los demás modos”. p. 239–241: “además del Metro, y para alimentarlo y complementarlo, están los corredores verdes”. El sistema se declara multimodal, pero todos los modos se definen por su función de alimentar al Metro.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="2">
+            <div class="matrix-cell">Patrimonio ➞ EIP (articulación vs. inscripción)</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-contradiccion" style="margin:0;"></span> Rosa</div>
+            <div class="matrix-cell"><span class="alignment-tag strong contr">Contradicción</span></div>
+            <div class="matrix-cell">p. 196</div>
+            <div class="matrix-cell quote-cell">“la EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio.” La EIP debería ser articulada por el patrimonio, pero es la que lo “inscribe”: la dirección de la relación queda invertida.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="3">
+            <div class="matrix-cell">Patrimonio arqueológico ➞ estructura funcional</div>
+            <div class="matrix-cell">Punteada</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-desconexion" style="margin:0;"></span> Azul</div>
+            <div class="matrix-cell"><span class="alignment-tag strong desc">Desconexión</span></div>
+            <div class="matrix-cell">p. 198</div>
+            <div class="matrix-cell quote-cell">“Este patrimonio cultural se convirtió en un referente de movilización” / “revelan prácticas de integralidad de la cultura con la naturaleza.” Reconocimiento simbólico pleno, pero el patrimonio arqueológico no tiene ninguna conexión operativa con movilidad, vivienda o cuidado.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="4">
+            <div class="matrix-cell">Río Bogotá (cuenca) ➞ estructura ecológica</div>
+            <div class="matrix-cell">Punteada</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-desconexion" style="margin:0;"></span> Azul</div>
+            <div class="matrix-cell"><span class="alignment-tag strong desc">Desconexión</span></div>
+            <div class="matrix-cell">Fuente: CCB, Observaciones al POT</div>
+            <div class="matrix-cell quote-cell">La Cámara de Comercio de Bogotá señala que el POT omite el Plan de Ordenación y Manejo de la Cuenca del Río Bogotá en su jerarquía de instrumentos, pese a que la estructura ecológica depende directamente de la cuenca.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="5">
+            <div class="matrix-cell">Servicios sociales ➞ movilidad y estructura</div>
+            <div class="matrix-cell">Punteada</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-desconexion" style="margin:0;"></span> Azul</div>
+            <div class="matrix-cell"><span class="alignment-tag strong desc">Desconexión</span></div>
+            <div class="matrix-cell">p. 126</div>
+            <div class="matrix-cell quote-cell">“...cualifica los servicios sociales del Distrito y hace efectiva la articulación interinstitucional.” La cualificación de los servicios sociales se declara sin ninguna conexión con la red de movilidad que determina el acceso físico a esos servicios.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="6">
+            <div class="matrix-cell">EIP ➞ EEP (inscripción subordinada)</div>
+            <div class="matrix-cell">Doble línea</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-jerarquia" style="margin:0;"></span> Morado</div>
+            <div class="matrix-cell"><span class="alignment-tag strong jer">Jerarquía implícita</span></div>
+            <div class="matrix-cell">p. 196</div>
+            <div class="matrix-cell quote-cell">“la EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio.” El patrimonio queda inscrito dentro de la EIP y esta dentro de la EEP: el patrimonio hereda la posición subordinada de la estructura ecológica.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="7">
+            <div class="matrix-cell">Movilidad ➞ estructura ecológica (corredores verdes)</div>
+            <div class="matrix-cell">Doble línea</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-jerarquia" style="margin:0;"></span> Morado</div>
+            <div class="matrix-cell"><span class="alignment-tag strong jer">Jerarquía implícita</span></div>
+            <div class="matrix-cell">p. 30</div>
+            <div class="matrix-cell quote-cell">“...basadas en la red Metro y alimentadas por los demás modos y medios de transporte público como los corredores verdes, los cables y las ciclorrutas.” La movilidad se ordena como afluente de la estructura ecológica: el Metro es núcleo y los demás modos lo “alimentan”.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="8">
+            <div class="matrix-cell">Cuidado ➞ equipamientos (cuello de botella)</div>
+            <div class="matrix-cell">Doble línea</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-jerarquia" style="margin:0;"></span> Morado</div>
+            <div class="matrix-cell"><span class="alignment-tag strong jer">Jerarquía implícita</span></div>
+            <div class="matrix-cell">p. 125</div>
+            <div class="matrix-cell quote-cell">“Aprovechar los equipamientos existentes como anclas de las Manzanas del Cuidado... fue el cuello de botella que se resolvió con el pot.” La política del cuidado se legitima y limita a su función sobre los equipamientos existentes, sin estructura propia.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="9">
+            <div class="matrix-cell">Vivienda VIS/PIP ➞ estructura ecológica</div>
+            <div class="matrix-cell">Doble línea</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-jerarquia" style="margin:0;"></span> Morado</div>
+            <div class="matrix-cell"><span class="alignment-tag strong jer">Jerarquía implícita</span></div>
+            <div class="matrix-cell">p. 126</div>
+            <div class="matrix-cell quote-cell">“Por un lado, priorizamos que los colegios o equipamientos educativos estén cerca de la vivienda o incluso cerca del trabajo de los padres.” La localización de la vivienda social se define por su posición residual frente a las restricciones de la estructura ecológica, sin red propia de accesibilidad.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="10">
+            <div class="matrix-cell">Patrimonio ➞ cuidado (importancia sin conexión)</div>
+            <div class="matrix-cell">Punteada</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-periferico" style="margin:0;"></span> Amarillo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong peri">Periférico discursivo</span></div>
+            <div class="matrix-cell">p. 186 / p. 122</div>
+            <div class="matrix-cell quote-cell">p. 186: “son el testimonio de complejas estrategias de cómo interpretamos y valoramos las huellas del territorio que habitamos.” El patrimonio es central en el discurso, pero no comparte ninguna conexión estructural con el sistema de cuidado que ocupa el mismo registro simbólico del POT.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="11">
+            <div class="matrix-cell">Servicios de cuidado ➞ resto de la red</div>
+            <div class="matrix-cell">Punteada</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-periferico" style="margin:0;"></span> Amarillo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong peri">Periférico discursivo</span></div>
+            <div class="matrix-cell">p. 122</div>
+            <div class="matrix-cell quote-cell">“Las Manzanas del Cuidado son áreas acotadas que agrupan diversas infraestructuras para brindar servicios de manera simultánea y articulada a las personas cuidadoras, a quienes ellas cuidan y a sus familias.” Discursivamente centrales, los servicios de cuidado son un nodo-hoja: solo reciben la conexión de las Manzanas.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="12">
+            <div class="matrix-cell">Metas normativas ➞ ejecución histórica</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-incoherencia" style="margin:0;"></span> Rojo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong inco">Incoherencia</span></div>
+            <div class="matrix-cell">Fuente: Bogotá Cómo Vamos, 2021</div>
+            <div class="matrix-cell quote-cell">Metas POT: 9.600 hogares reasentados (histórico: ~8.011 en 10 años); 50% de residuos aprovechables (real: 18,45%); 786.639 soluciones de vivienda (ritmo real: ~26.685/año, más de 20 años para cumplir). Las metas declaradas son estructuralmente incoherentes con la capacidad histórica de ejecución.</div>
+          </div>
+
+          <div class="matrix-row" data-edge="13">
+            <div class="matrix-cell">Norma UPL ➞ mapas UPL (edificabilidad)</div>
+            <div class="matrix-cell">Continua</div>
+            <div class="matrix-cell"><span class="legend-swatch swatch-incoherencia" style="margin:0;"></span> Rojo</div>
+            <div class="matrix-cell"><span class="alignment-tag strong inco">Incoherencia</span></div>
+            <div class="matrix-cell">Fuente: CCB, Observaciones al POT</div>
+            <div class="matrix-cell quote-cell">El art. 559 dispone que “las Unidades de Planeamiento Local no definen normas urbanísticas”, mientras el art. 329 condiciona la altura máxima a los mapas CU-5.4.2–5.4.32 a nivel de UPL, y el mapa CU-5.4 “Edificabilidad máxima” no está publicado en la web de la SDP.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LECTURA DE LA RED -->
+    <div class="synergies-section">
+      <div class="synergies-grid">
+        <div class="synergy-card success">
+          <div class="synergy-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="synergy-content">
+            <h4>Diagnóstico Estructural</h4>
+            <ul>
+              <li><strong>Núcleo duro:</strong> Metro, EEP y equipamientos concentran las conexiones; todo lo demás se define en función de ellos</li>
+              <li><strong>Medida cuantitativa:</strong> el Patrimonio, el Cuidado y la Cuenca del Río Bogotá presentan grado de centralidad muy inferior al peso discursivo que reciben en el texto</li>
+              <li><strong>Brecha meta–ejecución:</strong> las metas normativas superan entre 2 y 15 veces la capacidad histórica de ejecución documentada</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="synergy-card conflict">
+          <div class="synergy-icon"><i class="fa-solid fa-eye-low-vision"></i></div>
+          <div class="synergy-content">
+            <h4>Lectura Conceptual</h4>
+            <ul>
+              <li><strong>Periferia discursiva:</strong> patrimonio arqueológico y servicios de cuidado son hojas de la red: centrales en el relato, desconectados en la estructura</li>
+              <li><strong>Jerarquías no declaradas:</strong> la EIP se inscribe en la EEP (p. 196) y la movilidad se subordina a la estructura ecológica (p. 30) sin que el POT lo nombre como subordinación</li>
+              <li><strong>Desconexiones silenciosas:</strong> la cuenca del Río Bogotá y los servicios sociales no tienen ninguna relación declarada con la estructura principal del POT</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECOMENDACIONES -->
+    <div class="recommendations-section">
+      <h3><i class="fa-solid fa-lightbulb"></i> Recomendaciones para Medir la Red</h3>
+
+      <div class="recommendations-grid">
+        <div class="rec-card">
+          <div class="rec-number">1</div>
+          <div class="rec-content">
+            <h4>Verificar la coherencia de las metas normativas</h4>
+            <p>Recalcular cada meta del POT contra su línea base histórica de ejecución (reasentamiento, residuos, vivienda) antes de su aprobación definitiva.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +22%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">2</div>
+          <div class="rec-content">
+            <h4>Publicar y armonizar la cartografía normativa</h4>
+            <p>Resolver la contradicción entre el art. 559 y el art. 329, y publicar el mapa CU-5.4 “Edificabilidad máxima” que hoy no está disponible en la web de la SDP.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +19%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">3</div>
+          <div class="rec-content">
+            <h4>Articular la cuenca del Río Bogotá a la jerarquía de instrumentos</h4>
+            <p>Incluir el Plan de Ordenación y Manejo de la Cuenca del Río Bogotá como instrumento de superior jerarquía, tal como lo sugieren las observaciones técnicas al POT.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +16%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">4</div>
+          <div class="rec-content">
+            <h4>Conectar los nodos periféricos a la red estructural</h4>
+            <p>Dar conexiones operativas al patrimonio arqueológico, a los servicios de cuidado y a los servicios sociales dentro de las estructuras funcionales, no solo reconocimiento simbólico.
+            <div class="rec-impact">
+              <span class="impact-badge">Impacto: +12%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTONES DE ACCIÓN -->
     <div class="action-buttons">
-      <button class="btn-primary" onclick="runSimulation()">
-        <i class="fa-solid fa-play"></i> Ejecutar Simulación
+      <button class="btn-primary" onclick="generateODSReport()">
+        <i class="fa-solid fa-file-pdf"></i> Generar Reporte de Tensiones
       </button>
-      <button class="btn-secondary" onclick="downloadReport()">
-        <i class="fa-solid fa-download"></i> Descargar Reporte
+      <button class="btn-secondary" onclick="downloadAlignment()">
+        <i class="fa-solid fa-download"></i> Descargar Tabla
       </button>
       <button class="btn-secondary" onclick="shareAnalysis()">
         <i class="fa-solid fa-share-nodes"></i> Compartir Análisis
@@ -242,7 +432,6 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="modulo-02.js"></script>
 
 </body>
