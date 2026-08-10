@@ -317,6 +317,56 @@ function nodeLabel(nodeEl) {
 }
 
 // ---------------------------------------------------------------------------
+// PANEL "¿Qué pasa si se desconecta un nodo central?"
+// Encuentra el nodo con más conexiones documentadas y permite apagarlo junto
+// con todas las líneas que lo tocan, para ver qué tan dependiente es la red.
+// ---------------------------------------------------------------------------
+let centralNodeId = null;
+let centralNodeOff = false;
+
+function findCentralNode() {
+  let best = null, bestDeg = -1;
+  Object.keys(adjacency).forEach(id => {
+    const deg = adjacency[id].size;
+    if (deg > bestDeg) { bestDeg = deg; best = id; }
+  });
+  return { id: best, degree: bestDeg };
+}
+
+function updateCentralNodePanel() {
+  const { id, degree } = findCentralNode();
+  centralNodeId = id;
+  const nodeEl = id ? document.getElementById('n_' + id) : null;
+  const nameEl = document.getElementById('centralNodeName');
+  const degEl = document.getElementById('centralNodeDegree');
+  if (nameEl) nameEl.textContent = nodeEl ? nodeLabel(nodeEl) : '—';
+  if (degEl) degEl.textContent = degree >= 0 ? degree : 0;
+}
+
+function toggleCentralNode() {
+  if (!centralNodeId) return;
+  const nodeEl = document.getElementById('n_' + centralNodeId);
+  if (!nodeEl) return;
+
+  centralNodeOff = !centralNodeOff;
+
+  nodeEl.classList.toggle('node-off', centralNodeOff);
+  (nodeLinks[centralNodeId] || []).forEach(line => {
+    line.classList.toggle('link-off', centralNodeOff);
+  });
+
+  const btn = document.getElementById('centralSimBtn');
+  if (btn) {
+    btn.classList.toggle('active', centralNodeOff);
+    btn.innerHTML = centralNodeOff
+      ? '<i class="fa-solid fa-power-off"></i>Reconectar'
+      : '<i class="fa-solid fa-power-off"></i>Simular';
+  }
+
+  console.log((centralNodeOff ? 'Desconectando' : 'Reconectando') + ' nodo central:', centralNodeId);
+}
+
+// ---------------------------------------------------------------------------
 // ARRASTRAR NODOS (con posición guardada en el navegador)
 // ---------------------------------------------------------------------------
 function loadSavedPositions() {
@@ -509,6 +559,9 @@ function resetNetwork() {
   clearSelection();
   closeRelationPanel();
   restoreOriginalPositions();
+
+  if (centralNodeOff) toggleCentralNode();
+
   currentViewBox = { ...baseViewBox };
   applyViewBox();
   updateStats();
@@ -537,6 +590,7 @@ document.addEventListener('DOMContentLoaded', function () {
   hideUndocumentedLines();
   applyViewBox();
   restoreSavedPositions();
+  updateCentralNodePanel();
   updateStats();
 
   document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
