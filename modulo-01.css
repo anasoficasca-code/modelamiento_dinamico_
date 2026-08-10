@@ -104,24 +104,6 @@ header p{
 }
 .header-action:hover{ color:var(--text); border-color:var(--accent); }
 
-/* PASOS */
-.steps-bar{
-  display:flex; align-items:stretch; gap:0; margin:0 30px; padding:14px 18px;
-  background:var(--panel); border:1px solid var(--panel-border); border-radius:12px; flex-shrink:0;
-}
-.step{
-  display:flex; align-items:center; gap:10px; flex:1; padding:0 14px; position:relative;
-}
-.step .step-num{
-  width:26px; height:26px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center;
-  font-size:12px; font-weight:700; background:rgba(255,255,255,0.05); color:var(--text-faint);
-}
-.step.active .step-num{ background:var(--accent); color:#06110f; }
-.step-title{ font-size:12.5px; font-weight:700; color:var(--text-dim); }
-.step.active .step-title{ color:var(--text); }
-.step-desc{ font-size:10.5px; color:var(--text-faint); }
-.step-chevron{ color:var(--text-faint); font-size:12px; padding:0 4px; align-self:center; }
-
 .stats-grid{
   display:grid; grid-template-columns:repeat(4, 1fr); gap:12px;
   padding:20px 30px; flex-shrink:0;
@@ -302,8 +284,32 @@ line.edge{ transition: opacity .3s, stroke-dasharray .3s; }
 .node.secondary{ opacity:0.94; }
 .node.principal{ z-index:2; }
 
-#canvas-wrap.mode-concepts svg#graphSvgLayer{ display:none; }
+#canvas-wrap.mode-concepts svg#graphSvgLayer{ display:none !important; }
 #canvas-wrap.mode-relations .node .label{ opacity:0.35; }
+
+/* Modo "Conceptos": se oculta el diagrama y se muestra la lista de conceptos */
+#canvas-wrap.mode-concepts #nodeLayer,
+#canvas-wrap.mode-concepts .diagram-title-card,
+#canvas-wrap.mode-concepts .layers-card{ display:none !important; }
+.concepts-list-panel{
+  display:none; position:absolute; inset:16px; z-index:8; overflow-y:auto;
+  background:var(--panel); border:1px solid var(--panel-border); border-radius:12px;
+  padding:18px 20px;
+}
+#canvas-wrap.mode-concepts .concepts-list-panel{ display:block; }
+.concepts-list-title{
+  font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:14px; color:var(--text);
+  margin-bottom:12px;
+}
+.concepts-list{
+  list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2, 1fr); gap:8px;
+}
+.concepts-list li{
+  display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:9px;
+  background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05);
+  font-size:12.5px; color:var(--text);
+}
+.concepts-list li i{ font-size:12px; width:16px; text-align:center; flex-shrink:0; color:var(--concept-color, var(--accent)); }
 
 /* DETAIL PANEL */
 .detail-panel{
