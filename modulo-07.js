@@ -55,6 +55,112 @@ function toggleLinkType(type, itemEl) {
 }
 
 // ---------------------------------------------------------------------------
+// RELACIONES DOCUMENTADAS EN EL POT (frase exacta + página + dirección)
+// Clave: "origen|destino" tal como aparece en la tabla (Desde -> Hacia).
+// El sentido de la flecha se resuelve comparando esto contra data-s/data-t
+// de cada línea, así que no importa en qué orden se dibujó la línea.
+// ---------------------------------------------------------------------------
+const relationData = {
+  "vivienda|servicios_empresariales": {
+    bidirectional: true, page: "31", relation: "soporte",
+    phrase: '"donde hay más empleos formales que viviendas, se haga más vivienda vis con soportes urbanos adecuados, y que donde hay más densidad de vivienda popular, pero poco empleo formal, se proteja y amplíe suelo para que se instalen empresas y actividades productivas generadoras de trabajo."'
+  },
+  "transporte_publico|servicios_empresariales": {
+    page: "165", relation: "soporte",
+    phrase: '"Impacto en la productividad por tiempos de viaje" / "Consolidación de aglomeraciones por conectividad"'
+  },
+  "equipamientos|servicios_empresariales": {
+    page: "165", relation: "soporte",
+    phrase: '"Equipamiento como detonante de dinámicas económicas"'
+  },
+  "servicios_sociales|servicios_empresariales": {
+    page: "171", relation: "soporte",
+    phrase: '"fuentes de generación de empleo de proximidad y de fomentar dinámicas económicas complementarias en sus zonas de influencia."'
+  },
+  "vivienda|produccion_artesanal": {
+    page: "102–103", relation: "soporte",
+    phrase: '"cuando existan usos artesanales, creativos y culturales [...] los proyectos deberán restituir dichos usos en el primer piso en relación directa con el espacio público"'
+  },
+  "patrimonio_natural|produccion_artesanal": {
+    page: "103", relation: "soporte",
+    phrase: '"patrimonios locales, urbanos, rurales y naturales" y en el mismo apartado se desarrollan los "usos artesanales, creativos y culturales"'
+  },
+  "rios|equipamientos": {
+    page: "154", relation: "soporte",
+    phrase: '"el agua como elemento estructurador que conecta parques, equipamientos y centros productivos"'
+  },
+  "quebradas|equipamientos": {
+    page: "154", relation: "soporte",
+    phrase: '"el agua como elemento estructurador que conecta parques, equipamientos y centros productivos"'
+  },
+  "humedales|produccion_alimentos": {
+    page: "97", relation: "resiliencia",
+    phrase: '"la preservación de la Zona Rural del Norte, como suelos necesarios para la resiliencia climática, la producción de alimentos"'
+  }
+};
+
+function findRelation(s, t) {
+  return relationData[s + '|' + t] || relationData[t + '|' + s] || null;
+}
+
+// Asigna la clase de flecha correcta a cada línea Soporte/Resiliencia según
+// la ficha del POT (o hacia adelante por defecto si aún no hay ficha).
+function applyArrowDirections() {
+  document.querySelectorAll('#staticNetwork .links line.link-soporte, #staticNetwork .links line.link-resiliencia').forEach(line => {
+    const s = line.getAttribute('data-s');
+    const t = line.getAttribute('data-t');
+    const rel = relationData[s + '|' + t];
+    const relRev = relationData[t + '|' + s];
+
+    let cls = 'arrow-forward';
+    if ((rel && rel.bidirectional) || (relRev && relRev.bidirectional)) {
+      cls = 'arrow-both';
+    } else if (relRev) {
+      // la ficha está guardada en sentido contrario a como se dibujó la línea
+      cls = 'arrow-backward';
+    }
+    line.classList.add(cls);
+  });
+}
+
+let selectedLink = null;
+
+function openRelationPanel(line) {
+  const s = line.getAttribute('data-s');
+  const t = line.getAttribute('data-t');
+  const sEl = document.getElementById('n_' + s);
+  const tEl = document.getElementById('n_' + t);
+  const sLabel = sEl ? nodeLabel(sEl) : s;
+  const tLabel = tEl ? nodeLabel(tEl) : t;
+
+  const rel = findRelation(s, t);
+  const isSoporte = line.classList.contains('link-soporte');
+  const relationName = rel ? rel.relation : (isSoporte ? 'soporte' : 'resiliencia');
+
+  document.querySelectorAll('.links line.link-selected').forEach(l => l.classList.remove('link-selected'));
+  line.classList.add('link-selected');
+  selectedLink = line;
+
+  const arrowSymbol = line.classList.contains('arrow-both') ? '↔' : '→';
+  document.getElementById('relConcepts').textContent = `${sLabel} ${arrowSymbol} ${tLabel}`;
+
+  const badge = document.getElementById('relBadge');
+  badge.textContent = relationName === 'soporte' ? 'Soporte' : 'Resiliencia';
+  badge.className = 'relation-badge ' + (relationName === 'soporte' ? 'badge-soporte' : 'badge-resiliencia');
+
+  document.getElementById('relPhrase').textContent = rel ? rel.phrase : 'Aún no hay una ficha con la frase exacta del POT para esta relación.';
+  document.getElementById('relPage').textContent = rel ? rel.page : '—';
+
+  document.getElementById('relationPanel').style.display = 'block';
+}
+
+function closeRelationPanel() {
+  document.getElementById('relationPanel').style.display = 'none';
+  if (selectedLink) selectedLink.classList.remove('link-selected');
+  selectedLink = null;
+}
+
+// ---------------------------------------------------------------------------
 // RED: adjacencia, selección/resaltado de nodo, zoom, reset, stats
 // ---------------------------------------------------------------------------
 let adjacency = {};       // nodeId -> Set de nodeIds vecinos
@@ -155,6 +261,7 @@ function resetNetwork() {
   });
 
   clearSelection();
+  closeRelationPanel();
   currentViewBox = { ...baseViewBox };
   applyViewBox();
   updateStats();
@@ -177,19 +284,31 @@ function updateStats() {
 
 document.addEventListener('DOMContentLoaded', function () {
   buildAdjacency();
+  applyArrowDirections();
   updateStats();
 
   document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
-    nodeEl.addEventListener('click', () => {
+    nodeEl.addEventListener('click', (e) => {
+      e.stopPropagation();
       selectNode(nodeEl.id.replace(/^n_/, ''));
     });
   });
 
-  // clic en fondo del SVG limpia la selección
+  document.querySelectorAll('#staticNetwork .links line.link-soporte, #staticNetwork .links line.link-resiliencia').forEach(line => {
+    line.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openRelationPanel(line);
+    });
+  });
+
+  // clic en fondo del SVG limpia la selección y cierra el panel
   const svg = document.getElementById('staticNetwork');
   if (svg) {
     svg.addEventListener('click', (e) => {
-      if (e.target === svg) clearSelection();
+      if (e.target === svg) {
+        clearSelection();
+        closeRelationPanel();
+      }
     });
   }
 });
