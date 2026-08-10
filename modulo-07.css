@@ -255,6 +255,19 @@ body {
   transition: color .2s;
 }
 
+.btn-question {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--text-faint);
+  display: block;
+  font-style: italic;
+  transition: color .2s;
+}
+
+.scenario-btn.active .btn-question {
+  color: #f3a3a3;
+}
+
 /* Estado "apagado": la estructura fue removida del escenario */
 .scenario-btn.active {
   border-color: var(--off-red);
@@ -276,6 +289,81 @@ body {
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 28px;
+}
+
+.network-layout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 18px;
+  align-items: start;
+}
+
+.network-main {
+  min-width: 0;
+}
+
+.central-node-panel {
+  background: var(--panel-alt);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+}
+
+.central-node-panel h4 {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.central-node-panel h4 i { color: var(--off-red); font-size: 12px; }
+
+.central-question {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.central-hint {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.central-hint strong { color: var(--teal); }
+
+.central-sim-btn {
+  justify-content: center;
+  width: 100%;
+  background: rgba(239,68,68,0.12);
+  border-color: rgba(239,68,68,0.4);
+  color: #f3a3a3;
+  font-weight: 700;
+}
+
+.central-sim-btn:hover {
+  border-color: var(--off-red);
+  color: var(--off-red);
+  background: rgba(239,68,68,0.18);
+}
+
+.central-sim-btn.active {
+  background: rgba(239,68,68,0.22);
+  border-color: var(--off-red);
+  color: #ffb3b3;
+}
+
+@media (max-width: 1000px) {
+  .network-layout { grid-template-columns: 1fr; }
+  .central-node-panel { position: static; }
 }
 
 .network-header {
