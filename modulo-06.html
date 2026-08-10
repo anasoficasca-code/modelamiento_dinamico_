@@ -164,7 +164,22 @@
             </div>
 
             <div class="legend-divider"></div>
-            <div class="legend-hint">Clic en una línea: ver sustento.<br>Doble clic en una bola: apagarla/encenderla.<br>Triple clic en una bola: ver solo su flujo.<br><i class="fa-solid fa-magnifying-glass-chart"></i> ODS 1, ODS 9, ODS 13 y la relación Hambre → Trabajo tienen hallazgos del análisis.</div>
+            <div class="legend-hint">Clic en una línea: ver sustento.<br>Doble clic en una bola: apagarla/encenderla.<br>Triple clic en una bola: ver solo su flujo.</div>
+          </aside>
+
+          <aside class="side-panel findings-panel" id="findingsPanel">
+            <div class="panel-title findings-title"><i class="fa-solid fa-magnifying-glass-chart"></i> Hallazgos</div>
+            <button class="panel-list-item" type="button" data-finding="ods1">ODS 1 — Nodo articulador</button>
+            <button class="panel-list-item" type="button" data-finding="ods13">ODS 13 — El clima como articulador</button>
+            <button class="panel-list-item" type="button" data-finding="ods9">ODS 9 — Conecta grupos</button>
+            <button class="panel-list-item" type="button" data-finding="edge:ods2->ods8">Hambre → Trabajo</button>
+          </aside>
+
+          <aside class="side-panel contradictions-panel" id="contradictionsPanel">
+            <div class="panel-title contradictions-title"><i class="fa-solid fa-triangle-exclamation"></i> Contradicción</div>
+            <button class="panel-list-item contradiction-item" type="button" data-contradiction="ods16">ODS 16</button>
+            <button class="panel-list-item contradiction-item" type="button" data-contradiction="ods14">ODS 14</button>
+            <button class="panel-list-item contradiction-item" type="button" data-contradiction="ods11">ODS 11</button>
           </aside>
 
           <div class="edge-info-panel" id="edgeInfoPanel">
