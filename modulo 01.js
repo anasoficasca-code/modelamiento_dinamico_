@@ -401,6 +401,28 @@ function selectStructure(structId) {
   const g = structureGraphs[structId];
   nodes = g.nodes.map(n => Object.assign({}, n)); // copia fresca: posiciones deterministas por estructura
   applyFilters();
+
+  const conceptsTabActive = document.querySelector('.graph-tab[data-tab="conceptos"]')?.classList.contains('active');
+  if (conceptsTabActive) renderConceptsList();
+}
+
+function renderConceptsList() {
+  const g = structureGraphs[activeStructureId];
+  const cfg = STRUCTURES[activeStructureId];
+  const listEl = document.getElementById('conceptsList');
+  const titleEl = document.getElementById('conceptsListTitle');
+  if (!listEl) return;
+
+  titleEl.textContent = `Conceptos — ${cfg.fullName} (${g.nodes.length})`;
+  listEl.innerHTML = '';
+
+  g.nodes.forEach(n => {
+    const li = document.createElement('li');
+    li.style.setProperty('--concept-color', cfg.color);
+    li.innerHTML = `<i class="fa-solid ${n.icon}"></i><span>${n.label}</span>`;
+    li.addEventListener('click', () => showDetail(n));
+    listEl.appendChild(li);
+  });
 }
 
 function updateTitleCard() {
@@ -616,7 +638,7 @@ function renderGraph() {
   if (fixedLayout) {
     // Dibujo inmediato, sin animación de "acomodo": aparece ya ordenado, como el diseño.
     tickUpdate();
-    attachStaticDrag(allNodeSel, allLinkSel, tickUpdate);
+    attachStaticDrag(allNodeSel);
     return;
   }
 
@@ -744,32 +766,12 @@ function attachDrag(selection) {
 
 // Arrastre simple (sin simulación de fuerzas) para estructuras con layout fijo:
 // el nodo se mueve exactamente donde lo suelta el usuario, sin rebotes.
-function attachStaticDrag(nodeSel, linkSel, tickUpdate) {
-  nodeSel.on('pointerdown', function (event, d) {
+function attachStaticDrag(nodeSel) {
+  // Los nodos son fijos (igual que la captura de referencia): no se pueden
+  // arrastrar. Solo el clic abre el panel de detalle del concepto.
+  nodeSel.on('click', function (event, d) {
     event.stopPropagation();
-    const wrap = document.getElementById('canvas-wrap');
-    const rect = wrap.getBoundingClientRect();
-    let dragging = false;
-    const startClient = { x: event.clientX, y: event.clientY };
-    const el = d3.select(this).classed('dragging', true).raise();
-
-    function onMove(e) {
-      const distMoved = Math.hypot(e.clientX - startClient.x, e.clientY - startClient.y);
-      if (distMoved > 4) dragging = true;
-      d.x = e.clientX - rect.left;
-      d.y = e.clientY - rect.top;
-      tickUpdate();
-    }
-
-    function onUp() {
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onUp);
-      el.classed('dragging', false);
-      if (!dragging) showDetail(d);
-    }
-
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onUp);
+    showDetail(d);
   });
 }
 
@@ -894,6 +896,7 @@ function bindControls() {
       const canvas = document.getElementById('canvas-wrap');
       canvas.classList.toggle('mode-concepts', mode === 'conceptos');
       canvas.classList.toggle('mode-relations', mode === 'relaciones');
+      if (mode === 'conceptos') renderConceptsList();
     });
   });
 
