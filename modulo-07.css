@@ -539,12 +539,15 @@ body {
   border-radius: 8px;
   background: #05070d;
   overflow: hidden;
+  max-height: 78vh;
 }
 
 .network-static-wrap svg {
   width: 100%;
   height: auto;
+  max-height: 78vh;
   display: block;
+  margin: 0 auto;
 }
 
 /* NODOS */
