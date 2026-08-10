@@ -1,114 +1,352 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RAPOT - Módulo 08: Mi Modelo de Ciudad</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="modulo-08.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAPOT · Modelo Propio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="modulo-08.css">
 </head>
 <body>
-  <div class="main">
-    <!-- SIDEBAR RAPOT -->
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="mark"><i class="fa-solid fa-diagram-project"></i></div>
-        <span>RAPOT</span>
-      </div>
+<div class="app">
 
-      <div class="nav-group">
-        <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
-      </div>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark"><i class="fa-solid fa-diagram-project"></i></div>
+      <span>RAPOT</span>
+    </div>
 
-      <div class="nav-group">
-        <div class="nav-label">MÓDULOS</div>
-        <a href="modulo-01.html" class="nav-item"><span class="num">01</span><i class="fa-solid fa-diagram-project"></i> Construir la Red</a>
-        <a href="modulo-02.html" class="nav-item"><span class="num">02</span><i class="fa-solid fa-chart-simple"></i> Medir la Red</a>
-        <a href="modulo-03.html" class="nav-item"><span class="num">03</span><i class="fa-solid fa-eye"></i> Discurso vs Realidad</a>
-        <a href="modulo-04.html" class="nav-item"><span class="num">04</span><i class="fa-solid fa-bullseye"></i> Macromodelos</a>
-        <a href="modulo-05.html" class="nav-item"><span class="num">05</span><i class="fa-solid fa-magnifying-glass"></i> Lo que no está</a>
-        <a href="modulo-06.html" class="nav-item"><span class="num">06</span><i class="fa-solid fa-earth-americas"></i> POT ↔ ODS</a>
-        <a href="modulo-07.html" class="nav-item"><span class="num">07</span><i class="fa-solid fa-flask"></i> Simulador</a>
-        <a href="modulo-08.html" class="nav-item active"><span class="num">08</span><i class="fa-solid fa-city"></i> Modelo Propio</a>
-      </div>
+    <div class="nav-group">
+      <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+    </div>
 
-      <div class="nav-group">
-        <div class="nav-label">GESTIÓN</div>
-        <a href="proyectos.html" class="nav-item"><i class="fa-solid fa-folder"></i> Proyectos</a>
-        <a href="fuentes.html" class="nav-item"><i class="fa-solid fa-file-lines"></i> Fuentes y Documentos</a>
-        <a href="favoritos.html" class="nav-item"><i class="fa-solid fa-star"></i> Favoritos</a>
-        <a href="reportes.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Reportes</a>
-        <a href="configuracion.html" class="nav-item"><i class="fa-solid fa-gear"></i> Configuración</a>
-      </div>
+    <div class="nav-group">
+      <div class="nav-label">MÓDULOS</div>
+      <a href="modulo-01.html" class="nav-item"><span class="num">01</span><i class="fa-solid fa-diagram-project"></i> Construir la Red</a>
+      <a href="modulo-02.html" class="nav-item"><span class="num">02</span><i class="fa-solid fa-chart-simple"></i> Medir la Red</a>
+      <a href="modulo-03.html" class="nav-item"><span class="num">03</span><i class="fa-solid fa-eye"></i> Discurso vs Realidad</a>
+      <a href="modulo-04.html" class="nav-item"><span class="num">04</span><i class="fa-solid fa-bullseye"></i> Macromodelos</a>
+      <a href="modulo-05.html" class="nav-item"><span class="num">05</span><i class="fa-solid fa-magnifying-glass"></i> Lo que no está</a>
+      <a href="modulo-06.html" class="nav-item"><span class="num">06</span><i class="fa-solid fa-earth-americas"></i> POT ↔ ODS</a>
+      <a href="modulo-07.html" class="nav-item"><span class="num">07</span><i class="fa-solid fa-flask"></i> Simulador</a>
+      <a href="modulo-08.html" class="nav-item active"><span class="num">08</span><i class="fa-solid fa-city"></i> Modelo Propio</a>
+    </div>
 
-      <div class="sidebar-footer">
+    <div class="nav-group">
+      <div class="nav-label">GESTIÓN</div>
+      <a href="proyectos.html" class="nav-item"><i class="fa-solid fa-folder"></i> Proyectos</a>
+      <a href="fuentes.html" class="nav-item"><i class="fa-solid fa-file-lines"></i> Fuentes y Documentos</a>
+      <a href="favoritos.html" class="nav-item"><i class="fa-solid fa-star"></i> Favoritos</a>
+      <a href="reportes.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Reportes</a>
+      <a href="configuracion.html" class="nav-item"><i class="fa-solid fa-gear"></i> Configuración</a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="avatar-sm">EU</div>
+      <div class="user-meta">
+        <div class="name">Equipo Urbano</div>
+        <div class="role">Administrador</div>
+      </div>
+      <a href="demo.html" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <h1>Modelo Propio</h1>
+      <div class="topbar-actions">
+        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i> Buscar en el sistema...</div>
+        <div class="icon-btn"><i class="fa-regular fa-bell"></i><span class="dot"></span></div>
+        <div class="icon-btn"><i class="fa-regular fa-circle-question"></i></div>
         <div class="avatar-sm">EU</div>
-        <div class="user-meta">
-          <div class="name">Equipo Urbano</div>
-          <div class="role">Administrador</div>
-        </div>
-        <a href="demo.html" class="logout-btn" title="Cerrar sesión"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
       </div>
-    </aside>
+    </div>
 
-    <!-- CONTENIDO -->
-    <div class="content">
-      <div class="topbar">
-        <h1><i class="fa-solid fa-city"></i> Mi Modelo de Ciudad</h1>
+    <div class="welcome">
+      <h2>Modelo Propio — Construir una explicación de la ciudad</h2>
+      <p>Ya no se trata de representar la ciudad, sino de comprenderla para transformarla. Este módulo te permite <strong>construir tu propio modelo de ciudad</strong>: añade componentes (económicos, ecológicos, sociales, culturales, de infraestructura y de cuidado), conéctalos declarando el tipo de relación y el supuesto que la justifica, y observa cómo emerge el fenómeno urbano. La finalidad es aprender a desarmar modelos, comprender sus supuestos, hacer visibles sus contradicciones y construir progresivamente alternativas mejor fundamentadas.</p>
+    </div>
+
+    <!-- INSIGHTS: categorías de componente -->
+    <div class="ods-insight-stats" id="odsInsightStats">
+      <div class="insight-card" data-insight="infra" style="--insight-color:#2fd4c8;" onclick="toggleInsight('infra')">
+        <div class="insight-icon"><i class="fa-solid fa-road"></i></div>
+        <div class="insight-title">Infraestructura</div>
       </div>
 
-      <div class="grid">
-        <!-- LEFT: SELECTORES -->
-        <div class="left-panel">
-          <!-- ESTRUCTURAS -->
-          <div class="card">
-            <h3><i class="fa-solid fa-layer-group"></i> Estructuras</h3>
-            <div id="structuresSelector"></div>
-          </div>
+      <div class="insight-card" data-insight="eco" style="--insight-color:#4ade80;" onclick="toggleInsight('eco')">
+        <div class="insight-icon"><i class="fa-solid fa-leaf"></i></div>
+        <div class="insight-title">Ecológico</div>
+      </div>
 
-          <!-- COMPONENTES -->
-          <div class="card">
-            <h3><i class="fa-solid fa-cube"></i> Componentes</h3>
-            <p>Selecciona componentes:</p>
-            <div class="components-list" id="componentsSelector"></div>
-            <button class="btn-clear" id="clearBtn">🗑️ Limpiar Todo</button>
-          </div>
+      <div class="insight-card" data-insight="soc" style="--insight-color:#5b8def;" onclick="toggleInsight('soc')">
+        <div class="insight-icon"><i class="fa-solid fa-people-group"></i></div>
+        <div class="insight-title">Social / Cuidado</div>
+      </div>
+
+      <div class="insight-card" data-insight="econ" style="--insight-color:#ef9552;" onclick="toggleInsight('econ')">
+        <div class="insight-icon"><i class="fa-solid fa-coins"></i></div>
+        <div class="insight-title">Económico</div>
+      </div>
+
+      <div class="insight-card" data-insight="todos" style="--insight-color:#a276f2;" onclick="toggleInsight('todos')">
+        <div class="insight-icon"><i class="fa-solid fa-city"></i></div>
+        <div class="insight-title">Ver toda la red</div>
+      </div>
+    </div>
+
+    <!-- RED CONCEPTUAL -->
+    <div class="network-section">
+      <div class="network-header">
+        <h3><i class="fa-solid fa-sitemap"></i> Mi Modelo de Ciudad — Interactivo y Editable</h3>
+        <div class="network-controls">
+          <button class="control-btn active" onclick="filterNetwork('all')">Todos</button>
+          <button class="control-btn" onclick="filterNetwork('soporte')">Soporte</button>
+          <button class="control-btn" onclick="filterNetwork('tension')">Tensión</button>
+          <button class="control-btn" onclick="filterNetwork('dependencia')">Dependencia</button>
+          <button class="control-btn" onclick="filterNetwork('emergencia')">Emergencia</button>
         </div>
+      </div>
 
-        <!-- CENTER: RED -->
-        <div class="center">
-          <svg id="networkSvg"></svg>
-        </div>
+      <div class="network-viz-wrap">
+        <svg id="networkViz" viewBox="0 0 1470 780" preserveAspectRatio="xMidYMid meet"></svg>
 
-        <!-- RIGHT: CONEXIONES -->
-        <div class="right-panel">
-          <div class="card">
-            <h3><i class="fa-solid fa-link"></i> Conexiones</h3>
-            <p id="connectionInfo" style="min-height: 2rem; font-size: 0.8rem;">Selecciona 2 nodos o haz click en una línea</p>
-            
-            <div id="connectionPanel" class="connection-panel" style="display: none;">
-              <p style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.5rem;">Tipo de relación:</p>
-              <label><input type="radio" name="convention" value="flujo"> Flujo</label>
-              <label><input type="radio" name="convention" value="bidirectional"> Bidireccional</label>
-              <label><input type="radio" name="convention" value="fuerte"> Fuerte</label>
-              <label><input type="radio" name="convention" value="conflicto"> Conflicto</label>
-              
-              <button class="btn-confirm" onclick="window.confirmConnection()">✓ Confirmar</button>
-              <button class="btn-cancel" onclick="window.closeConnection()">✕ Cancelar</button>
+        <div class="network-sidebar">
+          <aside class="network-legend" id="networkLegend">
+            <div class="legend-title">Tipos de relación</div>
+
+            <label class="legend-item" data-type="soporte">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-soporte"></span>
+              Soporte (permite que otro exista)
+            </label>
+
+            <label class="legend-item" data-type="tension">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-tension"></span>
+              Tensión (entra en contradicción)
+            </label>
+
+            <label class="legend-item" data-type="dependencia">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-dependencia"></span>
+              Dependencia (condiciona a otro)
+            </label>
+
+            <label class="legend-item" data-type="emergencia">
+              <input type="checkbox" checked>
+              <span class="legend-swatch swatch-emergencia"></span>
+              Emergencia (hace surgir un fenómeno)
+            </label>
+
+            <div class="legend-title">Categoría de componente</div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-infra"></span>
+              Infraestructura
             </div>
-          </div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-eco"></span>
+              Ecológico
+            </div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-soc"></span>
+              Social / Cuidado
+            </div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-econ"></span>
+              Económico
+            </div>
 
-          <div class="card">
-            <h3><i class="fa-solid fa-chart-simple"></i> Estadísticas</h3>
-            <p>Componentes: <strong id="countComponents">0</strong></p>
-            <p>Conexiones: <strong id="countLinks">0</strong></p>
+            <div class="legend-divider"></div>
+            <div class="legend-hint">Clic en una línea: ver la relación, el supuesto y su justificación.<br>
+            Doble clic en una bola: apagarla/encenderla.<br>Triple clic en una bola: ver solo su flujo.<br>Usa el <strong>Constructor</strong> para añadir nodos y conexiones a tu modelo.</div>
+          </aside>
+
+          <div class="edge-info-panel" id="edgeInfoPanel">
+            <div class="edge-info-header">
+              <span id="edgeInfoTitle">Relación</span>
+              <button class="edge-info-close" id="edgeInfoClose" type="button" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="edge-info-type" id="edgeInfoType"></div>
+            <div class="edge-info-quote" id="edgeInfoQuote"></div>
+            <div class="edge-info-page" id="edgeInfoPage"></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-  <script src="modulo-08.js"></script>
+    <!-- CONSTRUCTOR DE MODELO -->
+    <div class="builder-section">
+      <div class="builder-card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-hammer"></i> Constructor — Añade componentes y relaciones a tu modelo</h3>
+        </div>
+
+        <div class="builder-grid">
+          <div class="builder-block">
+            <h4><i class="fa-solid fa-plus"></i> Añadir un componente</h4>
+            <p class="builder-hint">Define un elemento del modelo de ciudad y su categoría.</p>
+            <div class="builder-form">
+              <input type="text" id="nodeName" placeholder="Nombre del componente (ej. Mercado local)">
+              <select id="nodeCat">
+                <option value="infra">Infraestructura</option>
+                <option value="eco">Ecológico</option>
+                <option value="soc">Social / Cuidado</option>
+                <option value="econ">Económico</option>
+              </select>
+              <button class="btn-builder" onclick="addNode()"><i class="fa-solid fa-plus"></i> Añadir nodo</button>
+            </div>
+          </div>
+
+          <div class="builder-block">
+            <h4><i class="fa-solid fa-link"></i> Añadir una relación</h4>
+            <p class="builder-hint">Conecta dos componentes declarando el tipo de relación y el supuesto que la justifica.</p>
+            <div class="builder-form">
+              <div class="builder-row">
+                <select id="edgeFrom"><option value="">De…</option></select>
+                <i class="fa-solid fa-arrow-right arrow-sep"></i>
+                <select id="edgeTo"><option value="">Hacia…</option></select>
+              </div>
+              <select id="edgeType">
+                <option value="soporte">Soporte (permite que otro exista)</option>
+                <option value="tension">Tensión (entra en contradicción)</option>
+                <option value="dependencia">Dependencia (condiciona a otro)</option>
+                <option value="emergencia">Emergencia (hace surgir un fenómeno)</option>
+              </select>
+              <input type="text" id="edgeJust" placeholder="Supuesto o justificación (ej. porque el tiempo de traslado condiciona el acceso al trabajo)">
+              <button class="btn-builder" onclick="addEdge()"><i class="fa-solid fa-link"></i> Añadir conexión</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLA DEL MODELO -->
+    <div class="analysis-container">
+      <div class="analysis-card full-width">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-table"></i> Mi Modelo — Componentes y Relaciones</h3>
+        </div>
+
+        <div class="matrix-container" id="modelTable">
+          <div class="matrix-row header">
+            <div class="matrix-cell header-cell">#</div>
+            <div class="matrix-cell header-cell">Relación</div>
+            <div class="matrix-cell header-cell">Línea</div>
+            <div class="matrix-cell header-cell">Color</div>
+            <div class="matrix-cell header-cell">Tipo de relación</div>
+            <div class="matrix-cell header-cell">Supuesto / Justificación</div>
+          </div>
+          <!-- filas generadas dinámicamente por el JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- LECTURA DEL MODELO -->
+    <div class="synergies-section">
+      <div class="synergies-grid">
+        <div class="synergy-card success">
+          <div class="synergy-icon"><i class="fa-solid fa-gears"></i></div>
+          <div class="synergy-content">
+            <h4>Supuestos del Modelo</h4>
+            <ul>
+              <li><strong>Componentes declarados:</strong> el modelo parte de componentes observables (infraestructura, ecología, cuidado, economía) y de su peso relativo en la red</li>
+              <li><strong>Relaciones tipificadas:</strong> cada conexión declara si sostiene, tensiona, condiciona o hace emerger a otro componente — nada queda sin justificación</li>
+              <li><strong>Medida cuantitativa:</strong> los componentes con mayor centralidad son los que el modelo asume como determinantes del fenómeno urbano</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="synergy-card conflict">
+          <div class="synergy-icon"><i class="fa-solid fa-eye-low-vision"></i></div>
+          <div class="synergy-content">
+            <h4>Lo que el Modelo Explica</h4>
+            <ul>
+              <li><strong>Emergencias:</strong> los fenómenos urbanos (movilidad, segregación, cuidado) no están en ningún nodo: emergen de la configuración de relaciones — esa es la explicación propia del modelo</li>
+              <li><strong>Tensiones internas:</strong> si dos relaciones declaradas se contradicen (ej. suelo como mercancía vs. hábitat como derecho), el modelo las hace visibles en lugar de ocultarlas</li>
+              <li><strong>Comparación con el POT:</strong> contrasta tu modelo con el modelo operativo del POT (Módulo 04): ¿qué componentes subordina cada uno? ¿qué emergencias permite cada arquitectura?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECOMENDACIONES -->
+    <div class="recommendations-section">
+      <h3><i class="fa-solid fa-lightbulb"></i> Recomendaciones para Construir tu Modelo</h3>
+
+      <div class="recommendations-grid">
+        <div class="rec-card">
+          <div class="rec-number">1</div>
+          <div class="rec-content">
+            <h4>Justifica cada conexión con un supuesto explícito</h4>
+            <p>Ninguna relación debe quedar sin justificación: escribe por qué un componente sostiene, tensiona, condiciona o hace emerger a otro. El supuesto es lo que convierte una flecha en argumento.
+            <div class="rec-impact">
+              <span class="impact-badge">Rigor: +28%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">2</div>
+          <div class="rec-content">
+            <h4>Busca las emergencias, no las entidades</h4>
+            <p>Los fenómenos urbanos (trancón, segregación, cuidado) no son nodos: son propiedades que emergen de la configuración de relaciones. Pregúntate qué arquitectura de red produciría cada fenómeno.
+            <div class="rec-impact">
+              <span class="impact-badge">Rigor: +24%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">3</div>
+          <div class="rec-content">
+            <h4>Confronta tu modelo con el POT</h4>
+            <p>Compara tu red con la del Módulo 04 (Macromodelos): identifica qué componentes subordina cada modelo y qué emergencias permite cada arquitectura. La comparación es el ejercicio de pensamiento crítico.
+            <div class="rec-impact">
+              <span class="impact-badge">Rigor: +20%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-card">
+          <div class="rec-number">4</div>
+          <div class="rec-content">
+            <h4>Deja visible lo que no está</h4>
+            <p>Anota qué componentes y relaciones decidió excluir tu modelo, igual que el POT excluyó la cuenca del río Bogotá o los servicios sociales. Todo modelo define lo que es la ciudad por lo que omite.
+            <div class="rec-impact">
+              <span class="impact-badge">Rigor: +18%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTONES DE ACCIÓN -->
+    <div class="action-buttons">
+      <button class="btn-primary" onclick="generateODSReport()">
+        <i class="fa-solid fa-file-pdf"></i> Generar Reporte de Mi Modelo
+      </button>
+      <button class="btn-secondary" onclick="downloadAlignment()">
+        <i class="fa-solid fa-download"></i> Descargar Tabla
+      </button>
+      <button class="btn-secondary" onclick="shareAnalysis()">
+        <i class="fa-solid fa-share-nodes"></i> Compartir Análisis
+      </button>
+    </div>
+
+    <footer>
+      "No se trata de representar la ciudad, sino de comprenderla para transformarla." — <span>Equipo POT Reverse Engineering</span>
+    </footer>
+
+  </main>
+
+</div>
+
+<script src="modulo-08.js"></script>
+
 </body>
 </html>
