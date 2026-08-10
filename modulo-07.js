@@ -166,7 +166,7 @@ function closeRelationPanel() {
 let adjacency = {};       // nodeId -> Set de nodeIds vecinos
 let nodeLinks = {};       // nodeId -> [line elements]
 let selectedNode = null;
-const baseViewBox = { x: 85, y: 70, w: 815, h: 700 };
+const baseViewBox = { x: 122, y: 110, w: 737, h: 625 };
 let currentViewBox = { ...baseViewBox };
 
 function buildAdjacency() {
@@ -255,9 +255,13 @@ function resetNetwork() {
     loadScenario(key, btn);
   });
 
-  // Reactivar todos los tipos de relación de la leyenda
+  // Reactivar solo Soporte/Resiliencia si estaban ocultas desde la leyenda.
+  // Directa/Indirecta se dejan ocultas, que es el estado por defecto del diagrama.
   document.querySelectorAll('.legend-item.off').forEach(item => {
-    toggleLinkType(item.getAttribute('data-linktype'), item);
+    const type = item.getAttribute('data-linktype');
+    if (type === 'soporte' || type === 'resiliencia') {
+      toggleLinkType(type, item);
+    }
   });
 
   clearSelection();
@@ -286,6 +290,12 @@ document.addEventListener('DOMContentLoaded', function () {
   buildAdjacency();
   applyArrowDirections();
   updateStats();
+
+  // Por defecto se ocultan las líneas "Directa" e "Indirecta" (grises) para
+  // no saturar el diagrama; quedan disponibles desde la leyenda si se quieren ver.
+  document.querySelectorAll('.legend-item[data-linktype="directa"], .legend-item[data-linktype="indirecta"]').forEach(item => {
+    toggleLinkType(item.getAttribute('data-linktype'), item);
+  });
 
   document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
     nodeEl.addEventListener('click', (e) => {
