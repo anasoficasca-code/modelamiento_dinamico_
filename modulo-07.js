@@ -219,10 +219,8 @@ function closeRelationPanel() {
 let adjacency = {};       // nodeId -> Set de nodeIds vecinos
 let nodeLinks = {};       // nodeId -> [line elements]
 let selectedNode = null;
-let justDragged = false;  // evita que el click de "soltar" dispare selección
-const baseViewBox = { x: -20, y: -20, w: 1040, h: 940 };
+const baseViewBox = { x: -170, y: -220, w: 719, h: 734 };
 let currentViewBox = { ...baseViewBox };
-const POS_STORAGE_KEY = 'rapot_modulo07_node_positions';
 
 function buildAdjacency() {
   adjacency = {};
@@ -318,29 +316,43 @@ function nodeLabel(nodeEl) {
 
 // ---------------------------------------------------------------------------
 // PANEL "¿Qué pasa si se desconecta un nodo central?"
-// Encuentra el nodo con más conexiones documentadas y permite apagarlo junto
-// con todas las líneas que lo tocan, para ver qué tan dependiente es la red.
+// Ofrece varias opciones (no solo el de mayor grado): se listan los nodos
+// con más conexiones documentadas para que el usuario elija cuál simular.
 // ---------------------------------------------------------------------------
 let centralNodeId = null;
 let centralNodeOff = false;
+const CENTRAL_OPTIONS_COUNT = 8;
 
-function findCentralNode() {
-  let best = null, bestDeg = -1;
-  Object.keys(adjacency).forEach(id => {
-    const deg = adjacency[id].size;
-    if (deg > bestDeg) { bestDeg = deg; best = id; }
-  });
-  return { id: best, degree: bestDeg };
+function topCentralNodes(count) {
+  return Object.keys(adjacency)
+    .map(id => ({ id, degree: adjacency[id].size }))
+    .sort((a, b) => b.degree - a.degree)
+    .slice(0, count);
 }
 
 function updateCentralNodePanel() {
-  const { id, degree } = findCentralNode();
-  centralNodeId = id;
-  const nodeEl = id ? document.getElementById('n_' + id) : null;
-  const nameEl = document.getElementById('centralNodeName');
-  const degEl = document.getElementById('centralNodeDegree');
-  if (nameEl) nameEl.textContent = nodeEl ? nodeLabel(nodeEl) : '—';
-  if (degEl) degEl.textContent = degree >= 0 ? degree : 0;
+  const select = document.getElementById('centralNodeSelect');
+  if (!select) return;
+
+  const options = topCentralNodes(CENTRAL_OPTIONS_COUNT);
+  select.innerHTML = options.map(opt => {
+    const nodeEl = document.getElementById('n_' + opt.id);
+    const label = nodeEl ? nodeLabel(nodeEl) : opt.id;
+    return `<option value="${opt.id}">${label} · ${opt.degree} conexiones</option>`;
+  }).join('');
+
+  if (options.length) {
+    centralNodeId = options[0].id;
+    select.value = centralNodeId;
+  }
+}
+
+function onCentralNodeChange() {
+  // Si había un nodo apagado y el usuario elige otro, reconecta el anterior
+  // antes de cambiar de selección.
+  if (centralNodeOff) toggleCentralNode();
+  const select = document.getElementById('centralNodeSelect');
+  centralNodeId = select.value;
 }
 
 function toggleCentralNode() {
@@ -355,6 +367,9 @@ function toggleCentralNode() {
     line.classList.toggle('link-off', centralNodeOff);
   });
 
+  const select = document.getElementById('centralNodeSelect');
+  if (select) select.disabled = centralNodeOff;
+
   const btn = document.getElementById('centralSimBtn');
   if (btn) {
     btn.classList.toggle('active', centralNodeOff);
@@ -367,36 +382,10 @@ function toggleCentralNode() {
 }
 
 // ---------------------------------------------------------------------------
-// ARRASTRAR NODOS (con posición guardada en el navegador)
+// Los nodos son fijos (posición calculada por el layout de la red); ya no se
+// pueden arrastrar. updateLinesForNode se conserva por si en el futuro se
+// necesita mover un nodo por código.
 // ---------------------------------------------------------------------------
-function loadSavedPositions() {
-  try {
-    const raw = localStorage.getItem(POS_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch (e) { return {}; }
-}
-
-function savePosition(id, x, y) {
-  try {
-    const data = loadSavedPositions();
-    data[id] = [Math.round(x * 10) / 10, Math.round(y * 10) / 10];
-    localStorage.setItem(POS_STORAGE_KEY, JSON.stringify(data));
-  } catch (e) { /* almacenamiento no disponible */ }
-}
-
-function clearSavedPositions() {
-  try { localStorage.removeItem(POS_STORAGE_KEY); } catch (e) { /* no-op */ }
-}
-
-function getNodePos(nodeEl) {
-  const m = /translate\(([\-\d.]+),\s*([\-\d.]+)\)/.exec(nodeEl.getAttribute('transform') || '');
-  return m ? [parseFloat(m[1]), parseFloat(m[2])] : [0, 0];
-}
-
-function setNodePos(nodeEl, x, y) {
-  nodeEl.setAttribute('transform', `translate(${x},${y})`);
-}
-
 function updateLinesForNode(id, x, y) {
   document.querySelectorAll('#staticNetwork .links line[data-s="' + id + '"]').forEach(l => {
     l.setAttribute('x1', x); l.setAttribute('y1', y);
@@ -404,86 +393,6 @@ function updateLinesForNode(id, x, y) {
   document.querySelectorAll('#staticNetwork .links line[data-t="' + id + '"]').forEach(l => {
     l.setAttribute('x2', x); l.setAttribute('y2', y);
   });
-}
-
-function svgPoint(svg, evt) {
-  const ctm = svg.getScreenCTM();
-  if (svg.createSVGPoint && ctm) {
-    const pt = svg.createSVGPoint();
-    pt.x = evt.clientX; pt.y = evt.clientY;
-    const p = pt.matrixTransform(ctm.inverse());
-    return [p.x, p.y];
-  }
-  const rect = svg.getBoundingClientRect();
-  const vb = svg.viewBox.baseVal;
-  return [
-    vb.x + (evt.clientX - rect.left) * (vb.width / rect.width),
-    vb.y + (evt.clientY - rect.top) * (vb.height / rect.height)
-  ];
-}
-
-function makeDraggable(nodeEl) {
-  const svg = document.getElementById('staticNetwork');
-  const id = nodeEl.id.replace(/^n_/, '');
-  let dragging = false;
-  let offsetX = 0, offsetY = 0;
-
-  nodeEl.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    dragging = true;
-    if (nodeEl.setPointerCapture) nodeEl.setPointerCapture(e.pointerId);
-    const [px, py] = svgPoint(svg, e);
-    const [nx, ny] = getNodePos(nodeEl);
-    offsetX = px - nx;
-    offsetY = py - ny;
-    nodeEl.classList.add('dragging');
-  });
-
-  nodeEl.addEventListener('pointermove', (e) => {
-    if (!dragging) return;
-    justDragged = true;
-    const [px, py] = svgPoint(svg, e);
-    const nx = px - offsetX;
-    const ny = py - offsetY;
-    setNodePos(nodeEl, nx, ny);
-    updateLinesForNode(id, nx, ny);
-  });
-
-  function endDrag() {
-    if (!dragging) return;
-    dragging = false;
-    nodeEl.classList.remove('dragging');
-    const [nx, ny] = getNodePos(nodeEl);
-    savePosition(id, nx, ny);
-    setTimeout(() => { justDragged = false; }, 50);
-  }
-
-  nodeEl.addEventListener('pointerup', endDrag);
-  nodeEl.addEventListener('pointercancel', endDrag);
-}
-
-function restoreSavedPositions() {
-  const saved = loadSavedPositions();
-  Object.keys(saved).forEach(id => {
-    const nodeEl = document.getElementById('n_' + id);
-    if (!nodeEl) return;
-    const [x, y] = saved[id];
-    setNodePos(nodeEl, x, y);
-    updateLinesForNode(id, x, y);
-  });
-}
-
-function restoreOriginalPositions() {
-  document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
-    const id = nodeEl.id.replace(/^n_/, '');
-    const x0 = nodeEl.getAttribute('data-x0');
-    const y0 = nodeEl.getAttribute('data-y0');
-    if (x0 === null || y0 === null) return;
-    setNodePos(nodeEl, x0, y0);
-    updateLinesForNode(id, x0, y0);
-  });
-  clearSavedPositions();
 }
 
 function selectNode(id) {
@@ -558,7 +467,6 @@ function resetNetwork() {
 
   clearSelection();
   closeRelationPanel();
-  restoreOriginalPositions();
 
   if (centralNodeOff) toggleCentralNode();
 
@@ -589,17 +497,14 @@ document.addEventListener('DOMContentLoaded', function () {
   applyConnectivityGlow();
   hideUndocumentedLines();
   applyViewBox();
-  restoreSavedPositions();
   updateCentralNodePanel();
   updateStats();
 
   document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
     nodeEl.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (justDragged) { justDragged = false; return; }
       selectNode(nodeEl.id.replace(/^n_/, ''));
     });
-    makeDraggable(nodeEl);
   });
 
   document.querySelectorAll('#staticNetwork .links line.link-soporte, #staticNetwork .links line.link-resiliencia, #staticNetwork .links line.has-data').forEach(line => {
