@@ -155,6 +155,11 @@ const relationData = {
     description: "Se tratan conjuntamente dentro de la estructura económica de la ciudad; por eso aquí no necesita una flecha, sino una relación bidireccional/no dirigida.",
     phrase: 'El documento identifica "Centros financieros" y "Eje de Servicios Empresariales Avenida El Dorado" dentro de la ESECI.'
   },
+  "centros_abastecimiento|plazas_mercado": {
+    page: "171", relation: "directa",
+    description: "Relación funcional dentro del sistema de abastecimiento y comercialización de la ciudad; el POT identifica ambos elementos dentro de la ESECI, aunque no hay una frase que los conecte de forma literal.",
+    phrase: 'El mapa identifica ambos por separado: "Centros de abastecimiento" y "Plazas de mercado".'
+  },
 
   // ---- Estructura Funcional y del Cuidado (EFC) ----
   "red_vial|transporte_publico": {
@@ -287,6 +292,7 @@ function openRelationPanel(line) {
   document.getElementById('relPage').textContent = rel ? rel.page : '—';
 
   document.getElementById('relationPanel').style.display = 'block';
+  document.getElementById('relationPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function closeRelationPanel() {
@@ -302,7 +308,7 @@ let adjacency = {};       // nodeId -> Set de nodeIds vecinos
 let nodeLinks = {};       // nodeId -> [line elements]
 let selectedNode = null;
 let justDragged = false;  // evita que el click de "soltar" dispare selección
-const baseViewBox = { x: 127, y: 116, w: 724, h: 613 };
+const baseViewBox = { x: -20, y: -20, w: 1040, h: 940 };
 let currentViewBox = { ...baseViewBox };
 const POS_STORAGE_KEY = 'rapot_modulo07_node_positions';
 
@@ -565,6 +571,7 @@ document.addEventListener('DOMContentLoaded', function () {
   applyArrowDirections();
   applyConnectivityGlow();
   hideUndocumentedLines();
+  applyViewBox();
   restoreSavedPositions();
   updateStats();
 
