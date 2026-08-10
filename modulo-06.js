@@ -45,7 +45,42 @@ ODS_NODES.forEach(n => {
   n.homeX = n.x; n.homeY = n.y;
   n.vx = 0; n.vy = 0;
   n.fixed = false; // true mientras el usuario lo está arrastrando
+  /* posición de "casa" original, para poder restaurarla luego de una animación temporal
+     (ver animateBridgeNode) sin perder de vista el ancla real del nodo */
+  n.baseHomeX = n.homeX; n.baseHomeY = n.homeY;
 });
+
+/* -------- HALLAZGOS del análisis de la red --------
+   Nodos que funcionan como articuladores/conectores de la red: al hacer TRIPLE CLIC
+   sobre ellos (además de aislar su flujo, comportamiento ya existente) se muestra un
+   popup con el hallazgo. ODS 9 además "demuestra" el hallazgo moviéndose ODS 3
+   temporalmente entre ODS 4 y ODS 9, y luego regresa a su lugar. */
+const FINDINGS = {
+  ods1: {
+    title: "ODS 1 · Nodo articulador de la red",
+    text: "Al aislar su flujo, el ODS 1 funciona como uno de los principales nodos articuladores de la red. Insight: si se interviene sobre la pobreza, potencialmente se afectan diferentes dimensiones de la red al mismo tiempo.",
+  },
+  ods13: {
+    title: "ODS 13 · El cambio climático funciona como un articulador",
+    text: "El cambio climático conecta dimensiones que inicialmente parecían separadas. Funciona como una condición transversal: un problema climático puede tener consecuencias sociales, económicas, urbanas y ambientales.",
+  },
+  ods9: {
+    title: "ODS 9 · Conecta grupos diferentes de la red",
+    text: "El ODS 9 no solamente está conectado con varios objetivos, sino que conecta grupos diferentes de la red. Para evidenciarlo, ODS 3 se desplaza un momento hacia la izquierda, entre ODS 4 y ODS 9, y luego vuelve a su lugar.",
+    bridge: { node: "ods3", between: ["ods4", "ods9"] },
+  },
+};
+
+/* Relación con hallazgo propio: al hacer CLIC en esa línea (comportamiento normal de
+   sustento documental) también se muestra el popup del hallazgo. */
+const EDGE_FINDINGS = {
+  "ods2->ods8": {
+    title: "Relación inesperada: Hambre → Trabajo",
+    text: "El hambre (ODS 2) se conecta de forma directa con el trabajo decente (ODS 8): una carencia básica repercute en la dimensión económica de la red, una relación que no resulta evidente a primera vista.",
+  },
+};
+
+function edgeKey(edge) { return edge.s + "->" + edge.t; }
 
 /* El punteado depende de si la relación es "no directa" (inferida): las relaciones
    directas se dibujan con línea sólida y las inferidas con línea punteada.
@@ -186,7 +221,7 @@ function drawEdges(svg) {
     const d = edgePathData(edge, s, t);
 
     const group = document.createElementNS(SVG_NS, "g");
-    group.setAttribute("class", "edge-group");
+    group.setAttribute("class", "edge-group" + (EDGE_FINDINGS[edgeKey(edge)] ? " has-finding" : ""));
     group.setAttribute("data-index", i);
     group.setAttribute("data-type", edge.type);
     group.setAttribute("data-source", edge.s);
@@ -208,7 +243,11 @@ function drawEdges(svg) {
 
     group.appendChild(visual);
     group.appendChild(hit);
-    group.addEventListener("click", () => showEdgeInfo(i));
+    group.addEventListener("click", () => {
+      showEdgeInfo(i);
+      const finding = EDGE_FINDINGS[edgeKey(edge)];
+      if (finding) showFindingPopup(finding);
+    });
     g.appendChild(group);
 
     /* referencias para poder recalcular el trazo en cada frame de física */
@@ -225,7 +264,7 @@ function drawNodes(svg) {
 
   ODS_NODES.forEach(node => {
     const group = document.createElementNS(SVG_NS, "g");
-    group.setAttribute("class", "ods-node");
+    group.setAttribute("class", "ods-node" + (FINDINGS[node.id] ? " has-finding" : ""));
     group.setAttribute("data-id", node.id);
 
     const circle = document.createElementNS(SVG_NS, "circle");
@@ -499,6 +538,7 @@ function clearSpotlight() {
   spotlight = null;
   document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
   applySpotlightState();
+  hideFindingPopup();
 }
 
 function setSpotlightNodes(nodeIds, expand) {
@@ -563,7 +603,60 @@ function toggleNodeFlow(id) {
     clearSpotlight();
   } else {
     setSpotlightNodes([id], true);
+    const finding = FINDINGS[id];
+    if (finding) {
+      showFindingPopup(finding);
+      if (finding.bridge) {
+        animateBridgeNode(finding.bridge.node, finding.bridge.between);
+      }
+    }
   }
+}
+
+/* -------- popup de hallazgo (sobre el lienzo de la red) -------- */
+let findingPopupTimer = null;
+function showFindingPopup(finding) {
+  const popup = document.getElementById("findingPopup");
+  if (!popup) return;
+  document.getElementById("findingPopupTitle").textContent = finding.title;
+  document.getElementById("findingPopupText").textContent = finding.text;
+  popup.classList.add("visible");
+  if (findingPopupTimer) clearTimeout(findingPopupTimer);
+  findingPopupTimer = setTimeout(() => popup.classList.remove("visible"), 9000);
+}
+
+function hideFindingPopup() {
+  const popup = document.getElementById("findingPopup");
+  if (!popup) return;
+  popup.classList.remove("visible");
+  if (findingPopupTimer) { clearTimeout(findingPopupTimer); findingPopupTimer = null; }
+}
+
+/* -------- animación "puente": mueve temporalmente un nodo hacia una posición
+   intermedia entre otros dos (para evidenciar visualmente que conecta dos grupos)
+   y luego lo regresa a su lugar original. Reutiliza la física de anclaje ya
+   existente: basta con mover el ancla (home) y dejar que el resorte lo lleve. -------- */
+let bridgeTimer = null;
+function animateBridgeNode(nodeId, betweenIds, holdMs = 1600) {
+  const node = nodeById(nodeId);
+  const a = nodeById(betweenIds[0]);
+  const b = nodeById(betweenIds[1]);
+  if (!node || !a || !b) return;
+  if (bridgeTimer) { clearTimeout(bridgeTimer); bridgeTimer = null; }
+
+  const midX = (a.baseHomeX + b.baseHomeX) / 2;
+  const midY = (a.baseHomeY + b.baseHomeY) / 2 - 90; /* desplazado para no solaparse */
+
+  node.homeX = midX;
+  node.homeY = midY;
+  wakePhysics();
+
+  bridgeTimer = setTimeout(() => {
+    node.homeX = node.baseHomeX;
+    node.homeY = node.baseHomeY;
+    wakePhysics();
+    bridgeTimer = null;
+  }, holdMs);
 }
 
 /* -------- tarjetas de insights (arriba de la red) -------- */
@@ -606,6 +699,7 @@ function setupLegendToggle() {
   });
 
   document.getElementById("edgeInfoClose")?.addEventListener("click", hideEdgeInfo);
+  document.getElementById("findingPopupClose")?.addEventListener("click", hideFindingPopup);
 }
 
 /* -------- controles Todos / Alineados / Conflictos -------- */
