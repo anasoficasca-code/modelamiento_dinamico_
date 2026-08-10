@@ -914,6 +914,18 @@ const PN_EDGES = [
   { s: "p_patrimonio_natural", t: "p_patrimonio_inmaterial", tipo: "soporte", directa: true, sinFlecha: false, pagina: "103–104", articulo: "Art. 80", frase: "patrimonio cultural material, inmaterial y natural" },
   { s: "p_patrimonio_material", t: "p_patrimonio_natural", tipo: "soporte", directa: true, sinFlecha: false, pagina: "103–104", articulo: "Art. 80", frase: "integra … material, inmaterial y natural" },
   { s: "p_patrimonio_material", t: "p_patrimonio_inmaterial", tipo: "soporte", directa: true, sinFlecha: false, pagina: "103–104", articulo: "Art. 80", frase: "patrimonio cultural material, inmaterial y natural" },
+
+  /* -------- relaciones ENTRE estructuras (documento aparte) -------- */
+  { s: "p_humedales", t: "p_patrimonio_natural", tipo: "soporte", directa: false, sinFlecha: false, pagina: "195–196", articulo: "", frase: "En ese sentido, la EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio." },
+  { s: "p_patrimonio_arqueologico", t: "p_equipamientos", tipo: "soporte", directa: true, sinFlecha: false, pagina: "200", articulo: "", frase: "Para la Secretaría Distrital de Planeación (SDP), en el proceso de implementación del POT, fue la oportunidad de incorporarlos como nodo de equipamientos próximos y de proyectos a escala local." },
+  { s: "p_patrimonio_inmaterial", t: "p_produccion_artesanal", tipo: "soporte", directa: true, sinFlecha: false, pagina: "190", articulo: "", frase: "Esta producción artesanal «corresponde entonces a las actividades creativas de producción de objetos, realizadas con predominio manual y auxiliadas en algunos casos con maquinarias simples, obteniendo un resultado final individualizado, determinado por los patrones culturales, el medio ambiente y su desarrollo histórico»." },
+  { s: "p_manzanas_del_cuidado", t: "p_sistema_de_educacion", tipo: "soporte", directa: true, sinFlecha: false, pagina: "126", articulo: "", frase: "Con los nuevos colegios y jardines infantiles anclados en las Manzanas del Cuidado, lograremos que las mujeres, las niñas y los niños puedan garantizar su derecho a la educación en lugares cercanos a sus hogares." },
+  { s: "p_equipamientos", t: "p_sistema_de_educacion", tipo: "soporte", directa: true, sinFlecha: false, pagina: "126", articulo: "", frase: "Bajo la nueva visión del POT, la infraestructura social es compatible con otros usos y equipamientos, como centros deportivos, culturales y de recreación, entre otros." },
+  { s: "p_equipamientos", t: "p_servicios_empresariales", tipo: "soporte", directa: false, sinFlecha: false, pagina: "165", articulo: "", frase: "Equipamiento como detonante de dinámicas económicas." },
+  { s: "p_transporte_publico", t: "p_zonas_industriales", tipo: "soporte", directa: false, sinFlecha: false, pagina: "31", articulo: "", frase: "Y que, en todo caso, las diversas zonas de la ciudad estén conectadas por un sistema multimodal de transporte público, colectivo, de energías limpias y renovables basadas en la red Metro y alimentadas por los demás modos y medios de transporte público como los corredores verdes, los cables y las ciclorrutas." },
+  { s: "p_parques_ecologicos_de_montana", t: "p_zonas_de_interes_turistico", tipo: "soporte", directa: false, sinFlecha: false, pagina: "54", articulo: "", frase: "Sostenible: Ecoturismo, viverismo, agricultura urbana y periurbana y puntos de la tierra." },
+  { s: "p_parques_ecologicos_de_montana", t: "p_patrimonio_natural", tipo: "soporte", directa: true, sinFlecha: false, pagina: "54", articulo: "", frase: "Son áreas de alta pendiente en suelo urbano y rural, caracterizadas por contar con remanentes de bosques altoandinos dispersos y ecosistemas subxerofíticos de gran importancia ecosistémica entre otros que, por su estructura y función ecosistémica, aportan a la conservación de la biodiversidad y los servicios ecosistémicos, la conectividad ecológica y a la resiliencia climática de los entornos urbanos, rurales y de transición a escala local y regional." },
+  { s: "p_areas_de_resiliencia_climatica", t: "p_patrimonio_natural", tipo: "resiliencia", directa: false, sinFlecha: false, pagina: "72", articulo: "", frase: "Así mismo, creamos las Áreas de Resiliencia Climática y Protección por Riesgo…" },
 ];
 
 function pnNodeById(id) { return PN_NODES.find(n => n.id === id); }
@@ -928,6 +940,7 @@ const PN_FAVORABLE_GROUPS = {
       ["p_red_vial", "p_transporte_publico"],
       ["p_red_vial", "p_equipamientos"],
       ["p_corredores_verdes", "p_ciclorutas"],
+      ["p_corredores_verdes", "p_transporte_publico"],
       ["p_areas_de_resiliencia_climatica", "p_coberturas_vegetales"],
     ],
     ods: [9, 11, 13],
@@ -965,6 +978,30 @@ const PN_EDGE_TO_GROUP = {};
 Object.entries(PN_FAVORABLE_GROUPS).forEach(([key, group]) => {
   group.edges.forEach(([s, t]) => { PN_EDGE_TO_GROUP[pnEdgeKey(s, t)] = key; });
 });
+
+/* nodos de la red de estructuras que participan en cada grupo "favorable"
+   (para poder apagar/atenuar todo lo demás cuando se activa el grupo) */
+Object.values(PN_FAVORABLE_GROUPS).forEach(group => {
+  const set = new Set();
+  group.edges.forEach(([s, t]) => { set.add(s); set.add(t); });
+  group.involvedNodes = set;
+});
+
+/* replica, entre las insignias ODS de un grupo, las mismas conexiones que esos
+   ODS ya tienen en la red de arriba (p. ej. arriba el ODS 9, 11 y 13 están
+   conectados entre sí: aquí abajo se dibuja esa misma conexión entre sus
+   insignias, con el color/punteado de esa relación real) */
+function pnOdsLinksFor(odsList) {
+  const links = [];
+  for (let i = 0; i < odsList.length; i++) {
+    for (let j = i + 1; j < odsList.length; j++) {
+      const a = "ods" + odsList[i], b = "ods" + odsList[j];
+      const edge = RAW_EDGES.find(e => (e.s === a && e.t === b) || (e.s === b && e.t === a));
+      if (edge) links.push({ from: i, to: j, style: TYPE_STYLE[edge.type], directa: edge.directa });
+    }
+  }
+  return links;
+}
 
 /* -------- construir el SVG de la red de estructuras (estática) -------- */
 function buildPnDefs(svg) {
@@ -1124,14 +1161,27 @@ function drawPnOdsBadges(svg) {
       wrap.appendChild(label);
     });
 
+    /* si esos mismos ODS ya están conectados entre sí arriba (p. ej. 9-11, 9-13,
+       11-13), se dibuja aquí la misma conexión entre sus insignias */
+    pnOdsLinksFor(group.ods).forEach(link => {
+      const x1 = bx + link.from * 24, x2 = bx + link.to * 24;
+      const odsLine = document.createElementNS(SVG_NS, "path");
+      odsLine.setAttribute("class", "pn-ods-link");
+      odsLine.setAttribute("d", `M${x1},${by - 11} Q${(x1 + x2) / 2},${by - 22} ${x2},${by - 11}`);
+      odsLine.setAttribute("stroke", link.style.color);
+      if (!link.directa) odsLine.setAttribute("stroke-dasharray", "3,3");
+      wrap.appendChild(odsLine);
+    });
+
     g.appendChild(wrap);
   });
 
   svg.appendChild(g);
 }
 
-/* -------- resaltar un grupo "favorable": dim al resto, glow a sus líneas,
-   muestra sus insignias ODS -------- */
+/* -------- resaltar un grupo "favorable": apaga el resto de conceptos (nodos y
+   líneas), deja solo los que se mencionan en la relación, y muestra sus
+   insignias ODS -------- */
 let pnActiveGroup = null;
 function togglePnFavorableGroup(key) {
   const already = pnActiveGroup === key;
@@ -1150,6 +1200,12 @@ function togglePnFavorableGroup(key) {
     edge._el.group.classList.toggle("pn-edge-dim", !on);
   });
 
+  document.querySelectorAll(".pn-node").forEach(el => {
+    const involved = group.involvedNodes.has(el.dataset.id);
+    el.classList.toggle("pn-node-dim", !involved);
+    el.classList.toggle("pn-node-active", involved);
+  });
+
   document.querySelector(`.pn-ods-badge-group[data-group="${key}"]`)?.classList.add("visible");
   document.querySelector(`.pn-finding-item[data-pn-finding="${key}"]`)?.classList.add("active");
 }
@@ -1158,6 +1214,9 @@ function clearPnHighlight() {
   pnActiveGroup = null;
   document.querySelectorAll(".pn-edge-group").forEach(el => {
     el.classList.remove("pn-edge-highlight", "pn-edge-dim");
+  });
+  document.querySelectorAll(".pn-node").forEach(el => {
+    el.classList.remove("pn-node-dim", "pn-node-active");
   });
   document.querySelectorAll(".pn-ods-badge-group").forEach(el => el.classList.remove("visible"));
   document.querySelectorAll(".pn-finding-item").forEach(el => el.classList.remove("active"));
