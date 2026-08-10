@@ -472,7 +472,8 @@ body {
 }
 
 /* SVG node/edge styling */
-.ods-node { cursor: pointer; }
+.ods-node { cursor: grab; touch-action: none; }
+.ods-node.dragging { cursor: grabbing; }
 .ods-node .node-ring { fill: rgba(8,11,18,0.6); transition: opacity .2s; }
 .ods-node .node-inner { font-family: 'Inter', sans-serif; color: var(--text); text-align: center; transition: opacity .2s; }
 .ods-node .node-num { font-family: 'Space Grotesk', sans-serif; font-weight: 800; line-height: 1; }
