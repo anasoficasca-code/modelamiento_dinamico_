@@ -1,101 +1,113 @@
 /* ==========================================================
-   MÓDULO 05 — LO QUE NO ESTÁ — POT Bogotá
-   Red de ausencias: qué queda por fuera del POT y qué está
-   subrepresentado.
-
-   Capas de la red:
-   - nodos DECLARADOS (verde): componentes que el POT sí nombra
-   - nodos AUSENTES (rojo): lo que no aparece o aparece trivialmente
-   - nodos SUBREPRESENTADOS (amarillo): aparecen con un solo
-     rol administrativo, pese a sus múltiples roles reales
-
-   Tipos de arista:
-   - ausente_absoluto   → línea ROJA punteada, sin flecha
-   - subrepresentado    → línea AMARILLA punteada, con flecha
-   - declarado_conectado→ línea VERDE continua, con flecha
-   - rol_multiple       → línea MORADA doble, sin flecha
-
-   Interacción:
-   - Clic en línea → panel con la relación, tipo y sustento
-   - Doble clic en nodo → apagarlo
-   - Triple clic en nodo → aislar su flujo
-   - Tarjetas de insight: filtros por capa
+   RED — RELACIONES DEL TEXTO DEL POT — DISCURSO VS REALIDAD (Módulo 03)
+   diagrama con física de nodos
+   - Los nodos parten de una posición fija, pero se pueden ARRASTRAR:
+     al mover una bola, las conectadas la "siguen" (fuerza de resorte),
+     y el conjunto tiende a volver a su posición original.
+   - Cada línea es una relación explícita o razonablemente inferible del texto del POT:
+     dependencia, condicionamiento, causal, funcional, complementariedad,
+     conflicto, jerarquía o retroalimentación.
+   - Clic en una línea -> panel con la relación, el tipo, la frase exacta
+     del POT y su página/fuente.
+   - Doble clic en una bola -> la apaga (opacidad) y oculta sus líneas.
+   - Triple clic en una bola -> aísla su flujo (solo se ven los nodos
+     y líneas con los que se conecta directamente).
+   - Convenciones:
+       Dependencia:       azul      #5b8def  continua con flecha
+       Condicionamiento:  turquesa  #2fd4c8  continua con flecha
+       Causal:            naranja   #ef9552  continua con flecha
+       Funcional:         morado    #a276f2  continua con flecha
+       Complementariedad: verde     #4ade80  continua, sin flecha
+       Conflicto:         rojo      #ef4444  continua, sin flecha
+       Jerarquía:         rosa      #f76fb0  doble línea
+       Retroalimentación: amarillo  #f5c945  punteada con flecha doble
    ========================================================== */
 
 const SVG_NS = "http://www.w3.org/2000/svg";
+const XHTML_NS = "http://www.w3.org/1999/xhtml";
 
-/* -------- Nodos: declarados, ausentes y subrepresentados -------- */
+/* -------- Nodos: conceptos del POT con posición fija -------- */
 const ODS_NODES = [
-  /* declarados (el POT sí los nombra) */
-  { id: "metro",      cat: "declarado",     name: "METRO",                             icon: "fa-train-subway",    color: "#f5c945", x: 470,  y: 130, r: 52 },
-  { id: "corredores", cat: "declarado",     name: "CORREDORES\nVERDES",                icon: "fa-tree",            color: "#4ade80", x: 880,  y: 120, r: 54 },
-  { id: "manzanas",   cat: "declarado",     name: "MANZANAS\nDEL CUIDADO",             icon: "fa-people-roof",     color: "#f76fb0", x: 700,  y: 400, r: 54 },
-  { id: "eep",        cat: "declarado",     name: "EEP / ESTRUCTURA\nECOLÓGICA",       icon: "fa-leaf",            color: "#4ade80", x: 1180, y: 300, r: 56 },
-  /* ausentes (no aparecen o aparecen trivialmente) */
-  { id: "lotevacio",  cat: "ausente",       name: "LOTE\nVACÍO",                       icon: "fa-warehouse",       color: "#ef4444", x: 140,  y: 480, r: 58 },
-  { id: "informales", cat: "ausente",       name: "ECONOMÍA\nINFORMAL",                icon: "fa-cart-shopping",   color: "#ef4444", x: 300,  y: 300, r: 54 },
-  { id: "fauna",      cat: "ausente",       name: "FAUNA\nURBANA",                     icon: "fa-dove",            color: "#ef4444", x: 600,  y: 660, r: 52 },
-  { id: "riobogota",  cat: "ausente",       name: "RÍO BOGOTÁ\nFUERA DE PERÍMETRO",    icon: "fa-water",           color: "#ef4444", x: 1330, y: 600, r: 56 },
-  { id: "muisca",     cat: "ausente",       name: "TIERRAS\nMUISCA",                   icon: "fa-mountain-sun",    color: "#ef4444", x: 110,  y: 160, r: 52 },
-  { id: "biodiv",     cat: "ausente",       name: "BIODIVERSIDAD\nESPONTÁNEA",         icon: "fa-seedling",        color: "#ef4444", x: 280,  y: 640, r: 52 },
-  /* subrepresentados (un solo rol administrativo) */
-  { id: "lluvia",     cat: "subrep",        name: "AGUA\nLLUVIA",                      icon: "fa-cloud-rain",      color: "#f5c945", x: 1050, y: 130, r: 52 },
-  { id: "suelo",      cat: "subrep",        name: "SUELO COMO\nM2 EDIFICABLES",        icon: "fa-ruler-combined",  color: "#f5c945", x: 950,  y: 640, r: 54 },
-  { id: "humedales",  cat: "subrep",        name: "HUMEDALES\nINVENTARIO ESTÁTICO",    icon: "fa-droplet",         color: "#f5c945", x: 1400, y: 440, r: 52 },
-  { id: "ladera",     cat: "subrep",        name: "SUELO EN\nLADERA INFORMAL",         icon: "fa-house-crack",     color: "#f5c945", x: 460,  y: 490, r: 52 },
+  { id: "metro",      num: "", name: "METRO",                                icon: "fa-train-subway",      color: "#2fd4c8", x: 760,  y: 150, r: 64 },
+  { id: "transporte", num: "", name: "TRANSPORTE\nPÚBLICO",                   icon: "fa-bus",               color: "#ef9552", x: 470,  y: 180, r: 56 },
+  { id: "corredores", num: "", name: "CORREDORES\nVERDES",                    icon: "fa-tree",              color: "#4ade80", x: 250,  y: 400, r: 58 },
+  { id: "ciclorutas", num: "", name: "CICLORRUTAS",                           icon: "fa-person-biking",     color: "#a276f2", x: 560,  y: 440, r: 54 },
+  { id: "equip",      num: "", name: "EQUIPAMIENTOS",                         icon: "fa-school",            color: "#5b8def", x: 1000, y: 210, r: 58 },
+  { id: "vivienda",   num: "", name: "VIVIENDA\nVIS/PIP",                     icon: "fa-house",             color: "#f5c945", x: 1290, y: 260, r: 54 },
+  { id: "manzanas",   num: "", name: "MANZANAS\nDEL CUIDADO",                 icon: "fa-people-roof",       color: "#f76fb0", x: 890,  y: 560, r: 56 },
+  { id: "sserv",      num: "", name: "SERVICIOS\nSOCIALES",                   icon: "fa-hand-holding-heart", color: "#8de8c4", x: 600,  y: 650, r: 48 },
+  { id: "scuidado",   num: "", name: "SERVICIOS\nDE CUIDADO",                 icon: "fa-heart-pulse",       color: "#ff7eb6", x: 1190, y: 520, r: 44 },
+  { id: "patrimonio", num: "", name: "PATRIMONIO\nCULTURAL",                  icon: "fa-landmark",          color: "#c9a01a", x: 140,  y: 120, r: 56 },
+  { id: "eep",        num: "", name: "EEP / ESTRUCTURA\nECOLÓGICA",           icon: "fa-leaf",              color: "#10b981", x: 420,  y: 660, r: 62 },
+  { id: "riobogota",  num: "", name: "RÍO BOGOTÁ\nCUENCA",                    icon: "fa-water",             color: "#38bdf8", x: 1340, y: 620, r: 48 },
 ];
 
+/* -------- física: cada nodo guarda su posición "casa" (ancla) y velocidad -------- */
 ODS_NODES.forEach(n => {
   n.homeX = n.x; n.homeY = n.y;
   n.vx = 0; n.vy = 0;
   n.fixed = false;
 });
 
-/* -------- Tipos de arista -------- */
+/* Tipos de relación del texto del POT (módulo 03) */
 const TYPE_STYLE = {
-  ausente_absoluto:    { color: "#ef4444", width: 2.2, label: "Ausente — no aparece en el POT", arrow: false, dash: "6 5" },
-  subrepresentado:     { color: "#f5c945", width: 2.2, label: "Subrepresentado — un solo rol administrativo", arrow: true,  dash: "4 4" },
-  declarado_conectado: { color: "#4ade80", width: 2.6, label: "Relación declarada en el POT", arrow: true,  dash: null },
-  rol_multiple:        { color: "#a276f2", width: 3.0, label: "Rol múltiple — desempeña varios roles simultáneos", arrow: false, dash: null, doble: true },
+  dependencia:      { color: "#5b8def", width: 2.6, label: "Dependencia" },
+  condicionamiento: { color: "#2fd4c8", width: 2.6, label: "Condicionamiento" },
+  causal:           { color: "#ef9552", width: 2.6, label: "Relación causal" },
+  funcional:        { color: "#a276f2", width: 2.6, label: "Relación funcional" },
+  complementariedad:{ color: "#4ade80", width: 2.4, label: "Complementariedad" },
+  conflicto:        { color: "#ef4444", width: 2.6, label: "Conflicto" },
+  jerarquia:        { color: "#f76fb0", width: 2.6, label: "Jerarquía" },
+  retroalimentacion:{ color: "#f5c945", width: 2.4, label: "Retroalimentación" },
 };
 
-/* -------- Aristas -------- */
+/* -------- Aristas: relaciones del texto del POT, 1 a 1 con la tabla -------- */
 const RAW_EDGES = [
-  /* --- ausentes absolutos: no aparecen (o aparecen trivialmente) --- */
-  { s: "lotevacio",  t: "suelo",      type: "ausente_absoluto", directa: true, paginaTexto: "El POT lo nombra solo como 'suelo sin desarrollar' o 'lote', nunca como sistema", sustento: "El POT clasifica el lote vacío administrativamente (usos, edificabilidad, impuestos) pero no lo reconoce como hábitat temporal, refugio de especies, espacio de infiltración, corredor ecológico, reservorio de biodiversidad espontánea, lugar de apropiación comunitaria ni reserva de oportunidad inmobiliaria. Ninguno de esos roles aparece en la estructura del plan." },
-  { s: "fauna",      t: "eep",        type: "ausente_absoluto", directa: true, paginaTexto: "Estructura ecológica principal", sustento: "La EEP nombra cobertura vegetal, suelo de protección y humedales, pero la fauna urbana (murciélagos, aves insectívoras, polinizadores) no tiene nodos propios: sus roles de polinización, control de plagas y bioindicación son invisibles para el plan." },
-  { s: "riobogota",  t: "eep",        type: "ausente_absoluto", directa: true, paginaTexto: "Fuente: Observaciones CCB al POT", sustento: "La Cámara de Comercio de Bogotá señala que el POT omite el Plan de Ordenación y Manejo de la Cuenca del Río Bogotá en su jerarquía de instrumentos, pese a que la estructura ecológica depende directamente de la cuenca. Lo que está fuera del perímetro sigue causando lo que está adentro." },
-  { s: "muisca",     t: "metro",      type: "ausente_absoluto", directa: true, paginaTexto: "Trazado de la Primera Línea del Metro", sustento: "Los hallazgos arqueológicos del resguardo indígena Muisca en el trazado de la Primera Línea del Metro visibilizan una tensión que el POT no resuelve: la infraestructura mayor avanza sin declarar mecanismos sistemáticos de protección del patrimonio territorial indígena." },
-  { s: "biodiv",     t: "lotevacio",  type: "ausente_absoluto", directa: true, paginaTexto: "Inferencia a partir de la clasificación de usos", sustento: "La biodiversidad espontánea de lotes y predios abandonados no tiene categoría en el POT: es 'no uso'. Y sin embargo desempeña el rol de reservorio de conectividad ecológica entre los fragmentos verdes declarados." },
-
-  /* --- subrepresentados: aparecen con un solo rol administrativo --- */
-  { s: "lluvia",     t: "eep",        type: "subrepresentado", directa: true, pagina: 30, paginaTexto: "p. 30 y estructura ecológica", sustento: "El agua lluvia aparece como problema de drenaje a canalizar y como riesgo a mitigar. No aparece como recurso: recarga de acuíferos, base del sistema de humedales y oportunidad para infraestructura verde y cosecha urbana." },
-  { s: "suelo",      t: "metro",      type: "subrepresentado", directa: true, pagina: 43, paginaTexto: "p. 43", sustento: "El suelo aparece principalmente como metros cuadrados edificables o como soporte de la infraestructura. Su rol como patrimonio común, filtro térmico, superficie de infiltración y lugar de memoria queda fuera de la categoría 'suelo de expansión' o 'consolidación'." },
-  { s: "humedales",  t: "eep",        type: "subrepresentado", directa: true, paginaTexto: "Estructura ecológica", sustento: "Los humedales aparecen como inventario estático de un listado. La red dinámica que los conecta con la cuenca, los acuíferos y las lluvias — su rol hidrológico sistémico — no está representada." },
-  { s: "ladera",     t: "suelo",      type: "subrepresentado", directa: true, paginaTexto: "Riesgo y amenaza", sustento: "El suelo en ladera informal aparece como amenaza y riesgo a mitigar. El rol de 'ciudad ya construida con comunidad establecida, redes sociales y economía propia' queda subordinado a la categoría de riesgo." },
-
-  /* --- declarados conectados: la red del POT que ya conocemos --- */
-  { s: "metro",      t: "corredores", type: "declarado_conectado", directa: true, pagina: 239, paginaTexto: "pp. 239–241", sustento: "“...además del Metro, y para alimentarlo y complementarlo, están los corredores verdes...” — relación declarada en el POT (ver Módulo 03)." },
-  { s: "manzanas",   t: "eep",        type: "declarado_conectado", directa: true, pagina: 126, paginaTexto: "p. 126", sustento: "“...cualifica los servicios sociales del Distrito y hace efectiva la articulación interinstitucional.” — la relación entre cuidado y estructura social está declarada." },
-
-  /* --- rol múltiple: un mismo elemento desempeña varios roles --- */
-  { s: "lotevacio",  t: "fauna",      type: "rol_multiple", directa: true, paginaTexto: "Rol múltiple: hábitat temporal + refugio de especies", sustento: "El lote vacío es simultáneamente hábitat temporal de fauna urbana y reservorio de biodiversidad espontánea: un mismo predio sostiene dos sistemas vivos que el plan lee como 'no uso'." },
-  { s: "lotevacio",  t: "biodiv",     type: "rol_multiple", directa: true, paginaTexto: "Rol múltiple: infiltración + reservorio", sustento: "El lote vacío es a la vez espacio de infiltración del agua lluvia y corredor ecológico entre fragmentos verdes: roles ecológicos que no se suman en el POT porque no están reconocidos." },
-  { s: "informales", t: "manzanas",   type: "rol_multiple", directa: true, paginaTexto: "Rol múltiple: economía de proximidad + red de cuidado", sustento: "La economía informal es motor económico de proximidad, red social de barrio y, de hecho, proveedor de servicios de cuidado y alimentación accesible: roles que la categoría 'reubicación de vendedores' no captura." },
-  { s: "humedales",  t: "riobogota",  type: "rol_multiple", directa: true, paginaTexto: "Rol múltiple: filtro + eslabón de cuenca", sustento: "Los humedales son a la vez filtro de calidad de agua, hábitat de aves y eslabón de la cuenca del río Bogotá: su funcionamiento real es de red, no de inventario." },
+  { s: "metro",      t: "transporte", type: "dependencia",      directa: true,  pagina: 30,   sustento: '“...conectadas por un sistema multimodal de transporte público... basadas en la red Metro y alimentadas por los demás modos y medios de transporte público como los corredores verdes, los cables y las ciclorrutas.” La estructura de transporte público DEPENDe funcionalmente de la red Metro: el sistema multimodal se organiza alrededor de ella."' },
+  { s: "corredores", t: "transporte", type: "dependencia",      directa: true,  pagina: 239,  sustento: '“...además del Metro, y para alimentarlo y complementarlo, están los corredores verdes, con diseño ecosistémico, transporte público eléctrico, ciclorrutas seguras y andenes, plazas y espacios de encuentro...” Los corredores verdes contienen los modos de transporte público eléctrico (arista dependencia, p. 239): su existencia y trazado dependen de la función de alimentar el sistema de transporte.' },
+  { s: "corredores", t: "ciclorutas", type: "dependencia",      directa: true,  pagina: 239,  sustento: '“...además del Metro, y para alimentarlo y complementarlo, están los corredores verdes, con diseño ecosistémico, transporte público eléctrico, ciclorrutas seguras y andenes, plazas y espacios de encuentro...” Los corredores verdes contienen e imponen a las ciclorrutas seguras: la cicloinfraestructura depende del trazado del corredor."' },
+  { s: "equip",      t: "manzanas",   type: "dependencia",      directa: true,  pagina: 125,  sustento: "“Aprovechar los equipamientos existentes como anclas de las Manzanas del Cuidado, para que en estos diferentes entidades del Distrito cuiden a quienes nos cuidan, fue el cuello de botella que se resolvió con el pot.” Las Manzanas del Cuidado dependen de los equipamientos existentes: sin anclas, no hay manzanas." },
+  { s: "manzanas",   t: "sserv",      type: "dependencia",      directa: true,  pagina: 126,  sustento: "“...cualifica los servicios sociales del Distrito y hace efectiva la articulación interinstitucional.” Los servicios sociales dependen de las Manzanas del Cuidado para articularse: la cualificación declarada opera a través de ellas." },
+  { s: "sserv",      t: "scuidado",   type: "dependencia",      directa: true,  pagina: 122,  sustento: "“Las Manzanas del Cuidado son áreas acotadas que agrupan diversas infraestructuras para brindar servicios de manera simultánea y articulada a las personas cuidadoras, a quienes ellas cuidan y a sus familias.” Los servicios de cuidado dependen de la infraestructura social agrupada: el servicio no existe sin el equipamiento que lo contiene." },
+  { s: "metro",      t: "vivienda",   type: "condicionamiento", directa: true,  pagina: 43,   sustento: "“Además del Metro, Bogotá necesita con urgencia ampliar sus entradas y salidas, tapar más huecos, hacer más vías, ciclorrutas, cables y corredores verdes con buses eléctricos para que el transporte público de calidad llegue a todas partes, conecte a la gente, la saque del trancón y la contaminación.” La inversión en Metro condiciona el valor y la localización de la vivienda: la accesibilidad que promete el Metro se capitaliza en el mercado de suelo." },
+  { s: "vivienda",   t: "equip",      type: "condicionamiento", directa: true,  pagina: 126,  sustento: "“Por un lado, priorizamos que los colegios o equipamientos educativos estén cerca de la vivienda o incluso cerca del trabajo de los padres.” La localización de la vivienda condiciona la ubicación de los equipamientos: la ciudad educativa se planea a partir del mapa de vivienda." },
+  { s: "corredores", t: "transporte", type: "condicionamiento", directa: true,  pagina: 30, curve: 40,   sustento: "“...conectadas por un sistema multimodal de transporte público... basadas en la red Metro y alimentadas por los demás modos... como los corredores verdes...” La cobertura del transporte público está condicionada por los corredores verdes: el modo eléctrico se define por el trazado ambiental." },
+  { s: "ciclorutas", t: "metro",      type: "condicionamiento", directa: true,  pagina: 43,   sustento: "“...hacer más vías, ciclorrutas, cables y corredores verdes con buses eléctricos para que el transporte público de calidad llegue a todas partes...” La expansión de ciclorrutas se condiciona al objetivo de conectar con la red Metro: la cicloinfraestructura se diseña como alimentadora del sistema principal." },
+  { s: "eep",        t: "metro",      type: "causal",           directa: true,  pagina: 30,   sustento: "“...basadas en la red Metro y alimentadas por los demás modos...” La existencia de la red Metro como núcleo causa la subordinación del resto de modos: sin el Metro, el sistema multimodal no tendría la estructura que el POT describe." },
+  { s: "corredores", t: "sserv",      type: "causal",           directa: true,  pagina: 30,   sustento: "“...corredores verdes, con diseño ecosistémico, transporte público eléctrico, ciclorrutas seguras y andenes, plazas y espacios de encuentro...” Los corredores verdes causan mejoras en los servicios sociales: el diseño ecosistémico reduce la carga térmica y de contaminación sobre la salud de quienes usan los servicios cercanos." },
+  { s: "manzanas",   t: "sserv",      type: "causal",           directa: true,  pagina: 126,  sustento: "“...cualifica los servicios sociales del Distrito y hace efectiva la articulación interinstitucional.” La articulación de las Manzanas causa la cualificación de los servicios sociales: la simultaneidad del servicio es la causa directa del resultado declarado." },
+  { s: "eep",        t: "riobogota",  type: "causal",           directa: true,  pagina: null, sustento: "“Fuente: Observaciones y Recomendaciones al POT — Cámara de Comercio de Bogotá (CTPD). El POT omite el Plan de Ordenación y Manejo de la Cuenca del Río Bogotá en su jerarquía de instrumentos, pese a que la estructura ecológica depende directamente de la cuenca.” La salud de la cuenca causa la funcionalidad de la estructura ecológica: si la cuenca se degrada, la EEP pierde su base hidrográfica.", paginaTexto: "Fuente: CCB" },
+  { s: "metro",      t: "corredores", type: "funcional",        directa: true,  pagina: 239,  sustento: "“...además del Metro, y para alimentarlo y complementarlo, están los corredores verdes...” Los corredores verdes tienen la función de alimentar y complementar el Metro: su propósito estructural se define en relación con el sistema de transporte." },
+  { s: "equip",      t: "sserv",      type: "funcional",        directa: true,  pagina: 126,  sustento: "“Por un lado, priorizamos que los colegios o equipamientos educativos estén cerca de la vivienda...” Los equipamientos funcionan como provisión física de los servicios sociales: su localización es la materialización del servicio." },
+  { s: "patrimonio", t: "eep",        type: "funcional",        directa: true,  pagina: 196,  sustento: "“la EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio.” El patrimonio cultural funciona como contenido de la EIP: su sistema de relaciones se precisa dentro de la estructura ecológica." },
+  { s: "corredores", t: "ciclorutas", type: "complementariedad", directa: true,  pagina: 239, curve: 35,  sustento: "“...están los corredores verdes, con diseño ecosistémico, transporte público eléctrico, ciclorrutas seguras y andenes, plazas y espacios de encuentro...” Corredores verdes y ciclorrutas se complementan: el corredor aporta el trazado y la ciclorruta el modo activo; ambos se necesitan para el diseño ecosistémico completo." },
+  { s: "manzanas",   t: "equip",      type: "complementariedad", directa: true,  pagina: 125, curve: 35,  sustento: "“Aprovechar los equipamientos existentes como anclas de las Manzanas del Cuidado...” Manzanas del Cuidado y equipamientos se complementan: la manzana aporta la articulación social y el equipamiento la infraestructura; juntos forman el sistema de cuidado sin duplicarlo." },
+  { s: "transporte", t: "ciclorutas", type: "complementariedad", directa: true,  pagina: 43,   sustento: "“...hacer más vías, ciclorrutas, cables y corredores verdes con buses eléctricos para que el transporte público de calidad llegue a todas partes...” El transporte público masivo y la ciclorruta se complementan: el bus eléctrico cubre distancias largas y la bicicleta las de proximidad; la calidad del transporte depende de ambos." },
+  { s: "metro",      t: "patrimonio", type: "conflicto",        directa: true,  pagina: 186,  sustento: "“...son el testimonio de complejas estrategias de cómo interpretamos y valoramos las huellas del territorio que habitamos.” (p. 186) y p. 43: el Metro avanza sobre territorios con huellas patrimoniales sin que la red de transporte declare mecanismos de protección del patrimonio arqueológico en su trazado; los dos sistemas compiten por el mismo suelo." },
+  { s: "metro",      t: "eep",        type: "jerarquia",        directa: true,  pagina: 30,   sustento: "“...basadas en la red Metro y alimentadas por los demás modos...” La red Metro ocupa el primer nivel de la jerarquía de transporte: todos los demás modos se definen como “alimentadores” de ella, sin simetría entre modos." },
+  { s: "patrimonio", t: "eep",        type: "jerarquia",        directa: true,  pagina: 196,  sustento: "“la EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio.” El patrimonio queda jerárquicamente subordinado a la EIP: la EIP “inscribe” al patrimonio, no al revés; el patrimonio hereda la posición de la estructura ecológica." },
+  { s: "transporte", t: "corredores", type: "jerarquia",        directa: true,  pagina: 30, curve: 40,   sustento: "“...conectadas por un sistema multimodal de transporte público... basadas en la red Metro y alimentadas por los demás modos...” El sistema de transporte ordena jerárquicamente a los corredores verdes: estos son “modos y medios” que alimentan, no estructuras autónomas con propósito propio." },
+  { s: "vivienda",   t: "metro",      type: "retroalimentacion", directa: true,  pagina: 43,   sustento: "“...para que el transporte público de calidad llegue a todas partes, conecte a la gente, la saque del trancón y la contaminación.” El Metro aumenta el valor del suelo y la vivienda se encarece cerca de las estaciones; el encarecimiento expulsa a la población que el Metro pretendía conectar, que demanda más transporte público: el sistema se realimenta negativamente." },
+  { s: "corredores", t: "transporte", type: "retroalimentacion", directa: true,  pagina: 30, curve: 55,   sustento: "“...basadas en la red Metro y alimentadas por los demás modos...” Los corredores verdes alimentan al transporte público, pero la expansión del transporte público exige más corredores: cada ampliación del sistema multimodal reclama nuevo trazado verde, realimentando la dependencia." },
+  { s: "sserv",      t: "manzanas",   type: "retroalimentacion", directa: true,  pagina: 126, curve: 30,  sustento: "“...cualifica los servicios sociales del Distrito y hace efectiva la articulación interinstitucional.” Los servicios sociales cualifican las Manzanas, pero las Manzanas demandan más servicios sociales para mantener la articulación: la cualificación genera demanda que exige más cualificación." },
 ];
-
-RAW_EDGES.forEach(edge => {
-  const s = nodeById(edge.s), t = nodeById(edge.t);
-  if (!s || !t) return;
-  edge.restLength = Math.hypot(t.x - s.x, t.y - s.y);
-});
 
 function nodeById(id) { return ODS_NODES.find(n => n.id === id); }
 
-/* -------- defs -------- */
+/* -------- física: longitud de reposo de cada resorte (arista) -------- */
+RAW_EDGES.forEach(edge => {
+  const s = nodeById(edge.s), t = nodeById(edge.t);
+  if (!s || !t) return;
+  const dist = Math.hypot(t.x - s.x, t.y - s.y);
+  edge.restLength = dist;
+  /* curvas suaves para las relaciones de retroalimentación, para que no se solapen con las directas */
+  if (edge.type === "retroalimentacion" && !edge.curve) edge.curve = 26;
+});
+
+/* -------- defs: glow por color de nodo + flechas por tipo -------- */
 function buildDefs(svg) {
   const defs = document.createElementNS(SVG_NS, "defs");
+
   const uniqueColors = [...new Set(ODS_NODES.map(n => n.color))];
   uniqueColors.forEach(color => {
     const filter = document.createElementNS(SVG_NS, "filter");
@@ -126,25 +138,12 @@ function buildDefs(svg) {
     path.setAttribute("fill", style.color);
     marker.appendChild(path);
     defs.appendChild(marker);
-
-    if (style.doble) {
-      const marker2 = document.createElementNS(SVG_NS, "marker");
-      marker2.setAttribute("id", "arrow-" + type + "-rev");
-      marker2.setAttribute("viewBox", "0 0 10 10");
-      marker2.setAttribute("refX", "2"); marker2.setAttribute("refY", "5");
-      marker2.setAttribute("markerWidth", "7"); marker2.setAttribute("markerHeight", "7");
-      marker2.setAttribute("orient", "auto-start-reverse");
-      const path2 = document.createElementNS(SVG_NS, "path");
-      path2.setAttribute("d", "M10,0 L0,5 L10,10 z");
-      path2.setAttribute("fill", style.color);
-      marker2.appendChild(path2);
-      defs.appendChild(marker2);
-    }
   });
 
   svg.appendChild(defs);
 }
 
+/* -------- aristas: grupo con línea visual + línea invisible más ancha para clic -------- */
 function edgePathData(edge, s, t) {
   const dx = t.x - s.x, dy = t.y - s.y;
   const dist = Math.sqrt(dx * dx + dy * dy) || 1;
@@ -163,84 +162,34 @@ function edgePathData(edge, s, t) {
   return `M${x1},${y1} L${x2},${y2}`;
 }
 
-/* -------- física -------- */
-let rafId = null;
-let dragging = null;
-let dragOffsetX = 0, dragOffsetY = 0;
-let moved = false;
-
-function wakePhysics() {
-  if (rafId) return;
-  rafId = requestAnimationFrame(tick);
-}
-
-function tick() {
-  rafId = null;
-  let active = false;
-  const k = 0.012;          /* resorte */
-  const homeK = 0.006;      /* ancla */
-  const damp = 0.82;
-
-  RAW_EDGES.forEach(edge => {
-    const s = nodeById(edge.s), t = nodeById(edge.t);
-    if (!s || !t) return;
-    const dx = t.x - s.x, dy = t.y - s.y;
-    const dist = Math.hypot(dx, dy) || 1;
-    const force = (dist - edge.restLength) * k;
-    const fx = (dx / dist) * force;
-    const fy = (dy / dist) * force;
-    s.vx += fx; s.vy += fy;
-    t.vx -= fx; t.vy -= fy;
-  });
-
-  ODS_NODES.forEach(n => {
-    if (n.fixed) return;
-    n.vx += (n.homeX - n.x) * homeK;
-    n.vy += (n.homeY - n.y) * homeK;
-    n.vx *= damp; n.vy *= damp;
-    n.x += n.vx; n.y += n.vy;
-    if (Math.abs(n.vx) > 0.02 || Math.abs(n.vy) > 0.02) active = true;
-  });
-
-  updatePositions();
-
-  if (active) wakePhysics();
-}
-
-function updatePositions() {
-  ODS_NODES.forEach(n => {
-    const group = document.querySelector(`.ods-node[data-id="${n.id}"]`);
-    if (group) group.setAttribute("transform", `translate(${n.x},${n.y})`);
-  });
-  RAW_EDGES.forEach((edge, i) => {
-    const s = nodeById(edge.s), t = nodeById(edge.t);
-    if (!s || !t) return;
-    const line = document.querySelector(`.edge-hit[data-index="${i}"]`);
-    const vis = document.querySelector(`.edge-vis[data-index="${i}"]`);
-    if (!line) return;
-    const d = edgePathData(edge, s, t);
-    line.setAttribute("d", d);
-    if (vis) vis.setAttribute("d", d);
-    const rev = document.querySelector(`.edge-vis[data-index="${i}"].rev`);
-    if (rev) rev.setAttribute("d", d);
-  });
-}
-
-/* -------- dibujar -------- */
-function renderNetwork() {
-  const svg = document.getElementById("networkViz");
-  if (!svg) return;
-  svg.innerHTML = "";
-  buildDefs(svg);
-  drawEdges(svg);
-  drawNodes(svg);
+/* doble línea paralela para jerarquías implícitas */
+function edgePathDataDouble(edge, s, t) {
+  const dx = t.x - s.x, dy = t.y - s.y;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+  const ux = dx / dist, uy = dy / dist;
+  const px = -uy, py = ux;
+  const off = 3;
+  const startPad = s.r + 2;
+  const endPad = t.r + 2;
+  const x1 = s.x + ux * startPad, y1 = s.y + uy * startPad;
+  const x2 = t.x - ux * endPad,   y2 = t.y - uy * endPad;
+  return [
+    `M${x1 + px * off},${y1 + py * off} L${x2 + px * off},${y2 + py * off}`,
+    `M${x1 - px * off},${y1 - py * off} L${x2 - px * off},${y2 - py * off}`,
+  ];
 }
 
 function drawEdges(svg) {
+  const g = document.createElementNS(SVG_NS, "g");
+  g.setAttribute("class", "edges-layer");
+
   RAW_EDGES.forEach((edge, i) => {
-    const s = nodeById(edge.s), t = nodeById(edge.t);
+    const s = nodeById(edge.s);
+    const t = nodeById(edge.t);
     if (!s || !t) return;
     const style = TYPE_STYLE[edge.type];
+    const d = edgePathData(edge, s, t);
+    /* retroalimentación: punteada siempre, flecha doble en ambos sentidos */
 
     const group = document.createElementNS(SVG_NS, "g");
     group.setAttribute("class", "edge-group");
@@ -248,141 +197,228 @@ function drawEdges(svg) {
     group.setAttribute("data-type", edge.type);
     group.setAttribute("data-source", edge.s);
     group.setAttribute("data-target", edge.t);
+    group.style.setProperty("--edge-color", style.color);
 
     const hit = document.createElementNS(SVG_NS, "path");
-    hit.setAttribute("class", "edge-hit");
-    hit.setAttribute("data-index", i);
-    hit.setAttribute("fill", "none");
-    hit.setAttribute("stroke", "transparent");
-    hit.setAttribute("stroke-width", "14");
-    hit.style.cursor = "pointer";
+    hit.setAttribute("d", d);
+    hit.setAttribute("class", "ods-edge edge-hit");
 
-    const vis = document.createElementNS(SVG_NS, "path");
-    vis.setAttribute("class", "edge-vis");
-    vis.setAttribute("data-index", i);
-    vis.setAttribute("fill", "none");
-    vis.setAttribute("stroke", style.color);
-    vis.setAttribute("stroke-width", style.width);
-    vis.setAttribute("opacity", "0.75");
-    if (style.dash) vis.setAttribute("stroke-dasharray", style.dash);
-    if (style.doble) {
-      vis.setAttribute("marker-start", `url(#arrow-${edge.type}-rev)`);
-      vis.setAttribute("marker-end", `url(#arrow-${edge.type})`);
-      vis.setAttribute("opacity", "0.9");
-      const rev = vis.cloneNode(true);
-      rev.setAttribute("class", "edge-vis rev");
-      rev.setAttribute("transform", "translate(0, 4)");
-      group.appendChild(rev);
-    } else if (style.arrow) {
-      vis.setAttribute("marker-end", `url(#arrow-${edge.type})`);
+    let visualEl = null;
+    if (edge.type === "jerarquia") {
+      /* dos líneas paralelas para jerarquías implícitas */
+      const [d1, d2] = edgePathDataDouble(edge, s, t);
+      const sub = document.createElementNS(SVG_NS, "g");
+      sub.setAttribute("class", "ods-edge edge-visual");
+      const v1 = document.createElementNS(SVG_NS, "path");
+      v1.setAttribute("d", d1);
+      const v2 = document.createElementNS(SVG_NS, "path");
+      v2.setAttribute("d", d2);
+      [v1, v2].forEach(v => {
+        v.setAttribute("stroke", style.color);
+        v.setAttribute("stroke-width", style.width * 0.55);
+      });
+      sub.appendChild(v1); sub.appendChild(v2);
+      visualEl = sub;
+      edge._el = { visual: sub, d1, d2, hit };
+    } else {
+      const visual = document.createElementNS(SVG_NS, "path");
+      visual.setAttribute("d", d);
+      visual.setAttribute("class", "ods-edge edge-visual");
+      visual.setAttribute("stroke", style.color);
+      visual.setAttribute("stroke-width", style.width);
+      const sinFlecha = (edge.type === "complementariedad" || edge.type === "conflicto");
+      const esRetro = (edge.type === "retroalimentacion");
+      if (esRetro || !edge.directa) visual.setAttribute("stroke-dasharray", "6,5");
+      if (edge.directa && !sinFlecha) visual.setAttribute("marker-end", `url(#arrow-${edge.type})`);
+      if (esRetro && edge.directa) {
+        /* flecha doble: retroalimentación en ambos sentidos */
+        visual.setAttribute("marker-start", `url(#arrow-${edge.type})`);
+      }
+      visual.setAttribute("opacity", "0.9");
+      visualEl = visual;
+      edge._el = { visual, hit };
     }
 
+    group.appendChild(visualEl);
     group.appendChild(hit);
-    group.appendChild(vis);
-    svg.appendChild(group);
-
-    hit.addEventListener("click", () => showEdgeInfo(i));
+    group.addEventListener("click", () => showEdgeInfo(i));
+    g.appendChild(group);
   });
-  updatePositions();
+
+  svg.appendChild(g);
 }
 
+/* -------- nodos -------- */
 function drawNodes(svg) {
-  const catLabel = { declarado: "DECLARADO", ausente: "AUSENTE", subrep: "SUBREPRESENTADO" };
-  ODS_NODES.forEach(n => {
+  const g = document.createElementNS(SVG_NS, "g");
+  g.setAttribute("class", "nodes-layer");
+
+  ODS_NODES.forEach(node => {
     const group = document.createElementNS(SVG_NS, "g");
-    group.setAttribute("class", "ods-node ods-node-" + n.cat);
-    group.setAttribute("data-id", n.id);
-    group.setAttribute("data-cat", n.cat);
-    group.setAttribute("transform", `translate(${n.x},${n.y})`);
+    group.setAttribute("class", "ods-node");
+    group.setAttribute("data-id", node.id);
 
     const circle = document.createElementNS(SVG_NS, "circle");
-    circle.setAttribute("r", n.r);
-    circle.setAttribute("fill", "#141b2d");
-    circle.setAttribute("stroke", n.color);
-    circle.setAttribute("stroke-width", "3");
-    circle.setAttribute("filter", `url(#glow-${n.color.replace("#", "")})`);
+    circle.setAttribute("class", "node-ring");
+    circle.setAttribute("cx", node.x); circle.setAttribute("cy", node.y); circle.setAttribute("r", node.r);
+    circle.setAttribute("stroke", node.color);
+    circle.setAttribute("stroke-width", 2.5);
+    circle.setAttribute("filter", "url(#glow-" + node.color.replace("#", "") + ")");
+
+    const fo = document.createElementNS(SVG_NS, "foreignObject");
+    const size = node.r * 2.2;
+    fo.setAttribute("x", node.x - size / 2); fo.setAttribute("y", node.y - size / 2);
+    fo.setAttribute("width", size); fo.setAttribute("height", size);
+
+    const wrapper = document.createElementNS(XHTML_NS, "div");
+    wrapper.setAttribute("class", "node-inner");
+    wrapper.setAttribute("style",
+      "width:100%;height:100%;display:flex;flex-direction:column;" +
+      "align-items:center;justify-content:center;gap:1px;pointer-events:none;"
+    );
+
+    const iconEl = document.createElementNS(XHTML_NS, "i");
+    iconEl.setAttribute("class", "fa-solid " + node.icon + " node-icon");
+    iconEl.setAttribute("style", `color:${node.color}; font-size:${node.r * 0.42}px; margin:1px 0;`);
+
+    const nameEl = document.createElementNS(XHTML_NS, "div");
+    nameEl.setAttribute("class", "node-name");
+    nameEl.setAttribute("style", `font-size:${Math.max(node.r * 0.155, 7.5)}px; padding:0 3px; font-weight:700; color:#e7eaf2; line-height:1.15; white-space:pre-line;`);
+    nameEl.textContent = node.name;
+
+    wrapper.appendChild(iconEl); wrapper.appendChild(nameEl);
+    fo.appendChild(wrapper);
+
     group.appendChild(circle);
+    group.appendChild(fo);
+    attachNodeClickHandler(group, node.id);
+    attachNodeDragHandler(group, node);
+    g.appendChild(group);
 
-    /* anillo punteado para ausentes y subrepresentados */
-    if (n.cat !== "declarado") {
-      const ring = document.createElementNS(SVG_NS, "circle");
-      ring.setAttribute("r", n.r + 6);
-      ring.setAttribute("fill", "none");
-      ring.setAttribute("stroke", n.color);
-      ring.setAttribute("stroke-width", "1.5");
-      ring.setAttribute("stroke-dasharray", "4 4");
-      ring.setAttribute("opacity", "0.6");
-      group.appendChild(ring);
+    node._el = { group, circle, fo };
+  });
+
+  svg.appendChild(g);
+}
+
+/* -------- física: mover nodos y recalcular líneas cada frame -------- */
+const PHYSICS = {
+  spring: 0.045,
+  anchor: 0.02,
+  damping: 0.82,
+  minVel: 0.02,
+};
+
+function updatePositions() {
+  ODS_NODES.forEach(n => {
+    if (!n._el) return;
+    n._el.circle.setAttribute("cx", n.x);
+    n._el.circle.setAttribute("cy", n.y);
+    const size = n.r * 2.2;
+    n._el.fo.setAttribute("x", n.x - size / 2);
+    n._el.fo.setAttribute("y", n.y - size / 2);
+  });
+  RAW_EDGES.forEach(edge => {
+    if (!edge._el) return;
+    const s = nodeById(edge.s), t = nodeById(edge.t);
+    if (!s || !t) return;
+    const d = edgePathData(edge, s, t);
+    if (edge.type === "jerarquia" && edge._el.d1) {
+      const [d1, d2] = edgePathDataDouble(edge, s, t);
+      edge._el.visual.childNodes[0].setAttribute("d", d1);
+      edge._el.visual.childNodes[1].setAttribute("d", d2);
+    } else {
+      edge._el.visual.setAttribute("d", d);
     }
-
-    const iconG = document.createElementNS(SVG_NS, "g");
-    iconG.setAttribute("transform", "translate(-14,-30)");
-    const icon = document.createElementNS(SVG_NS, "text");
-    icon.setAttribute("class", "fa " + n.icon);
-    icon.setAttribute("fill", n.color);
-    icon.setAttribute("font-size", "24");
-    icon.setAttribute("text-anchor", "middle");
-    iconG.appendChild(icon);
-    group.appendChild(iconG);
-
-    const nameLines = n.name.split("\n");
-    nameLines.forEach((line, li) => {
-      const text = document.createElementNS(SVG_NS, "text");
-      text.setAttribute("y", 8 + li * 16);
-      text.setAttribute("text-anchor", "middle");
-      text.setAttribute("fill", "#e8ecf4");
-      text.setAttribute("font-size", "11");
-      text.setAttribute("font-weight", "700");
-      text.setAttribute("font-family", "Space Grotesk, sans-serif");
-      text.textContent = line;
-      group.appendChild(text);
-    });
-
-    const catTag = document.createElementNS(SVG_NS, "text");
-    catTag.setAttribute("y", 8 + nameLines.length * 16);
-    catTag.setAttribute("text-anchor", "middle");
-    catTag.setAttribute("fill", n.color);
-    catTag.setAttribute("font-size", "9");
-    catTag.setAttribute("font-weight", "600");
-    catTag.textContent = catLabel[n.cat];
-    group.appendChild(catTag);
-
-    attachDragHandlers(group, n);
-    attachNodeClickHandler(group, n.id);
-    svg.appendChild(group);
+    edge._el.hit.setAttribute("d", d);
   });
 }
 
-/* -------- arrastre -------- */
-function attachDragHandlers(group, node) {
-  group.style.cursor = "grab";
+let physicsRunning = false;
+function physicsStep() {
+  let moving = false;
 
-  function startDrag(e) {
-    if (e.button && e.button !== 0) return;
-    e.preventDefault();
-    const pt = svgPoint(e);
-    dragging = node;
-    dragOffsetX = pt.x - node.x;
-    dragOffsetY = pt.y - node.y;
-    node.fixed = true;
+  RAW_EDGES.forEach(edge => {
+    const s = nodeById(edge.s), t = nodeById(edge.t);
+    if (!s || !t) return;
+    const dx = t.x - s.x, dy = t.y - s.y;
+    const dist = Math.hypot(dx, dy) || 1;
+    const diff = (dist - edge.restLength) * PHYSICS.spring;
+    const fx = (dx / dist) * diff, fy = (dy / dist) * diff;
+    if (edge.repel) {
+      /* repulsión: las tensiones implícitas empujan los nodos apartados */
+      if (!s.fixed) { s.vx -= fx * 2.2; s.vy -= fy * 2.2; }
+      if (!t.fixed) { t.vx += fx * 2.2; t.vy += fy * 2.2; }
+    } else {
+      if (!s.fixed) { s.vx += fx; s.vy += fy; }
+      if (!t.fixed) { t.vx -= fx; t.vy -= fy; }
+    }
+  });
+
+  ODS_NODES.forEach(n => {
+    if (n.fixed) { n.vx = 0; n.vy = 0; return; }
+    n.vx += (n.homeX - n.x) * PHYSICS.anchor;
+    n.vy += (n.homeY - n.y) * PHYSICS.anchor;
+    n.vx *= PHYSICS.damping;
+    n.vy *= PHYSICS.damping;
+    n.x += n.vx;
+    n.y += n.vy;
+    if (Math.abs(n.vx) > PHYSICS.minVel || Math.abs(n.vy) > PHYSICS.minVel) moving = true;
+  });
+
+  updatePositions();
+
+  if (moving || ODS_NODES.some(n => n.fixed)) {
+    requestAnimationFrame(physicsStep);
+  } else {
+    physicsRunning = false;
+  }
+}
+
+function wakePhysics() {
+  if (!physicsRunning) {
+    physicsRunning = true;
+    requestAnimationFrame(physicsStep);
+  }
+}
+
+/* -------- arrastrar una bola -------- */
+function attachNodeDragHandler(group, node) {
+  const svg = document.getElementById("networkViz");
+  let dragging = false;
+  let moved = false;
+  let startClientX = 0, startClientY = 0;
+
+  function toSvgPoint(clientX, clientY) {
+    const pt = svg.createSVGPoint();
+    pt.x = clientX; pt.y = clientY;
+    const m = svg.getScreenCTM().inverse();
+    return pt.matrixTransform(m);
+  }
+
+  group.addEventListener("pointerdown", (e) => {
+    dragging = true;
     moved = false;
+    startClientX = e.clientX; startClientY = e.clientY;
+    node.fixed = true;
     group.classList.add("dragging");
     group.setPointerCapture(e.pointerId);
-  }
+    wakePhysics();
+  });
 
-  function onDrag(e) {
-    if (dragging !== node) return;
-    const pt = svgPoint(e);
-    const newX = pt.x - dragOffsetX;
-    const newY = pt.y - dragOffsetY;
-    if (Math.hypot(newX - node.x, newY - node.y) > 2) moved = true;
-    node.x = newX; node.y = newY;
+  group.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    if (Math.hypot(e.clientX - startClientX, e.clientY - startClientY) > 4) moved = true;
+    const p = toSvgPoint(e.clientX, e.clientY);
+    node.x = p.x; node.y = p.y;
+    node.vx = 0; node.vy = 0;
     updatePositions();
-  }
+    wakePhysics();
+  });
 
   function endDrag(e) {
-    if (dragging !== node) return;
-    dragging = null;
+    if (!dragging) return;
+    dragging = false;
     node.fixed = false;
     group.classList.remove("dragging");
     try { group.releasePointerCapture(e.pointerId); } catch (err) {}
@@ -393,20 +429,20 @@ function attachDragHandlers(group, node) {
     }
   }
 
-  group.addEventListener("pointerdown", startDrag);
-  group.addEventListener("pointermove", onDrag);
   group.addEventListener("pointerup", endDrag);
   group.addEventListener("pointercancel", endDrag);
 }
 
-function svgPoint(e) {
+function renderNetwork() {
   const svg = document.getElementById("networkViz");
-  const pt = svg.createSVGPoint();
-  pt.x = e.clientX; pt.y = e.clientY;
-  return pt.matrixTransform(svg.getScreenCTM().inverse());
+  if (!svg) return;
+  svg.innerHTML = "";
+  buildDefs(svg);
+  drawEdges(svg);
+  drawNodes(svg);
 }
 
-/* -------- panel de sustento -------- */
+/* -------- panel de sustento documental (clic en línea) -------- */
 function showEdgeInfo(index) {
   const edge = RAW_EDGES[index];
   const s = nodeById(edge.s), t = nodeById(edge.t);
@@ -416,19 +452,21 @@ function showEdgeInfo(index) {
   document.querySelector(`.edge-group[data-index="${index}"]`)?.classList.add("edge-selected");
 
   const label = (n) => n.name.replace(/\n/g, " ");
-  document.getElementById("edgeInfoTitle").textContent = `${label(s)} → ${label(t)}`;
+  document.getElementById("edgeInfoTitle").textContent =
+    `${label(s)} → ${label(t)}`;
 
   const typeEl = document.getElementById("edgeInfoType");
-  typeEl.textContent = style.label + (edge.directa ? " · Directa" : " · Inferida");
+  typeEl.textContent = style.label + (edge.directa ? " · Directa — continua" : " · Inferida");
   typeEl.style.color = style.color;
   typeEl.style.background = style.color + "26";
 
   document.getElementById("edgeInfoQuote").textContent = edge.sustento;
   document.getElementById("edgeInfoPage").textContent =
-    edge.paginaTexto ? `Referencia: ${edge.paginaTexto}` : (edge.pagina != null ? `Página POT: p. ${edge.pagina}` : "Referencia: por confirmar");
+    edge.paginaTexto ? `Página / Fuente: ${edge.paginaTexto}` : (edge.pagina != null ? `Página POT: p. ${edge.pagina}` : "Página: por confirmar");
 
   document.getElementById("edgeInfoPanel").classList.add("visible");
 
+  /* resaltar la fila correspondiente de la tabla */
   document.querySelectorAll(".matrix-row[data-edge]").forEach(row => {
     row.classList.toggle("row-highlight", Number(row.dataset.edge) === index);
   });
@@ -440,7 +478,7 @@ function hideEdgeInfo() {
   document.querySelectorAll(".matrix-row[data-edge]").forEach(row => row.classList.remove("row-highlight"));
 }
 
-/* -------- visibilidad -------- */
+/* -------- estado de visibilidad: por tipo (leyenda) + por nodo (doble clic) -------- */
 const typeOff = new Set();
 const nodeOff = new Set();
 
@@ -467,6 +505,7 @@ function toggleNode(id) {
   refreshEdgeVisibility();
 }
 
+/* -------- clic simple / doble / triple sobre una bola -------- */
 function attachNodeClickHandler(group, id) {
   let count = 0;
   let timer = null;
@@ -557,19 +596,27 @@ function toggleNodeFlow(id) {
   }
 }
 
-/* -------- insights -------- */
+/* -------- tarjetas de insights -------- */
 const NODE_INSIGHTS = {
-  ausentes:       ["lotevacio", "informales", "fauna", "riobogota", "muisca", "biodiv"],
-  subrepresentados:["lluvia", "suelo", "humedales", "ladera"],
-  declarados:     ["metro", "corredores", "manzanas", "eep"],
-  multirrol:      ["lotevacio", "fauna", "biodiv", "informales", "humedales", "riobogota"],
+  dependencias:    ["metro", "transporte", "equip", "manzanas", "sserv", "scuidado", "corredores", "ciclorutas"],
+  condicionamientos:["metro", "vivienda", "equip", "corredores", "transporte", "ciclorutas"],
+  causales:        ["eep", "metro", "corredores", "sserv", "manzanas", "riobogota"],
+  funcionales:     ["metro", "corredores", "equip", "sserv", "patrimonio", "eep"],
+  complementariedades:["corredores", "ciclorutas", "manzanas", "equip", "transporte"],
+  conflictos:      ["metro", "patrimonio"],
+  jerarquias:      ["metro", "eep", "patrimonio", "transporte", "corredores"],
+  retroalimentaciones:["vivienda", "metro", "corredores", "transporte", "sserv", "manzanas"],
 };
 
 const TYPE_KEY = {
-  ausente_absoluto: "ausente_absoluto",
-  subrepresentado: "subrepresentado",
-  declarado_conectado: "declarado_conectado",
-  rol_multiple: "rol_multiple",
+  dependencias:     "dependencia",
+  condicionamientos:"condicionamiento",
+  causales:         "causal",
+  funcionales:      "funcional",
+  complementariedades:"complementariedad",
+  conflictos:       "conflicto",
+  jerarquias:       "jerarquia",
+  retroalimentaciones:"retroalimentacion",
 };
 
 function toggleInsight(key) {
@@ -584,7 +631,8 @@ function toggleInsight(key) {
   if (TYPE_KEY[key]) {
     setSpotlightTypes([TYPE_KEY[key]]);
   } else if (key === "todos") {
-    setSpotlightNodes(ODS_NODES.map(n => n.id), false);
+    const allIds = ODS_NODES.map(n => n.id);
+    setSpotlightNodes(allIds, false);
   } else if (NODE_INSIGHTS[key] && NODE_INSIGHTS[key].length) {
     setSpotlightNodes(NODE_INSIGHTS[key], true);
   } else {
@@ -594,7 +642,7 @@ function toggleInsight(key) {
   card.classList.add("active");
 }
 
-/* -------- leyenda -------- */
+/* -------- panel de convenciones -------- */
 function setupLegendToggle() {
   document.querySelectorAll(".legend-item input").forEach(input => {
     input.addEventListener("change", (e) => {
@@ -609,18 +657,22 @@ function setupLegendToggle() {
   document.getElementById("edgeInfoClose")?.addEventListener("click", hideEdgeInfo);
 }
 
-/* -------- filtros -------- */
+/* -------- controles Todos / por tipo de relación -------- */
 function filterNetwork(mode) {
   document.querySelectorAll(".network-controls .control-btn").forEach(btn => btn.classList.remove("active"));
-  const btn = [...document.querySelectorAll(".network-controls .control-btn")].find(b => b.textContent.trim().toLowerCase().startsWith(mode === "all" ? "todos" : TYPE_STYLE[mode].label.slice(0, 7).toLowerCase()));
+  const btn = [...document.querySelectorAll(".network-controls .control-btn")].find(b => b.textContent.trim().toLowerCase().startsWith(mode === "all" ? "todos" : TYPE_STYLE[mode].label.slice(0, 6).toLowerCase()));
   (btn || document.querySelector(`.network-controls .control-btn`)).classList.add("active");
 
   const groups = {
-    all: ["ausente_absoluto", "subrepresentado", "declarado_conectado", "rol_multiple"],
-    ausente_absoluto: ["ausente_absoluto"],
-    subrepresentado: ["subrepresentado"],
-    declarado_conectado: ["declarado_conectado"],
-    rol_multiple: ["rol_multiple"],
+    all: ["dependencia", "condicionamiento", "causal", "funcional", "complementariedad", "conflicto", "jerarquia", "retroalimentacion"],
+    dependencia: ["dependencia"],
+    condicionamiento: ["condicionamiento"],
+    causal: ["causal"],
+    funcional: ["funcional"],
+    complementariedad: ["complementariedad"],
+    conflicto: ["conflicto"],
+    jerarquia: ["jerarquia"],
+    retroalimentacion: ["retroalimentacion"],
   };
   const activeTypes = groups[mode] || groups.all;
 
@@ -635,64 +687,12 @@ function filterNetwork(mode) {
   refreshEdgeVisibility();
 }
 
-/* -------- multirrol del lote vacío -------- */
-const LOTE_ROLES = [
-  { titulo: "Hábitat temporal", texto: "El lote vacío aloja especies que han perdido su hábitat original: aves, reptiles, insectos y flora ruderal encuentran refugio entre escombros y vegetación espontánea.", icon: "fa-egg" },
-  { titulo: "Refugio de especies", texto: "Funciona como refugio de polinizadores, aves insectívoras y murciélagos urbanos que prestan servicios ecosistémicos gratuitos a la ciudad: polinización y control de plagas.", icon: "fa-dove" },
-  { titulo: "Espacio de infiltración", texto: "La superficie permeable del lote permite que el agua lluvia se infiltre y recargue los acuíferos, reduciendo la carga de las alcantarillas y el riesgo de inundación.", icon: "fa-droplet" },
-  { titulo: "Corredor ecológico", texto: "Cuando se encadena con otros lotes y franjas verdes, el lote vacío conecta fragmentos de la estructura ecológica y permite el movimiento de especies por la ciudad.", icon: "fa-route" },
-  { titulo: "Reservorio de biodiversidad espontánea", texto: "Es un banco vivo de biodiversidad ruderal: plantas pioneras que colonizan, estabilizan el suelo y preparan la sucesión ecológica sin intervención humana.", icon: "fa-seedling" },
-  { titulo: "Apropiación comunitaria", texto: "Vecinos lo ocupan como cancha, huerta, parqueadero comunitario o lugar de encuentro: una infraestructura social informal que el plan no registra.", icon: "fa-people-group" },
-  { titulo: "Oportunidad inmobiliaria", texto: "El mercado lo lee como reserva especulativa de suelo: su 'vacancia' es a menudo una decisión financiera, no un abandono, y tensiona el acceso a la vivienda.", icon: "fa-chart-line" },
-  { titulo: "Amortiguador térmico", texto: "La vegetación espontánea y el suelo desnudo reducen el efecto de isla de calor frente al concreto, regulando la temperatura del barrio.", icon: "fa-temperature-low" },
-];
-
-function renderLoteRoles() {
-  const wrap = document.getElementById("loteRoles");
-  if (!wrap) return;
-  wrap.innerHTML = "";
-  LOTE_ROLES.forEach((role, i) => {
-    const card = document.createElement("div");
-    card.className = "multirrol-card";
-    card.dataset.index = i;
-    card.innerHTML = `<div class="multirrol-icon"><i class="fa-solid ${role.icon}"></i></div><h5>${role.titulo}</h5><p>${role.texto}</p>`;
-    card.addEventListener("mouseenter", () => highlightRole(i));
-    card.addEventListener("mouseleave", () => unhighlightRole());
-    card.addEventListener("click", () => toggleRoleCard(card, i));
-    wrap.appendChild(card);
-  });
-}
-
-function highlightRole(i) {
-  document.querySelectorAll(".multirrol-card").forEach((card, ci) => {
-    card.classList.toggle("role-focus", ci === i);
-  });
-  const node = document.querySelector(`.ods-node[data-id="lotevacio"]`);
-  if (node) node.classList.add("node-focus-active");
-}
-
-function unhighlightRole() {
-  document.querySelectorAll(".multirrol-card").forEach(card => card.classList.remove("role-focus"));
-  document.querySelectorAll(".ods-node").forEach(node => node.classList.remove("node-focus-active"));
-}
-
-function toggleRoleCard(card, i) {
-  if (card.classList.contains("active")) {
-    card.classList.remove("active");
-  } else {
-    document.querySelectorAll(".multirrol-card").forEach(c => c.classList.remove("active"));
-    card.classList.add("active");
-    highlightRole(i);
-  }
-}
-
-/* -------- acciones -------- */
-function generateODSReport() { console.log("Generando reporte de ausencias..."); }
-function downloadAlignment() { console.log("Descargando tabla de invisibilizados..."); }
+/* -------- botones de acción (placeholders) -------- */
+function generateODSReport() { console.log("Generando reporte de red..."); }
+function downloadAlignment() { console.log("Descargando tabla de relaciones..."); }
 function shareAnalysis() { console.log("Compartiendo análisis..."); }
 
 document.addEventListener("DOMContentLoaded", () => {
   renderNetwork();
   setupLegendToggle();
-  renderLoteRoles();
 });
