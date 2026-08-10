@@ -304,7 +304,7 @@ body {
 .legend {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
@@ -315,6 +315,17 @@ body {
   font-size: 11px;
   color: var(--text-dim);
   font-weight: 600;
+  background: var(--panel-alt);
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  padding: 5px 9px;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
+}
+
+.legend-item:hover {
+  border-color: var(--teal);
 }
 
 .legend-item i {
@@ -333,6 +344,80 @@ body {
 .legend-line.line-indirecta { border-top-style: dashed; border-top-color: var(--line-indirecta); }
 .legend-line.line-soporte { border-top-style: solid; border-top-color: var(--line-soporte); }
 .legend-line.line-resiliencia { border-top-style: solid; border-top-color: var(--line-resiliencia); }
+
+/* leyenda "apagada": ese tipo de relación se oculta en el diagrama */
+.legend-item.off {
+  opacity: .5;
+}
+
+.legend-item.off i {
+  color: var(--text-faint);
+}
+
+.legend-item.off .legend-line {
+  opacity: .35;
+}
+
+/* TOOLBAR: estadísticas + controles de zoom/reset */
+.network-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.net-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: var(--panel-alt);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px;
+  padding: 5px 12px;
+}
+
+.stat-chip i { color: var(--teal); font-size: 10px; }
+
+.stat-chip span { color: var(--text); font-weight: 700; }
+
+#selectedChip { border-color: var(--teal); background: rgba(47,212,200,0.08); }
+#selectedChip i { color: var(--teal); }
+
+.net-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.net-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--panel-alt);
+  border: 1px solid var(--border-soft);
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.net-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
 
 .network-static-wrap {
   width: 100%;
@@ -358,12 +443,20 @@ body {
 .node-main .node-fill { stroke-width: 2.6; }
 
 .node-label {
-  font-size: 8.5px;
-  fill: var(--text-dim);
+  font-size: 7.2px;
+  fill: #ffffff;
   text-anchor: middle;
   font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
+  paint-order: stroke fill;
+  stroke: rgba(0,0,0,0.65);
+  stroke-width: 2px;
+  stroke-linejoin: round;
+  pointer-events: none;
 }
+
+.node-hub .node-label { font-size: 7.8px; }
+.node-main .node-label { font-size: 8.4px; }
 
 .node-icon {
   width: 100%;
@@ -394,8 +487,18 @@ body {
 .node.node-off .node-fill { filter: none; }
 .link-off { opacity: 0.05; }
 
+/* estado apagado por leyenda (tipo de relación oculto) */
+.links line.type-off { opacity: 0.04 !important; }
+
+/* resaltado por selección de nodo */
+.node { cursor: pointer; }
+.node.node-dim { opacity: 0.12; }
+.links line.link-dim { opacity: 0.06; }
+.node.node-selected .node-fill { stroke-width: 3.2; filter: drop-shadow(0 0 8px currentColor); }
+.links line.link-active { opacity: 1; stroke-width: 2.6 !important; }
+
 .node, .links line {
-  transition: opacity .35s ease;
+  transition: opacity .3s ease, stroke-width .2s ease;
 }
 
 /* LINKS (según convención de tipos de relación) */
@@ -404,6 +507,107 @@ body {
 .link-soporte { stroke: var(--line-soporte); stroke-width: 1.8; fill: none; }
 .link-resiliencia { stroke: var(--line-resiliencia); stroke-width: 2.4; fill: none; }
 .link-thick { stroke-width: 2.2; }
+
+/* Relaciones con ficha (Soporte/Resiliencia): son las que tienen flecha y son clicables */
+.links line.link-soporte,
+.links line.link-resiliencia {
+  cursor: pointer;
+}
+
+.links line.link-soporte:hover,
+.links line.link-resiliencia:hover {
+  stroke-width: 3;
+}
+
+.links line.link-soporte.arrow-forward   { marker-end: url(#arrow-soporte); }
+.links line.link-soporte.arrow-backward  { marker-start: url(#arrow-soporte); }
+.links line.link-soporte.arrow-both      { marker-start: url(#arrow-soporte); marker-end: url(#arrow-soporte); }
+
+.links line.link-resiliencia.arrow-forward  { marker-end: url(#arrow-resiliencia); }
+.links line.link-resiliencia.arrow-backward { marker-start: url(#arrow-resiliencia); }
+.links line.link-resiliencia.arrow-both     { marker-start: url(#arrow-resiliencia); marker-end: url(#arrow-resiliencia); }
+
+.links line.link-selected {
+  stroke-width: 3.4 !important;
+  filter: drop-shadow(0 0 5px currentColor);
+}
+
+/* PANEL DE DETALLE DE RELACIÓN (frase + página del POT) */
+.relation-panel {
+  position: relative;
+  margin-top: 14px;
+  background: var(--panel-alt);
+  border: 1px solid var(--teal);
+  border-radius: 10px;
+  padding: 16px 44px 16px 18px;
+  animation: relFadeIn .2s ease;
+}
+
+@keyframes relFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.relation-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.relation-close:hover { color: var(--pink); }
+
+.relation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.relation-concepts {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.relation-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+
+.relation-badge.badge-soporte { background: rgba(239,149,82,0.18); color: var(--line-soporte); }
+.relation-badge.badge-resiliencia { background: rgba(76,141,255,0.18); color: var(--line-resiliencia); }
+
+.relation-phrase {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.relation-page {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.relation-page i { font-size: 11px; }
 
 /* RESPONSIVE */
 @media (max-width: 1400px) {
