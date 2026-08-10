@@ -67,34 +67,39 @@
 
     <div class="welcome">
       <h2>Modelo Propio — Construir una explicación de la ciudad</h2>
-      <p>Ya no se trata de representar la ciudad, sino de comprenderla para transformarla. Este módulo te permite <strong>construir tu propio modelo de ciudad</strong>: añade componentes (económicos, ecológicos, sociales, culturales, de infraestructura y de cuidado), conéctalos declarando el tipo de relación y el supuesto que la justifica, y observa cómo emerge el fenómeno urbano. La finalidad es aprender a desarmar modelos, comprender sus supuestos, hacer visibles sus contradicciones y construir progresivamente alternativas mejor fundamentadas.</p>
+      <p>Ya no se trata de representar la ciudad, sino de comprenderla para transformarla. Este módulo te permite <strong>construir tu propio modelo de ciudad</strong> a partir de 6 sistemas (Ambiental, Hábitat, Movilidad, Económico, Social/Cuidado y Gobernanza), conectados por relaciones de soporte, conectividad, dependencia o transformación. <strong>Vivienda</strong> es el componente con más conexiones de tu modelo y por eso es el centro de la red.</p>
     </div>
 
-    <!-- INSIGHTS: categorías de componente -->
+    <!-- SISTEMAS: los 6 sistemas de la hoja "Sistemas y colores" del Excel -->
     <div class="ods-insight-stats" id="odsInsightStats">
-      <div class="insight-card" data-insight="infra" style="--insight-color:#2fd4c8;" onclick="toggleInsight('infra')">
-        <div class="insight-icon"><i class="fa-solid fa-road"></i></div>
-        <div class="insight-title">Infraestructura</div>
-      </div>
-
       <div class="insight-card" data-insight="eco" style="--insight-color:#4ade80;" onclick="toggleInsight('eco')">
         <div class="insight-icon"><i class="fa-solid fa-leaf"></i></div>
-        <div class="insight-title">Ecológico</div>
+        <div class="insight-title">Ambiental y ecológico</div>
       </div>
 
-      <div class="insight-card" data-insight="soc" style="--insight-color:#5b8def;" onclick="toggleInsight('soc')">
-        <div class="insight-icon"><i class="fa-solid fa-people-group"></i></div>
-        <div class="insight-title">Social / Cuidado</div>
+      <div class="insight-card" data-insight="habitat" style="--insight-color:#ef9552;" onclick="toggleInsight('habitat')">
+        <div class="insight-icon"><i class="fa-solid fa-house"></i></div>
+        <div class="insight-title">Hábitat y espacio urbano</div>
       </div>
 
-      <div class="insight-card" data-insight="econ" style="--insight-color:#ef9552;" onclick="toggleInsight('econ')">
+      <div class="insight-card" data-insight="movilidad" style="--insight-color:#5b8def;" onclick="toggleInsight('movilidad')">
+        <div class="insight-icon"><i class="fa-solid fa-road"></i></div>
+        <div class="insight-title">Movilidad y conectividad</div>
+      </div>
+
+      <div class="insight-card" data-insight="economico" style="--insight-color:#f5c945;" onclick="toggleInsight('economico')">
         <div class="insight-icon"><i class="fa-solid fa-coins"></i></div>
-        <div class="insight-title">Económico</div>
+        <div class="insight-title">Económico y productivo</div>
       </div>
 
-      <div class="insight-card" data-insight="todos" style="--insight-color:#a276f2;" onclick="toggleInsight('todos')">
-        <div class="insight-icon"><i class="fa-solid fa-city"></i></div>
-        <div class="insight-title">Ver toda la red</div>
+      <div class="insight-card" data-insight="social" style="--insight-color:#f76fb0;" onclick="toggleInsight('social')">
+        <div class="insight-icon"><i class="fa-solid fa-people-roof"></i></div>
+        <div class="insight-title">Social, cultural y cuidado</div>
+      </div>
+
+      <div class="insight-card" data-insight="gobernanza" style="--insight-color:#a276f2;" onclick="toggleInsight('gobernanza')">
+        <div class="insight-icon"><i class="fa-solid fa-landmark"></i></div>
+        <div class="insight-title">Gobernanza</div>
       </div>
     </div>
 
@@ -105,9 +110,9 @@
         <div class="network-controls">
           <button class="control-btn active" onclick="filterNetwork('all')">Todos</button>
           <button class="control-btn" onclick="filterNetwork('soporte')">Soporte</button>
-          <button class="control-btn" onclick="filterNetwork('tension')">Tensión</button>
+          <button class="control-btn" onclick="filterNetwork('conectividad')">Conectividad</button>
           <button class="control-btn" onclick="filterNetwork('dependencia')">Dependencia</button>
-          <button class="control-btn" onclick="filterNetwork('emergencia')">Emergencia</button>
+          <button class="control-btn" onclick="filterNetwork('transformacion')">Transformación</button>
         </div>
       </div>
 
@@ -121,48 +126,58 @@
             <label class="legend-item" data-type="soporte">
               <input type="checkbox" checked>
               <span class="legend-swatch swatch-soporte"></span>
-              Soporte (permite que otro exista)
+              Soporte
             </label>
 
-            <label class="legend-item" data-type="tension">
+            <label class="legend-item" data-type="conectividad">
               <input type="checkbox" checked>
-              <span class="legend-swatch swatch-tension"></span>
-              Tensión (entra en contradicción)
+              <span class="legend-swatch swatch-conectividad"></span>
+              Conectividad
             </label>
 
             <label class="legend-item" data-type="dependencia">
               <input type="checkbox" checked>
               <span class="legend-swatch swatch-dependencia"></span>
-              Dependencia (condiciona a otro)
+              Dependencia
             </label>
 
-            <label class="legend-item" data-type="emergencia">
+            <label class="legend-item" data-type="transformacion">
               <input type="checkbox" checked>
-              <span class="legend-swatch swatch-emergencia"></span>
-              Emergencia (hace surgir un fenómeno)
+              <span class="legend-swatch swatch-transformacion"></span>
+              Transformación
             </label>
 
-            <div class="legend-title">Categoría de componente</div>
-            <div class="legend-item legend-static">
-              <span class="legend-swatch swatch-infra"></span>
-              Infraestructura
-            </div>
+            <div class="legend-title">Sistema del componente</div>
             <div class="legend-item legend-static">
               <span class="legend-swatch swatch-eco"></span>
-              Ecológico
+              Ambiental y ecológico
             </div>
             <div class="legend-item legend-static">
-              <span class="legend-swatch swatch-soc"></span>
-              Social / Cuidado
+              <span class="legend-swatch swatch-habitat"></span>
+              Hábitat y espacio urbano
             </div>
             <div class="legend-item legend-static">
-              <span class="legend-swatch swatch-econ"></span>
-              Económico
+              <span class="legend-swatch swatch-movilidad"></span>
+              Movilidad y conectividad
+            </div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-economico"></span>
+              Económico y productivo
+            </div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-social"></span>
+              Social, cultural y cuidado
+            </div>
+            <div class="legend-item legend-static">
+              <span class="legend-swatch swatch-gobernanza"></span>
+              Gobernanza
             </div>
 
             <div class="legend-divider"></div>
-            <div class="legend-hint">Clic en una línea: ver la relación, el supuesto y su justificación.<br>
-            Doble clic en una bola: apagarla/encenderla.<br>Triple clic en una bola: ver solo su flujo.<br>Usa el <strong>Constructor</strong> para añadir nodos y conexiones a tu modelo.</div>
+            <div class="legend-hint">Clic en una línea: ver la relación y su sustento.<br>
+            Clic en una bola: apagarla junto con sus líneas (clic de nuevo la enciende).<br>
+            Arrastra una bola: las conectadas la siguen y todo vuelve a su lugar al soltar.<br>
+            Usa el <strong>Constructor</strong> para añadir nodos y conexiones a tu modelo.</div>
           </aside>
 
           <div class="edge-info-panel" id="edgeInfoPanel">
@@ -188,14 +203,16 @@
         <div class="builder-grid">
           <div class="builder-block">
             <h4><i class="fa-solid fa-plus"></i> Añadir un componente</h4>
-            <p class="builder-hint">Define un elemento del modelo de ciudad y su categoría.</p>
+            <p class="builder-hint">Define un elemento del modelo de ciudad y su sistema.</p>
             <div class="builder-form">
               <input type="text" id="nodeName" placeholder="Nombre del componente (ej. Mercado local)">
               <select id="nodeCat">
-                <option value="infra">Infraestructura</option>
-                <option value="eco">Ecológico</option>
-                <option value="soc">Social / Cuidado</option>
-                <option value="econ">Económico</option>
+                <option value="eco">Ambiental y ecológico</option>
+                <option value="habitat">Hábitat y espacio urbano</option>
+                <option value="movilidad">Movilidad y conectividad</option>
+                <option value="economico">Económico y productivo</option>
+                <option value="social">Social, cultural y cuidado</option>
+                <option value="gobernanza">Gobernanza</option>
               </select>
               <button class="btn-builder" onclick="addNode()"><i class="fa-solid fa-plus"></i> Añadir nodo</button>
             </div>
@@ -211,10 +228,10 @@
                 <select id="edgeTo"><option value="">Hacia…</option></select>
               </div>
               <select id="edgeType">
-                <option value="soporte">Soporte (permite que otro exista)</option>
-                <option value="tension">Tensión (entra en contradicción)</option>
-                <option value="dependencia">Dependencia (condiciona a otro)</option>
-                <option value="emergencia">Emergencia (hace surgir un fenómeno)</option>
+                <option value="soporte">Soporte</option>
+                <option value="conectividad">Conectividad</option>
+                <option value="dependencia">Dependencia</option>
+                <option value="transformacion">Transformación</option>
               </select>
               <input type="text" id="edgeJust" placeholder="Supuesto o justificación (ej. porque el tiempo de traslado condiciona el acceso al trabajo)">
               <button class="btn-builder" onclick="addEdge()"><i class="fa-solid fa-link"></i> Añadir conexión</button>
@@ -253,9 +270,9 @@
           <div class="synergy-content">
             <h4>Supuestos del Modelo</h4>
             <ul>
-              <li><strong>Componentes declarados:</strong> el modelo parte de componentes observables (infraestructura, ecología, cuidado, economía) y de su peso relativo en la red</li>
-              <li><strong>Relaciones tipificadas:</strong> cada conexión declara si sostiene, tensiona, condiciona o hace emerger a otro componente — nada queda sin justificación</li>
-              <li><strong>Medida cuantitativa:</strong> los componentes con mayor centralidad son los que el modelo asume como determinantes del fenómeno urbano</li>
+              <li><strong>Componentes declarados:</strong> el modelo parte de 32 componentes distribuidos en 6 sistemas (ambiental, hábitat, movilidad, económico, social y gobernanza)</li>
+              <li><strong>Relaciones tipificadas:</strong> cada conexión declara si sostiene, conecta, condiciona o transforma a otro componente — nada queda sin justificación</li>
+              <li><strong>Vivienda como centro:</strong> con 20 conexiones directas, Vivienda es el componente más central del modelo — el nodo más grande de la red</li>
             </ul>
           </div>
         </div>
@@ -265,9 +282,9 @@
           <div class="synergy-content">
             <h4>Lo que el Modelo Explica</h4>
             <ul>
-              <li><strong>Emergencias:</strong> los fenómenos urbanos (movilidad, segregación, cuidado) no están en ningún nodo: emergen de la configuración de relaciones — esa es la explicación propia del modelo</li>
-              <li><strong>Tensiones internas:</strong> si dos relaciones declaradas se contradicen (ej. suelo como mercancía vs. hábitat como derecho), el modelo las hace visibles en lugar de ocultarlas</li>
-              <li><strong>Comparación con el POT:</strong> contrasta tu modelo con el modelo operativo del POT (Módulo 04): ¿qué componentes subordina cada uno? ¿qué emergencias permite cada arquitectura?</li>
+              <li><strong>Centralidad:</strong> el tamaño de cada bola es proporcional a su número de conexiones — así se ve de un vistazo qué componentes son estructurales y cuáles periféricos</li>
+              <li><strong>Rutas cruzadas:</strong> relaciones como Humedales → Educación o Corredores verdes → Ciclorrutas muestran cómo un sistema sostiene a otro distinto</li>
+              <li><strong>Comparación con el POT:</strong> contrasta tu modelo con el modelo operativo del POT (Módulo 04): ¿qué componentes subordina cada uno?</li>
             </ul>
           </div>
         </div>
@@ -283,7 +300,7 @@
           <div class="rec-number">1</div>
           <div class="rec-content">
             <h4>Justifica cada conexión con un supuesto explícito</h4>
-            <p>Ninguna relación debe quedar sin justificación: escribe por qué un componente sostiene, tensiona, condiciona o hace emerger a otro. El supuesto es lo que convierte una flecha en argumento.
+            <p>Ninguna relación debe quedar sin justificación: escribe por qué un componente sostiene, conecta, condiciona o transforma a otro. El supuesto es lo que convierte una flecha en argumento.
             <div class="rec-impact">
               <span class="impact-badge">Rigor: +28%</span>
             </div>
@@ -293,8 +310,8 @@
         <div class="rec-card">
           <div class="rec-number">2</div>
           <div class="rec-content">
-            <h4>Busca las emergencias, no las entidades</h4>
-            <p>Los fenómenos urbanos (trancón, segregación, cuidado) no son nodos: son propiedades que emergen de la configuración de relaciones. Pregúntate qué arquitectura de red produciría cada fenómeno.
+            <h4>Observa qué componentes concentran la red</h4>
+            <p>Los nodos más grandes (Vivienda, Humedales, Transporte público) son los que más determinan el modelo. Pregúntate qué pasaría con la red si uno de ellos fallara.
             <div class="rec-impact">
               <span class="impact-badge">Rigor: +24%</span>
             </div>
@@ -305,7 +322,7 @@
           <div class="rec-number">3</div>
           <div class="rec-content">
             <h4>Confronta tu modelo con el POT</h4>
-            <p>Compara tu red con la del Módulo 04 (Macromodelos): identifica qué componentes subordina cada modelo y qué emergencias permite cada arquitectura. La comparación es el ejercicio de pensamiento crítico.
+            <p>Compara tu red con la del Módulo 04 (Macromodelos): identifica qué componentes subordina cada modelo y qué relaciones prioriza cada arquitectura. La comparación es el ejercicio de pensamiento crítico.
             <div class="rec-impact">
               <span class="impact-badge">Rigor: +20%</span>
             </div>
@@ -316,7 +333,7 @@
           <div class="rec-number">4</div>
           <div class="rec-content">
             <h4>Deja visible lo que no está</h4>
-            <p>Anota qué componentes y relaciones decidió excluir tu modelo, igual que el POT excluyó la cuenca del río Bogotá o los servicios sociales. Todo modelo define lo que es la ciudad por lo que omite.
+            <p>Anota qué componentes y relaciones decidiste excluir de tu modelo. Todo modelo define lo que es la ciudad por lo que omite.
             <div class="rec-impact">
               <span class="impact-badge">Rigor: +18%</span>
             </div>
