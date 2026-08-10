@@ -282,6 +282,79 @@ body {
   background: rgba(47,212,200,0.05);
 }
 
+/* -------- BARRA COMPACTA: Hallazgos + Contradicción (arriba del lienzo) -------- */
+.fc-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  background: var(--panel-alt);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 9px 12px;
+  margin-bottom: 12px;
+}
+
+.fc-group {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.fc-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--border-soft);
+}
+
+.fc-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.fc-contradictions .fc-label { color: var(--red); }
+
+.fc-chip {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s, color .15s;
+  white-space: nowrap;
+}
+
+.fc-chip:hover {
+  border-color: var(--teal);
+  color: var(--text);
+}
+
+.fc-chip.active {
+  background: color-mix(in srgb, var(--teal) 18%, transparent);
+  border-color: var(--teal);
+  color: var(--text);
+}
+
+.fc-chip-red:hover { border-color: var(--red); }
+.fc-chip-red.active {
+  background: color-mix(in srgb, var(--red) 18%, transparent);
+  border-color: var(--red);
+  color: var(--text);
+}
+
 /* NETWORK DIAGRAM + LEGEND */
 .network-viz-wrap {
   display: flex;
@@ -414,83 +487,24 @@ body {
   align-self: flex-start;
 }
 
+.network-legend.compact {
+  padding: 10px 12px;
+  gap: 7px;
+}
+
+.network-legend.compact .legend-title { font-size: 9.5px; }
+.network-legend.compact .legend-item { font-size: 10.5px; gap: 6px; }
+.network-legend.compact .legend-divider { margin: 1px 0; }
+.network-legend.compact .legend-hint { font-size: 9.5px; line-height: 1.4; }
+.network-legend.compact .legend-swatch { width: 12px; height: 12px; }
+
 .legend-hint {
   font-size: 10.5px;
   color: var(--text-faint);
   line-height: 1.5;
 }
 
-/* -------- PANELES LATERALES: Hallazgos y Contradicciones -------- */
-.side-panel {
-  width: 100%;
-  background: var(--panel-alt);
-  border: 1px solid var(--border-soft);
-  border-radius: 8px;
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-self: flex-start;
-}
-
-.panel-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 4px;
-}
-
-.panel-list-item {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  padding: 7px 8px;
-  font-family: 'Inter', sans-serif;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--text-dim);
-  cursor: pointer;
-  transition: background-color .15s, border-color .15s, color .15s;
-}
-
-.panel-list-item:hover {
-  background: rgba(255,255,255,0.04);
-  color: var(--text);
-}
-
-/* Hallazgos: acento teal */
-.findings-panel { border-color: color-mix(in srgb, var(--teal) 35%, var(--border-soft)); }
-.findings-title { color: var(--teal); }
-.findings-panel .panel-list-item.active {
-  background: color-mix(in srgb, var(--teal) 16%, transparent);
-  border-color: var(--teal);
-  color: var(--text);
-}
-
-/* Contradicción: acento rojo ("rojito") */
-.contradictions-panel {
-  border-color: color-mix(in srgb, var(--red) 45%, var(--border-soft));
-  box-shadow: 0 0 12px rgba(239,68,68,0.12);
-}
-.contradictions-title { color: var(--red); }
-.contradiction-item { color: color-mix(in srgb, var(--red) 70%, var(--text-dim)); }
-.contradiction-item:hover {
-  background: rgba(239,68,68,0.08);
-  color: var(--red);
-}
-.contradiction-item.active {
-  background: color-mix(in srgb, var(--red) 16%, transparent);
-  border-color: var(--red);
-  color: var(--text);
-}
+/* (paneles laterales de hallazgos/contradicciones migrados a .fc-bar, ver arriba) */
 
 /* EDGE INFO PANEL (sustento documental) */
 .edge-info-panel {
