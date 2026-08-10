@@ -513,7 +513,7 @@ body {
 .node.node-dim { opacity: 0.12; }
 .links line.link-dim { opacity: 0.06; }
 .node.node-selected .node-fill { stroke-width: 2.2; filter: drop-shadow(0 0 5px currentColor); }
-.links line.link-active { opacity: 1; stroke-width: 1.1 !important; }
+.links line.link-active { opacity: 1; stroke-width: 1.3 !important; }
 
 .node, .links line {
   transition: opacity .3s ease, stroke-width .2s ease;
@@ -522,12 +522,14 @@ body {
 /* LINKS (según convención de tipos de relación) */
 .link-directa { stroke: var(--line-directa); stroke-width: 0.35; fill: none; }
 .link-indirecta { stroke: var(--line-indirecta); stroke-width: 0.3; stroke-dasharray: 3 2.5; fill: none; }
-.link-soporte { stroke: var(--line-soporte); stroke-width: 0.5; fill: none; }
-.link-resiliencia { stroke: var(--line-resiliencia); stroke-width: 0.6; fill: none; }
-.link-thick { stroke-width: 0.75; }
-.link-punteada { stroke-dasharray: 3 2.5; }
+.link-soporte { stroke: var(--line-soporte); stroke-width: 0.6; fill: none; }
+.link-resiliencia { stroke: var(--line-resiliencia); stroke-width: 0.75; fill: none; }
+.link-thick { stroke-width: 0.9; }
 
-/* Relaciones con ficha (Soporte/Resiliencia): son las que tienen flecha y son clicables */
+/* Sólida vs Punteada: independiente del color (Soporte/Resiliencia) */
+.link-punteada { stroke-dasharray: 3 2.2; }
+
+/* Relaciones documentadas: son las que tienen flecha y son clicables */
 .links line.link-soporte,
 .links line.link-resiliencia {
   cursor: pointer;
@@ -535,7 +537,7 @@ body {
 
 .links line.link-soporte:hover,
 .links line.link-resiliencia:hover {
-  stroke-width: 1.3;
+  stroke-width: 1.6;
 }
 
 .links line.link-directa.has-data,
@@ -548,15 +550,15 @@ body {
 .links line.link-directa.has-data.arrow-backward  { marker-start: url(#arrow-directa); }
 .links line.link-directa.has-data.arrow-both      { marker-start: url(#arrow-directa); marker-end: url(#arrow-directa); }
 .links line.link-soporte.arrow-forward    { marker-end: url(#arrow-soporte); }
-.links line.link-soporte.arrow-backward  { marker-start: url(#arrow-soporte); }
-.links line.link-soporte.arrow-both      { marker-start: url(#arrow-soporte); marker-end: url(#arrow-soporte); }
+.links line.link-soporte.arrow-backward   { marker-start: url(#arrow-soporte); }
+.links line.link-soporte.arrow-both       { marker-start: url(#arrow-soporte); marker-end: url(#arrow-soporte); }
 
 .links line.link-resiliencia.arrow-forward  { marker-end: url(#arrow-resiliencia); }
 .links line.link-resiliencia.arrow-backward { marker-start: url(#arrow-resiliencia); }
 .links line.link-resiliencia.arrow-both     { marker-start: url(#arrow-resiliencia); marker-end: url(#arrow-resiliencia); }
 
 .links line.link-selected {
-  stroke-width: 1.6 !important;
+  stroke-width: 1.9 !important;
   filter: drop-shadow(0 0 3px currentColor);
 }
 
@@ -647,7 +649,7 @@ body {
 
 .relation-page i { font-size: 11px; }
 
-/* leyenda de categorías de estructura (nueva, para identificar colores de nodo) */
+/* leyenda de categorías de estructura */
 .struct-legend {
   display: flex;
   gap: 14px;
