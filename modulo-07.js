@@ -96,6 +96,108 @@ const relationData = {
   "humedales|produccion_alimentos": {
     page: "97", relation: "resiliencia",
     phrase: '"la preservación de la Zona Rural del Norte, como suelos necesarios para la resiliencia climática, la producción de alimentos"'
+  },
+
+  // ---- Estructura Integradora de Patrimonios (EIP) ----
+  "patrimonio_material|patrimonio_inmaterial": {
+    page: "196", relation: "soporte",
+    phrase: '"la EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio."'
+  },
+  "patrimonio_material|patrimonio_natural": {
+    page: "196", relation: "soporte",
+    phrase: '"la EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio."'
+  },
+  "patrimonio_inmaterial|patrimonio_natural": {
+    page: "196", relation: "soporte",
+    phrase: '"la EIP inscribe y precisa un sistema de relaciones del patrimonio cultural material, inmaterial y natural en el territorio."'
+  },
+  "patrimonio_arqueologico|patrimonio_natural": {
+    page: "198", relation: "resiliencia",
+    phrase: '"hoy pueden ser referentes de procesos adaptativos y que revelan prácticas de integralidad de la cultura con la naturaleza."'
+  },
+  "patrimonio_arqueologico|patrimonio_material": {
+    page: "198", relation: "soporte",
+    phrase: '"Este patrimonio cultural se convirtió en un referente de movilización"'
+  },
+  "sitios_sagrados|patrimonio_inmaterial": {
+    page: "186", relation: "soporte",
+    phrase: '"son el testimonio de complejas estrategias de cómo interpretamos y valoramos las huellas del territorio que..."'
+  },
+
+  // ---- Estructura Socioeconómica, Creativa y de Innovación (ESECI) ----
+  "distrito_tec|servicios_empresariales": {
+    page: "177", relation: "directa",
+    description: "El Distrito de Ciencia, Tecnología e Innovación se plantea articulado con el tejido empresarial y conectado con las zonas empresariales.",
+    phrase: '"atrae empleo a partir de la consolidación de un nodo de servicios urbanos articulado con el tejido empresarial, la academia y el sector público."'
+  },
+  "distrito_tec|sist_educacion": {
+    page: "177", relation: "directa",
+    description: "El Distrito/Campus conecta la aglomeración de conocimiento con otros actores y articula la academia dentro de su funcionamiento.",
+    phrase: '"Conecta la principal aglomeración de conocimiento del país con las zonas empresariales del occidente y norte de la ciudad" y "facilitar el encuentro y la interacción entre actores (empresas, academia, sector público y ciudadanía)".'
+  },
+  "sist_educacion|servicios_empresariales": {
+    page: "177", relation: "directa",
+    description: "La educación superior aporta conocimiento y formación que se articula con las actividades empresariales.",
+    phrase: '"Conecta la principal aglomeración de conocimiento del país con las zonas empresariales del occidente y norte de la ciudad".'
+  },
+  "zonas_industriales|servicios_empresariales": {
+    page: "169", relation: "directa",
+    description: "El POT relaciona las actividades económicas con los tejidos empresariales y la localización de actividades productivas.",
+    phrase: '"se consolidan tejidos económicos continuos y complementarios entre el gran corazón productivo de escala urbana y las actividades económicas de soporte a la vida."'
+  },
+  "zonas_interes_turistico|plazas_mercado": {
+    page: "92", relation: "directa",
+    description: "El POT reconoce las plazas de mercado dentro de los elementos que pueden tener vocación turística.",
+    phrase: '"Plazas de Mercado y otras infraestructuras con especial vocación turística."'
+  },
+  "centros_financieros|servicios_empresariales": {
+    page: "171", relation: "directa", bidirectional: true,
+    description: "Se tratan conjuntamente dentro de la estructura económica de la ciudad; por eso aquí no necesita una flecha, sino una relación bidireccional/no dirigida.",
+    phrase: 'El documento identifica "Centros financieros" y "Eje de Servicios Empresariales Avenida El Dorado" dentro de la ESECI.'
+  },
+
+  // ---- Estructura Funcional y del Cuidado (EFC) ----
+  "red_vial|transporte_publico": {
+    page: "43", relation: "soporte",
+    phrase: '"Además del Metro, Bogotá necesita con urgencia ampliar sus entradas y salidas, tapar más huecos, hacer más vías, ciclorrutas, cables y corredores verdes con buses eléctricos para que el transporte público de calidad llegue a todas partes, conecte a la gente, la saque del trancón y la contaminación."'
+  },
+  "corredores_verdes|transporte_publico": {
+    page: "30", relation: "soporte",
+    phrase: '"Y que, en todo caso, las diversas zonas de la ciudad estén conectadas por un sistema multimodal de transporte público, colectivo, de energías limpias y renovables basadas en la red Metro y alimentadas por los demás modos y medios de transporte público como los corredores verdes, los cables y las ciclorrutas."'
+  },
+  "corredores_verdes|ciclorrutas": {
+    page: "239–241", relation: "soporte",
+    phrase: '"Por eso, además del Metro, y para alimentarlo y complementarlo, están los corredores verdes, con diseño ecosistémico, transporte público eléctrico, ciclorrutas seguras y andenes, plazas y espacios de encuentro..."'
+  },
+  "equipamientos|vivienda": {
+    page: "126", relation: "soporte",
+    phrase: '"Por un lado, priorizamos que los colegios o equipamientos educativos estén cerca de la vivienda o incluso cerca del trabajo de los padres."'
+  },
+  "equipamientos|manzanas_cuidado": {
+    page: "125", relation: "soporte",
+    phrase: '"Aprovechar los equipamientos existentes como anclas de las Manzanas del Cuidado, para que en estos diferentes entidades del Distrito cuiden a quienes nos cuidan, fue el cuello de botella se resolvió con el pot."'
+  },
+  "manzanas_cuidado|servicios_sociales": {
+    page: "126", relation: "soporte",
+    phrase: '"...cualifica los servicios sociales del Distrito y hace efectiva la articulación interinstitucional."'
+  },
+  "manzanas_cuidado|servicios_cuidado": {
+    page: "122", relation: "soporte",
+    phrase: '"Las Manzanas del Cuidado son áreas acotadas que agrupan diversas infraestructuras para brindar servicios de manera simultánea y articulada a las personas cuidadoras, a quienes ellas cuidan y a sus familias."'
+  },
+
+  // ---- Estructura Ecológica Principal (EEP) ----
+  "areas_resiliencia|coberturas_vegetales": {
+    page: "54", relation: "resiliencia",
+    phrase: '"Estructura ecológica conectada y funcional para la resiliencia" / "las coberturas vegetales que conectan las áreas protegidas entre sí."'
+  },
+  "humedales|rios": {
+    page: "22", relation: "soporte",
+    phrase: '"Los humedales son las arterias de la eep de Bogotá. Su potencial tanto de biodiversidad como de regulación hídrica los definen, junto con las cuatro cuencas de la ciudad, como las conexiones entre los cerros y el río Bogotá."'
+  },
+  "corredores_mont|rios": {
+    page: "22", relation: "soporte", punteada: true,
+    phrase: '"...estrategias de conectividad y complementariedad de los ecosistemas como articuladores con su entorno regional y la protección del río Bogotá, la Reserva Thomas van der Hammen, los complejos de páramos, las reservas forestales, los ríos, los corredores montañosos, los humedales..."'
   }
 };
 
@@ -103,23 +205,47 @@ function findRelation(s, t) {
   return relationData[s + '|' + t] || relationData[t + '|' + s] || null;
 }
 
-// Asigna la clase de flecha correcta a cada línea Soporte/Resiliencia según
-// la ficha del POT (o hacia adelante por defecto si aún no hay ficha).
+// Marca con 'has-data' cualquier línea que tenga ficha en relationData
+// (independientemente de si es directa/indirecta/soporte/resiliencia) y le
+// asigna la flecha correcta. Las líneas "directa/indirecta" sin ficha se
+// quedan ocultas por defecto (ver hideUndocumentedLines).
 function applyArrowDirections() {
-  document.querySelectorAll('#staticNetwork .links line.link-soporte, #staticNetwork .links line.link-resiliencia').forEach(line => {
+  document.querySelectorAll('#staticNetwork .links line').forEach(line => {
     const s = line.getAttribute('data-s');
     const t = line.getAttribute('data-t');
     const rel = relationData[s + '|' + t];
     const relRev = relationData[t + '|' + s];
+    const isDirectional = line.classList.contains('link-soporte') || line.classList.contains('link-resiliencia');
+
+    if (!rel && !relRev) {
+      // Sin ficha todavía: Soporte/Resiliencia igual llevan flecha (hacia
+      // adelante por convención); Directa/Indirecta se quedan sin flecha.
+      if (isDirectional) line.classList.add('arrow-forward');
+      return;
+    }
+
+    line.classList.add('has-data');
+    if ((rel && rel.punteada) || (relRev && relRev.punteada)) {
+      line.classList.add('link-punteada');
+    }
 
     let cls = 'arrow-forward';
     if ((rel && rel.bidirectional) || (relRev && relRev.bidirectional)) {
       cls = 'arrow-both';
     } else if (relRev) {
-      // la ficha está guardada en sentido contrario a como se dibujó la línea
       cls = 'arrow-backward';
     }
     line.classList.add(cls);
+  });
+}
+
+// Oculta por defecto las líneas Directa/Indirecta que NO tienen ficha
+// (para no saturar el diagrama con conexiones sin evidencia documentada).
+function hideUndocumentedLines() {
+  document.querySelectorAll('#staticNetwork .links line.link-directa, #staticNetwork .links line.link-indirecta').forEach(line => {
+    if (!line.classList.contains('has-data')) {
+      line.classList.add('type-off');
+    }
   });
 }
 
@@ -145,8 +271,17 @@ function openRelationPanel(line) {
   document.getElementById('relConcepts').textContent = `${sLabel} ${arrowSymbol} ${tLabel}`;
 
   const badge = document.getElementById('relBadge');
-  badge.textContent = relationName === 'soporte' ? 'Soporte' : 'Resiliencia';
-  badge.className = 'relation-badge ' + (relationName === 'soporte' ? 'badge-soporte' : 'badge-resiliencia');
+  const badgeNames = { soporte: 'Soporte', resiliencia: 'Resiliencia', directa: 'Directa' };
+  badge.textContent = badgeNames[relationName] || 'Directa';
+  badge.className = 'relation-badge badge-' + relationName;
+
+  const descEl = document.getElementById('relDescription');
+  if (rel && rel.description) {
+    descEl.textContent = rel.description;
+    descEl.style.display = 'block';
+  } else {
+    descEl.style.display = 'none';
+  }
 
   document.getElementById('relPhrase').textContent = rel ? rel.phrase : 'Aún no hay una ficha con la frase exacta del POT para esta relación.';
   document.getElementById('relPage').textContent = rel ? rel.page : '—';
@@ -166,8 +301,132 @@ function closeRelationPanel() {
 let adjacency = {};       // nodeId -> Set de nodeIds vecinos
 let nodeLinks = {};       // nodeId -> [line elements]
 let selectedNode = null;
-const baseViewBox = { x: 122, y: 110, w: 737, h: 625 };
+let justDragged = false;  // evita que el click de "soltar" dispare selección
+const baseViewBox = { x: 127, y: 116, w: 724, h: 613 };
 let currentViewBox = { ...baseViewBox };
+const POS_STORAGE_KEY = 'rapot_modulo07_node_positions';
+
+// ---------------------------------------------------------------------------
+// ARRASTRAR NODOS (con posición guardada en el navegador)
+// ---------------------------------------------------------------------------
+function loadSavedPositions() {
+  try {
+    const raw = localStorage.getItem(POS_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+
+function savePosition(id, x, y) {
+  try {
+    const data = loadSavedPositions();
+    data[id] = [Math.round(x * 10) / 10, Math.round(y * 10) / 10];
+    localStorage.setItem(POS_STORAGE_KEY, JSON.stringify(data));
+  } catch (e) { /* almacenamiento no disponible */ }
+}
+
+function clearSavedPositions() {
+  try { localStorage.removeItem(POS_STORAGE_KEY); } catch (e) { /* no-op */ }
+}
+
+function getNodePos(nodeEl) {
+  const m = /translate\(([\-\d.]+),\s*([\-\d.]+)\)/.exec(nodeEl.getAttribute('transform') || '');
+  return m ? [parseFloat(m[1]), parseFloat(m[2])] : [0, 0];
+}
+
+function setNodePos(nodeEl, x, y) {
+  nodeEl.setAttribute('transform', `translate(${x},${y})`);
+}
+
+function updateLinesForNode(id, x, y) {
+  document.querySelectorAll('#staticNetwork .links line[data-s="' + id + '"]').forEach(l => {
+    l.setAttribute('x1', x); l.setAttribute('y1', y);
+  });
+  document.querySelectorAll('#staticNetwork .links line[data-t="' + id + '"]').forEach(l => {
+    l.setAttribute('x2', x); l.setAttribute('y2', y);
+  });
+}
+
+// Convierte coordenadas de pantalla (clientX/clientY) a coordenadas internas
+// del SVG, respetando el viewBox y el zoom actual.
+function svgPoint(svg, evt) {
+  const ctm = svg.getScreenCTM();
+  if (svg.createSVGPoint && ctm) {
+    const pt = svg.createSVGPoint();
+    pt.x = evt.clientX; pt.y = evt.clientY;
+    const p = pt.matrixTransform(ctm.inverse());
+    return [p.x, p.y];
+  }
+  const rect = svg.getBoundingClientRect();
+  const vb = svg.viewBox.baseVal;
+  return [
+    vb.x + (evt.clientX - rect.left) * (vb.width / rect.width),
+    vb.y + (evt.clientY - rect.top) * (vb.height / rect.height)
+  ];
+}
+
+function makeDraggable(nodeEl) {
+  const svg = document.getElementById('staticNetwork');
+  const id = nodeEl.id.replace(/^n_/, '');
+  let dragging = false;
+  let offsetX = 0, offsetY = 0;
+
+  nodeEl.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragging = true;
+    if (nodeEl.setPointerCapture) nodeEl.setPointerCapture(e.pointerId);
+    const [px, py] = svgPoint(svg, e);
+    const [nx, ny] = getNodePos(nodeEl);
+    offsetX = px - nx;
+    offsetY = py - ny;
+    nodeEl.classList.add('dragging');
+  });
+
+  nodeEl.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    justDragged = true;
+    const [px, py] = svgPoint(svg, e);
+    const nx = px - offsetX;
+    const ny = py - offsetY;
+    setNodePos(nodeEl, nx, ny);
+    updateLinesForNode(id, nx, ny);
+  });
+
+  function endDrag() {
+    if (!dragging) return;
+    dragging = false;
+    nodeEl.classList.remove('dragging');
+    const [nx, ny] = getNodePos(nodeEl);
+    savePosition(id, nx, ny);
+    setTimeout(() => { justDragged = false; }, 50);
+  }
+
+  nodeEl.addEventListener('pointerup', endDrag);
+  nodeEl.addEventListener('pointercancel', endDrag);
+}
+
+function restoreSavedPositions() {
+  const saved = loadSavedPositions();
+  Object.keys(saved).forEach(id => {
+    const nodeEl = document.getElementById('n_' + id);
+    if (!nodeEl) return;
+    const [x, y] = saved[id];
+    setNodePos(nodeEl, x, y);
+    updateLinesForNode(id, x, y);
+  });
+}
+
+function restoreOriginalPositions() {
+  document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
+    const id = nodeEl.id.replace(/^n_/, '');
+    const x0 = nodeEl.getAttribute('data-x0');
+    const y0 = nodeEl.getAttribute('data-y0');
+    if (x0 === null || y0 === null) return;
+    setNodePos(nodeEl, x0, y0);
+    updateLinesForNode(id, x0, y0);
+  });
+  clearSavedPositions();
+}
 
 function buildAdjacency() {
   adjacency = {};
@@ -180,6 +439,20 @@ function buildAdjacency() {
     (adjacency[t] = adjacency[t] || new Set()).add(s);
     (nodeLinks[s] = nodeLinks[s] || []).push(line);
     (nodeLinks[t] = nodeLinks[t] || []).push(line);
+  });
+}
+
+// Asigna deg-low / deg-mid / deg-high según cuántas conexiones tiene cada
+// nodo, para darle más glow (y ya venían con más tamaño) a los que más
+// conectividad tienen dentro de la red.
+function applyConnectivityGlow() {
+  document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
+    const id = nodeEl.id.replace(/^n_/, '');
+    const degree = (adjacency[id] || new Set()).size;
+    nodeEl.classList.remove('deg-low', 'deg-mid', 'deg-high');
+    if (degree >= 6) nodeEl.classList.add('deg-high');
+    else if (degree >= 3) nodeEl.classList.add('deg-mid');
+    else nodeEl.classList.add('deg-low');
   });
 }
 
@@ -266,6 +539,7 @@ function resetNetwork() {
 
   clearSelection();
   closeRelationPanel();
+  restoreOriginalPositions();
   currentViewBox = { ...baseViewBox };
   applyViewBox();
   updateStats();
@@ -289,22 +563,23 @@ function updateStats() {
 document.addEventListener('DOMContentLoaded', function () {
   buildAdjacency();
   applyArrowDirections();
+  applyConnectivityGlow();
+  hideUndocumentedLines();
+  restoreSavedPositions();
   updateStats();
-
-  // Por defecto se ocultan las líneas "Directa" e "Indirecta" (grises) para
-  // no saturar el diagrama; quedan disponibles desde la leyenda si se quieren ver.
-  document.querySelectorAll('.legend-item[data-linktype="directa"], .legend-item[data-linktype="indirecta"]').forEach(item => {
-    toggleLinkType(item.getAttribute('data-linktype'), item);
-  });
 
   document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
     nodeEl.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (justDragged) { justDragged = false; return; }
       selectNode(nodeEl.id.replace(/^n_/, ''));
     });
+    makeDraggable(nodeEl);
   });
 
-  document.querySelectorAll('#staticNetwork .links line.link-soporte, #staticNetwork .links line.link-resiliencia').forEach(line => {
+  // Clicable: cualquier línea que tenga ficha en el POT (Directa documentada,
+  // Soporte o Resiliencia), no solo Soporte/Resiliencia.
+  document.querySelectorAll('#staticNetwork .links line.link-soporte, #staticNetwork .links line.link-resiliencia, #staticNetwork .links line.has-data').forEach(line => {
     line.addEventListener('click', (e) => {
       e.stopPropagation();
       openRelationPanel(line);
