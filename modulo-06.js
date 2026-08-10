@@ -80,6 +80,24 @@ const EDGE_FINDINGS = {
   },
 };
 
+/* Nodos que presentan una CONTRADICCIÓN dentro del análisis: al hacer clic en su
+   entrada del panel rojo "Contradicción" se aísla solo ese nodo (sin sus vecinos)
+   y se muestra la cita/observación correspondiente. */
+const CONTRADICTIONS = {
+  ods16: {
+    title: "ODS 16 · Contradicción",
+    text: "“Sin paz, estabilidad, derechos humanos y gobernabilidad efectiva basada en el Estado de derecho, no es posible alcanzar el desarrollo sostenible.”",
+  },
+  ods14: {
+    title: "ODS 14 · Contradicción",
+    text: "“Los océanos del mundo —su temperatura, química, corrientes y vida— mueven sistemas mundiales que hacen que la Tierra sea habitable para la humanidad.”",
+  },
+  ods11: {
+    title: "ODS 11 · Contradicción",
+    text: "Si las ciudades concentran actividad económica, desarrollo social, ciencia, cultura y productividad, ¿por qué el ODS 11 no aparece como uno de los principales articuladores de nuestra red?",
+  },
+};
+
 function edgeKey(edge) { return edge.s + "->" + edge.t; }
 
 /* El punteado depende de si la relación es "no directa" (inferida): las relaciones
@@ -246,7 +264,10 @@ function drawEdges(svg) {
     group.addEventListener("click", () => {
       showEdgeInfo(i);
       const finding = EDGE_FINDINGS[edgeKey(edge)];
-      if (finding) showFindingPopup(finding);
+      if (finding) {
+        showFindingPopup(finding);
+        setActivePanelButton("finding", "edge:" + edgeKey(edge));
+      }
     });
     g.appendChild(group);
 
@@ -539,6 +560,8 @@ function clearSpotlight() {
   document.querySelectorAll(".insight-card").forEach(c => c.classList.remove("active"));
   applySpotlightState();
   hideFindingPopup();
+  clearActivePanelButtons();
+  activeContradiction = null;
 }
 
 function setSpotlightNodes(nodeIds, expand) {
@@ -606,6 +629,7 @@ function toggleNodeFlow(id) {
     const finding = FINDINGS[id];
     if (finding) {
       showFindingPopup(finding);
+      setActivePanelButton("finding", id);
       if (finding.bridge) {
         animateBridgeNode(finding.bridge.node, finding.bridge.between);
       }
@@ -613,11 +637,69 @@ function toggleNodeFlow(id) {
   }
 }
 
-/* -------- popup de hallazgo (sobre el lienzo de la red) -------- */
+/* -------- contradicciones: aísla SOLO ese nodo (sin vecinos) y muestra su cita -------- */
+let activeContradiction = null;
+function toggleContradiction(id) {
+  const already = activeContradiction === id;
+  if (already) {
+    clearSpotlight();
+    return;
+  }
+  setSpotlightNodes([id], false);
+  activeContradiction = id;
+  setActivePanelButton("contradiction", id);
+  const data = CONTRADICTIONS[id];
+  if (data) showFindingPopup(data, "contradiction");
+}
+
+/* -------- estado activo de los botones de los paneles laterales -------- */
+function clearActivePanelButtons() {
+  document.querySelectorAll(".findings-panel .panel-list-item").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".contradiction-item").forEach(b => b.classList.remove("active"));
+}
+
+function setActivePanelButton(kind, key) {
+  clearActivePanelButtons();
+  const selector = kind === "finding"
+    ? `.findings-panel .panel-list-item[data-finding="${key}"]`
+    : `.contradiction-item[data-contradiction="${key}"]`;
+  document.querySelector(selector)?.classList.add("active");
+}
+
+/* -------- conecta los botones de los paneles "Hallazgos" y "Contradicción" -------- */
+function setupSidePanels() {
+  document.querySelectorAll(".findings-panel .panel-list-item").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.finding;
+      if (key.startsWith("edge:")) {
+        const [, s, t] = key.match(/^edge:(\w+)->(\w+)$/) || [];
+        const idx = RAW_EDGES.findIndex(e => e.s === s && e.t === t);
+        if (idx >= 0) {
+          showEdgeInfo(idx);
+          showFindingPopup(EDGE_FINDINGS[key.slice(5)]);
+          setActivePanelButton("finding", key);
+        }
+      } else {
+        toggleNodeFlow(key);
+      }
+    });
+  });
+
+  document.querySelectorAll(".contradiction-item").forEach(btn => {
+    btn.addEventListener("click", () => toggleContradiction(btn.dataset.contradiction));
+  });
+}
+
+/* -------- popup de hallazgo / contradicción (sobre el lienzo de la red) -------- */
 let findingPopupTimer = null;
-function showFindingPopup(finding) {
+function showFindingPopup(finding, variant) {
   const popup = document.getElementById("findingPopup");
   if (!popup) return;
+  const isContradiction = variant === "contradiction";
+  popup.classList.toggle("contradiction", isContradiction);
+  document.getElementById("findingPopupBadge").innerHTML = isContradiction
+    ? '<i class="fa-solid fa-triangle-exclamation"></i> Contradicción'
+    : '<i class="fa-solid fa-magnifying-glass-chart"></i> Hallazgo';
   document.getElementById("findingPopupTitle").textContent = finding.title;
   document.getElementById("findingPopupText").textContent = finding.text;
   popup.classList.add("visible");
@@ -733,4 +815,5 @@ function shareAnalysis() { console.log("Compartiendo análisis..."); }
 document.addEventListener("DOMContentLoaded", () => {
   renderNetwork();
   setupLegendToggle();
+  setupSidePanels();
 });
