@@ -231,7 +231,7 @@ function closeRelationPanel() {
 let adjacency = {};       // nodeId -> Set de nodeIds vecinos
 let nodeLinks = {};       // nodeId -> [line elements]
 let selectedNode = null;
-const baseViewBox = { x: -195, y: -238, w: 1018, h: 988 };
+const baseViewBox = { x: -603, y: -558, w: 1208, h: 1128 };
 let currentViewBox = { ...baseViewBox };
 
 function buildAdjacency() {
@@ -438,6 +438,8 @@ function selectNode(id) {
     label.textContent = nodeLabel(nodeEl) + ' · ' + neighbors.size + ' conexiones';
     chip.style.display = 'flex';
   }
+
+  checkIndicatorPrompt(id);
 }
 
 function clearSelection() {
@@ -448,6 +450,7 @@ function clearSelection() {
   document.querySelectorAll('#staticNetwork .links line').forEach(l => {
     l.classList.remove('link-dim', 'link-active');
   });
+  checkIndicatorPrompt(null);
   const chip = document.getElementById('selectedChip');
   if (chip) chip.style.display = 'none';
 }
@@ -493,84 +496,6 @@ function updateStats() {
   if (aEl) aEl.textContent = (totalStructs - offStructs) + '/' + totalStructs;
 }
 
-// ---------------------------------------------------------------------------
-// ARRASTRE DE NODOS CON COLISIÓN
-// ---------------------------------------------------------------------------
-let dragState = null;
-const NODE_GAP = 8;
-
-function svgPointFromEvent(event) {
-  const svg = document.getElementById('staticNetwork');
-  const point = svg.createSVGPoint();
-  point.x = event.clientX;
-  point.y = event.clientY;
-  return point.matrixTransform(svg.getScreenCTM().inverse());
-}
-
-function nodePosition(nodeEl) {
-  const transform = nodeEl.transform.baseVal.consolidate();
-  if (transform) return { x: transform.matrix.e, y: transform.matrix.f };
-  const circle = nodeEl.querySelector('circle.node-fill');
-  return { x: Number(circle?.getAttribute('cx') || 0), y: Number(circle?.getAttribute('cy') || 0) };
-}
-
-function nodeRadius(nodeEl) {
-  return Number(nodeEl.querySelector('circle.node-fill')?.getAttribute('r') || 13);
-}
-
-function canPlaceNode(nodeEl, x, y) {
-  const radius = nodeRadius(nodeEl);
-  const minX = currentViewBox.x + radius + 4;
-  const maxX = currentViewBox.x + currentViewBox.w - radius - 4;
-  const minY = currentViewBox.y + radius + 4;
-  const maxY = currentViewBox.y + currentViewBox.h - radius - 4;
-  if (x < minX || x > maxX || y < minY || y > maxY) return false;
-
-  return [...document.querySelectorAll('#staticNetwork .node')].every(other => {
-    if (other === nodeEl) return true;
-    const otherPos = nodePosition(other);
-    const minDistance = radius + nodeRadius(other) + NODE_GAP;
-    return Math.hypot(x - otherPos.x, y - otherPos.y) >= minDistance;
-  });
-}
-
-function setNodePosition(nodeEl, x, y) {
-  nodeEl.setAttribute('transform', `translate(${x} ${y})`);
-  updateLinesForNode(nodeEl.id.replace(/^n_/, ''), x, y);
-}
-
-function startNodeDrag(event) {
-  if (event.button !== undefined && event.button !== 0) return;
-  const nodeEl = event.currentTarget;
-  const pointer = svgPointFromEvent(event);
-  const position = nodePosition(nodeEl);
-  dragState = { nodeEl, offsetX: position.x - pointer.x, offsetY: position.y - pointer.y, moved: false };
-  nodeEl.classList.add('is-dragging');
-  nodeEl.setPointerCapture?.(event.pointerId);
-  event.preventDefault();
-  event.stopPropagation();
-}
-
-function moveNodeDrag(event) {
-  if (!dragState) return;
-  const pointer = svgPointFromEvent(event);
-  const x = pointer.x + dragState.offsetX;
-  const y = pointer.y + dragState.offsetY;
-  if (!canPlaceNode(dragState.nodeEl, x, y)) return;
-  setNodePosition(dragState.nodeEl, x, y);
-  dragState.moved = true;
-  event.preventDefault();
-}
-
-function endNodeDrag(event) {
-  if (!dragState) return;
-  const nodeEl = dragState.nodeEl;
-  nodeEl.classList.remove('is-dragging');
-  nodeEl.releasePointerCapture?.(event.pointerId);
-  nodeEl.dataset.dragged = dragState.moved ? 'true' : 'false';
-  dragState = null;
-}
-
 document.addEventListener('DOMContentLoaded', function () {
   buildAdjacency();
   applyArrowDirections();
@@ -582,16 +507,8 @@ document.addEventListener('DOMContentLoaded', function () {
   updateStats();
 
   document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
-    nodeEl.addEventListener('pointerdown', startNodeDrag);
-    nodeEl.addEventListener('pointermove', moveNodeDrag);
-    nodeEl.addEventListener('pointerup', endNodeDrag);
-    nodeEl.addEventListener('pointercancel', endNodeDrag);
     nodeEl.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (nodeEl.dataset.dragged === 'true') {
-        nodeEl.dataset.dragged = 'false';
-        return;
-      }
       selectNode(nodeEl.id.replace(/^n_/, ''));
     });
   });
@@ -613,3 +530,73 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
+// ---------------------------------------------------------------------------
+// INDICADOR: Accesibilidad residencial al transporte público (ATP)
+// Al seleccionar el nodo "Transporte público" o "Vivienda" aparece un aviso
+// para abrir la calculadora del indicador; al abrirla se resaltan SOLO esos
+// dos nodos y la flecha que los conecta.
+// ---------------------------------------------------------------------------
+const INDICATOR_PAIR = ['transporte_publico', 'vivienda'];
+
+function checkIndicatorPrompt(id) {
+  const prompt = document.getElementById('indicatorPrompt');
+  if (!prompt) return;
+  prompt.style.display = (id && INDICATOR_PAIR.includes(id)) ? 'flex' : 'none';
+}
+
+function highlightIndicatorPair() {
+  document.querySelectorAll('#staticNetwork .node').forEach(n => {
+    const nid = n.id.replace(/^n_/, '');
+    n.classList.toggle('node-dim', !INDICATOR_PAIR.includes(nid));
+    n.classList.toggle('node-selected', INDICATOR_PAIR.includes(nid));
+  });
+
+  document.querySelectorAll('#staticNetwork .links line').forEach(l => {
+    const s = l.getAttribute('data-s');
+    const t = l.getAttribute('data-t');
+    const isPairLink = INDICATOR_PAIR.includes(s) && INDICATOR_PAIR.includes(t);
+    l.classList.toggle('link-dim', !isPairLink);
+    l.classList.toggle('link-active', isPairLink);
+  });
+}
+
+function openIndicatorModal() {
+  highlightIndicatorPair();
+  const backdrop = document.getElementById('indicatorModalBackdrop');
+  if (backdrop) backdrop.style.display = 'flex';
+  const result = document.getElementById('indicatorResult');
+  if (result) result.style.display = 'none';
+}
+
+function closeIndicatorModal() {
+  const backdrop = document.getElementById('indicatorModalBackdrop');
+  if (backdrop) backdrop.style.display = 'none';
+  clearSelection();
+}
+
+function closeIndicatorModalBackdrop(evt) {
+  if (evt.target && evt.target.id === 'indicatorModalBackdrop') closeIndicatorModal();
+}
+
+function simulateIndicator() {
+  const numEl = document.getElementById('indicatorNumerador');
+  const denEl = document.getElementById('indicatorDenominador');
+  const num = parseFloat(numEl.value);
+  const den = parseFloat(denEl.value);
+
+  const resultBox = document.getElementById('indicatorResult');
+  const valueEl = document.getElementById('indicatorValue');
+  const errorEl = document.getElementById('indicatorError');
+
+  if (isNaN(num) || isNaN(den) || den <= 0 || num < 0) {
+    if (errorEl) errorEl.style.display = 'block';
+    if (resultBox) resultBox.style.display = 'none';
+    return;
+  }
+  if (errorEl) errorEl.style.display = 'none';
+
+  const atp = (num / den) * 100;
+  if (valueEl) valueEl.textContent = atp.toFixed(1);
+  if (resultBox) resultBox.style.display = 'block';
+}
