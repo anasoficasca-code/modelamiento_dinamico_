@@ -28,12 +28,77 @@ function loadScenario(scenarioKey, buttonEl) {
     node.classList.toggle('node-off', isOff);
   });
 
-  document.querySelectorAll('.links line.l-' + struct).forEach(link => {
-    link.classList.toggle('link-off', isOff);
-  });
+  // Recalcula el apagado de TODAS las líneas según el estado real de sus dos
+  // nodos: una línea que cruza estructuras (p. ej. eco-func) debe quedar
+  // apagada si CUALQUIERA de las dos estructuras que toca está apagada, sin
+  // importar cuál fue la última que se reactivó.
+  recomputeLinkOffState();
 
   console.log((isOff ? 'Apagando' : 'Reactivando') + ' estructura:', scenario.label);
   updateStats();
+}
+
+function recomputeLinkOffState() {
+  document.querySelectorAll('#staticNetwork .links line').forEach(link => {
+    const s = link.getAttribute('data-s');
+    const t = link.getAttribute('data-t');
+    const sNode = document.getElementById('n_' + s);
+    const tNode = document.getElementById('n_' + t);
+    const sOff = !!(sNode && sNode.classList.contains('node-off'));
+    const tOff = !!(tNode && tNode.classList.contains('node-off'));
+    link.classList.toggle('link-off', sOff || tOff);
+  });
+
+  updateFragmentationDrift();
+}
+
+// ---------------------------------------------------------------------------
+// "DESPEGUE" por fragmentación: al apagar un sistema, cada nodo que siga
+// encendido se aleja del centro de la red en proporción a cuántas de sus
+// relaciones se rompieron. Los que pierden la mitad o más se separan de forma
+// visible; los que quedan totalmente desconectados se van más lejos y se
+// marcan en rojo punteado. Así se ve qué tanto depende la red de la
+// estructura que se apagó.
+// ---------------------------------------------------------------------------
+function initNodeTransforms() {
+  document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
+    const x0 = nodeEl.getAttribute('data-x0');
+    const y0 = nodeEl.getAttribute('data-y0');
+    nodeEl.removeAttribute('transform');
+    nodeEl.style.transform = `translate(${x0}px, ${y0}px)`;
+  });
+}
+
+function updateFragmentationDrift() {
+  document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
+    const id = nodeEl.id.replace(/^n_/, '');
+    const x0 = parseFloat(nodeEl.getAttribute('data-x0'));
+    const y0 = parseFloat(nodeEl.getAttribute('data-y0'));
+    const isOff = nodeEl.classList.contains('node-off');
+
+    const links = nodeLinks[id] || [];
+    const total = links.length;
+    const lost = links.filter(l => l.classList.contains('link-off')).length;
+    const lossRatio = total > 0 ? lost / total : 0;
+
+    nodeEl.classList.remove('node-drift', 'node-isolated');
+
+    // Un nodo apagado no se mueve: el que "se rompe" es el que sobrevive
+    // pero se queda sin sus relaciones.
+    if (isOff || lossRatio < 0.5) {
+      nodeEl.style.transform = `translate(${x0}px, ${y0}px)`;
+      return;
+    }
+
+    const dist = Math.hypot(x0, y0) || 1;
+    const drift = 26 + 62 * lossRatio;   // pierde más -> se aleja más
+    const dx = (x0 / dist) * drift;
+    const dy = (y0 / dist) * drift;
+    nodeEl.style.transform = `translate(${x0 + dx}px, ${y0 + dy}px)`;
+
+    nodeEl.classList.add('node-drift');
+    if (lossRatio >= 1) nodeEl.classList.add('node-isolated');
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -231,7 +296,7 @@ function closeRelationPanel() {
 let adjacency = {};       // nodeId -> Set de nodeIds vecinos
 let nodeLinks = {};       // nodeId -> [line elements]
 let selectedNode = null;
-const baseViewBox = { x: -603, y: -558, w: 1208, h: 1128 };
+const baseViewBox = { x: -402, y: -402, w: 804, h: 804 };
 let currentViewBox = { ...baseViewBox };
 
 function buildAdjacency() {
@@ -375,9 +440,7 @@ function toggleCentralNode() {
   centralNodeOff = !centralNodeOff;
 
   nodeEl.classList.toggle('node-off', centralNodeOff);
-  (nodeLinks[centralNodeId] || []).forEach(line => {
-    line.classList.toggle('link-off', centralNodeOff);
-  });
+  recomputeLinkOffState();
 
   const select = document.getElementById('centralNodeSelect');
   if (select) select.disabled = centralNodeOff;
@@ -505,6 +568,7 @@ document.addEventListener('DOMContentLoaded', function () {
   applyViewBox();
   updateCentralNodePanel();
   updateStats();
+  initNodeTransforms();
 
   document.querySelectorAll('#staticNetwork .node').forEach(nodeEl => {
     nodeEl.addEventListener('click', (e) => {
@@ -532,41 +596,141 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ---------------------------------------------------------------------------
-// INDICADOR: Accesibilidad residencial al transporte público (ATP)
-// Al seleccionar el nodo "Transporte público" o "Vivienda" aparece un aviso
-// para abrir la calculadora del indicador; al abrirla se resaltan SOLO esos
-// dos nodos y la flecha que los conecta.
+// INDICADORES DE SIMULACIÓN
+// Cada indicador está anclado a un par de nodos conectados en la red. Al
+// seleccionar cualquiera de los dos nodos del par aparece un aviso; al abrir
+// el indicador se resaltan SOLO esos dos nodos y la flecha entre ellos, y se
+// muestra la fórmula, se puede simular con cualquier valor, y se explica la
+// cadena de causalidad.
 // ---------------------------------------------------------------------------
-const INDICATOR_PAIR = ['transporte_publico', 'vivienda'];
+const INDICATORS = {
+  'transporte_publico|vivienda': {
+    pair: ['transporte_publico', 'vivienda'],
+    tag: 'Transporte público → Vivienda',
+    title: 'Accesibilidad residencial al transporte público',
+    varName: 'A<sub>TP</sub>',
+    numLabel: 'Viviendas a ≤500 m de una parada',
+    denLabel: 'Viviendas totales',
+    numField: 'Viviendas a ≤500 m de una parada',
+    denField: 'Viviendas totales',
+    explanation: 'Mide qué porcentaje de las viviendas de la zona tiene una parada de transporte público a menos de 500 metros. A mayor indicador, mayor accesibilidad residencial al sistema de transporte.',
+    cascade: ['Transporte público', 'Cobertura de vivienda', 'Indicador A_TP'],
+    cascadeText: 'Si cambia el transporte público → cambia la cobertura de vivienda → cambia el indicador.'
+  },
+  'corredores_verdes|ciclorrutas': {
+    pair: ['corredores_verdes', 'ciclorrutas'],
+    tag: 'Corredores verdes → Ciclorrutas',
+    title: 'Integración de la cicloinfraestructura con los corredores verdes',
+    varName: 'I<sub>CV</sub>',
+    numLabel: 'km de ciclorrutas que recorren o se integran a corredores verdes',
+    denLabel: 'km totales de ciclorrutas',
+    numField: 'km de ciclorrutas dentro/junto a un corredor verde',
+    denField: 'km totales de ciclorrutas',
+    explanation: 'Numerador: kilómetros de ciclorrutas que están dentro, junto a o conectadas directamente con un corredor verde. Denominador: kilómetros totales de ciclorrutas del área estudiada. Resultado: porcentaje de la red ciclista articulada con la estructura verde. A mayor indicador, mayor integración entre la movilidad ciclista y los corredores verdes.',
+    cascade: ['Corredores verdes', 'Cicloinfraestructura articulada', 'Indicador I_CV'],
+    cascadeText: 'Si cambian los corredores verdes → cambia la articulación de las ciclorrutas → cambia el indicador.'
+  },
+  'humedales|espacio_publico': {
+    pair: ['humedales', 'espacio_publico'],
+    tag: 'Humedales → Espacio público',
+    title: 'Vinculación del espacio público a los humedales',
+    varName: 'I<sub>H</sub>',
+    numLabel: 'Área de espacio público vinculada a humedales',
+    denLabel: 'Área total de espacio público',
+    numField: 'Área de espacio público vinculada a humedales (m²)',
+    denField: 'Área total de espacio público (m²)',
+    explanation: 'A mayor indicador, mayor integración entre el sistema ambiental y el espacio público.',
+    cascade: ['Humedales', 'Espacio público vinculado', 'Indicador I_H'],
+    cascadeText: 'Si cambian los humedales → cambia el espacio público vinculado a ellos → cambia el indicador.'
+  },
+  'red_vial|equipamientos': {
+    pair: ['red_vial', 'equipamientos'],
+    tag: 'Red vial → Equipamientos',
+    title: 'Articulación de la red vial con los equipamientos',
+    varName: 'I',
+    numLabel: 'Equipamientos con acceso adecuado por la red vial',
+    denLabel: 'Total de equipamientos',
+    numField: 'Equipamientos con acceso adecuado por la red vial',
+    denField: 'Total de equipamientos',
+    explanation: 'Un mayor porcentaje indica una mayor articulación entre la red vial y la distribución territorial de los equipamientos.',
+    cascade: ['Red vial', 'Acceso a equipamientos', 'Indicador I'],
+    cascadeText: 'Si cambia la red vial → cambia el acceso a los equipamientos → cambia el indicador.'
+  }
+};
+
+let activeIndicatorKey = null;
+
+function findIndicatorForNode(id) {
+  for (const key in INDICATORS) {
+    if (INDICATORS[key].pair.includes(id)) return key;
+  }
+  return null;
+}
 
 function checkIndicatorPrompt(id) {
   const prompt = document.getElementById('indicatorPrompt');
   if (!prompt) return;
-  prompt.style.display = (id && INDICATOR_PAIR.includes(id)) ? 'flex' : 'none';
+  const key = id ? findIndicatorForNode(id) : null;
+  if (key) {
+    activeIndicatorKey = key;
+    const textEl = document.getElementById('indicatorPromptText');
+    if (textEl) textEl.textContent = 'Este nodo tiene un indicador asociado del POT: ' + INDICATORS[key].tag + '.';
+    prompt.style.display = 'flex';
+  } else {
+    prompt.style.display = 'none';
+  }
 }
 
-function highlightIndicatorPair() {
+function highlightIndicatorPair(pair) {
   document.querySelectorAll('#staticNetwork .node').forEach(n => {
     const nid = n.id.replace(/^n_/, '');
-    n.classList.toggle('node-dim', !INDICATOR_PAIR.includes(nid));
-    n.classList.toggle('node-selected', INDICATOR_PAIR.includes(nid));
+    n.classList.toggle('node-dim', !pair.includes(nid));
+    n.classList.toggle('node-selected', pair.includes(nid));
   });
 
   document.querySelectorAll('#staticNetwork .links line').forEach(l => {
     const s = l.getAttribute('data-s');
     const t = l.getAttribute('data-t');
-    const isPairLink = INDICATOR_PAIR.includes(s) && INDICATOR_PAIR.includes(t);
+    const isPairLink = pair.includes(s) && pair.includes(t);
     l.classList.toggle('link-dim', !isPairLink);
     l.classList.toggle('link-active', isPairLink);
   });
 }
 
 function openIndicatorModal() {
-  highlightIndicatorPair();
+  if (!activeIndicatorKey) return;
+  const ind = INDICATORS[activeIndicatorKey];
+  highlightIndicatorPair(ind.pair);
+
+  document.getElementById('indicatorTag').textContent = ind.tag;
+  document.getElementById('indicatorTitle').textContent = ind.title;
+  document.getElementById('indicatorVarName').innerHTML = ind.varName;
+  document.getElementById('indicatorVarName2').innerHTML = ind.varName;
+  document.getElementById('indicatorNumLabel').textContent = ind.numLabel;
+  document.getElementById('indicatorDenLabel').textContent = ind.denLabel;
+  document.getElementById('indicatorNumFieldLabel').firstChild.textContent = ind.numField;
+  document.getElementById('indicatorDenFieldLabel').firstChild.textContent = ind.denField;
+
+  const expl = document.getElementById('indicatorExplanation');
+  if (ind.explanation) {
+    expl.textContent = ind.explanation;
+    expl.style.display = 'block';
+  } else {
+    expl.style.display = 'none';
+  }
+
+  document.getElementById('indicatorCascade').innerHTML = ind.cascade
+    .map(step => `<span class="cascade-step">${step}</span>`)
+    .join('<i class="fa-solid fa-arrow-right"></i>');
+  document.getElementById('indicatorCascadeText').textContent = ind.cascadeText;
+
+  document.getElementById('indicatorNumerador').value = '';
+  document.getElementById('indicatorDenominador').value = '';
+  document.getElementById('indicatorError').style.display = 'none';
+  document.getElementById('indicatorResult').style.display = 'none';
+
   const backdrop = document.getElementById('indicatorModalBackdrop');
   if (backdrop) backdrop.style.display = 'flex';
-  const result = document.getElementById('indicatorResult');
-  if (result) result.style.display = 'none';
 }
 
 function closeIndicatorModal() {
@@ -596,7 +760,7 @@ function simulateIndicator() {
   }
   if (errorEl) errorEl.style.display = 'none';
 
-  const atp = (num / den) * 100;
-  if (valueEl) valueEl.textContent = atp.toFixed(1);
+  const value = (num / den) * 100;
+  if (valueEl) valueEl.textContent = value.toFixed(1);
   if (resultBox) resultBox.style.display = 'block';
 }
