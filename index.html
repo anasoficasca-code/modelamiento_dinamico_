@@ -3,13 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POT Reverse Engineering · Ingeniería inversa del modelo de ciudad</title>
+<title>RAPOT · La ciudad construida por relaciones</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+
+<!-- gradientes artísticos (paleta inspirada en infografía: teal, coral, gris, mostaza) compartidos por el diagrama principal y los popups de red -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <linearGradient id="grad-green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#45d6c5"></stop>
+      <stop offset="100%" stop-color="#1f8f82"></stop>
+    </linearGradient>
+    <linearGradient id="grad-purple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff8f8f"></stop>
+      <stop offset="100%" stop-color="#d94f5c"></stop>
+    </linearGradient>
+    <linearGradient id="grad-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c7ccd1"></stop>
+      <stop offset="100%" stop-color="#8a9098"></stop>
+    </linearGradient>
+    <linearGradient id="grad-yellow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5c26b"></stop>
+      <stop offset="100%" stop-color="#d9902e"></stop>
+    </linearGradient>
+    <linearGradient id="grad-soporte" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eab04c"></stop>
+      <stop offset="100%" stop-color="#ef6f6f"></stop>
+    </linearGradient>
+    <linearGradient id="grad-resiliencia" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2fbfae"></stop>
+      <stop offset="100%" stop-color="#9aa1a8"></stop>
+    </linearGradient>
+  </defs>
+</svg>
 
 <header>
   <nav class="navbar">
@@ -21,8 +51,7 @@
         <circle cx="24" cy="21" r="3"></circle>
       </svg>
       <div class="text">
-        <h1>POT REVERSE</h1>
-        <p>ENGINEERING</p>
+        <h1>RAPOT</h1>
       </div>
     </div>
     <ul class="menu">
@@ -42,12 +71,11 @@
     <!-- LEFT: copy -->
     <div class="hero-copy">
       <h1>
-        Ingeniería inversa<br>
-        del <span class="grad">modelo de<br>ciudad</span>
+        Ingeniería inversa <span class="grad">del POT</span>.
       </h1>
 
       <p class="lead">
-        Una plataforma para analizar, cuestionar y comprender el modelo de ciudad del POT de Bogotá desde sus relaciones.
+        RAPOT permite explorar esas relaciones para comprender cómo las decisiones territoriales configuran el modelo urbano de Bogotá.
       </p>
 
       <div class="feature-grid">
@@ -76,6 +104,7 @@
 
     <!-- RIGHT: network diagram -->
     <div class="hero-visual">
+     <div class="hero-visual-card">
 
       <p class="visual-question">¿Cómo organiza, relaciona y prioriza el POT los diferentes componentes de Bogotá?</p>
 
@@ -83,16 +112,16 @@
         <span class="legend-title">Convenciones</span>
         <span class="legend-item">
           <svg class="leg-svg" viewBox="0 0 50 12" width="50" height="12" aria-hidden="true">
-            <line x1="2" y1="6" x2="38" y2="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-dasharray="3 3"></line>
-            <path d="M38,6 L31,2 L31,10 Z" fill="rgba(255,255,255,0.7)"></path>
+            <line x1="2" y1="6" x2="38" y2="6" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-dasharray="3 3"></line>
+            <path d="M38,6 L31,2 L31,10 Z" fill="rgba(255,255,255,0.55)"></path>
           </svg>
           Redes dirigidas
         </span>
         <span class="legend-item">
           <svg class="leg-svg" viewBox="0 0 56 12" width="56" height="12" aria-hidden="true">
-            <line x1="8" y1="6" x2="48" y2="6" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-dasharray="3 3"></line>
-            <path d="M8,6 L15,2 L15,10 Z" fill="rgba(255,255,255,0.7)"></path>
-            <path d="M48,6 L41,2 L41,10 Z" fill="rgba(255,255,255,0.7)"></path>
+            <line x1="8" y1="6" x2="48" y2="6" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-dasharray="3 3"></line>
+            <path d="M8,6 L15,2 L15,10 Z" fill="rgba(255,255,255,0.55)"></path>
+            <path d="M48,6 L41,2 L41,10 Z" fill="rgba(255,255,255,0.55)"></path>
           </svg>
           Redes bidireccionales
         </span>
@@ -168,10 +197,52 @@
           <text y="-21">Estructura<tspan x="0" dy="14">Socioeconómica,</tspan><tspan x="0" dy="14">Creativa y de</tspan><tspan x="0" dy="14">Innovación</tspan></text>
         </g>
       </svg>
+     </div>
     </div>
 
   </div>
 </section>
+
+<!-- ============ POPUP: redes por estructura ============ -->
+<div id="redes-modal-overlay" class="redes-modal-overlay" hidden>
+  <div class="redes-modal" role="dialog" aria-modal="true" aria-labelledby="redes-modal-title">
+    <button class="redes-modal-close" type="button" aria-label="Cerrar">✕</button>
+
+    <div class="redes-modal-header">
+      <h2 id="redes-modal-title">Estructura</h2>
+      <p class="redes-modal-subtitle">Modo Analítico // Nodos = 0</p>
+    </div>
+
+    <div class="redes-modal-body">
+      <svg class="redes-network-svg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+        <g class="redes-edges"></g>
+        <g class="redes-nodes"></g>
+      </svg>
+
+      <aside class="redes-side-panel">
+        <div class="redes-legend-card">
+          <span class="redes-legend-card-title">Leyenda de Capas</span>
+          <div class="redes-toggle-row">
+            <span>Nodos Principales</span>
+            <button class="redes-toggle is-on" type="button" data-toggle="nodes" role="switch" aria-checked="true"><span class="redes-toggle-knob"></span></button>
+          </div>
+          <div class="redes-toggle-row">
+            <span>Conexiones Activas</span>
+            <button class="redes-toggle is-on" type="button" data-toggle="edges" role="switch" aria-checked="true"><span class="redes-toggle-knob"></span></button>
+          </div>
+        </div>
+
+        <div class="redes-conventions-card">
+          <span class="redes-legend-card-title">Convenciones</span>
+          <div class="redes-convention-item"><span class="redes-swatch redes-swatch-directa"></span>Directa</div>
+          <div class="redes-convention-item"><span class="redes-swatch redes-swatch-indirecta"></span>Indirecta</div>
+          <div class="redes-convention-item"><span class="redes-swatch redes-swatch-soporte"></span>Soporte</div>
+          <div class="redes-convention-item"><span class="redes-swatch redes-swatch-resiliencia"></span>Resiliencia</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
 
 <script src="./scripts.js" defer></script>
 </body>
